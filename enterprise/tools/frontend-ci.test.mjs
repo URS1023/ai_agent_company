@@ -50,6 +50,7 @@ test('persistence CI applies every production migration in order and verifies th
     'migrate_sql_trials',
     'migrate_chat_messages',
     'migrate_chat_branches',
+    'migrate_office',
   ]
   let previous = -1
   for (const module of modules) {
@@ -63,11 +64,17 @@ test('persistence CI applies every production migration in order and verifies th
     previous = index
   }
   const finalCheck = job.indexOf('require_schema(inspect(connection), metadata)')
-  assert.ok(finalCheck > previous, 'Final reflected schema must include migration 0013')
+  assert.ok(finalCheck > previous, 'Final reflected schema must include migration 0014')
   assert.match(
     job,
-    /from enterprise_platform.persistence.workbench_branches import BranchContextBase/,
+    /from enterprise_platform.persistence.migrate_office import prerequisite_metadata/,
   )
+  assert.match(job, /metadata = prerequisite_metadata\(\)/)
+  assert.match(job, /from enterprise_platform.persistence.office_models import OfficeBase/)
+  assert.match(job, /for table in OfficeBase.metadata.sorted_tables:/)
   assert.match(job, /table.to_metadata\(metadata\)/)
+  const officeTests = job.indexOf('tests/integration/test_office_repository_db.py -q -rA')
+  assert.ok(officeTests > previous, 'Office transactions must run after migration 0014')
+  assert.ok(finalCheck > officeTests, 'Final schema inspection follows Office transactions')
   assert.doesNotMatch(job, /continue-on-error|if: always\(\)/)
 })

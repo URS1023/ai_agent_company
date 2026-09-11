@@ -256,3 +256,18 @@ test('permits exact error terminal integration bytes without directory exemption
     assert.equal(matchesReview(path, 'original\n', 'unreviewed change\n', reviews), false)
   }
 })
+
+test('limits Web runtime fixes to the reviewed plugin and roster test bytes', () => {
+  for (const path of [
+    'web/plugins/vite/next-static-image-test.ts',
+    'web/app/components/base/chat/chat/answer/__tests__/agent-roster-response-content.spec.tsx',
+  ]) {
+    const reviews = validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit')
+    assert.equal(matchesReview(path, 'original\n', 'additive reviewed version\n', reviews), true)
+    assert.equal(matchesReview(path, 'original\n', 'unreviewed change\n', reviews), false)
+  }
+  for (const path of ['web/plugins/vite/utils.ts', 'web/app/components/base/markdown/index.tsx'])
+    assert.throws(() =>
+      validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
+    )
+})

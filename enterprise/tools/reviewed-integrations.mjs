@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 // Exact reviewed bytes, not whole-file exemptions. Auth/permission/license code
 // cannot be approved through this mechanism. Evidence text is never executed.
 const reviewablePaths = new Set([
+  'web/plugins/vite/next-static-image-test.ts',
+  'web/app/components/base/chat/chat/answer/__tests__/agent-roster-response-content.spec.tsx',
   'web/app/components/base/copy-icon/index.tsx',
   'web/app/components/base/markdown-blocks/code-block.tsx',
   'api/core/app/task_pipeline/based_generate_task_pipeline.py',

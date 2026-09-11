@@ -315,6 +315,28 @@
         "Real copy control and clipboard hook: 3 suites/41 tests passed with Enter activation; subsequent Tab navigation test refinement tracked separately in IMPLEMENTATION.md.",
         "Native copy and code-block suites passed. Browser visual dimensions and full-system acceptance remain separate gates."
       ]
+    },
+    {
+      "path": "web/plugins/vite/next-static-image-test.ts",
+      "baselineSha256": "118378ec11270922410dfe7f6e3431bb68f6518acaf70a3af0922c7f04243a44",
+      "reviewedSha256": "2494c7e7f9e97f2bcc491523695b821c8a12bb28fb6489bff3c1e1abe3fdf8ff",
+      "reason": "Normalize Windows and POSIX asset IDs only in the test static-image plugin; preserve raw/url imports and reject adjacent-directory matches.",
+      "verification": [
+        "2026-09-11 independent read-only web_runtime_review: no actionable findings in scoped diff.",
+        "Direct project Vitest focused run: five files, 61 tests passed; plugin plus native icon tests: 10 passed.",
+        "Web-local vp focused rerun: 6 files, 63 tests passed. Root vp selected a different Vitest peer instance; no snapshots rewritten. Full direct-Vitest rerun pending; pnpm script itself not verified."
+      ]
+    },
+    {
+      "path": "web/app/components/base/chat/chat/answer/__tests__/agent-roster-response-content.spec.tsx",
+      "baselineSha256": "80617526ad17716148b77c5f0b619a7b27ea8fb52b8066faa825c74e2f27538d",
+      "reviewedSha256": "384d0f29565e6a1336e625a07c43a81dd05378016c81acb5c5e27341a2621e67",
+      "reason": "Preload the actual lazy Streamdown module before roster timing assertions; no Markdown mock or assertion removal.",
+      "verification": [
+        "2026-09-11 independent read-only web_runtime_review: no actionable findings in scoped diff.",
+        "Direct project Vitest focused run: five files, 61 tests passed; plugin plus native icon tests: 10 passed.",
+        "Web-local vp focused rerun: 6 files, 63 tests passed. Root vp selected a different Vitest peer instance; no snapshots rewritten. Full direct-Vitest rerun pending; pnpm script itself not verified."
+      ]
     }
   ]
 }

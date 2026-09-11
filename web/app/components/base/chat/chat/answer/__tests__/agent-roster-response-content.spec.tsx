@@ -1,6 +1,6 @@
 import type { ChatItem } from '../../../types'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { vi } from 'vitest'
+import { beforeAll, vi } from 'vitest'
 import { AgentRosterResponseContent } from '../agent-roster-response-content'
 
 vi.mock('react-i18next', async () => {
@@ -15,6 +15,11 @@ vi.mock('react-i18next', async () => {
 })
 
 describe('AgentRosterResponseContent', () => {
+  beforeAll(async () => {
+    // Compile the real lazy chunk before timing assertions about roster behavior.
+    await import('@/app/components/base/markdown/streamdown-wrapper')
+  })
+
   it('should render historical agent thought answer as markdown instead of thought process', async () => {
     const item = {
       id: 'answer-history',

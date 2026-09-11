@@ -44,7 +44,6 @@ jobs:
           node --test enterprise/workflows/default-workflows.test.mjs
           node --test enterprise/dashboard/template-assets.test.mjs
           node --test enterprise/dashboard/renderer-assets.test.mjs
-          node --test enterprise/dashboard/viewer/preview.test.mjs
           node enterprise/tools/native-baseline.mjs
       - name: Verify pure managed execution identity policy
         working-directory: .
@@ -89,6 +88,9 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-web
+      - name: Verify dashboard previews with generated contract dependencies
+        working-directory: .
+        run: node --test enterprise/dashboard/viewer/preview.test.mjs
       - name: Build dev proxy required by the web configuration
         working-directory: packages/dev-proxy
         run: vp pack

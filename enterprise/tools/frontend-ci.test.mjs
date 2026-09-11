@@ -11,6 +11,10 @@ test('enterprise CI executes frontend suites and fresh type validation on a host
   assert.ok(job, 'enterprise frontend job must exist')
   assert.match(job, /runs-on: ubuntu-latest/)
   assert.match(job, /uses: \.\/\.github\/actions\/setup-web/)
+  const previewCommand = 'node --test enterprise/dashboard/viewer/preview.test.mjs'
+  assert.ok(job.includes(previewCommand), 'preview tests require installed workspace dependencies')
+  assert.ok(job.indexOf('uses: ./.github/actions/setup-web') < job.indexOf(previewCommand))
+  assert.ok(!workflow.split('  frontend:', 1)[0].includes(previewCommand))
   assert.match(job, /working-directory: packages\/dev-proxy\s+run: vp pack/)
   assert.match(
     job,

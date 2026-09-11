@@ -66,6 +66,37 @@ def test_additive_artifact_is_stable_and_initial_schema_is_not_rewritten() -> No
     require_initial_schema(inspector())
 
 
+@pytest.mark.parametrize("prefix", ["", "public.", '"public".'])
+def test_sequence_reflection_accepts_only_equivalent_public_qualification(prefix: str) -> None:
+    fake = inspector()
+    fake.get_columns.side_effect = lambda name, **kw: [
+        {
+            "name": column.name,
+            "type": column.type,
+            "nullable": column.nullable,
+            "default": f"nextval('{prefix}{name}_sequence_seq'::regclass)" if column.name == "sequence" else None,
+        }
+        for column in Base.metadata.tables[name].c
+    ]
+    require_initial_schema(fake)
+
+
+@pytest.mark.parametrize("prefix", ["other.", '"other".', '"public.other".', '"Public".', "public.other_"])
+def test_sequence_reflection_rejects_other_schema_or_sequence(prefix: str) -> None:
+    fake = inspector()
+    fake.get_columns.side_effect = lambda name, **kw: [
+        {
+            "name": column.name,
+            "type": column.type,
+            "nullable": column.nullable,
+            "default": f"nextval('{prefix}{name}_sequence_seq'::regclass)" if column.name == "sequence" else None,
+        }
+        for column in Base.metadata.tables[name].c
+    ]
+    with pytest.raises(Conflict):
+        require_initial_schema(fake)
+
+
 @pytest.mark.parametrize("extra", ["enterprise_source_heads", "apps", "enterprise_source_versions"])
 def test_upgrade_rejects_existing_half_or_complete_or_foreign_schema(extra) -> None:
     fake = inspector()

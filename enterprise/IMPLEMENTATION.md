@@ -6444,3 +6444,27 @@ exit1 even though Desktop/backend processes exist. No Docker edits, cleanup or d
 Preparing actual local development commit with original hooks enabled and explicit runtime PATH;
 no successful commit/push exists yet at this log entry. Full-system requirements and hosted CI
 remain incomplete; this stage does not imply enterprise delivery acceptance.
+
+First hosted CI failures and evidence-driven fixes (2026-09-11). Delivery0a3ed93ec68329af8aa1fc346514ddf544592247
+was pushed to URS1023/ai_agent_company main after completing upstream shallow history; original
+HEAD was not rebased. Push verified actual URS1023 credentials. First run34602802435 completed:
+frontend and native-workflow-assets success; domain3.13 failed because preview.test.mjs dynamically
+imports generated zod contracts in a job without npm dependencies; domain3.12 cancelled by matrix
+fail-fast. Persistence initial migration0001 succeeded, source migration0002 rejected reflected
+schema. No local integration DB was opened. Full local Web run17496 remains live.
+
+Committed/pushed318f6d19343e179669ae320eab1af8c8ad8f7569 to add failure-only CI metadata diagnostics;
+run34603282661 produced output/ci-schema-34603282661.json (schema only, no table rows). Actual sequence
+reflection is nextval('"public".enterprise_runs_sequence_seq'::regclass), not the unquoted form used
+by unit fixtures. Guard rejected that equivalent quoted schema. Added narrowly escaped quoted
+schema matching, retaining fullmatch, exact sequence name and no cross-schema substitution. Red
+quoted-public case failed1/44passed; green45passed. Broader migration units250passed/3176deselected,
+2known warnings; mypy174sourcefiles passed; scoped Ruff and format checks passed.
+
+Moved preview test unchanged into frontend job after setup-web, with explicit repository-root cwd;
+no coverage removed. Guard red then green; actual preview+guard10tests passed. Independent
+migration_reflection_review inspected4filediffs, no actionable findings; guard rerun1passed.
+Current fixes await hosted verification; do not treat mocked reflection as full migration success.
+Renderer browser probe in previous turn passed mounted/CSS/prefixed-path/dispose/failure-cleanup,
+report enterprise/artifacts/renderer-loader-browser/verification.json. It is not authenticated
+Dify/business integration. Docker engine remains unavailable at latest probe. Goal remains active.

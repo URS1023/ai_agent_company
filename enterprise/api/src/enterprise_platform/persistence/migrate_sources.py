@@ -188,6 +188,7 @@ def require_schema(inspector: Inspector, expected_metadata: MetaData, *, schema:
     ):
         raise Conflict("source_migration_initial_schema_required")
     dialect = cast(Callable[[], Dialect], postgresql.dialect)()
+    quoted_schema = '"' + schema.replace('"', '""') + '"'
     for table in expected_metadata.sorted_tables:
         name = table.name
         columns = inspector.get_columns(name, schema=schema)
@@ -201,7 +202,8 @@ def require_schema(inspector: Inspector, expected_metadata: MetaData, *, schema:
             if column["name"] == "sequence":
                 valid &= bool(
                     re.fullmatch(
-                        rf"nextval\('(?:{re.escape(schema)}\.)?{re.escape(name)}_sequence_seq'::regclass\)",
+                        rf"nextval\('(?:(?:{re.escape(schema)}|{re.escape(quoted_schema)})\.)?"
+                        rf"{re.escape(name)}_sequence_seq'::regclass\)",
                         str(default),
                     )
                 )

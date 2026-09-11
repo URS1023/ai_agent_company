@@ -446,3 +446,105 @@ def test_creation_replay_waits_for_edit_head_before_taking_source_lock(office, r
         release.set()
         event.remove(engine, "before_cursor_execute", observe_waiter)
     assert counts(repository) == (2, 1)
+
+
+class FixtureOfficeManagement:
+    def require(self, session, principal, head, command):
+        if principal.workspace_id != head.workspace_id or principal.actor_id != head.created_by:
+            raise AccessDenied()
+        if command.actor_id != "actor":
+            raise AccessDenied()
+
+
+def test_acl_adapter_revocation_invalidates_existing_grant(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.office_permissions import OfficePermissionChange
+    from enterprise_platform.persistence.office_acl import SqlAlchemyOfficeAcl
+
+    store, grant, _, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    previous = store.authorize(principal, grant.file_id, "read")
+    acl = SqlAlchemyOfficeAcl(repository._sessions, FixtureOfficeManagement())
+    assert (
+        acl.change(
+            principal,
+            grant.file_id,
+            OfficePermissionChange(actor_id="actor", expected_acl_revision=1, can_read=False, can_edit=False),
+        )
+        == 2
+    )
+    with pytest.raises(AccessDenied):
+        store.get(previous)
+    with pytest.raises(AccessDenied):
+        store.authorize(principal, grant.file_id, "read")
+    assert counts(repository) == (1, 0)
+
+
+def test_concurrent_acl_changes_have_one_version_winner(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.office_permissions import OfficePermissionChange
+    from enterprise_platform.persistence.office_acl import SqlAlchemyOfficeAcl
+
+    _, grant, _, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    acl = SqlAlchemyOfficeAcl(repository._sessions, FixtureOfficeManagement())
+
+    def attempt(can_read):
+        try:
+            return acl.change(
+                principal,
+                grant.file_id,
+                OfficePermissionChange(actor_id="actor", expected_acl_revision=1, can_read=can_read, can_edit=False),
+            )
+        except Conflict:
+            return "conflict"
+
+    with ThreadPoolExecutor(max_workers=2) as workers:
+        results = list(workers.map(attempt, [True, False]))
+    assert results.count(2) == 1
+    assert results.count("conflict") == 1
+    with repository._sessions() as session:
+        head = session.get(OfficeFileRow, (grant.workspace_id, str(grant.file_id)))
+        assert (head.acl_revision, head.current_revision) == (2, 1)
+        assert (
+            session.scalar(
+                select(func.count())
+                .select_from(AuditEventRow)
+                .where(AuditEventRow.event_type == "office_permissions_changed")
+            )
+            == 1
+        )
+
+
+def test_acl_audit_failure_rolls_back_permission_and_acl_version(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.office_permissions import OfficePermissionChange
+    from enterprise_platform.persistence.office_acl import SqlAlchemyOfficeAcl
+
+    store, grant, original, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    acl = SqlAlchemyOfficeAcl(repository._sessions, FixtureOfficeManagement())
+
+    def fail_audit(mapper, connection, target):
+        if target.event_type == "office_permissions_changed":
+            raise RuntimeError("injected_acl_audit_failure")
+
+    event.listen(AuditEventRow, "before_insert", fail_audit)
+    try:
+        with pytest.raises(RuntimeError, match="injected_acl_audit_failure"):
+            acl.change(
+                principal,
+                grant.file_id,
+                OfficePermissionChange(actor_id="actor", expected_acl_revision=1, can_read=False, can_edit=False),
+            )
+    finally:
+        event.remove(AuditEventRow, "before_insert", fail_audit)
+    assert store.get(grant).fingerprint() == original.fingerprint()
+    with repository._sessions() as session:
+        assert session.scalar(select(func.count()).select_from(AuditEventRow)) == 0

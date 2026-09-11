@@ -6489,3 +6489,10 @@ Full native+enterprise Web test17496 remains live (node17188 ->19716, active wor
 report only writes on completion. Native snapshot shows Git status dirty from line endings but
 no textual diff; do not stage incidental test artifacts. Docker desktop status probe20212 is
 also still live without output; no restart/cleanup issued. Goal remains active.
+
+### 2026-09-11 — enrollment prerequisite reflection follow-up
+
+- Hosted run 34604724764 at 5c4ccc43ec: frontend, native workflow assets, domain Python 3.12 and 3.13 succeeded. PostgreSQL migrations 0001–0005 applied; integration groups reported 138 passed/9 expected skips, 11 passed, 7 passed, and 7 passed. Migration 0006 stopped at prerequisite verification.
+- Downloaded CI schema-only reflection to ignored output/ci-schema-34604724764.json. Offline comparison of all prerequisite CHECK expressions isolated four provisioning mismatches: active_phase/phase_state text casts and phase_count BETWEEN expansion. No database connection or local integration test was used.
+- Added real reflected-expression regressions and lossy-cast/range-drift rejection cases. Red: 4 failed, 68 passed. Updated only known phase-column text casts and known phase_count range normalization, retaining AST grouping and symmetric/lossy cast rejection.
+- Verification: migration unit subset 277 passed, 3176 deselected, 2 dependency deprecation warnings; final focused suite 72 passed; Ruff check/format passed; mypy passed for 174 source files. Hosted migration 0006 and subsequent full integrations still require verification after delivery. Full Web session 17496 remains live without a final report on the latest poll.

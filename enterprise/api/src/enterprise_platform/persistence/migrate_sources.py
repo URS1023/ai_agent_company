@@ -100,7 +100,7 @@ def normalized_check(sql: str) -> str:
                 text_type
                 and (
                     isinstance(value, exp.Column)
-                    and value.name == "state"
+                    and value.name in {"state", "active_phase", "phase_state"}
                     or isinstance(value, exp.Literal)
                     and value.is_string
                 )
@@ -117,7 +117,7 @@ def normalized_check(sql: str) -> str:
             break
 
     # PostgreSQL resolves VARCHAR length arguments to TEXT and expands BETWEEN.
-    # Limit this equivalence to the credential table's known text-length checks;
+    # Limit this equivalence to known credential lengths and the provisioning phase count;
     # bounded/lossy casts, other functions and different operands stay structural.
     credential_text_columns = {"key_id", "nonce", "ciphertext"}
 
@@ -137,13 +137,17 @@ def normalized_check(sql: str) -> str:
 
     expression = expression.transform(credential_length)
 
-    def credential_range(node: exp.Expression) -> exp.Expression:
+    def known_range(node: exp.Expression) -> exp.Expression:
         if (
             isinstance(node, exp.Between)
             and not node.args.get("symmetric")
-            and isinstance(node.this, exp.Length)
-            and isinstance(node.this.this, exp.Column)
-            and node.this.this.name in credential_text_columns
+            and (
+                isinstance(node.this, exp.Length)
+                and isinstance(node.this.this, exp.Column)
+                and node.this.this.name in credential_text_columns
+                or isinstance(node.this, exp.Column)
+                and node.this.name == "phase_count"
+            )
         ):
             return exp.And(
                 this=exp.GTE(this=node.this.copy(), expression=node.args["low"].copy()),
@@ -151,7 +155,7 @@ def normalized_check(sql: str) -> str:
             )
         return node
 
-    expression = expression.transform(credential_range)
+    expression = expression.transform(known_range)
 
     def membership(node: exp.Expression) -> exp.Expression:
         if isinstance(node, exp.EQ) and isinstance(node.expression, exp.Any):

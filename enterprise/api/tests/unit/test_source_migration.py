@@ -292,3 +292,53 @@ def test_credential_length_reflection_retains_changed_semantics(changed: str) ->
 )
 def test_credential_between_normalization_retains_changed_policy(changed: str) -> None:
     assert normalized_check("length(key_id) BETWEEN 1 AND 64") != normalized_check(changed)
+
+
+@pytest.mark.parametrize(
+    "model,reflected",
+    [
+        (
+            "active_phase IS NULL OR active_phase IN ('read_draft', 'prepare_credential', "
+            "'bind_credential', 'publish')",
+            "active_phase IS NULL OR (active_phase::text = ANY (ARRAY['read_draft'::character varying, "
+            "'prepare_credential'::character varying, 'bind_credential'::character varying, "
+            "'publish'::character varying]::text[]))",
+        ),
+        ("phase_count BETWEEN 0 AND 4", "phase_count >= 0 AND phase_count <= 4"),
+        (
+            "phase_state IS NULL OR phase_state IN ('queued', 'claimed', 'succeeded', 'rejected', 'uncertain')",
+            "phase_state IS NULL OR (phase_state::text = ANY (ARRAY['queued'::character varying, "
+            "'claimed'::character varying, 'succeeded'::character varying, 'rejected'::character "
+            "varying, 'uncertain'::character varying]::text[]))",
+        ),
+        (
+            "(phase_state IS NOT NULL AND phase_state = 'claimed' AND claim_nonce IS NOT NULL) OR "
+            "((phase_state IS NULL OR phase_state <> 'claimed') AND claim_nonce IS NULL)",
+            "phase_state IS NOT NULL AND phase_state::text = 'claimed'::text AND claim_nonce IS NOT "
+            "NULL OR (phase_state IS NULL OR phase_state::text <> 'claimed'::text) AND claim_nonce IS "
+            "NULL",
+        ),
+    ],
+)
+def test_postgres_provisioning_reflection_is_equivalent(model: str, reflected: str) -> None:
+    assert normalized_check(model) == normalized_check(reflected)
+
+
+@pytest.mark.parametrize(
+    "changed",
+    [
+        "phase_count > 0 AND phase_count <= 4",
+        "phase_count >= 0 OR phase_count <= 4",
+        "phase_count >= 0 AND phase_count <= 5",
+        "phase_count BETWEEN SYMMETRIC 0 AND 4",
+        "other_count >= 0 AND other_count <= 4",
+    ],
+)
+def test_provisioning_range_preserves_changed_policy(changed: str) -> None:
+    assert normalized_check("phase_count BETWEEN 0 AND 4") != normalized_check(changed)
+
+
+@pytest.mark.parametrize("column", ["active_phase", "phase_state"])
+@pytest.mark.parametrize("target", ["VARCHAR(1)", "CHAR(32)", "INTEGER"])
+def test_provisioning_phase_preserves_lossy_casts(column: str, target: str) -> None:
+    assert normalized_check(f"{column} = 'claimed'") != normalized_check(f"CAST({column} AS {target}) = 'claimed'")

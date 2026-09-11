@@ -342,3 +342,23 @@ def test_provisioning_range_preserves_changed_policy(changed: str) -> None:
 @pytest.mark.parametrize("target", ["VARCHAR(1)", "CHAR(32)", "INTEGER"])
 def test_provisioning_phase_preserves_lossy_casts(column: str, target: str) -> None:
     assert normalized_check(f"{column} = 'claimed'") != normalized_check(f"CAST({column} AS {target}) = 'claimed'")
+
+
+def test_postgres_schedule_scenario_reflection_is_equivalent() -> None:
+    assert normalized_check("scenario IN ('alert', 'quality')") == normalized_check(
+        "scenario::text = ANY (ARRAY['alert'::character varying, 'quality'::character varying]::text[])"
+    )
+
+
+@pytest.mark.parametrize(
+    "changed",
+    [
+        "CAST(scenario AS VARCHAR(1)) IN ('alert', 'quality')",
+        "CAST(scenario AS CHAR(64)) IN ('alert', 'quality')",
+        "scenario::text = ANY (ARRAY['alert', 'other']::text[])",
+        "other::text = ANY (ARRAY['alert', 'quality']::text[])",
+        "scenario::text <> ALL (ARRAY['alert', 'quality']::text[])",
+    ],
+)
+def test_schedule_scenario_reflection_retains_semantic_changes(changed: str) -> None:
+    assert normalized_check("scenario IN ('alert', 'quality')") != normalized_check(changed)

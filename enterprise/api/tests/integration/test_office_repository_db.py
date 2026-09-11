@@ -234,3 +234,58 @@ def test_postgresql_second_writer_waits_on_the_file_head_lock(office, repository
         release.set()
         event.remove(engine, "before_cursor_execute", observe_second)
     assert counts(repository) == (2, 1)
+
+
+def test_database_authorization_drives_real_edit_service(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.office_edits import OfficeEditCommand, OfficeEditService
+    from enterprise_platform.domain.office_revision import UnitReplacement
+
+    store, grant, original, candidate = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    service = OfficeEditService(store, store)
+    assert service.read(principal, grant.file_id).fingerprint() == original.fingerprint()
+    result = service.edit(
+        principal,
+        grant.file_id,
+        OfficeEditCommand(
+            request_id=UUID(int=9),
+            expected_revision=1,
+            replacements=(UnitReplacement(unit_id=UUID(int=2), content=(OfficeText(text="Changed"),)),),
+        ),
+    )
+    assert result.record.fingerprint() == candidate.fingerprint()
+    assert counts(repository) == (2, 1)
+    for wrong in [
+        principal.model_copy(update={"actor_id": "other"}),
+        principal.model_copy(update={"workspace_id": "other-workspace"}),
+    ]:
+        with pytest.raises(AccessDenied):
+            service.read(wrong, grant.file_id)
+
+
+def test_database_authorization_rechecks_acl_between_grant_and_read(office, repository):
+    from enterprise_platform.application.contracts import Principal
+
+    store, grant, _, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    resolved = store.authorize(principal, grant.file_id, "read")
+    with repository._sessions.begin() as session:
+        head = session.scalar(
+            select(OfficeFileRow)
+            .where(OfficeFileRow.workspace_id == grant.workspace_id, OfficeFileRow.file_id == str(grant.file_id))
+            .with_for_update()
+        )
+        head.acl_revision += 1
+        permission = session.get(OfficeGrantRow, (grant.workspace_id, str(grant.file_id), grant.actor_id))
+        permission.can_read = False
+        permission.can_edit = False
+    with pytest.raises(AccessDenied):
+        store.get(resolved)
+    with pytest.raises(AccessDenied):
+        store.authorize(principal, grant.file_id, "read")
+    assert counts(repository) == (1, 0)

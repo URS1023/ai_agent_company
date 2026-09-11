@@ -13,8 +13,9 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
+from enterprise_platform.application.contracts import Principal
 from enterprise_platform.application.errors import AccessDenied, Conflict, PersistenceError
-from enterprise_platform.application.office_edits import OfficeEditReceipt, OfficeFileRecord, OfficeGrant
+from enterprise_platform.application.office_edits import OfficeAction, OfficeEditReceipt, OfficeFileRecord, OfficeGrant
 
 from .mapping import audit, transaction, utc_now
 from .office_documents import decode_office_record, encode_office_record
@@ -36,20 +37,19 @@ class SqlAlchemyOfficeEditRepository:
         self._sessions, self._sources = sessions, sources
 
     @staticmethod
-    def _lock(session: Session, grant: OfficeGrant) -> OfficeFileRow:
-        if grant.action not in {"read", "edit"} or type(grant.acl_revision) is not int or grant.acl_revision < 1:
-            raise AccessDenied()
+    def _head(session: Session, workspace_id: str, file_id: UUID) -> OfficeFileRow:
         head = session.scalar(
             select(OfficeFileRow)
-            .where(
-                OfficeFileRow.workspace_id == grant.workspace_id,
-                OfficeFileRow.file_id == str(grant.file_id),
-            )
+            .where(OfficeFileRow.workspace_id == workspace_id, OfficeFileRow.file_id == str(file_id))
             .with_for_update()
             .execution_options(populate_existing=True)
         )
-        if head is None or head.acl_revision != grant.acl_revision:
+        if head is None:
             raise AccessDenied()
+        return head
+
+    @staticmethod
+    def _permission(session: Session, grant: OfficeGrant) -> None:
         permission = session.scalar(
             select(OfficeGrantRow)
             .where(
@@ -61,7 +61,30 @@ class SqlAlchemyOfficeEditRepository:
         )
         if permission is None or not permission.can_read or (grant.action == "edit" and not permission.can_edit):
             raise AccessDenied()
+
+    @classmethod
+    def _lock(cls, session: Session, grant: OfficeGrant) -> OfficeFileRow:
+        if grant.action not in {"read", "edit"} or type(grant.acl_revision) is not int or grant.acl_revision < 1:
+            raise AccessDenied()
+        head = cls._head(session, grant.workspace_id, grant.file_id)
+        if head.acl_revision != grant.acl_revision:
+            raise AccessDenied()
+        cls._permission(session, grant)
         return head
+
+    def authorize(self, principal: Principal, file_id: UUID, action: OfficeAction) -> OfficeGrant:
+        """Resolve the current scoped grant; subsequent operations recheck it under lock."""
+        if action not in {"read", "edit"}:
+            raise AccessDenied()
+        with transaction(self._sessions) as session:
+            head = self._head(session, principal.workspace_id, file_id)
+            if type(head.acl_revision) is not int or head.acl_revision < 1:
+                raise AccessDenied()
+            grant = OfficeGrant(principal.workspace_id, principal.actor_id, file_id, action, head.acl_revision)
+            self._permission(session, grant)
+            record = self._history(session, grant, head.current_revision)
+            self._sources.require(session, grant, record)
+        return grant
 
     @staticmethod
     def _history(session: Session, grant: OfficeGrant, revision: int) -> OfficeFileRecord:

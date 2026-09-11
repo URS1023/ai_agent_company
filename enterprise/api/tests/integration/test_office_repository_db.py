@@ -289,3 +289,160 @@ def test_database_authorization_rechecks_acl_between_grant_and_read(office, repo
     with pytest.raises(AccessDenied):
         store.authorize(principal, grant.file_id, "read")
     assert counts(repository) == (1, 0)
+
+
+class FixtureCreationAccess:
+    def require(self, session: Session, principal, record: OfficeFileRecord) -> None:
+        if (
+            principal.workspace_id != "office-workspace"
+            or principal.actor_id != "actor"
+            or record.template_id != "template"
+            or record.template_revision != 1
+            or record.source_snapshot_ids
+        ):
+            raise AccessDenied()
+
+
+def test_create_file_then_authorize_and_replay_from_real_database(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.persistence.office_creation import SqlAlchemyOfficeFileCreator
+
+    store, grant, original, _ = office
+    initial = replace(original, content=original.content.model_copy(update={"file_id": UUID(int=42)}))
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    creator = SqlAlchemyOfficeFileCreator(repository._sessions, FixtureCreationAccess())
+    first = creator.create(principal, initial)
+    second = creator.create(principal, initial)
+    assert first.fingerprint() == second.fingerprint() == initial.fingerprint()
+    current_grant = store.authorize(principal, initial.content.file_id, "edit")
+    assert store.get(current_grant).fingerprint() == initial.fingerprint()
+    assert counts(repository) == (2, 0)
+    with repository._sessions() as session:
+        assert session.scalar(select(func.count()).select_from(OfficeFileRow)) == 2
+        assert session.scalar(select(func.count()).select_from(OfficeGrantRow)) == 2
+        assert (
+            session.scalar(
+                select(func.count()).select_from(AuditEventRow).where(AuditEventRow.event_type == "office_file_created")
+            )
+            == 1
+        )
+
+
+def test_concurrent_initial_file_creation_replays_one_winner(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.persistence.office_creation import SqlAlchemyOfficeFileCreator
+
+    _, grant, original, _ = office
+    initial = replace(original, content=original.content.model_copy(update={"file_id": UUID(int=42)}))
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    creator = SqlAlchemyOfficeFileCreator(repository._sessions, FixtureCreationAccess())
+    with ThreadPoolExecutor(max_workers=2) as workers:
+        results = list(workers.map(lambda _: creator.create(principal, initial), range(2)))
+    assert results[0].fingerprint() == results[1].fingerprint() == initial.fingerprint()
+    assert counts(repository) == (2, 0)
+
+
+@pytest.mark.parametrize("failure", ["policy", "audit"])
+def test_initial_creation_failure_rolls_back_head_grant_history_and_audit(office, repository, failure):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.persistence.office_creation import SqlAlchemyOfficeFileCreator
+
+    _, grant, original, _ = office
+    initial = replace(original, content=original.content.model_copy(update={"file_id": UUID(int=42)}))
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+
+    class DeniedCreation:
+        def require(self, session, actor, record):
+            raise AccessDenied()
+
+    def fail_audit(mapper, connection, target):
+        if target.event_type == "office_file_created":
+            raise RuntimeError("injected_creation_audit_failure")
+
+    creator = SqlAlchemyOfficeFileCreator(
+        repository._sessions, DeniedCreation() if failure == "policy" else FixtureCreationAccess()
+    )
+    event.listen(AuditEventRow, "before_insert", fail_audit)
+    try:
+        with pytest.raises(AccessDenied if failure == "policy" else RuntimeError):
+            creator.create(principal, initial)
+    finally:
+        event.remove(AuditEventRow, "before_insert", fail_audit)
+    assert counts(repository) == (1, 0)
+    with repository._sessions() as session:
+        assert session.scalar(select(func.count()).select_from(OfficeFileRow)) == 1
+        assert session.scalar(select(func.count()).select_from(OfficeGrantRow)) == 1
+        assert session.scalar(select(func.count()).select_from(AuditEventRow)) == 0
+
+
+def test_creation_replay_waits_for_edit_head_before_taking_source_lock(office, repository):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.persistence.office_creation import SqlAlchemyOfficeFileCreator
+
+    engine = repository._sessions.kw["bind"]
+    if engine.dialect.name != "postgresql":
+        pytest.skip("Observable lock ordering requires PostgreSQL")
+    _, grant, original, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="Actor"
+    )
+    locked, release, attempted, creation_policy_entered = Event(), Event(), Event(), Event()
+    waiting_pid = []
+
+    class LockedSources:
+        def require(self, session, actor_grant, record):
+            session.connection().exec_driver_sql("SELECT pg_advisory_xact_lock(1162761499)")
+            locked.set()
+            assert release.wait(45), "Edit lock release timed out"
+
+    class CreationSources(FixtureCreationAccess):
+        def require(self, session, actor, record):
+            creation_policy_entered.set()
+            session.connection().exec_driver_sql("SELECT pg_advisory_xact_lock(1162761499)")
+            super().require(session, actor, record)
+
+    def observe_waiter(connection, cursor, statement, parameters, context, executemany):
+        if locked.is_set() and "enterprise_office_files" in statement and "FOR UPDATE" in statement:
+            waiting_pid.append(connection.exec_driver_sql("SELECT pg_backend_pid()").scalar_one())
+            attempted.set()
+
+    writer = (SqlAlchemyOfficeEditRepository(repository._sessions, LockedSources()), *office[1:])
+    creator = SqlAlchemyOfficeFileCreator(repository._sessions, CreationSources())
+    event.listen(engine, "before_cursor_execute", observe_waiter)
+    try:
+        with ThreadPoolExecutor(max_workers=2) as workers:
+            edit = workers.submit(save, writer)
+            try:
+                assert locked.wait(10)
+                replay = workers.submit(creator.create, principal, original)
+                assert attempted.wait(10)
+                deadline, observed = time.monotonic() + 10, False
+                with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as observer:
+                    while time.monotonic() < deadline:
+                        observed = (
+                            observer.exec_driver_sql(
+                                "SELECT wait_event_type = 'Lock' FROM pg_stat_activity WHERE pid = %s",
+                                (waiting_pid[0],),
+                            ).scalar_one_or_none()
+                            is True
+                        )
+                        if observed:
+                            break
+                        release.wait(0.02)
+                assert observed, "Creation replay did not wait on the existing file head"
+                assert not creation_policy_entered.is_set(), "Source lock attempted before file head"
+            finally:
+                release.set()
+            assert edit.result(timeout=10).record.content.revision == 2
+            assert replay.result(timeout=10).fingerprint() == original.fingerprint()
+            assert creation_policy_entered.is_set()
+    finally:
+        release.set()
+        event.remove(engine, "before_cursor_execute", observe_waiter)
+    assert counts(repository) == (2, 1)

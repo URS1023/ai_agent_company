@@ -12,11 +12,13 @@ import pytest
 from sqlalchemy import event, func, select
 from sqlalchemy.orm import Session
 from test_repository import repository as repository
+from test_sql_drafts_db import apply_test_schema_ddl
 
 from enterprise_platform.application.errors import AccessDenied, Conflict
 from enterprise_platform.application.office_edits import OfficeFileRecord, OfficeGrant
 from enterprise_platform.domain.office_revision import OfficeRevision, OfficeText, OfficeUnit
 from enterprise_platform.persistence.mapping import utc_now
+from enterprise_platform.persistence.migrate_office import office_statements, read_office_sql
 from enterprise_platform.persistence.models import AuditEventRow
 from enterprise_platform.persistence.office_documents import encode_office_record
 from enterprise_platform.persistence.office_models import (
@@ -37,10 +39,16 @@ class NoSourceReferences:
             raise AccessDenied()
 
 
-@pytest.fixture
-def office(repository):
-    with repository._sessions() as session:
-        OfficeBase.metadata.create_all(session.get_bind())
+@pytest.fixture(params=["model", "migration-ddl"])
+def office(repository, request):
+    if request.param == "migration-ddl":
+        if repository._sessions.kw["bind"].dialect.name != "postgresql":
+            pytest.skip("Release Office DDL targets PostgreSQL; SQLite retains ORM coverage")
+        read_office_sql()
+        apply_test_schema_ddl(repository, office_statements())
+    else:
+        with repository._sessions() as session:
+            OfficeBase.metadata.create_all(session.get_bind())
     grant = OfficeGrant("office-workspace", "actor", UUID(int=1), "edit", 1)
     original = OfficeFileRecord(
         "office-workspace",

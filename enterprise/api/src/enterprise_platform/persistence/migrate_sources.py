@@ -117,25 +117,26 @@ def normalized_check(sql: str) -> str:
             break
 
     # PostgreSQL resolves VARCHAR length arguments to TEXT and expands BETWEEN.
-    # Limit this equivalence to known credential lengths and the provisioning phase count;
+    # Limit this equivalence to known credential/hash lengths and the provisioning phase count;
     # bounded/lossy casts, other functions and different operands stay structural.
     credential_text_columns = {"key_id", "nonce", "ciphertext"}
+    length_text_columns = credential_text_columns | {"document_hash", "command_hash"}
 
-    def credential_length(node: exp.Expression) -> exp.Expression:
+    def known_text_length(node: exp.Expression) -> exp.Expression:
         if isinstance(node, exp.Length) and type(node.this) is exp.Cast:
             operand = node.this
             if (
                 operand.to.this == exp.DataType.Type.TEXT
                 and not operand.to.expressions
                 and isinstance(operand.this, exp.Column)
-                and operand.this.name in credential_text_columns
+                and operand.this.name in length_text_columns
             ):
                 result = node.copy()
                 result.set("this", operand.this.copy())
                 return result
         return node
 
-    expression = expression.transform(credential_length)
+    expression = expression.transform(known_text_length)
 
     def known_range(node: exp.Expression) -> exp.Expression:
         if (

@@ -6503,3 +6503,18 @@ also still live without output; no restart/cleanup issued. Goal remains active.
 - Compared all twelve-table prerequisite CHECK expressions against the downloaded schema-only reflection (ignored output/ci-schema-34605599956.json). The sole CHECK mismatch is ck_schedule_scenario: PostgreSQL casts the known VARCHAR scenario column to TEXT before = ANY.
 - Regression red: 1 failed, 77 passed. Extended lossless text-cast normalization only to the known scenario column, with tests rejecting bounded/CHAR casts, different columns, values and negated membership. Migration subset green: 283 passed, 3176 deselected, 2 dependency deprecation warnings. Ruff passed; mypy passed for 174 files. This local fix still needs delivery and hosted PostgreSQL verification.
 - Full Web test session 17496 remained live on poll; worker 19716 CPU advanced to 3617 seconds. Docker Desktop status session 20212 ended with status retrieval failure; official start returned already running, while backend logs identify the sailor-ingest socket startup error. No data cleanup, reset or socket deletion was performed.
+
+### 2026-09-11 — complete hosted additive migration and persistence gate
+
+- Delivered 3ceb4a68ad to ai_agent_company/main; pre-push verified URS1023. Workflow run 34606224202, persistence job 103285186422, completed successfully.
+- Production guarded migration CLIs applied 0001 through 0009 to the disposable PostgreSQL enterprise_test database. Integration groups: 138 passed/9 expected SQLite DDL skips, setups 11 passed, credentials 7 passed, provisioning 7 passed, enrollment 11 passed, activation 9 passed, schedules 17 passed, dashboards 15 passed. Total 215 passed and 9 skipped; no test failure waiver or local database integration execution.
+- Authoritative downloaded job log: ignored output/ci-job-103285186422.log. Frontend and native workflow assets also succeeded at this SHA; Python 3.12/3.13 jobs were still running on the latest query.
+- This proves the CI database/migration scope, not live Dify/plugin/model execution or full business/UI acceptance. Native full Web test session 17496 remains live with no final report.
+- Official Docker Desktop restart --timeout 120 was issued after the previously observed backend startup crash; command session 78485 remained live on its last poll. No duplicate restart, manual socket cleanup, data deletion, or factory reset was performed. Elapsed time alone is not treated as command termination.
+
+### 2026-09-11 — close the remaining production migration-chain coverage gap
+
+- Scope audit found four existing migrations beyond the previously green hosted 0001–0009 gate: SQL drafts 0010, SQL trial evidence 0011, chat message intents 0012, chat branches 0013. Existing isolated DDL integration tests do not prove these guarded CLIs work consecutively against public.
+- Added sequential production CLI steps for 0010–0013 after the dashboard schema check, followed by full reflected-schema verification using 0013 prerequisite metadata plus BranchContextBase. Verification requires CI and the dedicated enterprise_test target, opens a read-only inspection connection, and does not create metadata tables or bypass guards.
+- Added a regression guard to the existing frontend-ci.test.mjs verifying all thirteen CLI commands in order and the final check. Initial CRLF-sensitive assertion was corrected; meaningful red was missing migrate_sql_drafts, then green: 2 tests passed. Workflow YAML parsed and embedded Python compiled using the existing native API environment; no local database integration was executed.
+- The extended pipeline still needs delivery and its own hosted run; the previous 215-pass result must not be represented as coverage for 0010–0013 production CLI execution.

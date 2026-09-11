@@ -284,6 +284,46 @@ jobs:
           tests/integration/test_dashboards.py -q
         env:
           ENTERPRISE_CI_DASHBOARD_MIGRATED_PUBLIC: '1'
+      - name: Apply 0010 SQL draft migration through the guarded production CLI
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_sql_drafts
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Apply 0011 SQL trial evidence migration through the guarded production CLI
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_sql_trials
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Apply 0012 chat message intent migration through the guarded production CLI
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_chat_messages
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Apply 0013 chat branch migration through the guarded production CLI
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_chat_branches
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify the complete migrated public schema through 0013
+        run: |
+          uv run --no-sync python - <<'PY'
+          import os
+          from sqlalchemy import create_engine, inspect
+          from enterprise_platform.persistence.migrate import validate_target
+          from enterprise_platform.persistence.migrate_chat_branches import prerequisite_metadata
+          from enterprise_platform.persistence.migrate_sources import require_schema
+          from enterprise_platform.persistence.workbench_branches import BranchContextBase
+
+          if os.environ.get("CI") != "true":
+              raise SystemExit("Final schema verification requires CI")
+          target = validate_target(os.environ["ENTERPRISE_TEST_DATABASE_URL"], "enterprise_test")
+          metadata = prerequisite_metadata()
+          for table in BranchContextBase.metadata.sorted_tables:
+              table.to_metadata(metadata)
+          engine = create_engine(target, hide_parameters=True)
+          try:
+              with engine.connect() as connection:
+                  require_schema(inspect(connection), metadata)
+              print(f"Verified complete 0013 schema: {len(metadata.tables)} tables.")
+          finally:
+              engine.dispose()
+          PY
       - name: Inspect disposable CI schema after migration failure
         if: failure()
         run: |

@@ -1,13 +1,15 @@
 from datetime import datetime
+from typing import Literal
 from uuid import UUID
 
 import flask_restx
+from flask import request
 from flask_restx import Resource
 from flask_restx._http import HTTPStatus
-from pydantic import field_validator
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 from sqlalchemy import delete, func, select
 from sqlalchemy.orm import sessionmaker
-from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import BadRequest, Conflict, Forbidden
 
 from configs import dify_config
 from controllers.common.schema import register_response_schema_models
@@ -47,11 +49,45 @@ class ApiKeyItem(ResponseModel):
         return to_timestamp(value)
 
 
+class WorkflowKeyIssueHeaders(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    expected_workspace: str = Field(min_length=36, max_length=36)
+    operation: Literal["issue-workflow-key"]
+
+    @field_validator("expected_workspace")
+    @classmethod
+    def canonical_workspace(cls, value: str) -> str:
+        parsed = UUID(value)
+        if not parsed.int or str(parsed) != value:
+            raise ValueError("Expected a canonical non-null UUID")
+        return value
+
+
+class WorkflowKeyItem(ApiKeyItem):
+    app_id: str
+
+
+def _managed_key_workspace(current_tenant_id: str) -> str | None:
+    expected = request.headers.get("X-Enterprise-Expected-Workspace")
+    operation = request.headers.get("X-Enterprise-Key-Operation")
+    if expected is None and operation is None:
+        return None
+    if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+        raise Forbidden("Managed workflow setup is disabled")
+    try:
+        headers = WorkflowKeyIssueHeaders.model_validate({"expected_workspace": expected, "operation": operation})
+    except ValidationError as exc:
+        raise BadRequest("Managed workflow key headers are invalid") from exc
+    if headers.expected_workspace != current_tenant_id:
+        raise Conflict("Managed workflow key workspace does not match")
+    return headers.expected_workspace
+
+
 class ApiKeyList(ResponseModel):
     data: list[ApiKeyItem]
 
 
-register_response_schema_models(console_ns, ApiKeyItem, ApiKeyList)
+register_response_schema_models(console_ns, ApiKeyItem, ApiKeyList, WorkflowKeyItem)
 
 
 def _get_resource(resource_id, tenant_id, resource_model):
@@ -191,8 +227,18 @@ class AppApiKeyListResource(BaseApiKeyListResource):
     @with_current_tenant_id
     @edit_permission_required
     @rbac_permission_required(RBACResourceScope.APP, RBACPermission.APP_RELEASE_AND_VERSION)
-    def post(self, current_tenant_id: str, resource_id: UUID) -> tuple[dict[str, object], int]:
-        """Create a new API key for an app"""
+    def post(
+        self, current_tenant_id: str, resource_id: UUID
+    ) -> tuple[dict[str, object], int] | tuple[dict[str, object], int, dict[str, str]]:
+        """Create a new API key for an app; managed issuance retains native ownership and key limits."""
+        workspace = _managed_key_workspace(current_tenant_id)
+        if workspace is not None:
+            item = dump_response(ApiKeyItem, self._create_api_key(str(resource_id), current_tenant_id))
+            return (
+                dump_response(WorkflowKeyItem, {**item, "app_id": str(resource_id)}),
+                201,
+                {"X-Enterprise-Workspace": workspace, "Cache-Control": "private, no-store"},
+            )
         return dump_response(ApiKeyItem, self._create_api_key(str(resource_id), current_tenant_id)), 201
 
     resource_type = ApiTokenType.APP

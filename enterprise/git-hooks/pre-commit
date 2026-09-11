@@ -1,0 +1,3 @@
+#!/bin/sh
+# Retain the repository's original staged-file checks.
+exec sh .vite-hooks/pre-commit "$@"

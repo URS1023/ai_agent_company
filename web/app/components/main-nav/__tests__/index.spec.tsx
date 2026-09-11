@@ -35,6 +35,20 @@ const { mockIsAgentV2Enabled, mockSwitchWorkspace, mockToastSuccess } = vi.hoist
 const mockAppContextState = vi.hoisted(() => ({
   current: undefined as AppContextStateMockState | undefined,
 }))
+const enterpriseFeature = vi.hoisted(() => ({ enabled: false }))
+
+vi.mock('@/env', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/env')>()
+  return {
+    ...actual,
+    env: {
+      ...actual.env,
+      get NEXT_PUBLIC_ENABLE_ENTERPRISE_PORTAL() {
+        return enterpriseFeature.enabled
+      },
+    },
+  }
+})
 
 vi.mock('@/features/agent-v2/feature-flag', () => ({
   isAgentV2Enabled: () => mockIsAgentV2Enabled(),
@@ -298,6 +312,7 @@ function GotoAnythingOpenProbe() {
 describe('MainNav', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    enterpriseFeature.enabled = false
     localStorage.clear()
     mockPathname = '/apps'
     mockInstalledApps = []
@@ -355,6 +370,27 @@ describe('MainNav', () => {
       mutateAsync: mockUpdatePinStatus,
     })
     mockSwitchWorkspace.mockReturnValue(new Promise(() => {}))
+  })
+
+  it('should add only the enterprise entry when enabled', () => {
+    enterpriseFeature.enabled = true
+    renderMainNav()
+
+    expect(screen.getByRole('link', { name: 'common.enterprise.title' })).toHaveAttribute(
+      'href',
+      '/enterprise',
+    )
+    expect(screen.getByRole('link', { name: /common.mainNav.home/ })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: /common.menus.apps/ })).toHaveAttribute('href', '/apps')
+    expect(screen.getByRole('link', { name: /common.menus.datasets/ })).toHaveAttribute(
+      'href',
+      '/datasets',
+    )
+  })
+
+  it('should keep the enterprise entry absent when disabled', () => {
+    renderMainNav()
+    expect(screen.queryByRole('link', { name: 'common.enterprise.title' })).not.toBeInTheDocument()
   })
 
   it('renders primary navigation with the planned routes', () => {
@@ -433,7 +469,12 @@ describe('MainNav', () => {
     expect(homeLink.closest('nav')).toHaveClass('isolate', 'flex', 'flex-col', 'gap-px', 'p-2')
     expect(homeLink).toHaveClass('h-8', 'w-full', 'rounded-[10px]', 'px-2', 'py-1.5')
 
-    const webAppsButton = await screen.findByRole('button', { name: 'explore.sidebar.webApps' })
+    // The real next/dynamic subtree needs cold module transformation before it can render.
+    const webAppsButton = await screen.findByRole(
+      'button',
+      { name: 'explore.sidebar.webApps' },
+      { timeout: 3000 },
+    )
     expect(webAppsButton.parentElement).toHaveClass('py-1', 'pr-2', 'pl-2')
 
     const helpButton = screen.getByRole('button', { name: 'common.mainNav.help.openMenu' })

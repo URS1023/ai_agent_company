@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Badge from '@/app/components/base/badge'
 import DifyLogo from '@/app/components/base/logo/dify-logo'
+import { EnterpriseNavigationEntry } from '@/app/components/enterprise/navigation-entry'
 import EnvNav from '@/app/components/header/env-nav'
 import { langGeniusVersionInfoAtom } from '@/context/version-state'
 import {
@@ -119,6 +120,7 @@ export function MainNav({ className }: MainNavProps) {
               )}
             </MainNavLink>
           ))}
+          <EnterpriseNavigationEntry pathname={pathname} />
         </nav>
         {!isCurrentWorkspaceDatasetOperator && <WebAppsSection />}
         {showEnvTag && (

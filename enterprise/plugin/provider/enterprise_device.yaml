@@ -1,0 +1,58 @@
+identity:
+  author: enterprise
+  name: enterprise_device
+  label:
+    en_US: Enterprise device
+    zh_Hans: 企业设备
+  description:
+    en_US: Managed deterministic evaluation through the private enterprise API.
+    zh_Hans: 通过企业内部接口执行受管确定性评估。
+  icon: icon.svg
+  tags:
+    - business
+credentials_for_provider:
+  origin:
+    type: text-input
+    required: true
+    label:
+      en_US: Enterprise API origin
+      zh_Hans: 企业 API 源站地址
+    help:
+      en_US: Fixed operator-managed origin without a path. HTTPS is the default.
+      zh_Hans: 由管理员固定配置，不含路径；默认使用 HTTPS。
+  key_id:
+    type: text-input
+    required: true
+    label:
+      en_US: Execution key ID
+      zh_Hans: 执行密钥标识
+  secret:
+    type: secret-input
+    required: true
+    label:
+      en_US: Execution signing secret
+      zh_Hans: 执行签名密钥
+    help:
+      en_US: The matching server-managed 32–256 character ASCII secret. Never enter it in tool parameters.
+      zh_Hans: 与服务器一致的 32–256 位 ASCII 密钥；仅在凭据配置中填写。
+  expected_app_id:
+    type: text-input
+    required: true
+    label:
+      en_US: Expected native application ID
+      zh_Hans: 预期原生应用标识
+  allow_insecure_http:
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Allow HTTP on the operator-managed private network
+      zh_Hans: 允许管理员配置的私网 HTTP
+    help:
+      en_US: Explicit opt-in for a private Docker network only. Leave disabled for HTTPS.
+      zh_Hans: 仅用于私有 Docker 网络的显式设置；HTTPS 保持关闭。
+tools:
+  - tools/evaluate_device.yaml
+extra:
+  python:
+    source: provider/enterprise_device.py

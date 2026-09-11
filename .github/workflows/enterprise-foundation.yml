@@ -1,0 +1,284 @@
+name: Enterprise foundation
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  domain:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.12', '3.13']
+    defaults:
+      run:
+        working-directory: enterprise/api
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache-dependency-glob: enterprise/api/uv.lock
+      - run: uv lock --check
+      - run: uv sync --frozen --group dev
+      - run: uv run --no-sync ruff check src tests
+      - run: uv run --no-sync ruff format --check src tests
+      - run: uv run --no-sync mypy src
+      - run: uv run --no-sync python -m pytest -c pyproject.toml --confcutdir . tests/unit -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      - name: Verify native source baseline
+        working-directory: .
+        run: |
+          node --test enterprise/tools/native-baseline.test.mjs
+          node --test enterprise/tools/reviewed-integrations.test.mjs
+          node --test enterprise/tools/github-push-policy.test.mjs
+          node --test enterprise/tools/frontend-ci.test.mjs
+          node --test enterprise/tools/locale-keys.test.mjs
+          node --test enterprise/workflows/default-workflows.test.mjs
+          node --test enterprise/dashboard/template-assets.test.mjs
+          node --test enterprise/dashboard/renderer-assets.test.mjs
+          node --test enterprise/dashboard/viewer/preview.test.mjs
+          node enterprise/tools/native-baseline.mjs
+      - name: Verify pure managed execution identity policy
+        working-directory: .
+        run: >-
+          uv run --project enterprise/api --no-sync python -m pytest
+          -c enterprise/api/pyproject.toml --confcutdir api/tests/unit_tests/core/workflow
+          api/tests/unit_tests/core/workflow/test_enterprise_execution.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/api
+      - name: Verify managed plugin client and backend wire compatibility
+        working-directory: .
+        run: >-
+          uv run --project enterprise/api --no-sync python -m pytest
+          -c enterprise/plugin/pyproject.toml --confcutdir enterprise/plugin
+          enterprise/plugin/tests/test_client.py enterprise/plugin/tests/test_bridge.py
+          enterprise/plugin/tests/test_backend_contract.py enterprise/plugin/tests/test_package.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/enterprise/api/src:${{ github.workspace }}/enterprise/plugin
+      - name: Verify managed plugin against pinned real SDK
+        working-directory: .
+        run: |
+          uv run --project enterprise/api --no-sync --with dify-plugin==0.9.1 python -c "import dify_plugin; from importlib.metadata import version; assert version('dify-plugin') == '0.9.1'"
+          uv run --project enterprise/api --no-sync --with dify-plugin==0.9.1 python -m pytest -c enterprise/plugin/pyproject.toml --confcutdir enterprise/plugin enterprise/plugin/tests/test_sdk.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/enterprise/api/src:${{ github.workspace }}/enterprise/plugin
+      - name: Check managed plugin source quality
+        run: |
+          uv run --no-sync ruff check ../plugin
+          uv run --no-sync ruff format --check ../plugin
+          uv run --no-sync mypy --config-file ../plugin/pyproject.toml ../plugin/managed_device_plugin
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-web
+      - name: Build dev proxy required by the web configuration
+        working-directory: packages/dev-proxy
+        run: vp pack
+      - name: Test enterprise features and native integration seams
+        run: vp test run enterprise service/client.spec.ts service/console-router-loader.spec.ts app/components/main-nav/__tests__/index.spec.tsx app/components/main-nav/__tests__/layout.spec.tsx --reporter=dot --maxWorkers=2
+      - name: Generate fresh Next route types
+        run: node node_modules/next/dist/bin/next typegen
+      - name: Validate full web types without incremental state
+        run: node ../node_modules/@typescript/native/bin/tsc --noEmit --pretty false --incremental false
+
+  native-workflow-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          python-version: '3.12'
+          cache-dependency-glob: api/uv.lock
+      - run: uv sync --project api --frozen --group dev
+      - name: Verify read-only enterprise native schedule inspection
+        run: >-
+          uv run --project api --no-sync python -m pytest
+          -c api/pyproject.toml --confcutdir api/tests/unit_tests/core/workflow
+          api/tests/unit_tests/core/workflow/test_enterprise_schedule_inspection.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/api
+      - name: Validate default DSL assets against the native graph schemas
+        run: >-
+          uv run --project api --no-sync python -m pytest
+          -c enterprise/api/pyproject.toml --confcutdir enterprise/workflows
+          enterprise/workflows/test_native_defaults.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      - name: Preserve ordinary imports and verify guarded draft creation and exact publication
+        run: >-
+          uv run --project api --no-sync python -m pytest
+          -c enterprise/api/pyproject.toml --confcutdir api/tests/unit_tests/controllers/console/app
+          -p tests.unit_tests.controllers.console.app.test_enterprise_workflow_setup
+          api/tests/unit_tests/controllers/console/app/test_enterprise_workflow_setup.py
+          api/tests/unit_tests/controllers/console/app/test_app_import_api.py
+          api/tests/unit_tests/controllers/console/app/test_enterprise_workflow_publish.py
+          api/tests/unit_tests/controllers/console/app/test_enterprise_draft_credential.py
+          api/tests/unit_tests/controllers/console/app/test_enterprise_draft_read.py
+          api/tests/unit_tests/controllers/console/app/test_enterprise_publication_read.py
+          api/tests/unit_tests/controllers/console/app/test_enterprise_schedule_owner.py
+          -k 'not TestAppImportConfirmApi' -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/api
+
+      - name: Verify managed plugin scope guards and unchanged ordinary provider responses
+        run: >-
+          uv run --project api --no-sync python -m pytest
+          -c enterprise/api/pyproject.toml --confcutdir api/tests/unit_tests/controllers/console/workspace
+          api/tests/unit_tests/controllers/console/workspace/test_enterprise_tool_provider_scope.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/api
+
+      - name: Verify scoped Service API token issuance and unchanged native key behavior
+        run: >-
+          uv run --project api --no-sync python -m pytest
+          -c enterprise/api/pyproject.toml --confcutdir api/tests/unit_tests/controllers/console
+          api/tests/unit_tests/controllers/console/test_enterprise_app_api_key.py -q
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONPATH: ${{ github.workspace }}/api
+
+  persistence-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: enterprise_test
+          POSTGRES_USER: enterprise_test
+          POSTGRES_PASSWORD: enterprise-ci-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U enterprise_test -d enterprise_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: enterprise/api
+    env:
+      ENTERPRISE_TEST_DATABASE_URL: postgresql+psycopg://enterprise_test:enterprise-ci-only@localhost:5432/enterprise_test
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          python-version: '3.13'
+          cache-dependency-glob: enterprise/api/uv.lock
+      - run: uv sync --frozen --group dev
+      - name: Apply reviewed initial schema to disposable CI database
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Apply additive source schema through the guarded production CLI
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_sources
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify real PostgreSQL and SQLite transactions and source reads
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir . tests/integration
+          --ignore=tests/integration/test_workflow_setups.py
+          --ignore=tests/integration/test_workflow_credentials.py
+          --ignore=tests/integration/test_workflow_enrollment.py
+          --ignore=tests/integration/test_workflow_activation.py
+          --ignore=tests/integration/test_schedules.py
+          --ignore=tests/integration/test_dashboards.py
+          --ignore=tests/integration/test_workflow_provisioning.py -q
+        env:
+          ENTERPRISE_CI_MIGRATED_PUBLIC: '1'
+          ENTERPRISE_CI_SOURCE_MIGRATED_PUBLIC: '1'
+      - name: Apply durable workflow setup migration after the six-table source smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_workflow_setups
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify durable import claims and setup audit transactions
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_workflow_setups.py -q
+        env:
+          ENTERPRISE_CI_SETUP_MIGRATED_PUBLIC: '1'
+      - name: Apply encrypted workflow credential migration after the seven-table setup smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_workflow_credentials
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify workflow credential vault isolation and compare-and-swap transactions
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_workflow_credentials.py -q
+        env:
+          ENTERPRISE_CI_CREDENTIAL_MIGRATED_PUBLIC: '1'
+      - name: Apply provisioning journal migration after the eight-table credential smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_workflow_provisioning
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify provisioning phase ownership and atomic audit transactions
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_workflow_provisioning.py -q
+        env:
+          ENTERPRISE_CI_PROVISIONING_MIGRATED_PUBLIC: '1'
+      - name: Apply enrollment migration after the nine-table provisioning smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_workflow_enrollment
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify enrollment ownership and encrypted credential transaction rollback
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_workflow_enrollment.py -q
+        env:
+          ENTERPRISE_CI_ENROLLMENT_MIGRATED_PUBLIC: '1'
+      - name: Apply activation migration after the ten-table enrollment smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_workflow_activation
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify activation races, atomic rollback, live revocation and the eleven-table schema
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_workflow_activation.py -q
+        env:
+          ENTERPRISE_CI_ACTIVATION_MIGRATED_PUBLIC: '1'
+      - name: Apply schedule lifecycle migration after the eleven-table activation smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_schedules
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify schedule ownership races, atomic audit rollback and twelve-table schema
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_schedules.py -q
+        env:
+          ENTERPRISE_CI_SCHEDULE_MIGRATED_PUBLIC: '1'
+      - name: Apply dashboard migration after the twelve-table schedule smoke check
+        run: >-
+          uv run --no-sync python -m enterprise_platform.persistence.migrate_dashboards
+          --apply --url-env ENTERPRISE_TEST_DATABASE_URL --expected-database enterprise_test
+      - name: Verify dashboard transactions and migrated schema
+        run: >-
+          uv run --no-sync python -m pytest -c pyproject.toml --confcutdir .
+          tests/integration/test_dashboards.py -q
+        env:
+          ENTERPRISE_CI_DASHBOARD_MIGRATED_PUBLIC: '1'

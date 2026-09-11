@@ -7,6 +7,7 @@ import type {
   ListReleasesResponse,
   PrecheckReleaseRequest,
 } from '@dify/contracts/enterprise/types.gen'
+import type { contract as businessContract } from '@enterprise/business-contracts/orpc'
 import type { ClientLink } from '@orpc/client'
 import type { AnyContractRouter, ContractRouterClient } from '@orpc/contract'
 import type { JsonifiedClient } from '@orpc/openapi-client'
@@ -22,6 +23,7 @@ import { isClient } from '@/utils/client'
 import { request } from './base'
 import { createConsoleDynamicLink } from './console-link'
 import { normalizeConsoleOpenAPIURL } from './console-openapi-url'
+import { withEnterpriseBusinessLink } from './enterprise-business/link'
 
 function getMarketplaceHeaders() {
   return new Headers({
@@ -361,8 +363,11 @@ async function invalidateReleaseMutationQueries(
 const consoleLink = createConsoleDynamicLink<ConsoleClientContext>(createConsoleOpenAPILink)
 
 export const consoleClient: JsonifiedClient<
-  ContractRouterClient<typeof consoleRouterContract, ConsoleClientContext>
-> = createORPCClient(consoleLink)
+  ContractRouterClient<
+    typeof consoleRouterContract & { business: typeof businessContract },
+    ConsoleClientContext
+  >
+> = createORPCClient(withEnterpriseBusinessLink(consoleLink, () => getBaseURL('/')))
 
 export const consoleQuery: RouterUtils<typeof consoleClient> = createTanstackQueryUtils(
   consoleClient,

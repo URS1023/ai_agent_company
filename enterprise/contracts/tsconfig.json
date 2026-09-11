@@ -1,0 +1,7 @@
+{
+  "extends": "../../packages/tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["es2022", "dom"]
+  },
+  "include": ["generated/**/*.ts"]
+}

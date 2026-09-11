@@ -4,19 +4,22 @@ from collections.abc import Iterable, Mapping
 from datetime import datetime
 from typing import Any, Literal, cast
 from urllib.parse import urlparse
+from uuid import UUID
 
 from flask import make_response, redirect, request, send_file
 from flask_restx import Resource
 from pydantic import (
     BaseModel,
+    ConfigDict,
     Field,
     HttpUrl,
     RootModel,
+    ValidationError,
     field_validator,
     model_validator,
 )
 from sqlalchemy.orm import sessionmaker
-from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import BadRequest, Conflict, Forbidden
 
 from configs import dify_config
 from controllers.common.fields import SimpleResultResponse
@@ -78,6 +81,51 @@ from services.tools.tools_transform_service import ToolTransformService
 from services.tools.workflow_tools_manage_service import WorkflowToolManageService
 
 logger = logging.getLogger(__name__)
+
+
+class EnterpriseToolProviderScopeHeaders(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    expected_workspace: str = Field(min_length=36, max_length=36)
+
+    @field_validator("expected_workspace")
+    @classmethod
+    def canonical_workspace(cls, value: str) -> str:
+        workspace = UUID(value)
+        if not workspace.int or str(workspace) != value:
+            raise ValueError("Expected workspace must be a canonical non-null UUID")
+        return value
+
+
+def _enterprise_tool_provider_scope(tenant_id: str, user: Account | None = None) -> str | None:
+    """Fence opt-in requests against the service tenant and, when present, the same cached Account.
+
+    Ordinary requests skip these checks. Managed requests fail before service/session work;
+    this supplements rather than replaces the original route's authentication and permissions.
+    """
+    expected_workspace = request.headers.get("X-Enterprise-Expected-Workspace")
+    if expected_workspace is None:
+        return None
+    if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+        raise Forbidden("Enterprise workflow setup is disabled")
+    try:
+        scope = EnterpriseToolProviderScopeHeaders.model_validate({"expected_workspace": expected_workspace})
+    except ValidationError as exc:
+        raise BadRequest("Expected workspace must be a canonical non-null UUID") from exc
+    if tenant_id != scope.expected_workspace or (
+        user is not None and user.current_tenant_id != scope.expected_workspace
+    ):
+        raise Conflict("Current workspace does not match the expected workspace")
+    return scope.expected_workspace
+
+
+def _enterprise_tool_provider_response[T](
+    payload: T, expected_workspace: str | None
+) -> T | tuple[T, int, dict[str, str]]:
+    """Keep native response bodies unchanged and acknowledge only validated managed scope."""
+    if expected_workspace is None:
+        return payload
+    return payload, 200, {"X-Enterprise-Workspace": expected_workspace}
 
 
 def is_valid_url(url: str) -> bool:
@@ -492,13 +540,15 @@ class ToolProviderListApi(Resource):
     @with_current_user
     @with_current_tenant_id
     def get(self, tenant_id: str, user: Account):
+        expected_workspace = _enterprise_tool_provider_scope(tenant_id, user)
         query = query_params_from_request(ToolProviderListQuery)
 
-        return _dump_tool_provider_payload_list(
+        payload_response = _dump_tool_provider_payload_list(
             ToolCommonService.list_tool_providers(
                 user.id, tenant_id, cast(ToolProviderTypeApiLiteral | None, query.type)
             ),
         )
+        return _enterprise_tool_provider_response(payload_response, expected_workspace)
 
 
 @console_ns.route("/workspaces/current/tool-provider/builtin/<path:provider>/tools")
@@ -513,14 +563,16 @@ class ToolBuiltinProviderListToolsApi(Resource):
     @account_initialization_required
     @with_current_tenant_id
     def get(self, tenant_id: str, provider: str):
+        expected_workspace = _enterprise_tool_provider_scope(tenant_id)
 
-        return dump_response(
+        payload_response = dump_response(
             ToolApiListResponse,
             BuiltinToolManageService.list_builtin_tool_provider_tools(
                 tenant_id,
                 provider,
             ),
         )
+        return _enterprise_tool_provider_response(payload_response, expected_workspace)
 
 
 @console_ns.route("/workspaces/current/tool-provider/builtin/<path:provider>/info")
@@ -583,9 +635,10 @@ class ToolBuiltinProviderAddApi(Resource):
     @with_current_user
     @with_current_tenant_id
     def post(self, tenant_id: str, user: Account, provider: str):
+        expected_workspace = _enterprise_tool_provider_scope(tenant_id, user)
         payload = BuiltinToolAddPayload.model_validate(console_ns.payload or {})
 
-        return dump_response(
+        payload_response = dump_response(
             SimpleResultResponse,
             BuiltinToolManageService.add_builtin_tool_provider(
                 user_id=user.id,
@@ -597,6 +650,7 @@ class ToolBuiltinProviderAddApi(Resource):
                 visibility=payload.visibility,
             ),
         )
+        return _enterprise_tool_provider_response(payload_response, expected_workspace)
 
 
 @console_ns.route("/workspaces/current/tool-provider/builtin/<path:provider>/update")
@@ -1320,12 +1374,13 @@ class ToolBuiltinProviderGetCredentialInfoApi(Resource):
     @with_current_user
     @with_current_tenant_id
     def get(self, tenant_id: str, user: Account, provider: str):
+        expected_workspace = _enterprise_tool_provider_scope(tenant_id, user)
         query = query_params_from_request(
             BuiltinCredentialListQuery,
             list_fields=("include_credential_ids",),
         )
 
-        return dump_response(
+        payload_response = dump_response(
             ToolProviderCredentialInfoApiEntity,
             BuiltinToolManageService.get_builtin_tool_provider_credential_info(
                 tenant_id=tenant_id,
@@ -1335,6 +1390,7 @@ class ToolBuiltinProviderGetCredentialInfoApi(Resource):
                 include_credential_ids=query.include_credential_ids or None,
             ),
         )
+        return _enterprise_tool_provider_response(payload_response, expected_workspace)
 
 
 @console_ns.route("/workspaces/current/tool-provider/mcp")

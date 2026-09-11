@@ -1,9 +1,11 @@
+from flask import request
 from flask_restx import Resource
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
+from werkzeug.exceptions import BadRequest, Conflict, Forbidden
 
 from configs import dify_config
-from controllers.common.schema import register_enum_models, register_schema_models
+from controllers.common.schema import register_enum_models, register_response_schema_models, register_schema_models
 from controllers.console.app.wraps import get_app_model
 from controllers.console.wraps import (
     RBACPermission,
@@ -17,6 +19,7 @@ from controllers.console.wraps import (
 )
 from extensions.ext_database import db
 from extensions.ext_redis import redis_client
+from libs.helper import dump_response
 from libs.login import current_account_with_tenant, login_required
 from models.account import Account
 from models.model import App
@@ -46,8 +49,20 @@ class AppImportPayload(BaseModel):
     app_id: str | None = Field(None)
 
 
+class EnterpriseWorkflowSetupCapabilities(BaseModel):
+    enabled: bool
+    publish_enabled: bool
+    credential_setup_enabled: bool
+    draft_credential_bind_enabled: bool
+    draft_read_enabled: bool
+    service_api_token_issue_enabled: bool
+    publication_read_enabled: bool
+    workspace_id: str
+
+
 register_enum_models(console_ns, ImportStatus)
 register_schema_models(console_ns, AppImportPayload, Import, CheckDependenciesResult)
+register_response_schema_models(console_ns, EnterpriseWorkflowSetupCapabilities)
 
 
 def _current_user_and_tenant_id(current_user: Account | None) -> tuple[Account, str | None]:
@@ -68,6 +83,34 @@ def _current_user_and_tenant_id(current_user: Account | None) -> tuple[Account, 
     return account, str(fallback_tenant_id) if fallback_tenant_id else None
 
 
+@console_ns.route("/enterprise/workflow-setup/capabilities")
+class EnterpriseWorkflowSetupCapabilitiesApi(Resource):
+    @console_ns.response(
+        200, "Workflow setup capabilities", console_ns.models[EnterpriseWorkflowSetupCapabilities.__name__]
+    )
+    @setup_required
+    @login_required
+    @account_initialization_required
+    @with_current_user
+    def get(self, current_user: Account):
+        """Advertise the opt-in seam using the native authenticated workspace snapshot."""
+        if not current_user.current_tenant_id:
+            raise Conflict("Current workspace is not set")
+        return dump_response(
+            EnterpriseWorkflowSetupCapabilities,
+            {
+                "enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "publish_enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "credential_setup_enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "draft_credential_bind_enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "draft_read_enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "service_api_token_issue_enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "publication_read_enabled": dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED,
+                "workspace_id": current_user.current_tenant_id,
+            },
+        )
+
+
 @console_ns.route("/apps/imports")
 class AppImportApi(Resource):
     @console_ns.expect(console_ns.models[AppImportPayload.__name__])
@@ -84,6 +127,17 @@ class AppImportApi(Resource):
     def post(self, current_user: Account | None = None):
         args = AppImportPayload.model_validate(console_ns.payload)
         current_user = current_user if current_user is not None else _current_user_and_tenant_id(None)[0]
+
+        expected_workspace = request.headers.get("X-Enterprise-Expected-Workspace")
+        if expected_workspace is not None:
+            if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+                raise Forbidden("Enterprise workflow setup is disabled")
+            # Compare the same cached Account tenant used by AppDslService for creation,
+            # not a separately resolved tenant that could disagree after a workspace switch.
+            if not expected_workspace or expected_workspace != current_user.current_tenant_id:
+                raise Conflict("Current workspace does not match the expected workspace")
+            if args.mode != "yaml-content" or args.app_id is not None:
+                raise BadRequest("Managed workflow setup requires yaml-content and no app_id")
 
         # AppDslService performs internal commits for some creation paths, so use a plain
         # Session here instead of nesting it inside sessionmaker(...).begin().
@@ -128,11 +182,14 @@ class AppImportApi(Resource):
         status = result.status
         match status:
             case ImportStatus.FAILED:
-                return result.model_dump(mode="json"), 400
+                status_code = 400
             case ImportStatus.PENDING:
-                return result.model_dump(mode="json"), 202
+                status_code = 202
             case ImportStatus.COMPLETED | ImportStatus.COMPLETED_WITH_WARNINGS:
-                return result.model_dump(mode="json"), 200
+                status_code = 200
+        if expected_workspace is not None:
+            return result.model_dump(mode="json"), status_code, {"X-Enterprise-Workspace": expected_workspace}
+        return result.model_dump(mode="json"), status_code
 
 
 @console_ns.route("/apps/imports/<string:import_id>/confirm")

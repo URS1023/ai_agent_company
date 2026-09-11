@@ -69,6 +69,7 @@ const clientSchema = {
    */
   NEXT_PUBLIC_EDITION: z.enum(['SELF_HOSTED', 'CLOUD']).default('SELF_HOSTED'),
   NEXT_PUBLIC_ENABLE_AGENT_V2: coercedBoolean.default(false),
+  NEXT_PUBLIC_ENABLE_ENTERPRISE_PORTAL: coercedBoolean.default(false),
   /**
    * Enable preview features that are still in development.
    * Currently gates the `/create` and `/refine` slash commands in the
@@ -175,6 +176,7 @@ const clientSchema = {
 export const env = createEnv({
   server: {
     CONSOLE_API_URL: z.string().optional(),
+    ENTERPRISE_API_URL: z.string().optional(),
     SERVER_CONSOLE_API_URL: z.string().optional(),
     /**
      * Maximum length of segmentation tokens for indexing
@@ -231,6 +233,9 @@ export const env = createEnv({
     NEXT_PUBLIC_ENABLE_AGENT_V2: isServer
       ? process.env.NEXT_PUBLIC_ENABLE_AGENT_V2
       : getRuntimeEnvFromBody('enableAgentV2'),
+    NEXT_PUBLIC_ENABLE_ENTERPRISE_PORTAL: isServer
+      ? process.env.NEXT_PUBLIC_ENABLE_ENTERPRISE_PORTAL
+      : getRuntimeEnvFromBody('enableEnterprisePortal'),
     NEXT_PUBLIC_ENABLE_FEATURE_PREVIEW: isServer
       ? process.env.NEXT_PUBLIC_ENABLE_FEATURE_PREVIEW
       : getRuntimeEnvFromBody('enableFeaturePreview'),

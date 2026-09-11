@@ -1,0 +1,142 @@
+[
+  {
+    "id": "territory-industry-map",
+    "name": "销售行业区域洞察",
+    "templateRevision": 1,
+    "contentSha256": "32468d22fc5a48abfa039556cb10c1da9f8e6135224fdd157b627b378ee742f6",
+    "src": "/enterprise/dashboard-templates/template-01-13bd6f5f953b4173670b2aa3c9a7df6c8beb1ee4fe200696b21e6fe38cc2d908.jpg"
+  },
+  {
+    "id": "production-live-control",
+    "name": "生产实时控制总览",
+    "templateRevision": 1,
+    "contentSha256": "1f7705e125632ead27d691f6afd13bf14311cd5b44cb4324a3a9a61949d5665b",
+    "src": "/enterprise/dashboard-templates/template-02-01b90b3306a36e9bd937261739702fc3fb2d3e063743daba06e5b8716322198a.jpg"
+  },
+  {
+    "id": "quality-corporate-panel",
+    "name": "企业质量经营驾驶舱",
+    "templateRevision": 1,
+    "contentSha256": "c2c9e199a1fb6f20898d6618c38b10abb4e414818950c66d6b2dd5410c370405",
+    "src": "/enterprise/dashboard-templates/template-03-4691c89621ac49b3848a89a1aadaf7a9280a4e5d41dfc235bff4acd8ba09a7a6.jpg"
+  },
+  {
+    "id": "smart-warehouse-grid",
+    "name": "智慧仓储运营看板",
+    "templateRevision": 1,
+    "contentSha256": "3ae1eac43073b572fcd862c6a742bbdffc093b23f5f3d4829d884c3b4684eb30",
+    "src": "/enterprise/dashboard-templates/template-04-714985b442915f38633251825f25bbde2f90d14ff87bc7fb2be0a8f5c43ca6b9.jpg"
+  },
+  {
+    "id": "vehicle-service-matrix",
+    "name": "车辆业务监控矩阵",
+    "templateRevision": 1,
+    "contentSha256": "982404aff714fbc58b726d6e15556f1182a2d7b1fd8532cdf33fd4d15e2cceae",
+    "src": "/enterprise/dashboard-templates/template-05-f1e16c133688bc466864625d26d8755371295b5777fbf686e9b5ae8b1b1869d7.jpg"
+  },
+  {
+    "id": "enterprise-sales-target",
+    "name": "企业销售目标看板",
+    "templateRevision": 1,
+    "contentSha256": "9b5616a2ad00dc4892c88f1acde86ca4000afefffb00502c8be34f7e973e7c27",
+    "src": "/enterprise/dashboard-templates/template-06-a7d9f587b42716c242b193b8df094e352b51e4d45f3cd1e9f512d3562e3ac142.jpg"
+  },
+  {
+    "id": "commodity-trade-map",
+    "name": "商品交易区域分析",
+    "templateRevision": 1,
+    "contentSha256": "57cdd82d984a66cdc395c533ec1a3e037b43d95c053cf2ce704093cc280b4070",
+    "src": "/enterprise/dashboard-templates/template-07-e3829e526a1ee87a5dc4dae5367b17f683548c61f98bc3b7368a61abd33f5606.jpg"
+  },
+  {
+    "id": "regional-operation-map",
+    "name": "区域运营销售总览",
+    "templateRevision": 1,
+    "contentSha256": "5e0f2d2d9b2f360f00d88891194f0d7a83452bddcf0d00c0a699b4508b91bbce",
+    "src": "/enterprise/dashboard-templates/template-08-d653cfdabc2b0c7024e9cfb0a41c62f5770a755e87ff1e579a45ef9133f9a4c5.jpg"
+  },
+  {
+    "id": "enterprise-sales-annual",
+    "name": "企业销售年度大屏",
+    "templateRevision": 1,
+    "contentSha256": "3eae19fe3cf5f3d745708f12eb111b8323851455130a4c46a0c737c2defc90df",
+    "src": "/enterprise/dashboard-templates/template-09-1e6c3b60f0a5fbe17b9aec6fa68c9b8a7525ff534f284e29d00c4faebf58e2a6.jpg"
+  },
+  {
+    "id": "orbital-industry-platform",
+    "name": "通用行业综合分析平台",
+    "templateRevision": 1,
+    "contentSha256": "d6f6815850576bc0d8d36b2a6a75355efae64e9a04ef457f4aaf11e49c5737c6",
+    "src": "/enterprise/dashboard-templates/template-10-eafbfbf5727f5824e83f9b7f55153afc7996bb8219a889e30344621a05a6391d.jpg"
+  },
+  {
+    "id": "agricultural-service-purple",
+    "name": "农机服务数据分析",
+    "templateRevision": 1,
+    "contentSha256": "67c09a3d1ed7f1bf28ce78e2e86a34eb745283a19c9d2519bd118d70e72c7cc2",
+    "src": "/enterprise/dashboard-templates/template-11-93d395ef96de2e2fc1a2ac440f4a7788d6e4d5157b4a11a417b2455a40921c25.jpg"
+  },
+  {
+    "id": "order-management-purple",
+    "name": "订单管理运营看板",
+    "templateRevision": 1,
+    "contentSha256": "796d237705d62c91e8d81d56ea6159662268f09f32bf1d5d6cecaea6434e8f29",
+    "src": "/enterprise/dashboard-templates/template-12-de1944c1e046903287ed3a09a1c8f7074910416c4d88fb01be39f3527e235cb6.jpg"
+  },
+  {
+    "id": "group-integrated-platform",
+    "name": "集团综合运营一体化",
+    "templateRevision": 1,
+    "contentSha256": "60cd9e4bdf1848783da01f17fd5bbee64224c8a0faf0410fc0d89f904b744831",
+    "src": "/enterprise/dashboard-templates/template-13-811ebf058db62f670603711a5c3e68d9b460e78ddc0274bb03f61fa6d3dce2b6.jpg"
+  },
+  {
+    "id": "digital-platform-stream",
+    "name": "数字平台实时透视",
+    "templateRevision": 1,
+    "contentSha256": "f09f2578459d69c16b9f70a4149bdd288e6f88aab7160baacf3252393c8bbdda",
+    "src": "/enterprise/dashboard-templates/template-14-36fcfa271fda86ddc05b399882ac31655925bc28721983971fce9cf4de92629a.jpg"
+  },
+  {
+    "id": "bigdata-analytics-grid",
+    "name": "大数据综合分析矩阵",
+    "templateRevision": 1,
+    "contentSha256": "c3a52beb3862d56e0469c0a82cc1b4077073633cae807c0952a0df1cf510b638",
+    "src": "/enterprise/dashboard-templates/template-15-75983e6ffa05137a492622385a9171fead079b13df1b5a0791929bb97120586f.jpg"
+  },
+  {
+    "id": "annual-black-gold",
+    "name": "企业年度黑金看板",
+    "templateRevision": 1,
+    "contentSha256": "d9ca70c5a9a17916e3c216eaa4ed97609421bacabb4bb5593214b6e1dc9fe5ec",
+    "src": "/enterprise/dashboard-templates/template-16-feb9ed09e293d5f7f5fc6e935ce758d324feae4c3c737d91ee87a59eecd49dc5.jpg"
+  },
+  {
+    "id": "finance-light-dashboard",
+    "name": "财务分析明亮看板",
+    "templateRevision": 1,
+    "contentSha256": "2924915e85b1bbceae16a5a362067dff7e44f7596bd740c3187d70abd7fe065d",
+    "src": "/enterprise/dashboard-templates/template-17-c9e2a39e9c904cc1b0d14c7d3e773b93ffd86bc700f73e65b70610a266b934f3.jpg"
+  },
+  {
+    "id": "workshop-production-orange",
+    "name": "车间生产数据总览",
+    "templateRevision": 1,
+    "contentSha256": "18c5d601e075284d4ef70fc0be4dc5e1739d0c90707da83539355b4ffdd81f80",
+    "src": "/enterprise/dashboard-templates/template-18-5f496328b5b5b64f8e273880af47a4dcc878a8d250f1f19cd220be60002c017d.jpg"
+  },
+  {
+    "id": "equipment-digital-ops",
+    "name": "设备数字运维大屏",
+    "templateRevision": 1,
+    "contentSha256": "a23af1da9c5794ab12635136246827094c56112f82b39f5b9bc8db5b5f2b06fa",
+    "src": "/enterprise/dashboard-templates/template-19-e78269d7afc8dd0c080755c0eae417e9da0305eb7f781db2768ac5216444caff.jpg"
+  },
+  {
+    "id": "factory-monitoring-center",
+    "name": "生产监控中心态势图",
+    "templateRevision": 1,
+    "contentSha256": "8aabdd64f369bc9a83dfb95e8c8a5bb2e701a3e9be47da28310f29093b8c97a7",
+    "src": "/enterprise/dashboard-templates/template-20-e7afb66b8353a130bd6f9edece76f9ad3342e9d73f77dee8bf10140389b0cff8.jpg"
+  }
+]

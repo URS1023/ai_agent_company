@@ -1,0 +1,29 @@
+{
+  "rendererBuildId": "4d0b0a801c2c01f91f6ca05807b574a15820920b3a0bed4eb274db6551363218",
+  "entry": "/4d0b0a801c2c01f91f6ca05807b574a15820920b3a0bed4eb274db6551363218/assets/runtime-Bwfvxwqw.js",
+  "styles": [
+    "/4d0b0a801c2c01f91f6ca05807b574a15820920b3a0bed4eb274db6551363218/assets/Preview-DUCK5Se0.css"
+  ],
+  "resources": [
+    {
+      "name": "assets/Preview-DUCK5Se0.css",
+      "sha256": "674fcd1bc76d299aca8156b4c98e761336105f72f301748a453c0bc42705c1d6"
+    },
+    {
+      "name": "assets/Preview-dg_gKrdg.js",
+      "sha256": "dcb487db103133e40805491678226b5d9081d7c1de77e08136a4e895b1034bbd"
+    },
+    {
+      "name": "assets/index-Bs5X95Qn.js",
+      "sha256": "74c0dd7d6d9a7d997570dd8aa23ad38f63e5eb3a08d089399197c04d9d537a68"
+    },
+    {
+      "name": "assets/runtime-Bwfvxwqw.js",
+      "sha256": "bd0e9fe71f468b2cdaf31b7122355f063145a9c6092754a029e81100dc37a37b"
+    },
+    {
+      "name": "jimu-screen/china.json",
+      "sha256": "68f04b140d953bae7f06377263d3d0e9c0fbbed72d6b3254efc619f6cacbd7a0"
+    }
+  ]
+}

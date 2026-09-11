@@ -814,6 +814,15 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
 
+  enterprise/contracts:
+    dependencies:
+      '@orpc/contract':
+        specifier: 'catalog:'
+        version: 1.14.7
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+
   packages/contracts:
     dependencies:
       '@orpc/contract':
@@ -1125,6 +1134,9 @@ importers:
       '@emoji-mart/data':
         specifier: 'catalog:'
         version: 1.2.1
+      '@enterprise/business-contracts':
+        specifier: workspace:*
+        version: link:../enterprise/contracts
       '@floating-ui/react':
         specifier: 'catalog:'
         version: 0.27.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

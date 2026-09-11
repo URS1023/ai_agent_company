@@ -45,6 +45,7 @@ from core.app.entities.task_entities import (
 from core.app.task_pipeline.based_generate_task_pipeline import BasedGenerateTaskPipeline
 from core.app.task_pipeline.message_cycle_manager import MessageCycleManager
 from core.app.task_pipeline.message_file_utils import MessageFileInfoDict, prepare_file_dict
+from core.app.task_pipeline.workbench_terminal_metadata import with_terminal_metadata
 from core.base.tts import AppGeneratorTTSPublisher, AudioTrunk
 from core.model_manager import ModelInstance
 from core.ops.entities.trace_entity import TraceTaskName
@@ -74,6 +75,7 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline[EasyUIAppGenerat
     """
 
     _task_state: EasyUITaskState
+    _workbench_terminal: QueueMessageEndEvent | QueueStopEvent | None = None
     _precomputed_event_type: StreamEvent | None = None
 
     def __init__(
@@ -292,6 +294,7 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline[EasyUIAppGenerat
 
                     with sessionmaker(bind=db.engine).begin() as session:
                         # Save message
+                        self._workbench_terminal = event
                         self._save_message(session=session, trace_manager=trace_manager)
                     message_end_resp = self._message_end_to_stream_response()
                     yield message_end_resp
@@ -421,7 +424,11 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline[EasyUIAppGenerat
         message.currency = usage.currency
         self._task_state.llm_result.usage.latency = message.provider_response_latency
         self._task_state.metadata.usage = self._task_state.llm_result.usage
-        message.message_metadata = self._task_state.metadata.model_dump_json()
+        message.message_metadata = with_terminal_metadata(
+            self._task_state.metadata.model_dump_json(),
+            task_id=self._application_generate_entity.task_id,
+            event=self._workbench_terminal,
+        )
 
         if trace_manager:
             trace_manager.add_trace_task(

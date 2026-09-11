@@ -97,6 +97,7 @@ class AdvancedChatAppGenerateResponseConverter(
 
             response_chunk: dict[str, Any] = {
                 "event": sub_stream_response.event.value,
+                "task_id": sub_stream_response.task_id,
                 "conversation_id": chunk.conversation_id,
                 "message_id": chunk.message_id,
                 "created_at": chunk.created_at,
@@ -129,6 +130,7 @@ class AdvancedChatAppGenerateResponseConverter(
 
             response_chunk: dict[str, Any] = {
                 "event": sub_stream_response.event.value,
+                "task_id": sub_stream_response.task_id,
                 "conversation_id": chunk.conversation_id,
                 "message_id": chunk.message_id,
                 "created_at": chunk.created_at,

@@ -18,6 +18,7 @@ from controllers.console.app.error import (
     ProviderQuotaExceededError,
 )
 from controllers.console.app.wraps import with_session
+from controllers.console.explore import workbench_context  # noqa: F401 -- register isolated context preflight
 from controllers.console.explore.error import NotChatAppError, NotCompletionAppError
 from controllers.console.explore.wraps import InstalledAppResource
 from controllers.console.wraps import with_current_user, with_current_user_id
@@ -52,7 +53,9 @@ class CompletionMessageExplorePayload(BaseModel):
     retriever_from: str = Field(default="explore_app")
 
 
-class ChatMessagePayload(BaseModel):
+class ChatMessageExplorePayload(BaseModel):
+    """Installed-chat schema uses a unique name in the shared console namespace."""
+
     inputs: dict[str, Any]
     query: str
     files: list[dict[str, Any]] | None = Field(default=None)
@@ -75,7 +78,7 @@ class ChatMessagePayload(BaseModel):
             raise ValueError("must be a valid UUID") from exc
 
 
-register_schema_models(console_ns, CompletionMessageExplorePayload, ChatMessagePayload)
+register_schema_models(console_ns, CompletionMessageExplorePayload, ChatMessageExplorePayload)
 register_response_schema_models(console_ns, SimpleResultResponse)
 
 
@@ -168,7 +171,7 @@ class CompletionStopApi(InstalledAppResource):
     endpoint="installed_app_chat_completion",
 )
 class ChatApi(InstalledAppResource):
-    @console_ns.expect(console_ns.models[ChatMessagePayload.__name__])
+    @console_ns.expect(console_ns.models[ChatMessageExplorePayload.__name__])
     @console_ns.response(200, "Success")
     @with_current_user
     @with_session
@@ -180,7 +183,7 @@ class ChatApi(InstalledAppResource):
         if app_mode not in {AppMode.CHAT, AppMode.AGENT_CHAT, AppMode.ADVANCED_CHAT}:
             raise NotChatAppError()
 
-        payload = ChatMessagePayload.model_validate(console_ns.payload or {})
+        payload = ChatMessageExplorePayload.model_validate(console_ns.payload or {})
         args = payload.model_dump(exclude_none=True)
 
         args["auto_generate_name"] = False

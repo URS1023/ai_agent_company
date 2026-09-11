@@ -1,0 +1,15 @@
+identity:
+  author: enterprise
+  name: evaluate_device
+  label:
+    en_US: Evaluate registered device
+    zh_Hans: 评估登记设备
+description:
+  human:
+    en_US: Captures the registered source at node execution and returns the full verified business envelope.
+    zh_Hans: 在节点执行时读取已登记数据源，并返回完整业务结果封装。
+  llm: Evaluate the server-registered device for this managed workflow execution. No identity or data-source parameters are accepted.
+parameters: []
+extra:
+  python:
+    source: tools/evaluate_device.py

@@ -1,0 +1,4 @@
+# Generator comparisons require canonical LF bytes after checkout/stash restoration.
+workflows/default-*.yml text eol=lf
+api/src/enterprise_platform/workflow_templates/default-*.yml text eol=lf
+contracts/business-openapi.json text eol=lf

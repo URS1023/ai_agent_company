@@ -1,0 +1,160 @@
+{
+  "id": "00000000-0000-0000-0000-000000000033",
+  "enrollment": {
+    "id": "00000000-0000-0000-0000-000000000014",
+    "provisioning": {
+      "id": "00000000-0000-0000-0000-000000000006",
+      "workspace_id": "00000000-0000-0000-0000-000000000001",
+      "app_id": "00000000-0000-0000-0000-000000000002",
+      "setup_id": "setup",
+      "setup_revision": 3,
+      "actor_id": "actor",
+      "device_id": "device",
+      "scenario": "alert",
+      "source_id": "source",
+      "source_revision": "source-v1",
+      "read_id": "read",
+      "read_revision": "read-v1",
+      "expected_source_revision": 2,
+      "expected_binding_revision": null,
+      "config_ref": "plugin-config",
+      "config_revision": 1,
+      "revision": 9,
+      "state": "published_pending_enrollment",
+      "phases": [
+        {
+          "command": {
+            "operation_id": "00000000-0000-0000-0000-00000000000b",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "kind": "read_draft"
+          },
+          "state": "succeeded",
+          "revision": 2,
+          "receipt": {
+            "kind": "read_draft",
+            "workspace_id": "00000000-0000-0000-0000-000000000001",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "draft_id": "00000000-0000-0000-0000-000000000003",
+            "draft_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "reason_code": null,
+          "created_at": "2026-09-10T00:00:00Z",
+          "updated_at": "2026-09-10T00:00:00Z"
+        },
+        {
+          "command": {
+            "operation_id": "00000000-0000-0000-0000-00000000000c",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "kind": "prepare_credential",
+            "config_ref": "plugin-config",
+            "config_revision": 1
+          },
+          "state": "succeeded",
+          "revision": 2,
+          "receipt": {
+            "kind": "prepare_credential",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "credential_id": "00000000-0000-0000-0000-000000000004",
+            "plugin_unique_identifier": "enterprise/plugin:1@digest"
+          },
+          "reason_code": null,
+          "created_at": "2026-09-10T00:00:00Z",
+          "updated_at": "2026-09-10T00:00:00Z"
+        },
+        {
+          "command": {
+            "operation_id": "00000000-0000-0000-0000-00000000000d",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "kind": "bind_credential",
+            "draft_id": "00000000-0000-0000-0000-000000000003",
+            "credential_id": "00000000-0000-0000-0000-000000000004",
+            "expected_draft_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "state": "succeeded",
+          "revision": 2,
+          "receipt": {
+            "kind": "bind_credential",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "draft_id": "00000000-0000-0000-0000-000000000003",
+            "credential_id": "00000000-0000-0000-0000-000000000004",
+            "accepted_draft_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "draft_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "reason_code": null,
+          "created_at": "2026-09-10T00:00:00Z",
+          "updated_at": "2026-09-10T00:00:00Z"
+        },
+        {
+          "command": {
+            "operation_id": "00000000-0000-0000-0000-00000000000e",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "kind": "publish",
+            "expected_draft_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "state": "succeeded",
+          "revision": 2,
+          "receipt": {
+            "kind": "publish",
+            "app_id": "00000000-0000-0000-0000-000000000002",
+            "workflow_id": "00000000-0000-4000-8000-000000000051",
+            "accepted_draft_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "reason_code": null,
+          "created_at": "2026-09-10T00:00:00Z",
+          "updated_at": "2026-09-10T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-09-10T00:00:00Z",
+      "updated_at": "2026-09-10T00:00:00Z"
+    },
+    "revision": 5,
+    "state": "token_stored",
+    "publication": {
+      "workspace_id": "00000000-0000-0000-0000-000000000001",
+      "app_id": "00000000-0000-0000-0000-000000000002",
+      "workflow_id": "00000000-0000-4000-8000-000000000051",
+      "graph_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "provider_id": "enterprise/enterprise_device_assessment/enterprise_device",
+      "tool_name": "evaluate_device",
+      "credential_id": "00000000-0000-0000-0000-000000000004",
+      "node_id": "assessment"
+    },
+    "native_token_id": "00000000-0000-0000-0000-000000000016",
+    "credential": {
+      "workspace_id": "00000000-0000-0000-0000-000000000001",
+      "app_id": "00000000-0000-0000-0000-000000000002",
+      "secret_ref": "00000000-0000-0000-0000-000000000015",
+      "revision": 1,
+      "active": true,
+      "created_at": "2026-09-10T00:00:00Z",
+      "updated_at": "2026-09-10T00:00:00Z"
+    },
+    "reason_code": null,
+    "created_at": "2026-09-10T00:00:00Z",
+    "updated_at": "2026-09-10T00:00:00Z"
+  },
+  "binding": {
+    "app_id": "00000000-0000-0000-0000-000000000002",
+    "workflow_id": "00000000-0000-4000-8000-000000000051",
+    "specification_revision": "spec-1",
+    "secret_ref": "00000000-0000-0000-0000-000000000015",
+    "source_id": "source",
+    "source_revision": "source-v1",
+    "read_id": "read",
+    "read_revision": "read-v1",
+    "manifest": {},
+    "id": "binding",
+    "workspace_id": "00000000-0000-0000-0000-000000000001",
+    "device_id": "device",
+    "scenario": "alert",
+    "revision": 1,
+    "created_at": "2026-09-10T00:00:00Z",
+    "updated_at": "2026-09-10T00:00:00Z",
+    "active_run_id": null
+  },
+  "key_id": "ep-aa70df00c511bb5c4ad3cf8eee5ddc18c6f9153e021ee3901fd5bef5799f1ae1",
+  "revision": 1,
+  "active": true,
+  "created_at": "2026-09-10T00:00:00Z",
+  "updated_at": "2026-09-10T00:00:00Z"
+}

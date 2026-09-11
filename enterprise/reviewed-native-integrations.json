@@ -1,0 +1,320 @@
+{
+  "baseline": "8072b642927ea5468f2a6a9bc78eb9e77f5ca338",
+  "entries": [
+    {
+      "path": "web/service/client.ts",
+      "baselineSha256": "f5162c92f9b4e0c90e1fcdcfea688289073a32f4c47130904f5cd85fd535841c",
+      "reviewedSha256": "bf9def75ddaed39b09366225e00766c13392442fbb2a0c0702189be508b6a54a",
+      "reason": "Add isolated business router via lazy DynamicLink; native consoleLink, defaults, billing router and transport remain unchanged. Root reviewed exact diff; dedicated business and native client/router-loader tests pass.",
+      "verification": [
+        "2026-09-08: root inspected exact git diff; 4 native changes are additive only.",
+        "Business link/client and original client/router-loader: 45 focused Vitest tests passed.",
+        "Frozen offline workspace install exited 0; contract generation and two isolated TypeScript projects exited 0."
+      ]
+    },
+    {
+      "path": "web/package.json",
+      "baselineSha256": "ef747637ddc8911ceeca1a5a52c767f03b05a7943a8bf159f38b925585fb4847",
+      "reviewedSha256": "05bbdb5b799b3e13ecf429fa7504bae09fdc77af07c7f7b43ab4ba3cc853013c",
+      "reason": "Add only the local generated business-contracts workspace dependency; original scripts and dependency versions remain unchanged.",
+      "verification": [
+        "2026-09-08: root inspected exact git diff; 4 native changes are additive only.",
+        "Business link/client and original client/router-loader: 45 focused Vitest tests passed.",
+        "Frozen offline workspace install exited 0; contract generation and two isolated TypeScript projects exited 0."
+      ]
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "baselineSha256": "b7ebf08f40a0d726d477df4bcd31a81d1c3b36992c1f94ed53bab89f8c2419bd",
+      "reviewedSha256": "4367a8c857a0a726f79b2aac76689ffc9cb5b718b2bd4c9019430adf4ce472a6",
+      "reason": "Register only enterprise/contracts as an additional workspace; catalog and existing workspace entries remain unchanged.",
+      "verification": [
+        "2026-09-08: root inspected exact git diff; 4 native changes are additive only.",
+        "Business link/client and original client/router-loader: 45 focused Vitest tests passed.",
+        "Frozen offline workspace install exited 0; contract generation and two isolated TypeScript projects exited 0."
+      ]
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "baselineSha256": "5e0f511f217e8374d464ca4a5eea76f88119668cb75cb4fd4186dce15b3f5f14",
+      "reviewedSha256": "8090ac077ef4a194944f25b28ab276926a4fb507df39ace40876038c4bb26b1e",
+      "reason": "Add local enterprise/contracts importer and web link using already locked @orpc/contract 1.14.7 and zod 4.4.3. No existing package resolution changed.",
+      "verification": [
+        "2026-09-08: root inspected exact git diff; 4 native changes are additive only.",
+        "Business link/client and original client/router-loader: 45 focused Vitest tests passed.",
+        "Frozen offline workspace install exited 0; contract generation and two isolated TypeScript projects exited 0."
+      ]
+    },
+    {
+      "path": "api/configs/feature/__init__.py",
+      "baselineSha256": "6141685ff0498c23d899155920e5447fc2c2c4f03e945953b55631b5d11d4a02",
+      "reviewedSha256": "d7548004bed69fd4f981f1823a3951448d897677a04c33c6fb52b5e6d6efb7b0",
+      "reason": "Add default-off workflow setup flag alongside the previously reviewed managed-tools configuration. Existing native workflow settings are unchanged. Add optional fixed-origin private registration lookup; secret excluded from config dumps, incomplete origin/token pair rejected, non-service calls do not query, and empty config preserves native tool runtime.",
+      "verification": [
+        "2026-09-09: root and independent reviewer inspected the exact native import/config diff; native setup/login/account/billing/edit/RBAC decorators and ordinary body/status tuples remain unchanged.",
+        "Fresh root native controller verification: 23 passed (18 new + 5 original import tests), 3 unrelated confirmation tests deselected; actual cached Account/Tenant is passed through, native service/database transport doubled, no live import or auth middleware end-to-end claim.",
+        "Enterprise client preflights the native feature/workspace, sends expected workspace only in a server header, requires acknowledgement and never automatically repeats POST; 17 focused HTTP transport tests passed.",
+        "2026-09-10: root inspected complete config/factory diff; native factory/runtime/client/policy suites passed, log enterprise/verification-native-factory-2026-09-10.log. Native auth, RBAC and billing unchanged; external registration transport mocked in composition tests."
+      ]
+    },
+    {
+      "path": "api/core/workflow/node_factory.py",
+      "baselineSha256": "3598fcd7666ab41ef2a8b61f7738cb633cb2c6f1b70eb8925bd7e93fcb5294f5",
+      "reviewedSha256": "74c74fc94b914f5cbeda7c125f4985f94cdbb5eced8af122b9d8094345898d64",
+      "reason": "Opt-in factory injection of immutable registrations, published workflow identity and live system execution getter. Empty configuration preserves the original tool runtime constructor. Add optional fixed-origin private registration lookup; secret excluded from config dumps, incomplete origin/token pair rejected, non-service calls do not query, and empty config preserves native tool runtime.",
+      "verification": [
+        "2026-09-08: root independently inspected the exact three-file native diff and complete policy helper; no blanket directory approval.",
+        "Actual installed native Python with worktree source: pure policy 83, managed runtime/factory 17 and original runtime/factory 84 tests passed (184 total); external tool transport mocked, no daemon or database.",
+        "Native Ruff and format checks passed; managed bridge remains default off. Full native browser and deployed service regression remain separate gates.",
+        "2026-09-10: root inspected complete config/factory diff; native factory/runtime/client/policy suites passed, log enterprise/verification-native-factory-2026-09-10.log. Native auth, RBAC and billing unchanged; external registration transport mocked in composition tests."
+      ]
+    },
+    {
+      "path": "api/core/workflow/node_runtime.py",
+      "baselineSha256": "4edfc744732739dd2bf26fe450a3747f09e9055130a969f7951f1156af2c7122",
+      "reviewedSha256": "3016c00220387f4544fd95b834ef891ef2b9e1a593408c174fc41a690a65ed1a",
+      "reason": "Attest only exact server-registered resolved PluginTools; derive identity from trusted native runtime, keep it outside parameters and fork credentials per invocation. Original tool credentials and disabled/unregistered behavior remain unchanged.",
+      "verification": [
+        "2026-09-08: root independently inspected the exact three-file native diff and complete policy helper; no blanket directory approval.",
+        "Actual installed native Python with worktree source: pure policy 83, managed runtime/factory 17 and original runtime/factory 84 tests passed (184 total); external tool transport mocked, no daemon or database.",
+        "Native Ruff and format checks passed; managed bridge remains default off. Full native browser and deployed service regression remain separate gates."
+      ]
+    },
+    {
+      "path": "api/controllers/console/app/app_import.py",
+      "baselineSha256": "d26862d30e297f0bab4eed8282973d629890b62806b119618a09d146fe888239",
+      "reviewedSha256": "159a7ac9f4a3fede4c0be6f3cbb277f887e02943296520811c51d8f283e7b4f1",
+      "reason": "Opt-in authenticated import/publish capabilities and exact cached workspace guard; ordinary import behavior and native permissions retained. Capabilities alone do not prove executable enrollment.",
+      "verification": [
+        "2026-09-09: root inspected the exact controller/service diff; independent reviewer found no remaining native seam issue. No auth, billing, credential-policy or model files exempted.",
+        "Root native verification log enterprise/verification-native-workflow-publish-2026-09-09.log: 38 passed and 3 unrelated confirmation cases deselected, actual native imports with session/service doubles; no real authentication or database concurrency claim.",
+        "Enterprise exact-publish client has explicit publish_enabled preflight, canonical UUID scope, returned UUID/hash/scope checks, no GET-latest or automatic POST retry. Native unique_hash covers graph only, not feature/variable values.",
+        "2026-09-09 S7: credential_setup_enabled shares the default-off setup flag; capabilities body workspace remains authoritative, no response acknowledgement added. Root native capability/import/publish regression: 38 passed, 3 deselected.",
+        "2026-09-10 S8: root inspected exact credential-delta diff and independent workflow_setup_ui review found no issue. Root native log verification-native-draft-bind-2026-09-10.log: 61 passed / 3 deselected. Exact locked draft changes assessment credential only; immutable receipt before commit; features and variables untouched. Ordinary writers unchanged, later publish must enforce resulting graph hash. Default-off draft_credential_bind_enabled added; no live DB/auth/daemon proof.",
+        "2026-09-10 S9: root inspected metadata-only GET; independent native/reader reviews clear. Root verification-native-draft-read-2026-09-10.log: 83 passed / 3 deselected. Paired scope/operation headers, validated returned tenant/app/draft/hash/version; no Agent projection or variable serialization. Ordinary GET unchanged, draft_read_enabled default off. No live native database/auth integration proof.",
+        "2026-09-10 S14: additive service_api_token_issue_enabled follows existing default-off setup flag. Capability test2 RED then2 GREEN; root combined native105 passed/3 deselected. Existing import behavior unchanged.",
+        "2026-09-10 S15: default-off exact publication metadata GET and publication_read_enabled; preserves ordinary GET and uses exact tenant/app/workflow lookup. Root reviewed diff, independent reviews clear; root verification-native-publication-read-final-2026-09-10.log:142 passed/3 deselected including37 new; enterprise reader72 passed. No graph/variables, writes, latest fallback or enrollment claim."
+      ]
+    },
+    {
+      "path": "api/controllers/console/app/workflow.py",
+      "baselineSha256": "0b202723a447a325cbc2e6f8db3346782079d06e76a72ad54ce749bf664c9291",
+      "reviewedSha256": "b7bcddeb9293b56ae4595d6db59c5a99892ae8566b29c19059ed9d92a3710764",
+      "reason": "Managed-only paired workspace and draft graph hash headers; preserve ordinary publication decorators and response. Return exactly the workflow created in the committing transaction with workspace acknowledgement.",
+      "verification": [
+        "2026-09-09: root inspected the exact controller/service diff; independent reviewer found no remaining native seam issue. No auth, billing, credential-policy or model files exempted.",
+        "Root native verification log enterprise/verification-native-workflow-publish-2026-09-09.log: 38 passed and 3 unrelated confirmation cases deselected, actual native imports with session/service doubles; no real authentication or database concurrency claim.",
+        "Enterprise exact-publish client has explicit publish_enabled preflight, canonical UUID scope, returned UUID/hash/scope checks, no GET-latest or automatic POST retry. Native unique_hash covers graph only, not feature/variable values.",
+        "2026-09-10 S8: root inspected exact credential-delta diff and independent workflow_setup_ui review found no issue. Root native log verification-native-draft-bind-2026-09-10.log: 61 passed / 3 deselected. Exact locked draft changes assessment credential only; immutable receipt before commit; features and variables untouched. Ordinary writers unchanged, later publish must enforce resulting graph hash. Default-off draft_credential_bind_enabled added; no live DB/auth/daemon proof.",
+        "2026-09-10 S9: root inspected metadata-only GET; independent native/reader reviews clear. Root verification-native-draft-read-2026-09-10.log: 83 passed / 3 deselected. Paired scope/operation headers, validated returned tenant/app/draft/hash/version; no Agent projection or variable serialization. Ordinary GET unchanged, draft_read_enabled default off. No live native database/auth integration proof.",
+        "2026-09-10 S15: default-off exact publication metadata GET and publication_read_enabled; preserves ordinary GET and uses exact tenant/app/workflow lookup. Root reviewed diff, independent reviews clear; root verification-native-publication-read-final-2026-09-10.log:142 passed/3 deselected including37 new; enterprise reader72 passed. No graph/variables, writes, latest fallback or enrollment claim.",
+        "2026-09-11: exact prior reviewed bytes restored by removing only the isolated schedule-owner route registration import; new endpoint and original publication-read controller tests: 46 passed."
+      ]
+    },
+    {
+      "path": "api/services/workflow_service.py",
+      "baselineSha256": "974c57b28d746834c7bec5112a2705b4a51ce3eb878d772dfae34103d78d275e",
+      "reviewedSha256": "7762cf73282d642289445cd4759b6bbc246e98a7b06fc0969c6f84d305f0250f",
+      "reason": "Optional expected graph hash checks the same tenant/app draft selected FOR UPDATE with refreshed ORM state, before all existing publication validations and side effects. Default calls keep original unlocked behavior and all validation/billing/agent/event code.",
+      "verification": [
+        "2026-09-09: root inspected the exact controller/service diff; independent reviewer found no remaining native seam issue. No auth, billing, credential-policy or model files exempted.",
+        "Root native verification log enterprise/verification-native-workflow-publish-2026-09-09.log: 38 passed and 3 unrelated confirmation cases deselected, actual native imports with session/service doubles; no real authentication or database concurrency claim.",
+        "Enterprise exact-publish client has explicit publish_enabled preflight, canonical UUID scope, returned UUID/hash/scope checks, no GET-latest or automatic POST retry. Native unique_hash covers graph only, not feature/variable values.",
+        "2026-09-10 S8: root inspected exact credential-delta diff and independent workflow_setup_ui review found no issue. Root native log verification-native-draft-bind-2026-09-10.log: 61 passed / 3 deselected. Exact locked draft changes assessment credential only; immutable receipt before commit; features and variables untouched. Ordinary writers unchanged, later publish must enforce resulting graph hash. Default-off draft_credential_bind_enabled added; no live DB/auth/daemon proof."
+      ]
+    },
+    {
+      "path": "api/controllers/console/workspace/tool_providers.py",
+      "baselineSha256": "82b20f73706b5801403cf194f8ae98601af51a70e4e719cdc80367eb2f7f82da",
+      "reviewedSha256": "a68739a86cb74c8d79ec6b64c4a4c281ac50efe96df6eb92443101b662107d8f",
+      "reason": "Opt-in default-off workspace guard and acknowledgement on four existing plugin provider routes. Ordinary response bodies and existing decorators, credential service, visibility, encryption and defaults remain unchanged.",
+      "verification": [
+        "2026-09-09: root inspected the exact controller diff; independent workflow_setup_ui review found no issue. No adjacent credential service, model or permission exemptions.",
+        "Root verification-native-plugin-scope-2026-09-09.log: 42 passed with service/session doubles, not live authentication or plugin daemon integration.",
+        "Guard tests verify exact reviewed bytes and deny adjacent credential storage and permission files."
+      ]
+    },
+    {
+      "path": "api/controllers/console/apikey.py",
+      "baselineSha256": "edc6ce64423ffdac7935895c4a98aa86014f56704fbb704e735d64866e0dfcdb",
+      "reviewedSha256": "360145f23bec4557a56eacd0bfe001650428c9d897439a4ad7c2dadb949f0fdb",
+      "reason": "Default-off paired managed token headers validate canonical expected workspace against native tenant before existing app key creation. Ordinary routes/decorators, resource ownership, max10, generator and cache/model behavior are unchanged. Managed response adds exact app and workspace acknowledgment with private no-store.",
+      "verification": [
+        "2026-09-10 S14: root inspected exact diff; independent native and enterprise client reviews found no concrete issues.",
+        "Root verification-native-token-issue-final-2026-09-10.log: 105 passed / 3 deselected including 22 token tests; doubles only, not real DB/auth execution.",
+        "Enterprise token client root48 passed; token SecretStr excluded from repr/public serialization; no POST retry or list adoption.",
+        "Exact-byte protection test10 passed; token model/cache service and permission wrappers remain protected."
+      ]
+    },
+    {
+      "path": "web/next.config.ts",
+      "baselineSha256": "1bd0f2bd43d1b79401a5c8f165ade6fb217cd7800f51dd0e82712ff966d93272",
+      "reviewedSha256": "7ac982da160b6414c8ca5bf0823b392c5beec635b9967a199385bf35b578c870",
+      "reason": "Retain reviewed async WebAssembly support for Loro; explicitly bind Turbopack root to the directory owning the web project, avoiding parent-checkout inference for nested worktrees. Existing rules, redirects, headers, native components and authorization remain unchanged.",
+      "verification": [
+        "2026-09-10: reviewed exact five-line additive configuration diff; ESLint passed.",
+        "Real /enterprise compile previously failed parsing loro_wasm_bg.wasm; after change Chromium reaches HTTP 500 server fetch error instead. This is build-error resolution, not passing page acceptance. Evidence: enterprise/artifacts/browser-enterprise-entry/verification.json and next-development.log.",
+        "Exact-byte review policy test observed RED then GREEN; all 11 policy tests passed.",
+        "2026-09-11: exact diff review adds node:path resolve import and config-relative Turbopack root; root regression failed on undefined then passed. Actual Next 16.2.10 startup accepts config and no longer reports parent workspace inference. Page compilation remains unverified, not claimed faster or complete."
+      ]
+    },
+    {
+      "path": "web/app/(commonLayout)/layout.tsx",
+      "baselineSha256": "d9338da7c12b09044a93d67b036e72f8829750b58c05152b8dec78fde44fe25c",
+      "reviewedSha256": "25cf1ef7b22c5f893ec6877e964f71e7d5a37d9b5879a71c32a9528b081c76a2",
+      "reason": "Only update import from main-nav/layout to layout-shell, avoiding Next reserved route filename; native component content is unchanged and independently compared to baseline.",
+      "verification": [
+        "2026-09-10: inspected exact one-line import diff in each caller; navigation layout suite passed all 14 tests after missing import RED.",
+        "Next typegen succeeded; actual Next dev restart regenerated route types without the false components/main-nav/layout entry; browser template downloads passed again.",
+        "Native relocation accepts only unchanged baseline contents at the fixed destination and absence of the old file; seven preservation and twelve exact-review tests passed."
+      ]
+    },
+    {
+      "path": "web/app/components/main-nav/__tests__/layout.spec.tsx",
+      "baselineSha256": "8c528977e63e95106c1d6fe60aacbc575279d0c30acfb531cc4465b05429a279",
+      "reviewedSha256": "966912c8a60fdd11bef5f6d2b655f3f4a4569366841da90207c9441684c188fe",
+      "reason": "Only update import from main-nav/layout to layout-shell, avoiding Next reserved route filename; native component content is unchanged and independently compared to baseline.",
+      "verification": [
+        "2026-09-10: inspected exact one-line import diff in each caller; navigation layout suite passed all 14 tests after missing import RED.",
+        "Next typegen succeeded; actual Next dev restart regenerated route types without the false components/main-nav/layout entry; browser template downloads passed again.",
+        "Native relocation accepts only unchanged baseline contents at the fixed destination and absence of the old file; seven preservation and twelve exact-review tests passed."
+      ]
+    },
+    {
+      "path": "api/controllers/console/explore/completion.py",
+      "baselineSha256": "d6da6c1e420e0fe8a883cb10c32bb46affbcc78c11878a401a1072b4e7f61463",
+      "reviewedSha256": "9e722cf659b3d8aeb49d154c8a5133cca5b4317027cbf5cc0622c25944ec3096",
+      "reason": "Root reviewed exact installed-chat schema collision repair plus a single import registering the isolated read-only workbench context preflight. Existing chat handlers, native login/app-access decorators, streaming and generation behavior remain unchanged; debugger schema remains untouched.",
+      "verification": [
+        "2026-09-11: 5 new native schema regression cases plus 26 existing completion controller tests passed (31 total).",
+        "Real offline OpenAPI export references ChatMessageExplorePayload with explore_app; debugger schema remains dev.",
+        "Existing native hey-api configuration generated only installed-apps; standard ESLint fix and formatting retain unrelated schemas unchanged.",
+        "Workbench composer and generated request contract tests: 13 passed; cold whole-web TypeScript passed.",
+        "2026-09-11: native context endpoint/helper plus installed-chat schema/controller regression: 52 passed. Endpoint inherits InstalledAppResource decorators; workspace/actor binding, context-only acknowledgement and no generation tested. Ruff passed. New route does not establish branch/attachment authority."
+      ]
+    },
+    {
+      "path": "packages/contracts/generated/api/console/installed-apps/types.gen.ts",
+      "baselineSha256": "adfe0e0b35f7f9ef2f1a03966f95a527cd1ca1070915129d949444a63fd49fdf",
+      "reviewedSha256": "8c4209d7069de9fba384024b46de2702e302dfb8d4f6bd7e2867c973f78d96aa",
+      "reason": "Root reviewed exact installed-chat schema collision repair: unique explore model name and generated schema match runtime; no permission, endpoint, streaming or generation logic changed. Debug schema remains untouched.",
+      "verification": [
+        "2026-09-11: 5 new native schema regression cases plus 26 existing completion controller tests passed (31 total).",
+        "Real offline OpenAPI export references ChatMessageExplorePayload with explore_app; debugger schema remains dev.",
+        "Existing native hey-api configuration generated only installed-apps; standard ESLint fix and formatting retain unrelated schemas unchanged.",
+        "Workbench composer and generated request contract tests: 13 passed; cold whole-web TypeScript passed."
+      ]
+    },
+    {
+      "path": "packages/contracts/generated/api/console/installed-apps/zod.gen.ts",
+      "baselineSha256": "f9712bada9b53c8ea16f47dca709da4c2d0d21f3eca3daccf1d952a61c93c141",
+      "reviewedSha256": "4dfae1fc0c6d6a235dbaebcd47522d678daa855b17697d56a62ae72e2a54574b",
+      "reason": "Root reviewed exact installed-chat schema collision repair: unique explore model name and generated schema match runtime; no permission, endpoint, streaming or generation logic changed. Debug schema remains untouched.",
+      "verification": [
+        "2026-09-11: 5 new native schema regression cases plus 26 existing completion controller tests passed (31 total).",
+        "Real offline OpenAPI export references ChatMessageExplorePayload with explore_app; debugger schema remains dev.",
+        "Existing native hey-api configuration generated only installed-apps; standard ESLint fix and formatting retain unrelated schemas unchanged.",
+        "Workbench composer and generated request contract tests: 13 passed; cold whole-web TypeScript passed."
+      ]
+    },
+    {
+      "path": "web/app/components/base/chat/chat-with-history/__tests__/chat-wrapper.spec.tsx",
+      "baselineSha256": "cf368228800c521a9be5436fe8e5dcefd6adf997a05c6d53b121ef03c9b3e8ce",
+      "reviewedSha256": "52f5c172d2e0edc41f2fd0c597799510f4f3439015d9ab47ff5a138dc37fd493",
+      "reason": "Root inspected the test-only diff: replace malformed uploading file fixtures with complete typed FileEntity objects and distinct IDs; retain original assertion and add no-console-error, both filenames visible and Enter does not send assertions. Production upload/chat files unchanged.",
+      "verification": [
+        "2026-09-11: new no-console-error assertion failed with original malformed fixture, passed after fixture correction.",
+        "19 suites / 416 native chat, installed-app and workbench tests passed without the previous key warning.",
+        "Targeted ESLint, formatting and cold whole-web TypeScript passed; 20 native protection/review tests passed."
+      ]
+    },
+    {
+      "path": "api/core/app/task_pipeline/easy_ui_based_generate_task_pipeline.py",
+      "baselineSha256": "0b7c0816c6ab9be6cbe8401120828884c83487b0ce03cf3b95ab309fd04df48c",
+      "reviewedSha256": "fc5da349566c5cf46f2b6402b2f22e0e16bc23fd72100ec7d7143b4a9cf3eb20",
+      "reason": "Reviewed four focused hunks: import pure terminal metadata helper, retain the native queue terminal event, and augment saved metadata in the existing message transaction. Answer, usage, signals, trace calls, streaming event structure and existing save method signature remain unchanged. No auth, permission or license changes.",
+      "verification": [
+        "2026-09-11: inspected exact pipeline diff; new metadata shares the existing save-before-message_end transaction.",
+        "Native terminal metadata, existing easy-UI pipeline/core and message-end file suites: 68 passed, two existing warnings.",
+        "New tests cover no-event byte preservation, native stop reasons, actual save metadata and selecting terminal queue events before save."
+      ]
+    },
+    {
+      "path": "api/core/app/task_pipeline/based_generate_task_pipeline.py",
+      "baselineSha256": "0ad3b8fe11d47118406a8144e7ddc1bc8143d8dc6e7c902e4d939f4389555a91",
+      "reviewedSha256": "c69561d92ec8466c19044c0bf28263c033f072967d4e5140f50f53e825132ede",
+      "reason": "Reviewed import and three-line metadata assignment in existing handle_error: persist server task ID and failed marker alongside the existing ERROR status/error on the same loaded message and transaction. No extra SQL, commit, signature, error mapping or permission changes.",
+      "verification": [
+        "2026-09-11: inspected exact baseline diff before recording hashes; only this path and exact bytes are approved.",
+        "Fresh native error terminal, base pipeline, terminal metadata, generation state/API and chat/agent/advanced converter regressions: 211 passed, 3 existing warnings.",
+        "New cases cover failed metadata without exception text, existing message transaction without independent commit, and task identity in all six error stream conversion paths. Targeted Ruff passed."
+      ]
+    },
+    {
+      "path": "api/core/app/apps/chat/generate_response_converter.py",
+      "baselineSha256": "33e21d771b53dfb9456692845da9d0862110714704696626476035a9d179cabf",
+      "reviewedSha256": "60a88a5f420a6217dd11c3ad1d270f49b3a8905d6c654cd1521d714f4cab849e",
+      "reason": "Reviewed two additive task_id fields in full/simple stream envelopes. Preserve existing native task identity on error-only streams; normal response dumps retain the same identity. Ping and existing error code/message/status mapping unchanged.",
+      "verification": [
+        "2026-09-11: inspected exact baseline diff before recording hashes; only this path and exact bytes are approved.",
+        "Fresh native error terminal, base pipeline, terminal metadata, generation state/API and chat/agent/advanced converter regressions: 211 passed, 3 existing warnings.",
+        "New cases cover failed metadata without exception text, existing message transaction without independent commit, and task identity in all six error stream conversion paths. Targeted Ruff passed."
+      ]
+    },
+    {
+      "path": "api/core/app/apps/agent_chat/generate_response_converter.py",
+      "baselineSha256": "720ab54c99a7ec90a33338ea5c0dc77ff18fd4a5e8ca2638ce93a562f8a32d90",
+      "reviewedSha256": "b2505870a041b55e7ab36831c086ffa471ff93b34124540203ad1f417e16f9a0",
+      "reason": "Reviewed two additive task_id fields in full/simple stream envelopes. Preserve existing native task identity on error-only streams; normal response dumps retain the same identity. Ping and existing error code/message/status mapping unchanged.",
+      "verification": [
+        "2026-09-11: inspected exact baseline diff before recording hashes; only this path and exact bytes are approved.",
+        "Fresh native error terminal, base pipeline, terminal metadata, generation state/API and chat/agent/advanced converter regressions: 211 passed, 3 existing warnings.",
+        "New cases cover failed metadata without exception text, existing message transaction without independent commit, and task identity in all six error stream conversion paths. Targeted Ruff passed."
+      ]
+    },
+    {
+      "path": "api/core/app/apps/advanced_chat/generate_response_converter.py",
+      "baselineSha256": "56485f5bec03b478d1da01fa8f16fb53ce65eba1827ba0f7e562cb0e5f260a75",
+      "reviewedSha256": "6d635925624c3daa6cc5b298abcf627c88c424cebcd8014d45aa660aff86b183",
+      "reason": "Reviewed two additive task_id fields in full/simple stream envelopes. Preserve existing native task identity on error-only streams; normal response dumps retain the same identity. Ping and existing error code/message/status mapping unchanged.",
+      "verification": [
+        "2026-09-11: inspected exact baseline diff before recording hashes; only this path and exact bytes are approved.",
+        "Fresh native error terminal, base pipeline, terminal metadata, generation state/API and chat/agent/advanced converter regressions: 211 passed, 3 existing warnings.",
+        "New cases cover failed metadata without exception text, existing message transaction without independent commit, and task identity in all six error stream conversion paths. Targeted Ruff passed."
+      ]
+    },
+    {
+      "path": "api/tests/unit_tests/core/app/task_pipeline/test_based_generate_task_pipeline.py",
+      "baselineSha256": "98705f2e83687c64d2c76004a6f7814b117943a33a581e4926dc755019b36269",
+      "reviewedSha256": "2fdbb2ecf1d1d31266cf208f368841d55ee47bf13546eae52f6b84e839005208",
+      "reason": "Reviewed one test fixture field: message_metadata=None matches nullable native Message column; existing assertions unchanged.",
+      "verification": [
+        "2026-09-11: inspected exact baseline diff before recording hashes; only this path and exact bytes are approved.",
+        "Fresh native error terminal, base pipeline, terminal metadata, generation state/API and chat/agent/advanced converter regressions: 211 passed, 3 existing warnings.",
+        "New cases cover failed metadata without exception text, existing message transaction without independent commit, and task identity in all six error stream conversion paths. Targeted Ruff passed."
+      ]
+    },
+    {
+      "path": "web/app/components/base/copy-icon/index.tsx",
+      "baselineSha256": "ef9ec09b4934c052f95fdb2b83a341cee253b59303d75a5927079122a4ec411f",
+      "reviewedSha256": "681dba17ffe5354272f1ebb6884484f9036fc838d12326ac57e3c731865e272c",
+      "reason": "Remove nested native code-block copy button while preserving clipboard/tooltip behavior. CopyIcon gains optional className and visible keyboard focus; code-block caller retains action target sizing. Exact source diff independently reviewed by copy_control_review on 2026-09-11 with no actionable findings.",
+      "verification": [
+        "Red workbench regression reproduced nested button ancestor before repair.",
+        "Real copy control and clipboard hook: 3 suites/41 tests passed with Enter activation; subsequent Tab navigation test refinement tracked separately in IMPLEMENTATION.md.",
+        "Native copy and code-block suites passed. Browser visual dimensions and full-system acceptance remain separate gates."
+      ]
+    },
+    {
+      "path": "web/app/components/base/markdown-blocks/code-block.tsx",
+      "baselineSha256": "f6a96292b54ed6900a3075e9f363aff36ebe387979ec347383caf0eef3bd095a",
+      "reviewedSha256": "7c4233e7d3104ee535700bb2217f1706efe8f732d70f13106800724ec2061948",
+      "reason": "Remove nested native code-block copy button while preserving clipboard/tooltip behavior. CopyIcon gains optional className and visible keyboard focus; code-block caller retains action target sizing. Exact source diff independently reviewed by copy_control_review on 2026-09-11 with no actionable findings.",
+      "verification": [
+        "Red workbench regression reproduced nested button ancestor before repair.",
+        "Real copy control and clipboard hook: 3 suites/41 tests passed with Enter activation; subsequent Tab navigation test refinement tracked separately in IMPLEMENTATION.md.",
+        "Native copy and code-block suites passed. Browser visual dimensions and full-system acceptance remain separate gates."
+      ]
+    }
+  ]
+}

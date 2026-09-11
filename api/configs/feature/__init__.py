@@ -10,6 +10,7 @@ from pydantic import (
     NonNegativeInt,
     PositiveFloat,
     PositiveInt,
+    SecretStr,
     computed_field,
 )
 from pydantic_settings import BaseSettings
@@ -778,6 +779,26 @@ class WorkflowConfig(BaseSettings):
     """
     Configuration for workflow execution
     """
+
+    ENTERPRISE_WORKFLOW_SETUP_ENABLED: bool = Field(
+        default=False,
+        description="Enable native workspace-checked enterprise workflow creation and capability discovery.",
+    )
+
+    ENTERPRISE_MANAGED_TOOLS_JSON: str = Field(
+        default="",
+        max_length=65536,
+        description="Opt-in server-owned managed tool registrations; empty disables execution metadata. "
+        "Exact workspace/app/workflow/provider/tool/credential/node identities only, without secrets.",
+    )
+
+    ENTERPRISE_REGISTRATION_ORIGIN: str = Field(
+        default="",
+        max_length=2048,
+        description="Optional fixed enterprise registration service origin; empty disables lookup.",
+    )
+    ENTERPRISE_NATIVE_REGISTRATION_TOKEN: SecretStr | None = Field(default=None, repr=False, exclude=True)
+    ENTERPRISE_REGISTRATION_ALLOW_INSECURE_HTTP: bool = Field(default=False)
 
     WORKFLOW_MAX_EXECUTION_STEPS: PositiveInt = Field(
         description="Maximum number of steps allowed in a single workflow execution",

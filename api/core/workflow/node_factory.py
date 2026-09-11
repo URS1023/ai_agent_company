@@ -21,6 +21,8 @@ from core.memory.token_buffer_memory import TokenBufferMemory
 from core.model_manager import ModelInstance
 from core.prompt.entities.advanced_prompt_entities import MemoryConfig
 from core.trigger.constants import TRIGGER_NODE_TYPES
+from core.workflow.enterprise_execution import ManagedExecutionConfigurationError, ManagedToolRegistry
+from core.workflow.enterprise_registration import NativeRegistrationClient, resolve_factory_registry
 from core.workflow.human_input_adapter import adapt_node_config_for_graph
 from core.workflow.node_runtime import (
     DifyFileReferenceFactory,
@@ -339,7 +341,36 @@ class DifyNodeFactory(NodeFactory):
             ),
             conversation_id_getter=self._conversation_id,
         )
-        self._tool_runtime = DifyToolNodeRuntime(self._dify_context)
+        managed_tools = ManagedToolRegistry.from_json(dify_config.ENTERPRISE_MANAGED_TOOLS_JSON)
+        registration_origin = dify_config.ENTERPRISE_REGISTRATION_ORIGIN
+        registration_token = dify_config.ENTERPRISE_NATIVE_REGISTRATION_TOKEN
+        if bool(registration_origin) != (registration_token is not None):
+            raise ManagedExecutionConfigurationError()
+        if registration_origin and registration_token is not None:
+            managed_tools = resolve_factory_registry(
+                managed_tools,
+                NativeRegistrationClient(
+                    registration_origin,
+                    registration_token,
+                    allow_insecure_http=dify_config.ENTERPRISE_REGISTRATION_ALLOW_INSECURE_HTTP,
+                ),
+                self._dify_context.tenant_id,
+                self._dify_context.app_id,
+                self.graph_init_params.workflow_id,
+                invoke_from=self._dify_context.invoke_from.value,
+            )
+        if managed_tools.registrations:
+            self._tool_runtime = DifyToolNodeRuntime(
+                self._dify_context,
+                workflow_id=self.graph_init_params.workflow_id,
+                workflow_execution_id_getter=lambda: get_system_text(
+                    self.graph_runtime_state.variable_pool,
+                    SystemVariableKey.WORKFLOW_EXECUTION_ID,
+                ),
+                managed_tools=managed_tools,
+            )
+        else:
+            self._tool_runtime = DifyToolNodeRuntime(self._dify_context)
         self._http_request_file_manager = file_manager
         self._document_extractor_unstructured_api_config = UnstructuredApiConfig(
             api_url=dify_config.UNSTRUCTURED_API_URL,

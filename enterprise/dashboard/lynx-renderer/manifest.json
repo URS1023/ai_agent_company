@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "renderer-source-only",
+  "sourceCommit": "600bdc1adad6a581f99c676e28bb40a5630ebc34",
+  "sourceWorktreeChanges": [
+    "M lynx-ai-ui/src/components/jimu-screen/JimuCanvas.vue",
+    " M lynx-ai-ui/src/components/jimu-screen/JimuChart.vue",
+    " M lynx-ai-ui/src/components/jimu-screen/JimuWidgetRenderer.vue",
+    " M lynx-ai-ui/src/utils/dashboardTheme.js",
+    "?? lynx-ai-ui/src/utils/aiChartOption.js"
+  ],
+  "externalModules": [
+    "@/api/request",
+    "echarts",
+    "vue"
+  ],
+  "files": [
+    {
+      "path": "LICENSE",
+      "sourcePath": "LICENSE",
+      "bytes": 11558,
+      "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+    },
+    {
+      "path": "src/components/JimuCanvas.vue",
+      "sourcePath": "lynx-ai-ui/src/components/jimu-screen/JimuCanvas.vue",
+      "bytes": 41898,
+      "sha256": "912b5f3d89d8597be4445d592b7978a239dcc616532f24f757b6b40e41410991"
+    },
+    {
+      "path": "src/components/JimuChart.vue",
+      "sourcePath": "lynx-ai-ui/src/components/jimu-screen/JimuChart.vue",
+      "bytes": 29930,
+      "sha256": "b6652c60eeab7beb244df49fef2e1a36f80a80cb68ce982a1ded8501ec64cb59"
+    },
+    {
+      "path": "src/components/JimuWidgetRenderer.vue",
+      "sourcePath": "lynx-ai-ui/src/components/jimu-screen/JimuWidgetRenderer.vue",
+      "bytes": 81586,
+      "sha256": "5dfb226aa8e76846a214aedd4ebbcd3ece7ab8749abfd98578a5ca94b51071cc"
+    },
+    {
+      "path": "src/utils/dashboardTheme.js",
+      "sourcePath": "lynx-ai-ui/src/utils/dashboardTheme.js",
+      "bytes": 6919,
+      "sha256": "fe9e079e23e038a0baf658552f16e8382d820cfa376c5f65c20b4d7aa8cb70af"
+    },
+    {
+      "path": "src/utils/dashboardData.js",
+      "sourcePath": "lynx-ai-ui/src/utils/dashboardData.js",
+      "bytes": 4884,
+      "sha256": "fa06b2e209127619b1d0c2b49c710e3d356dcc06fcae6148ba3151b0a546f002"
+    },
+    {
+      "path": "src/utils/aiChartOption.js",
+      "sourcePath": "lynx-ai-ui/src/utils/aiChartOption.js",
+      "bytes": 8744,
+      "sha256": "c6dff7d0dca7c4be3548d89660a42753503ccacfd0f952c3e9c575e1581baaa3"
+    },
+    {
+      "path": "public/china.json",
+      "sourcePath": "lynx-ai-ui/public/jimu-screen/china.json",
+      "bytes": 249188,
+      "sha256": "68f04b140d953bae7f06377263d3d0e9c0fbbed72d6b3254efc619f6cacbd7a0"
+    }
+  ]
+}

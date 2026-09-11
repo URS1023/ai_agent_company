@@ -1,0 +1,12 @@
+# Imported source and published assets are verified by provenance/content hashes.
+/enterprise/dashboard/lynx/**
+/enterprise/dashboard/lynx-renderer/**
+/web/public/enterprise/renderers/**
+
+# Generator output and mirrored default DSL retain their canonical serialization.
+/enterprise/contracts/business-openapi.json
+/enterprise/contracts/generated/**
+/enterprise/workflows/default-alert.yml
+/enterprise/workflows/default-quality.yml
+/enterprise/api/src/enterprise_platform/workflow_templates/default-alert.yml
+/enterprise/api/src/enterprise_platform/workflow_templates/default-quality.yml

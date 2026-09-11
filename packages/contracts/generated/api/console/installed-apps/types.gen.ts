@@ -29,19 +29,16 @@ export type AudioTranscriptResponse = {
   text: string
 }
 
-export type ChatMessagePayload = {
+export type ChatMessageExplorePayload = {
   conversation_id?: string | null
-  draft_type?: 'debug_build' | 'draft'
-  files?: Array<unknown> | null
-  inputs: {
+  files?: Array<{
     [key: string]: unknown
-  }
-  model_config?: {
+  }> | null
+  inputs: {
     [key: string]: unknown
   }
   parent_message_id?: string | null
   query: string
-  response_mode?: 'blocking' | 'streaming'
   retriever_from?: string
 }
 
@@ -545,7 +542,7 @@ export type PostInstalledAppsByInstalledAppIdAudioToTextResponse =
   PostInstalledAppsByInstalledAppIdAudioToTextResponses[keyof PostInstalledAppsByInstalledAppIdAudioToTextResponses]
 
 export type PostInstalledAppsByInstalledAppIdChatMessagesData = {
-  body: ChatMessagePayload
+  body: ChatMessageExplorePayload
   path: {
     installed_app_id: string
   }

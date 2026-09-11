@@ -39,18 +39,17 @@ export const zAudioTranscriptResponse = z.object({
 })
 
 /**
- * ChatMessagePayload
+ * ChatMessageExplorePayload
+ *
+ * Installed-chat schema uses a unique name in the shared console namespace.
  */
-export const zChatMessagePayload = z.object({
+export const zChatMessageExplorePayload = z.object({
   conversation_id: z.string().nullish(),
-  draft_type: z.enum(['debug_build', 'draft']).optional().default('draft'),
-  files: z.array(z.unknown()).nullish(),
+  files: z.array(z.record(z.string(), z.unknown())).nullish(),
   inputs: z.record(z.string(), z.unknown()),
-  model_config: z.record(z.string(), z.unknown()).optional(),
   parent_message_id: z.string().nullish(),
   query: z.string(),
-  response_mode: z.enum(['blocking', 'streaming']).optional().default('blocking'),
-  retriever_from: z.string().optional().default('dev'),
+  retriever_from: z.string().optional().default('explore_app'),
 })
 
 /**
@@ -662,7 +661,7 @@ export const zPostInstalledAppsByInstalledAppIdAudioToTextPath = z.object({
  */
 export const zPostInstalledAppsByInstalledAppIdAudioToTextResponse = zAudioTranscriptResponse
 
-export const zPostInstalledAppsByInstalledAppIdChatMessagesBody = zChatMessagePayload
+export const zPostInstalledAppsByInstalledAppIdChatMessagesBody = zChatMessageExplorePayload
 
 export const zPostInstalledAppsByInstalledAppIdChatMessagesPath = z.object({
   installed_app_id: z.uuid(),

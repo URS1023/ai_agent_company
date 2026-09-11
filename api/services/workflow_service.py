@@ -3,6 +3,7 @@ import logging
 import time
 import uuid
 from collections.abc import Callable, Generator, Mapping, Sequence
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, cast
 
@@ -83,6 +84,19 @@ from services.errors.app import (
     WorkflowHashNotEqualError,
     WorkflowNotFoundError,
 )
+
+
+class DraftCredentialBindingError(ValueError):
+    """The exact existing draft or unique managed assessment target is unavailable."""
+
+
+@dataclass(frozen=True)
+class DraftCredentialBindingReceipt:
+    app_id: str
+    draft_id: str
+    accepted_draft_hash: str
+    hash: str
+    credential_id: str
 
 
 @dataclass(frozen=True)
@@ -309,6 +323,94 @@ class WorkflowService:
 
         return workflows, has_more
 
+    def bind_assessment_credential(
+        self,
+        *,
+        session: Session,
+        app_model: App,
+        account: Account,
+        draft_id: str,
+        expected_draft_hash: str,
+        credential_id: str,
+    ) -> DraftCredentialBindingReceipt:
+        """Apply one credential delta to the locked current draft, never client snapshots.
+
+        Native graph-only CAS does not attest features or variables; those stored fields
+        are not reassigned. Refresh identity-map state while locking the exact draft and
+        capture a receipt before commit expiry. Ordinary sync writers remain unchanged:
+        a later graph edit must be rejected by the subsequent exact publish hash check.
+        This method owns commit and the native sync event; its caller closes/rolls back
+        the session on errors. No missing draft is created and no credential is validated.
+        """
+        workflow = session.scalar(
+            select(Workflow)
+            .where(
+                Workflow.tenant_id == app_model.tenant_id,
+                Workflow.app_id == app_model.id,
+                Workflow.id == draft_id,
+                Workflow.version == Workflow.VERSION_DRAFT,
+            )
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+        if workflow is None:
+            raise DraftCredentialBindingError("Managed draft not found")
+        if workflow.unique_hash != expected_draft_hash:
+            raise WorkflowHashNotEqualError()
+
+        graph = deepcopy(dict(workflow.graph_dict))
+        nodes = graph.get("nodes")
+        if not isinstance(nodes, list):
+            raise DraftCredentialBindingError("Managed assessment target is invalid")
+        assessment = None
+        ids: set[str] = set()
+        matches = 0
+        for node in nodes:
+            if not isinstance(node, dict):
+                raise DraftCredentialBindingError("Managed assessment target is invalid")
+            node_id, data = node.get("id"), node.get("data")
+            if not isinstance(node_id, str) or not node_id or node_id in ids or not isinstance(data, dict):
+                raise DraftCredentialBindingError("Managed assessment target is invalid")
+            ids.add(node_id)
+            matched = (
+                data.get("type") == "tool"
+                and data.get("provider_type") == "builtin"
+                and data.get("provider_id") == "enterprise/enterprise_device_assessment/enterprise_device"
+                and data.get("tool_name") == "evaluate_device"
+            )
+            if matched:
+                matches += 1
+            if node_id == "assessment":
+                if not matched:
+                    raise DraftCredentialBindingError("Managed assessment target is invalid")
+                assessment = data
+        if assessment is None or matches != 1:
+            raise DraftCredentialBindingError("Managed assessment target is ambiguous")
+        assessment["credential_id"] = credential_id
+        self.validate_features_structure(app_model=app_model, features=workflow.features_dict)
+        self.validate_graph_structure(graph=graph)
+        workflow.graph = json.dumps(graph)
+        workflow.updated_by = account.id
+        workflow.updated_at = naive_utc_now()
+
+        from services.agent.workflow_publish_service import WorkflowAgentPublishService
+
+        session.flush()
+        WorkflowAgentPublishService.sync_agent_bindings_for_draft(
+            session=session, draft_workflow=workflow, account_id=account.id
+        )
+        WorkflowAgentPublishService.validate_agent_nodes_for_draft_sync(session=session, draft_workflow=workflow)
+        receipt = DraftCredentialBindingReceipt(
+            app_id=app_model.id,
+            draft_id=workflow.id,
+            accepted_draft_hash=expected_draft_hash,
+            hash=workflow.unique_hash,
+            credential_id=credential_id,
+        )
+        session.commit()
+        app_draft_workflow_was_synced.send(app_model, synced_draft_workflow=workflow)
+        return receipt
+
     def sync_draft_workflow(
         self,
         *,
@@ -505,15 +607,27 @@ class WorkflowService:
         account: Account,
         marked_name: str = "",
         marked_comment: str = "",
+        expected_draft_hash: str | None = None,
     ) -> Workflow:
+        """Publish a draft, optionally comparing its graph hash under a row lock.
+
+        Managed callers refresh cached ORM state for the exact tenant/app draft.
+        Native unique_hash covers graph only, not features or variable values.
+        Hash mismatch precedes validation and publish side effects; the caller owns
+        the transaction and holds the lock through publication and commit.
+        """
         draft_workflow_stmt = select(Workflow).where(
             Workflow.tenant_id == app_model.tenant_id,
             Workflow.app_id == app_model.id,
             Workflow.version == Workflow.VERSION_DRAFT,
         )
+        if expected_draft_hash is not None:
+            draft_workflow_stmt = draft_workflow_stmt.with_for_update().execution_options(populate_existing=True)
         draft_workflow = session.scalar(draft_workflow_stmt)
         if not draft_workflow:
             raise ValueError("No valid workflow found.")
+        if expected_draft_hash is not None and draft_workflow.unique_hash != expected_draft_hash:
+            raise WorkflowHashNotEqualError()
 
         # Validate credentials before publishing, for credential policy check
         from services.feature_service import FeatureService

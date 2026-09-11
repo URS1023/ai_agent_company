@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { useStore as useAppStore } from '@/app/components/app/store'
 import { isAgentV2Enabled } from '@/features/agent-v2/feature-flag'
 import { usePathname } from '@/next/navigation'
-import MainNavLayout from '../layout'
+import MainNavLayout from '../layout-shell'
 
 const mockAppContextState = vi.hoisted(() => ({
   current: {

@@ -2,15 +2,17 @@ import json
 import logging
 from collections.abc import Sequence
 from datetime import datetime
-from typing import Any, NotRequired, TypedDict
+from typing import Any, Literal, NotRequired, TypedDict
+from uuid import UUID
 
 from flask import abort, request
 from flask_restx import Resource, fields
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, RootModel, ValidationError, field_validator
 from sqlalchemy.orm import Session, sessionmaker
-from werkzeug.exceptions import BadRequest, Forbidden, InternalServerError, NotFound
+from werkzeug.exceptions import BadRequest, Conflict, Forbidden, InternalServerError, NotFound
 
 import services
+from configs import dify_config
 from controllers.common.controller_schemas import DefaultBlockConfigQuery, WorkflowListQuery, WorkflowUpdatePayload
 from controllers.common.errors import InvalidArgumentError
 from controllers.common.fields import GeneratedAppResponse, NewAppResponse, SimpleResultResponse
@@ -21,6 +23,7 @@ from controllers.common.schema import (
     register_schema_models,
 )
 from controllers.console import console_ns
+from controllers.console.app import enterprise_schedule  # noqa: F401 -- register isolated enterprise read route
 from controllers.console.app.error import (
     ConversationCompletedError,
     DraftWorkflowNotExist,
@@ -79,7 +82,12 @@ from services.app_generate_service import AppGenerateService
 from services.errors.app import IsDraftWorkflowError, WorkflowHashNotEqualError, WorkflowNotFoundError
 from services.errors.llm import InvokeRateLimitError
 from services.workflow_ref_service import WorkflowRefService
-from services.workflow_service import DraftWorkflowDeletionError, WorkflowInUseError, WorkflowService
+from services.workflow_service import (
+    DraftCredentialBindingError,
+    DraftWorkflowDeletionError,
+    WorkflowInUseError,
+    WorkflowService,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -98,6 +106,280 @@ class EnvironmentVariableResponseDict(TypedDict):
     name: NotRequired[str]
     value: NotRequired[Any]
     description: NotRequired[str | None]
+
+
+def _canonical_draft_credential_uuid(value: str) -> str:
+    parsed = UUID(value)
+    if not parsed.int or str(parsed) != value:
+        raise ValueError("Expected a canonical non-null UUID")
+    return value
+
+
+class DraftCredentialBindingHeaders(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    expected_workspace: str = Field(min_length=36, max_length=36)
+    operation: Literal["bind-assessment-credential"]
+
+    @field_validator("expected_workspace")
+    @classmethod
+    def canonical_workspace(cls, value: str) -> str:
+        return _canonical_draft_credential_uuid(value)
+
+
+class AssessmentDraftReadHeaders(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    expected_workspace: str = Field(min_length=36, max_length=36)
+    operation: Literal["read-assessment-draft"]
+
+    @field_validator("expected_workspace")
+    @classmethod
+    def canonical_workspace(cls, value: str) -> str:
+        return _canonical_draft_credential_uuid(value)
+
+
+class AssessmentPublicationReadHeaders(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    expected_workspace: str = Field(min_length=36, max_length=36)
+    expected_workflow: str = Field(min_length=36, max_length=36)
+    expected_hash: str = Field(min_length=64, max_length=64, pattern=r"^[0-9a-f]{64}$")
+    operation: Literal["read-assessment-publication"]
+
+    @field_validator("expected_workspace", "expected_workflow")
+    @classmethod
+    def canonical_identity(cls, value: str) -> str:
+        return _canonical_draft_credential_uuid(value)
+
+
+class AssessmentPublicationReadResponse(ResponseModel):
+    app_id: str
+    workflow_id: str
+    hash: str = Field(min_length=64, max_length=64, pattern=r"^[0-9a-f]{64}$")
+    provider_id: Literal["enterprise/enterprise_device_assessment/enterprise_device"]
+    tool_name: Literal["evaluate_device"]
+    credential_id: str
+    node_id: Literal["assessment"]
+
+    @field_validator("app_id", "workflow_id", "credential_id")
+    @classmethod
+    def canonical_identity(cls, value: str) -> str:
+        return _canonical_draft_credential_uuid(value)
+
+
+register_response_schema_models(console_ns, AssessmentPublicationReadResponse)
+
+
+def _published_assessment_credential(graph: object) -> str:
+    if not isinstance(graph, dict) or not isinstance(graph.get("nodes"), list):
+        raise ValueError("Published graph nodes are invalid")
+    ids: set[str] = set()
+    credential: str | None = None
+    matches = 0
+    for node in graph["nodes"]:
+        if not isinstance(node, dict):
+            raise ValueError("Published graph node is invalid")
+        node_id, data = node.get("id"), node.get("data")
+        if not isinstance(node_id, str) or not node_id or node_id in ids or not isinstance(data, dict):
+            raise ValueError("Published graph node identity is invalid")
+        ids.add(node_id)
+        matched = (
+            data.get("type") == "tool"
+            and data.get("provider_type") == "builtin"
+            and data.get("provider_id") == "enterprise/enterprise_device_assessment/enterprise_device"
+            and data.get("tool_name") == "evaluate_device"
+        )
+        if matched:
+            matches += 1
+        if node_id == "assessment":
+            value = data.get("credential_id")
+            if not matched or not isinstance(value, str):
+                raise ValueError("Published assessment credential is invalid")
+            credential = _canonical_draft_credential_uuid(value)
+    if credential is None or matches != 1:
+        raise ValueError("Published assessment target is ambiguous")
+    return credential
+
+
+def _read_managed_assessment_publication(app_model: App) -> tuple[dict[str, object], int, dict[str, str]]:
+    """Verify one exact publication without latest-pointer lookup, projection or secret serialization.
+
+    Native unique_hash attests graph only, not features or variables. This read is
+    a snapshot check, not a lock against subsequent publication or binding edits.
+    """
+    if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+        raise Forbidden("Enterprise workflow setup is disabled")
+    try:
+        headers = AssessmentPublicationReadHeaders.model_validate(
+            {
+                "expected_workspace": request.headers.get("X-Enterprise-Expected-Workspace"),
+                "expected_workflow": request.headers.get("X-Enterprise-Expected-Workflow"),
+                "expected_hash": request.headers.get("X-Enterprise-Expected-Graph-Hash"),
+                "operation": request.headers.get("X-Enterprise-Publication-Operation"),
+            }
+        )
+    except ValidationError as exc:
+        raise BadRequest("Managed publication read headers are invalid") from exc
+    if app_model.tenant_id != headers.expected_workspace:
+        raise Conflict("Current workspace does not match the expected app workspace")
+    try:
+        workflow = WorkflowService().get_published_workflow_by_id(
+            app_model=app_model, workflow_id=headers.expected_workflow, session=db.session()
+        )
+    except IsDraftWorkflowError as exc:
+        raise Conflict("Expected workflow is not a publication") from exc
+    if workflow is None:
+        raise NotFound("Expected publication was not found")
+    if (
+        workflow.tenant_id != headers.expected_workspace
+        or workflow.app_id != app_model.id
+        or workflow.id != headers.expected_workflow
+        or not isinstance(workflow.version, str)
+        or not workflow.version
+        or workflow.version == Workflow.VERSION_DRAFT
+    ):
+        raise Conflict("Returned publication does not match the expected scope")
+    try:
+        actual_hash = workflow.unique_hash
+        if actual_hash != headers.expected_hash:
+            raise ValueError("Published graph hash mismatch")
+        credential = _published_assessment_credential(workflow.graph_dict)
+        response = dump_response(
+            AssessmentPublicationReadResponse,
+            {
+                "app_id": workflow.app_id,
+                "workflow_id": workflow.id,
+                "hash": actual_hash,
+                "provider_id": "enterprise/enterprise_device_assessment/enterprise_device",
+                "tool_name": "evaluate_device",
+                "credential_id": credential,
+                "node_id": "assessment",
+            },
+        )
+    except (ValueError, TypeError) as exc:
+        raise Conflict("Returned publication metadata is invalid") from exc
+    return response, 200, {"X-Enterprise-Workspace": headers.expected_workspace, "Cache-Control": "private, no-store"}
+
+
+class AssessmentDraftReadResponse(ResponseModel):
+    app_id: str = Field(min_length=36, max_length=36)
+    draft_id: str = Field(min_length=36, max_length=36)
+    hash: str = Field(min_length=64, max_length=64, pattern=r"^[0-9a-f]{64}$")
+    version: Literal["draft"]
+
+    @field_validator("app_id", "draft_id")
+    @classmethod
+    def canonical_identity(cls, value: str) -> str:
+        return _canonical_draft_credential_uuid(value)
+
+
+register_response_schema_models(console_ns, AssessmentDraftReadResponse)
+
+
+def _read_managed_assessment_draft(app_model: App) -> tuple[dict[str, object], int, dict[str, str]]:
+    """Read scoped draft metadata only; no variable serialization, Agent projection, lock or write.
+
+    The original app decorator supplies the authenticated app scope. Native hash is
+    graph-only and is merely a CAS precondition for a subsequent credential delta.
+    """
+    if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+        raise Forbidden("Enterprise workflow setup is disabled")
+    try:
+        headers = AssessmentDraftReadHeaders.model_validate(
+            {
+                "expected_workspace": request.headers.get("X-Enterprise-Expected-Workspace"),
+                "operation": request.headers.get("X-Enterprise-Draft-Operation"),
+            }
+        )
+    except ValidationError as exc:
+        raise BadRequest("Managed draft read headers are invalid") from exc
+    if app_model.tenant_id != headers.expected_workspace:
+        raise Conflict("Current workspace does not match the expected app workspace")
+    workflow = WorkflowService().get_draft_workflow(app_model=app_model, session=db.session())
+    if workflow is None:
+        raise DraftWorkflowNotExist()
+    if workflow.tenant_id != headers.expected_workspace or workflow.app_id != app_model.id:
+        raise Conflict("Returned draft does not match the expected app workspace")
+    try:
+        response = dump_response(
+            AssessmentDraftReadResponse,
+            {
+                "app_id": workflow.app_id,
+                "draft_id": workflow.id,
+                "hash": workflow.unique_hash,
+                "version": workflow.version,
+            },
+        )
+    except ValueError as exc:
+        raise Conflict("Returned draft metadata is invalid") from exc
+    return response, 200, {"X-Enterprise-Workspace": headers.expected_workspace}
+
+
+class DraftCredentialBindingPayload(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    draft_id: str = Field(min_length=36, max_length=36)
+    hash: str = Field(min_length=64, max_length=64, pattern=r"^[0-9a-f]{64}$")
+    credential_id: str = Field(min_length=36, max_length=36)
+
+    @field_validator("draft_id", "credential_id")
+    @classmethod
+    def canonical_identity(cls, value: str) -> str:
+        return _canonical_draft_credential_uuid(value)
+
+
+class DraftCredentialBindingResponse(ResponseModel):
+    result: Literal["success"] = "success"
+    app_id: str
+    draft_id: str
+    accepted_draft_hash: str
+    hash: str
+    credential_id: str
+
+
+register_response_schema_models(console_ns, DraftCredentialBindingResponse)
+
+
+def _bind_managed_draft_credential(
+    current_user: Account, app_model: App
+) -> tuple[dict[str, object], int, dict[str, str]]:
+    """Validate the narrow opt-in request before opening its isolated native session."""
+    if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+        raise Forbidden("Enterprise workflow setup is disabled")
+    try:
+        headers = DraftCredentialBindingHeaders.model_validate(
+            {
+                "expected_workspace": request.headers.get("X-Enterprise-Expected-Workspace"),
+                "operation": request.headers.get("X-Enterprise-Draft-Operation"),
+            }
+        )
+    except ValidationError as exc:
+        raise BadRequest("Managed draft credential headers are invalid") from exc
+    if (
+        current_user.current_tenant_id != headers.expected_workspace
+        or app_model.tenant_id != headers.expected_workspace
+    ):
+        raise Conflict("Current workspace does not match the expected app workspace")
+    if request.mimetype != "application/json":
+        abort(415)
+    try:
+        payload = DraftCredentialBindingPayload.model_validate(request.get_json(silent=True))
+    except ValidationError as exc:
+        raise BadRequest("Managed draft credential payload is invalid") from exc
+    workflow_service = WorkflowService()
+    with Session(db.engine) as session:
+        try:
+            receipt = workflow_service.bind_assessment_credential(
+                session=session,
+                app_model=app_model,
+                account=current_user,
+                draft_id=payload.draft_id,
+                expected_draft_hash=payload.hash,
+                credential_id=payload.credential_id,
+            )
+        except WorkflowHashNotEqualError as exc:
+            raise DraftWorkflowNotSync() from exc
+        except DraftCredentialBindingError as exc:
+            raise Conflict("Managed draft credential target is unavailable") from exc
+        response = dump_response(DraftCredentialBindingResponse, receipt)
+    return response, 200, {"X-Enterprise-Workspace": headers.expected_workspace}
 
 
 class SyncDraftWorkflowPayload(BaseModel):
@@ -346,6 +628,26 @@ class WorkflowOnlineUsersResponse(ResponseModel):
     data: list[WorkflowOnlineUsersByApp]
 
 
+class EnterpriseWorkflowPublishHeaders(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    expected_workspace: str = Field(
+        min_length=36, max_length=36, pattern=r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    )
+    expected_draft_hash: str = Field(min_length=64, max_length=64, pattern=r"^[0-9a-f]{64}$")
+
+
+class EnterpriseWorkflowPublishResponse(ResponseModel):
+    result: str
+    created_at: int
+    workflow_id: str
+    app_id: str
+    accepted_draft_hash: str
+
+
+register_response_schema_models(console_ns, EnterpriseWorkflowPublishResponse)
+
+
 class WorkflowPublishResponse(ResponseModel):
     result: str
     created_at: int
@@ -520,6 +822,8 @@ class DraftWorkflowApi(Resource):
         """
         Get draft workflow
         """
+        if "X-Enterprise-Expected-Workspace" in request.headers or "X-Enterprise-Draft-Operation" in request.headers:
+            return _read_managed_assessment_draft(app_model)
         # fetch draft workflow by app_model
         workflow_service = WorkflowService()
         workflow = workflow_service.get_draft_workflow(app_model=app_model, session=db.session())
@@ -566,6 +870,8 @@ class DraftWorkflowApi(Resource):
         """
         Sync draft workflow
         """
+        if "X-Enterprise-Expected-Workspace" in request.headers or "X-Enterprise-Draft-Operation" in request.headers:
+            return _bind_managed_draft_credential(current_user, app_model)
         content_type = request.headers.get("Content-Type", "")
 
         if "application/json" in content_type:
@@ -1205,6 +1511,16 @@ class PublishedWorkflowApi(Resource):
         """
         Get published workflow
         """
+        if any(
+            name in request.headers
+            for name in (
+                "X-Enterprise-Expected-Workspace",
+                "X-Enterprise-Expected-Workflow",
+                "X-Enterprise-Expected-Graph-Hash",
+                "X-Enterprise-Publication-Operation",
+            )
+        ):
+            return _read_managed_assessment_publication(app_model)
         # fetch published workflow by app_model
         workflow_service = WorkflowService()
         workflow = workflow_service.get_published_workflow(app_model=app_model, session=db.session())
@@ -1229,17 +1545,39 @@ class PublishedWorkflowApi(Resource):
         Publish workflow
         """
 
+        expected_workspace = request.headers.get("X-Enterprise-Expected-Workspace")
+        expected_hash = request.headers.get("X-Enterprise-Expected-Draft-Hash")
+        managed_headers = None
+        if expected_workspace is not None or expected_hash is not None:
+            if not dify_config.ENTERPRISE_WORKFLOW_SETUP_ENABLED:
+                raise Forbidden("Enterprise workflow setup is disabled")
+            try:
+                managed_headers = EnterpriseWorkflowPublishHeaders.model_validate(
+                    {"expected_workspace": expected_workspace, "expected_draft_hash": expected_hash}
+                )
+            except ValidationError as exc:
+                raise BadRequest("Managed publish requires valid workspace and draft hash headers") from exc
+            # Reuse the login loader's cached tenant rather than resolving a different workspace.
+            if current_user.current_tenant_id != expected_workspace or app_model.tenant_id != expected_workspace:
+                raise Conflict("Current workspace does not match the expected app workspace")
+
         args = PublishWorkflowPayload.model_validate(console_ns.payload or {})
 
         workflow_service = WorkflowService()
         with sessionmaker(db.engine).begin() as session:
-            workflow = workflow_service.publish_workflow(
-                session=session,
-                app_model=app_model,
-                account=current_user,
-                marked_name=args.marked_name or "",
-                marked_comment=args.marked_comment or "",
-            )
+            try:
+                workflow = workflow_service.publish_workflow(
+                    session=session,
+                    app_model=app_model,
+                    account=current_user,
+                    marked_name=args.marked_name or "",
+                    marked_comment=args.marked_comment or "",
+                    **({"expected_draft_hash": managed_headers.expected_draft_hash} if managed_headers else {}),
+                )
+            except WorkflowHashNotEqualError as exc:
+                if managed_headers is None:
+                    raise
+                raise Conflict("Draft workflow hash does not match the expected hash") from exc
 
             # Update app_model within the same session to ensure atomicity
             app_model_in_session = session.get(App, app_model.id)
@@ -1249,7 +1587,21 @@ class PublishedWorkflowApi(Resource):
                 app_model_in_session.updated_at = naive_utc_now()
 
             workflow_created_at = TimestampField().format(workflow.created_at)
+            if managed_headers is not None:
+                # Capture this created version before session expiry; never resolve app latest.
+                managed_response = dump_response(
+                    EnterpriseWorkflowPublishResponse,
+                    {
+                        "result": "success",
+                        "created_at": workflow_created_at,
+                        "workflow_id": workflow.id,
+                        "app_id": app_model.id,
+                        "accepted_draft_hash": managed_headers.expected_draft_hash,
+                    },
+                )
 
+        if managed_headers is not None:
+            return managed_response, 200, {"X-Enterprise-Workspace": managed_headers.expected_workspace}
         return {
             "result": "success",
             "created_at": workflow_created_at,

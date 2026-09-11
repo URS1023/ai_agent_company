@@ -1,0 +1,2 @@
+#!/bin/sh
+exec node enterprise/tools/github-push-policy.mjs "$@"

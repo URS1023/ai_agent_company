@@ -60,7 +60,7 @@ class TestBasedGenerateTaskPipeline:
 
     def test_handle_error_updates_message_when_found(self, pipeline):
         event = QueueErrorEvent(error=ValueError("oops"))
-        message = SimpleNamespace(status=MessageStatus.NORMAL, error=None)
+        message = SimpleNamespace(status=MessageStatus.NORMAL, error=None, message_metadata=None)
         session = Mock()
         session.scalar.return_value = message
 

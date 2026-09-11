@@ -42,6 +42,7 @@
     "@amplitude/plugin-session-replay-browser": "catalog:",
     "@base-ui/react": "catalog:",
     "@emoji-mart/data": "catalog:",
+    "@enterprise/business-contracts": "workspace:*",
     "@floating-ui/react": "catalog:",
     "@formatjs/intl-localematcher": "catalog:",
     "@heroicons/react": "catalog:",

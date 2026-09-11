@@ -16,6 +16,7 @@ from core.app.entities.task_entities import (
     ErrorStreamResponse,
     PingStreamResponse,
 )
+from core.app.task_pipeline.workbench_terminal_metadata import with_terminal_metadata
 from core.errors.error import QuotaExceededError
 from core.moderation.output_moderation import ModerationRule, OutputModeration
 from graphon.model_runtime.errors.invoke import InvokeAuthorizationError, InvokeError
@@ -72,6 +73,9 @@ class BasedGenerateTaskPipeline[AppGenerateEntityT: AppGenerateEntity]:
         err_desc = self._error_to_desc(err)
         message.status = MessageStatus.ERROR
         message.error = err_desc
+        message.message_metadata = with_terminal_metadata(
+            message.message_metadata or "{}", task_id=self._application_generate_entity.task_id, event=event
+        )
         return err
 
     def _error_to_desc(self, e: Exception) -> str:

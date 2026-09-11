@@ -1,0 +1,13 @@
+{
+  "extends": "../contracts/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "typeRoots": ["../../packages/contracts/node_modules/@types"],
+    "paths": {
+      "@hey-api/openapi-ts": [
+        "../../packages/contracts/node_modules/@hey-api/openapi-ts/dist/index.d.mts"
+      ]
+    }
+  },
+  "include": ["openapi-ts.business.config.ts"]
+}

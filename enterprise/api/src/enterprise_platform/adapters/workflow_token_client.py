@@ -1,0 +1,176 @@
+"""One guarded native token issuance; never retry or adopt a token from a list."""
+
+import asyncio
+import math
+from typing import Literal
+from urllib.parse import urlsplit
+
+import httpx
+from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator
+
+from enterprise_platform.application.contracts import Principal
+from enterprise_platform.application.errors import EnterpriseError
+from enterprise_platform.application.workflow_draft_read import canonical_native_uuid
+from enterprise_platform.application.workflow_setup_execution import NativeSetupSession
+from enterprise_platform.application.workflow_token_execution import (
+    NativeWorkflowTokenOutcome,
+    TokenIssueRejected,
+    validate_native_app_token,
+)
+
+from .dify_identity import _forwarded_headers
+
+
+class _Command(BaseModel):
+    model_config = ConfigDict(strict=True, extra="forbid", hide_input_in_errors=True)
+    workspace_id: str
+    app_id: str
+    operation_id: str
+
+    @field_validator("workspace_id", "app_id", "operation_id")
+    @classmethod
+    def valid_id(cls, value: str) -> str:
+        return canonical_native_uuid(value)
+
+
+class _Capabilities(BaseModel):
+    model_config = ConfigDict(strict=True, extra="ignore")
+    enabled: bool
+    service_api_token_issue_enabled: bool
+    workspace_id: str
+
+
+class _Issued(BaseModel):
+    model_config = ConfigDict(strict=True, extra="ignore", hide_input_in_errors=True)
+    id: str
+    app_id: str
+    type: Literal["app"]
+    token: SecretStr = Field(repr=False, exclude=True)
+
+    @field_validator("id", "app_id")
+    @classmethod
+    def valid_id(cls, value: str) -> str:
+        return canonical_native_uuid(value)
+
+    @field_validator("token")
+    @classmethod
+    def valid_token(cls, value: SecretStr) -> SecretStr:
+        return validate_native_app_token(value)
+
+
+class DifyWorkflowTokenClient:
+    _base_url: str
+    _transport: httpx.AsyncBaseTransport | None
+    _timeout_seconds: float
+    _max_response_bytes: int
+
+    def __init__(
+        self,
+        *,
+        base_url: str,
+        transport: httpx.AsyncBaseTransport | None = None,
+        timeout_seconds: float = 30.0,
+        max_response_bytes: int = 256 * 1024,
+    ) -> None:
+        try:
+            parsed = urlsplit(base_url)
+            normalized = httpx.URL(base_url)
+            valid = (
+                parsed.scheme in {"http", "https"}
+                and parsed.hostname
+                and parsed.port != 0
+                and not any((parsed.username, parsed.password, parsed.query, parsed.fragment))
+                and parsed.path.rstrip("/").endswith("/console/api")
+                and not any(c.isspace() for c in base_url)
+                and not any(segment in {".", ".."} for segment in parsed.path.split("/"))
+            )
+        except (ValueError, httpx.InvalidURL):
+            valid = False
+        if not valid:
+            raise ValueError("A fixed native console API endpoint is required")
+        if (
+            isinstance(timeout_seconds, bool)
+            or not math.isfinite(timeout_seconds)
+            or timeout_seconds <= 0
+            or type(max_response_bytes) is not int
+            or not 1 <= max_response_bytes <= 2 * 1024 * 1024
+        ):
+            raise ValueError("Bounded response size and positive deadline required")
+        self._base_url = str(normalized).rstrip("/") + "/"
+        self._transport = transport
+        self._timeout_seconds = timeout_seconds
+        self._max_response_bytes = max_response_bytes
+
+    async def _body(self, response: httpx.Response) -> bytes:
+        chunks: list[bytes] = []
+        size = 0
+        async for chunk in response.aiter_bytes():
+            size += len(chunk)
+            if size > self._max_response_bytes:
+                raise ValueError("native_token_response_too_large")
+            chunks.append(chunk)
+        return b"".join(chunks)
+
+    async def issue(
+        self, principal: Principal, session: NativeSetupSession, *, app_id: str, operation_id: str
+    ) -> NativeWorkflowTokenOutcome:
+        post_started = False
+        try:
+            command = _Command(workspace_id=principal.workspace_id, app_id=app_id, operation_id=operation_id)
+            headers = _forwarded_headers(session.cookie_header, session.authorization, session.csrf_token)
+            async with asyncio.timeout(self._timeout_seconds):
+                async with httpx.AsyncClient(
+                    base_url=self._base_url,
+                    headers=headers,
+                    transport=self._transport,
+                    follow_redirects=False,
+                    trust_env=False,
+                    timeout=self._timeout_seconds,
+                ) as client:
+                    async with client.stream("GET", "enterprise/workflow-setup/capabilities") as response:
+                        if response.status_code != 200:
+                            raise TokenIssueRejected()
+                        capabilities = _Capabilities.model_validate_json(await self._body(response))
+                        if (
+                            not capabilities.enabled
+                            or not capabilities.service_api_token_issue_enabled
+                            or capabilities.workspace_id != command.workspace_id
+                        ):
+                            raise TokenIssueRejected()
+                    post_started = True
+                    async with client.stream(
+                        "POST",
+                        f"apps/{command.app_id}/api-keys",
+                        headers={
+                            "X-Enterprise-Expected-Workspace": command.workspace_id,
+                            "X-Enterprise-Key-Operation": "issue-workflow-key",
+                            "X-Enterprise-Operation-Id": command.operation_id,
+                        },
+                    ) as response:
+                        if (
+                            response.status_code != 201
+                            or response.headers.get("X-Enterprise-Workspace") != command.workspace_id
+                        ):
+                            return NativeWorkflowTokenOutcome(
+                                state="uncertain", reason_code="native_token_issue_unconfirmed"
+                            )
+                        issued = _Issued.model_validate_json(await self._body(response))
+                        if issued.app_id != command.app_id:
+                            return NativeWorkflowTokenOutcome(
+                                state="uncertain", reason_code="native_token_issue_scope_mismatch"
+                            )
+                        return NativeWorkflowTokenOutcome(
+                            state="issued",
+                            workspace_id=command.workspace_id,
+                            app_id=issued.app_id,
+                            token_id=issued.id,
+                            token=issued.token,
+                        )
+        except TokenIssueRejected:
+            raise
+        except (httpx.HTTPError, TimeoutError, ValueError, EnterpriseError):
+            if post_started:
+                return NativeWorkflowTokenOutcome(
+                    state="uncertain", reason_code="native_token_issue_transport_uncertain"
+                )
+            raise TokenIssueRejected() from None

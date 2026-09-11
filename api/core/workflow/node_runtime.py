@@ -32,10 +32,16 @@ from core.repositories.human_input_repository import (
 )
 from core.tools.entities.tool_entities import ToolProviderType as CoreToolProviderType
 from core.tools.errors import ToolInvokeError
+from core.tools.plugin_tool.tool import PluginTool
 from core.tools.tool_engine import ToolEngine
 from core.tools.tool_file_manager import ToolFileManager
 from core.tools.tool_manager import ToolManager
 from core.tools.utils.message_transformer import ToolFileMessageTransformer
+from core.workflow.enterprise_execution import (
+    ManagedExecutionIdentityError,
+    ManagedToolRegistry,
+    NativeExecutionMetadata,
+)
 from core.workflow.file_reference import build_file_reference
 from core.workflow.nodes.human_input.entities import (
     FileInputConfig,
@@ -454,17 +460,29 @@ class _WorkflowToolRuntimeBinding:
     conversation_id: str | None = None
     parent_trace_context: ParentTraceContext | None = None
     trace_session_id: str | None = None
+    enterprise_execution: NativeExecutionMetadata | None = None
 
 
 class DifyToolNodeRuntime(ToolNodeRuntimeProtocol):
+    _workflow_id: str | None
+    _workflow_execution_id_getter: Callable[[], str | None] | None
+    _managed_tools: ManagedToolRegistry
+
     def __init__(
         self,
         run_context: Mapping[str, Any] | DifyRunContext,
         session_maker: sessionmaker[Session] | None = None,
+        *,
+        workflow_id: str | None = None,
+        workflow_execution_id_getter: Callable[[], str | None] | None = None,
+        managed_tools: ManagedToolRegistry | None = None,
     ) -> None:
         self._run_context = resolve_dify_run_context(run_context)
         self._file_reference_factory = DifyFileReferenceFactory(self._run_context)
         self._session_maker = session_maker
+        self._workflow_id = workflow_id
+        self._workflow_execution_id_getter = workflow_execution_id_getter
+        self._managed_tools = managed_tools if managed_tools is not None else ManagedToolRegistry()
 
     @property
     def file_reference_factory(self) -> FileReferenceFactoryProtocol:
@@ -492,6 +510,9 @@ class DifyToolNodeRuntime(ToolNodeRuntimeProtocol):
                 self._run_context.user_id,
                 self._run_context.invoke_from,
                 variable_pool,
+            )
+            enterprise_execution = self._managed_execution_metadata(
+                tool=tool_runtime, node_id=node_id, node_data=node_data, node_execution_id=node_execution_id
             )
         except ToolNodeError:
             raise
@@ -522,6 +543,7 @@ class DifyToolNodeRuntime(ToolNodeRuntimeProtocol):
                 conversation_id=conversation_id,
                 parent_trace_context=parent_trace_context,
                 trace_session_id=trace_session_id,
+                enterprise_execution=enterprise_execution,
             )
         )
 
@@ -548,6 +570,13 @@ class DifyToolNodeRuntime(ToolNodeRuntimeProtocol):
     ) -> Generator[ToolRuntimeMessage, None, None]:
         runtime_binding = self._binding_from_handle(tool_runtime)
         tool = runtime_binding.tool
+        if runtime_binding.enterprise_execution is not None:
+            # Keep identity out of dynamic parameter discovery and the shared tool.
+            if not isinstance(tool, PluginTool):
+                raise ToolRuntimeInvocationError("enterprise_execution_identity_invalid")
+            invocation_runtime = tool.runtime.model_copy(deep=True)
+            invocation_runtime.credentials["__enterprise_execution"] = dict(runtime_binding.enterprise_execution)
+            tool = tool.fork_tool_runtime(invocation_runtime)
         callback = DifyWorkflowCallbackHandler()
         if runtime_binding.parent_trace_context and hasattr(tool, "set_parent_trace_context"):
             tool.set_parent_trace_context(
@@ -629,6 +658,38 @@ class DifyToolNodeRuntime(ToolNodeRuntimeProtocol):
             pass
 
         return icon, icon_dark
+
+    def _managed_execution_metadata(
+        self, *, tool: Tool, node_id: str, node_data: ToolNodeData, node_execution_id: str | None
+    ) -> NativeExecutionMetadata | None:
+        """Attest only resolved plugin tools explicitly registered by the server.
+
+        The factory getter reads the live system pool; the parameter-resolution
+        pool may be absent. No user/runtime tool parameter supplies identity.
+        """
+        if not self._managed_tools.registrations or not isinstance(tool, PluginTool):
+            return None
+        metadata = self._managed_tools.metadata_for(
+            workspace_id=self._run_context.tenant_id,
+            app_id=self._run_context.app_id,
+            workflow_id=self._workflow_id,
+            provider_id=node_data.provider_id,
+            tool_name=node_data.tool_name,
+            credential_id=node_data.credential_id,
+            node_id=node_id,
+            node_execution_id=node_execution_id,
+            invoke_from=self._run_context.invoke_from.value,
+            native_run_id_getter=self._workflow_execution_id_getter,
+        )
+        if metadata is not None and (
+            tool.tenant_id != self._run_context.tenant_id
+            or tool.runtime.tenant_id != self._run_context.tenant_id
+            or tool.entity.identity.provider != node_data.provider_id
+            or tool.entity.identity.name != node_data.tool_name
+            or "__enterprise_execution" in tool.runtime.credentials
+        ):
+            raise ManagedExecutionIdentityError()
+        return metadata
 
     @staticmethod
     def _tool_from_handle(tool_runtime: ToolRuntimeHandle) -> Tool:

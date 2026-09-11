@@ -1,0 +1,27 @@
+version: 0.1.0
+type: plugin
+author: enterprise
+name: enterprise_device_assessment
+label:
+  en_US: Managed device assessment
+  zh_Hans: 受管设备评估
+description:
+  en_US: Evaluate a server-registered device run using trusted native execution metadata.
+  zh_Hans: 使用原生服务器执行元数据评估已登记的设备运行。
+icon: icon.svg
+created_at: '2026-09-08T00:00:00Z'
+resource:
+  memory: 268435456
+  permission: {}
+plugins:
+  tools:
+    - provider/enterprise_device.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: '3.12'
+    entrypoint: main

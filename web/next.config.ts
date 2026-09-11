@@ -1,4 +1,5 @@
 import type { NextConfig } from '@/next'
+import { resolve } from 'node:path'
 import createMDX from '@next/mdx'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import { env } from './env'
@@ -14,7 +15,13 @@ const nextConfig: NextConfig = {
   ...(allowedDevOrigins?.length ? { allowedDevOrigins } : {}),
   transpilePackages: ['@t3-oss/env-core', '@t3-oss/env-nextjs', 'echarts', 'zrender'],
   serverExternalPackages: ['loro-crdt'],
+  webpack(config) {
+    // Loro's browser entry imports WASM, including on pages sharing workflow modals.
+    config.experiments = { ...config.experiments, asyncWebAssembly: true }
+    return config
+  },
   turbopack: {
+    root: resolve(import.meta.dirname, '..'),
     rules: codeInspectorPlugin({
       bundler: 'turbopack',
     }),

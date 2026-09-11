@@ -21,6 +21,7 @@ trustPolicyExclude:
   - reselect@5.1.1
   - semver@6.3.1
 packages:
+  - enterprise/contracts
   - web
   - e2e
   - sdks/nodejs-client

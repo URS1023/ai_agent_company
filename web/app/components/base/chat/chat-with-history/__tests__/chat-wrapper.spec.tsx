@@ -1421,31 +1421,47 @@ describe('ChatWrapper', () => {
   })
 
   it('should handle early return when fileIsUploading is already set', () => {
+    const errorSpy = vi.spyOn(console, 'error')
+    const uploadingFile: FileEntity = {
+      id: 'upload-1',
+      name: 'first.pdf',
+      size: 256,
+      type: 'document',
+      progress: 50,
+      supportFileType: 'document',
+      transferMethod: TransferMethod.local_file,
+    }
+    const inputs = {
+      file1: uploadingFile,
+      file2: { ...uploadingFile, id: 'upload-2', name: 'second.pdf' },
+    }
     vi.mocked(useChatWithHistoryContext).mockReturnValue({
       ...defaultContextValue,
       inputsForms: [
         { variable: 'file1', label: 'File 1', type: InputVarType.singleFile, required: true },
         { variable: 'file2', label: 'File 2', type: InputVarType.singleFile, required: true },
       ],
-      newConversationInputs: {
-        file1: { transferMethod: TransferMethod.local_file, uploadedId: undefined },
-        file2: { transferMethod: TransferMethod.local_file, uploadedId: undefined },
-      },
+      newConversationInputs: inputs,
       newConversationInputsRef: {
-        current: {
-          file1: { transferMethod: TransferMethod.local_file, uploadedId: undefined },
-          file2: { transferMethod: TransferMethod.local_file, uploadedId: undefined },
-        },
+        current: inputs,
       } as ChatWithHistoryContextValue['newConversationInputsRef'],
       currentConversationId: '',
     })
 
     render(<ChatWrapper />)
+    const errors = errorSpy.mock.calls
+    errorSpy.mockRestore()
+    expect(errors).toEqual([])
+    expect(screen.getByText('first.pdf')).toBeVisible()
+    expect(screen.getByText('second.pdf')).toBeVisible()
     // This tests line 109 - early return when fileIsUploading is set
     const textboxes = screen.getAllByRole('textbox')
     const chatInput = textboxes[textboxes.length - 1]
     const container = getChatInputDisabledSurface(chatInput!)
     expect(container)!.toBeInTheDocument()
+    fireEvent.change(chatInput!, { target: { value: 'Analyze attachments' } })
+    fireEvent.keyDown(chatInput!, { key: 'Enter', code: 'Enter', keyCode: 13 })
+    expect(defaultChatHookReturn.handleSend).not.toHaveBeenCalled()
   })
 
   it('should handle doSend with no parent message id', async () => {

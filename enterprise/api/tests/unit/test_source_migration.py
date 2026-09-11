@@ -362,3 +362,24 @@ def test_postgres_schedule_scenario_reflection_is_equivalent() -> None:
 )
 def test_schedule_scenario_reflection_retains_semantic_changes(changed: str) -> None:
     assert normalized_check("scenario IN ('alert', 'quality')") != normalized_check(changed)
+
+
+def test_postgres_message_status_reflection_is_equivalent() -> None:
+    assert normalized_check("status IN ('queued', 'dispatched', 'uncertain', 'accepted')") == normalized_check(
+        "status::text = ANY (ARRAY['queued'::character varying, 'dispatched'::character varying, "
+        "'uncertain'::character varying, 'accepted'::character varying]::text[])"
+    )
+
+
+@pytest.mark.parametrize(
+    "changed",
+    [
+        "CAST(status AS VARCHAR(1)) IN ('queued', 'dispatched', 'uncertain', 'accepted')",
+        "CAST(status AS CHAR(16)) IN ('queued', 'dispatched', 'uncertain', 'accepted')",
+        "status IN ('queued', 'dispatched', 'uncertain')",
+        "status NOT IN ('queued', 'dispatched', 'uncertain', 'accepted')",
+        "other IN ('queued', 'dispatched', 'uncertain', 'accepted')",
+    ],
+)
+def test_message_status_reflection_preserves_semantic_changes(changed: str) -> None:
+    assert normalized_check("status IN ('queued', 'dispatched', 'uncertain', 'accepted')") != normalized_check(changed)

@@ -100,7 +100,7 @@ def normalized_check(sql: str) -> str:
                 text_type
                 and (
                     isinstance(value, exp.Column)
-                    and value.name in {"state", "active_phase", "phase_state", "scenario"}
+                    and value.name in {"state", "active_phase", "phase_state", "scenario", "status"}
                     or isinstance(value, exp.Literal)
                     and value.is_string
                 )

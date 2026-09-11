@@ -6518,3 +6518,17 @@ also still live without output; no restart/cleanup issued. Goal remains active.
 - Added sequential production CLI steps for 0010–0013 after the dashboard schema check, followed by full reflected-schema verification using 0013 prerequisite metadata plus BranchContextBase. Verification requires CI and the dedicated enterprise_test target, opens a read-only inspection connection, and does not create metadata tables or bypass guards.
 - Added a regression guard to the existing frontend-ci.test.mjs verifying all thirteen CLI commands in order and the final check. Initial CRLF-sensitive assertion was corrected; meaningful red was missing migrate_sql_drafts, then green: 2 tests passed. Workflow YAML parsed and embedded Python compiled using the existing native API environment; no local database integration was executed.
 - The extended pipeline still needs delivery and its own hosted run; the previous 215-pass result must not be represented as coverage for 0010–0013 production CLI execution.
+
+### 2026-09-11 — extended migration gate delivered; local runtime failure confirmed
+
+- Delivered 0c8440c8b8 to ai_agent_company/main using the pre-push-verified URS1023 identity. Both CI guard tests passed before commit; normal ESLint/format commit hooks completed. One workflow_dispatch for this SHA was accepted (HTTP 204); run id pending lookup, do not duplicate dispatch.
+- Previous run 34606224202 at 3ceb4a68ad is now fully green: frontend, native workflow assets, domain Python 3.12, domain Python 3.13, persistence integration. That run covers guarded CLIs only through 0009; newly delivered 0010–0013 coverage awaits execution.
+- Docker restart session 78485 terminated with exit 1: official command failed to stop the existing Desktop/backend processes (context deadline exceeded). Requested the user choose Quit in the existing Desktop error window, explicitly not factory reset; no forced process kill or data cleanup was performed. This runtime dependency does not stop ongoing code/CI verification.
+- Full Web session 17496 remained live on the latest exact-handle poll; no final full-suite report has been observed.
+
+### 2026-09-11 — hosted 0013 prerequisite regression
+
+- Run 34607017855 at 0c8440c8b8 executed guarded CLIs through 0012 successfully, but 0013 failed before DDL. Persistence log saved to ignored output/ci-job-103287824675.log; schema-only reflection saved to output/ci-schema-34607017855.json. Earlier 215 integration passes remain intact; final 0013 schema check did not run.
+- Offline comparison of all prerequisite CHECK constraints identified exactly ck_chat_send_status: PostgreSQL reflects the known VARCHAR status column as status::text = ANY (...). Added its actual reflection regression plus bounded/CHAR cast, missing-value, other-column and negated-membership rejection tests.
+- Red: 1 failed, 83 passed. Minimal known-column normalization extension to status; green migration unit subset: 289 passed, 3176 deselected, 2 dependency deprecation warnings. Ruff passed; mypy passed for 174 source files. No local database execution or native Dify changes. Fix is pending delivery and hosted 0013 verification.
+- Full Web exact session 17496 was live at the latest poll; worker CPU advanced to 4812.78 seconds. No restart based solely on elapsed time.

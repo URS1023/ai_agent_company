@@ -152,6 +152,41 @@ def test_check_normalization_preserves_numeric_casts(changed: str) -> None:
     assert normalized_check("revision > 0") != normalized_check(changed)
 
 
+def test_normalizes_postgres_negated_membership_without_changing_grouping() -> None:
+    model = "state NOT IN ('queued', 'importing') OR (app_id IS NULL AND import_id IS NULL)"
+    reflected = (
+        "(state::text <> ALL (ARRAY['queued'::character varying, 'importing'::character varying]::text[])) "
+        "OR app_id IS NULL AND import_id IS NULL"
+    )
+    assert normalized_check(model) == normalized_check(reflected)
+    assert normalized_check(model) != normalized_check(reflected.replace("OR app_id", "AND app_id"))
+
+
+@pytest.mark.parametrize("value", ["'queued'", "NULL", "'queued', NULL"])
+def test_negated_membership_preserves_null_elements(value: str) -> None:
+    assert normalized_check(f"state NOT IN ({value})") == normalized_check(f"state <> ALL (ARRAY[{value}])")
+
+
+@pytest.mark.parametrize("operator", ["= ALL", "<> ANY", "> ALL", "< ALL"])
+def test_negated_membership_does_not_accept_other_array_comparisons(operator: str) -> None:
+    assert normalized_check("state NOT IN ('queued', 'importing')") != normalized_check(
+        f"state {operator} (ARRAY['queued', 'importing'])"
+    )
+
+
+@pytest.mark.parametrize(
+    "operand",
+    [
+        "\"ALL\"(ARRAY['queued'])",
+        "other.ALL(ARRAY['queued'])",
+        "ALL(ARRAY['queued'], ARRAY['importing'])",
+        "ALL(SELECT state FROM other)",
+    ],
+)
+def test_negated_membership_preserves_function_and_query_semantics(operand: str) -> None:
+    assert normalized_check("state NOT IN ('queued')") != normalized_check(f"state <> {operand}")
+
+
 def test_check_normalization_preserves_lossy_string_casts() -> None:
     assert normalized_check("state IN ('queued')") != normalized_check("CAST(state AS VARCHAR(1)) IN ('queued')")
 

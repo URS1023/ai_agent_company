@@ -158,6 +158,18 @@ def normalized_check(sql: str) -> str:
             array = unwrap(node.expression.this)
             if isinstance(array, exp.Array):
                 return exp.In(this=node.this.copy(), expressions=[item.copy() for item in array.expressions])
+        if (
+            isinstance(node, exp.NEQ)
+            and isinstance(node.expression, exp.Anonymous)
+            and isinstance(node.expression.this, str)
+            and node.expression.this.upper() == "ALL"
+            and len(node.expression.expressions) == 1
+        ):
+            array = unwrap(node.expression.expressions[0])
+            if isinstance(array, exp.Array):
+                return exp.Not(
+                    this=exp.In(this=node.this.copy(), expressions=[item.copy() for item in array.expressions])
+                )
         return node
 
     return structure(expression.transform(membership))

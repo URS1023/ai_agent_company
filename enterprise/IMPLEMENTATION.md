@@ -6468,3 +6468,24 @@ Current fixes await hosted verification; do not treat mocked reflection as full 
 Renderer browser probe in previous turn passed mounted/CSS/prefixed-path/dispose/failure-cleanup,
 report enterprise/artifacts/renderer-loader-browser/verification.json. It is not authenticated
 Dify/business integration. Docker engine remains unavailable at latest probe. Goal remains active.
+
+Hosted migration progression and negated-membership fix (2026-09-11). Run34603918924 at790d432
+completed: frontend, native-workflow-assets and both Python3.12/3.13domain jobs SUCCESS. Persistence
+passed0001,0002, initial PostgreSQL/SQLite group138passed9skipped, then0003 and setup11passed;
+0004prerequisite shape check failed. Diagnostic metadata captured output/ci-schema-34603918924.json.
+No local DB integration run. Exact mismatch is ck_workflow_setup_pending_ids: state NOT IN(...)
+versus PostgreSQL state::text <> ALL(ARRAY[...]::text[]), with the same OR/AND grouping.
+
+Added tests for actual reflected expression, NULL array elements, different comparison operators,
+quoted/qualified functions, multiargument functions and subqueries. Red4failed49passed. Initial
+implementation assumed SQLGlot exp.All for arrays; tests stayed red and AST inspection showed
+unquoted Anonymous ALL(Array) whereas subqueries use exp.All. Corrected only NEQ + unquoted string
+ALL + one literal Array argument to Not(In), retaining structural grouping and copied operands.
+Final57source-migrationtests passed;262migrationunits passed/3176deselected/2knownwarnings;
+Ruffcheck/format and mypy174sourcefiles passed. Independent scoped review found no actionable issue.
+Pending hosted confirmation for0004and later migrations; no waiver or weakened schema protection.
+
+Full native+enterprise Web test17496 remains live (node17188 ->19716, active worker CPU); JSON
+report only writes on completion. Native snapshot shows Git status dirty from line endings but
+no textual diff; do not stage incidental test artifacts. Docker desktop status probe20212 is
+also still live without output; no restart/cleanup issued. Goal remains active.

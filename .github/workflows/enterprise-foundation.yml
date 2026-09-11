@@ -282,3 +282,33 @@ jobs:
           tests/integration/test_dashboards.py -q
         env:
           ENTERPRISE_CI_DASHBOARD_MIGRATED_PUBLIC: '1'
+      - name: Inspect disposable CI schema after migration failure
+        if: failure()
+        run: |
+          uv run --no-sync python - <<'PY'
+          import json
+          import os
+          from sqlalchemy import create_engine, inspect
+          from enterprise_platform.persistence.migrate import validate_target
+
+          if os.environ.get("CI") != "true":
+              raise SystemExit("CI schema inspection requires the CI environment")
+          target = validate_target(os.environ["ENTERPRISE_TEST_DATABASE_URL"], "enterprise_test")
+          engine = create_engine(target, hide_parameters=True)
+          try:
+              with engine.connect() as connection:
+                  inspector = inspect(connection)
+                  report = {"schemas": inspector.get_schema_names(), "tables": {}}
+                  for name in inspector.get_table_names(schema="public"):
+                      report["tables"][name] = {
+                          "columns": inspector.get_columns(name, schema="public"),
+                          "primary_key": inspector.get_pk_constraint(name, schema="public"),
+                          "foreign_keys": inspector.get_foreign_keys(name, schema="public"),
+                          "unique_constraints": inspector.get_unique_constraints(name, schema="public"),
+                          "checks": inspector.get_check_constraints(name, schema="public"),
+                          "indexes": inspector.get_indexes(name, schema="public"),
+                      }
+                  print(json.dumps(report, default=str, sort_keys=True))
+          finally:
+              engine.dispose()
+          PY

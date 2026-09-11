@@ -695,7 +695,7 @@ describe('Mermaid Flowchart Component Module Isolation', () => {
       }
     })
 
-    it.skip('should show container-not-found error when container ref remains null', async () => {
+    it('should show container-not-found error when container ref remains null', async () => {
       vi.resetModules()
       vi.doMock('react', async () => {
         const reactActual = await vi.importActual<typeof import('react')>('react')

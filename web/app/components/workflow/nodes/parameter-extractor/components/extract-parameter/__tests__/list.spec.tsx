@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { ParamType } from '../../../types'
 import List from '../list'
 
@@ -29,8 +28,7 @@ describe('parameter-extractor/extract-parameter/list', () => {
 
   // TODO: Fix this test.
   // This test only failed in the merge queue, and I don't know why.
-  it.skip('edits and deletes parameters through the real item and modal flow', async () => {
-    const user = userEvent.setup()
+  it('edits and deletes parameters through the real item and modal flow', async () => {
     const handleChange = vi.fn()
     const { rerender } = render(
       <List readonly={false} list={[createParam()]} onChange={handleChange} />,

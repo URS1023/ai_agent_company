@@ -337,6 +337,29 @@
         "Direct project Vitest focused run: five files, 61 tests passed; plugin plus native icon tests: 10 passed.",
         "Web-local vp focused rerun: 6 files, 63 tests passed. Root vp selected a different Vitest peer instance; no snapshots rewritten. Full direct-Vitest rerun pending; pnpm script itself not verified."
       ]
+    },
+    {
+      "path": "web/app/components/base/mermaid/__tests__/index.spec.tsx",
+      "baselineSha256": "416a8570d2a84c49596a77016edd9ba10b8aa7c04157a398d3cd918f8b49c93b",
+      "reviewedSha256": "dbe2c73e2f0ae53d25e8212fc26bdd0f0bed9c5c344fee97c8d36cd03e9deb82",
+      "reason": "Re-enable existing regression without changing production code, mocks or assertions.",
+      "verification": [
+        "Independent web_runtime_review approved exact skip-only changes; adjacent production files remain protected.",
+        "Both complete files passed together: 32 tests, followed by three additional successful 32-test repetitions.",
+        "Full Web report before re-enabling: 30123 passed, zero failed, two skipped. Current-tree full-suite rerun remains required."
+      ]
+    },
+    {
+      "path": "web/app/components/workflow/nodes/parameter-extractor/components/extract-parameter/__tests__/list.spec.tsx",
+      "baselineSha256": "e966787f3b6cd0d0e82daa0bc6f77f8cb071f889cff8ff39fbbbfb41b3d2599a",
+      "reviewedSha256": "331e544e4da06eee75a43f162cbf580ce7b58313f962659d66e5141f95669f15",
+      "reason": "Re-enable the existing edit/delete regression and remove its unused userEvent setup/import; preserve production code and assertions.",
+      "verification": [
+        "Independent web_runtime_review approved exact skip-only changes; adjacent production files remain protected.",
+        "Both complete files passed together: 32 tests, followed by three additional successful 32-test repetitions.",
+        "Full Web report before re-enabling: 30123 passed, zero failed, two skipped. Current-tree full-suite rerun remains required.",
+        "ESLint exposed the pre-existing unused user variable after re-enabling. Follow-up review and scoped validation cover removal of the unused setup/import; the preceding four runs covered skip-only bytes."
+      ]
     }
   ]
 }

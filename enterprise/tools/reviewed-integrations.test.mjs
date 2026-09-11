@@ -271,3 +271,21 @@ test('limits Web runtime fixes to the reviewed plugin and roster test bytes', ()
       validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
     )
 })
+
+test('limits re-enabled regression reviews to exact test bytes', () => {
+  for (const path of [
+    'web/app/components/base/mermaid/__tests__/index.spec.tsx',
+    'web/app/components/workflow/nodes/parameter-extractor/components/extract-parameter/__tests__/list.spec.tsx',
+  ]) {
+    const reviews = validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit')
+    assert.equal(matchesReview(path, 'original\n', 'additive reviewed version\n', reviews), true)
+    assert.equal(matchesReview(path, 'original\n', 'unreviewed change\n', reviews), false)
+  }
+  for (const path of [
+    'web/app/components/base/mermaid/index.tsx',
+    'web/app/components/workflow/nodes/parameter-extractor/components/extract-parameter/list.tsx',
+  ])
+    assert.throws(() =>
+      validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
+    )
+})

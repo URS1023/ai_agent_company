@@ -2,9 +2,25 @@
 
 import { useAtomValue } from 'jotai'
 import { useTranslation } from 'react-i18next'
-import { isCurrentWorkspaceDatasetOperatorAtom } from '@/context/workspace-state'
+import { userProfileIdAtom } from '@/context/account-state'
+import {
+  currentWorkspaceIdAtom,
+  isCurrentWorkspaceDatasetOperatorAtom,
+} from '@/context/workspace-state'
 import Link from '@/next/link'
 import { InstalledApplications } from '../application-lists'
+import { OfficeDocuments } from './documents'
+
+function WorkbenchResources() {
+  const actor = useAtomValue(userProfileIdAtom)
+  const workspace = useAtomValue(currentWorkspaceIdAtom)
+  return (
+    <>
+      <InstalledApplications workbench />
+      <OfficeDocuments actor={actor} workspace={workspace} />
+    </>
+  )
+}
 
 /** Native app entry remains available while enterprise parameter/branch setup is integrated. */
 export function WorkbenchLanding() {
@@ -32,7 +48,7 @@ export function WorkbenchLanding() {
             {t(($) => $['enterprise.devices.accessDenied'])}
           </p>
         ) : (
-          <InstalledApplications workbench />
+          <WorkbenchResources />
         )}
       </div>
     </main>

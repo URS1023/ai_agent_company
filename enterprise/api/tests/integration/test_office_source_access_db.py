@@ -202,3 +202,51 @@ def test_revocation_transaction_mode_prevents_partial_commits(repository, mode):
     finally:
         if alternate is not None:
             alternate.dispose()
+
+
+def test_concurrent_identical_capture_stores_one_snapshot(repository):
+    from concurrent.futures import ThreadPoolExecutor
+    from datetime import UTC, datetime
+    from decimal import Decimal
+    from threading import Barrier
+
+    from sqlalchemy import func
+
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.domain.data_sources import FrozenRows, PageEvidence, SourceRef
+    from enterprise_platform.persistence.office_snapshot_capture import capture_office_snapshot
+
+    engine = repository._sessions.kw["bind"]
+    if engine.dialect.name != "postgresql":
+        pytest.skip("PostgreSQL snapshot insert serialization")
+    OfficeSourceBase.metadata.create_all(engine)
+    with repository._sessions.begin() as session:
+        session.add(OfficeSourceRow(workspace_id="ws", source_id="source", enabled=True, acl_revision=1))
+        session.flush()
+        session.add(OfficeSourceGrantRow(workspace_id="ws", source_id="source", actor_id="actor", can_read=True))
+    principal = Principal(workspace_id="ws", actor_id="actor", workspace_role="normal", display_name="Actor")
+    data = FrozenRows(
+        SourceRef(workspace_id="ws", source_id="source", revision="r1"),
+        "read",
+        "r1",
+        "a" * 64,
+        datetime(2026, 9, 14, tzinfo=UTC),
+        ("value",),
+        ((Decimal("1.2300000000000000001"),),),
+        (PageEvidence(1, 1, "b" * 64),),
+    )
+    ready = Barrier(2)
+    identifier = UUID(int=50)
+
+    def capture():
+        with repository._sessions.begin() as session:
+            ready.wait(timeout=10)
+            return capture_office_snapshot(session, principal, identifier, data)
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first, second = pool.submit(capture), pool.submit(capture)
+        assert first.result(timeout=15) == second.result(timeout=15) == str(identifier)
+    with repository._sessions() as session:
+        assert session.scalar(select(func.count()).select_from(OfficeSnapshotRow)) == 1
+        stored = session.get(OfficeSnapshotRow, ("ws", str(identifier)))
+        assert "1.2300000000000000001" in stored.payload_json

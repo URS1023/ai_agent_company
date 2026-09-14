@@ -10396,6 +10396,149 @@
         "summary": "Current Access"
       }
     },
+    "/enterprise/api/v1/office/files/{file_id}/document": {
+      "get": {
+        "operationId": "download_document_enterprise_api_v1_office_files__file_id__document_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "File Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "expected_revision",
+            "required": true,
+            "schema": {
+              "pattern": "^[1-9][0-9]{0,18}$",
+              "title": "Expected Revision",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native Dify account session is not authenticated."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Identity, role, CSRF or browser origin check failed."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Resource does not exist in the current workspace."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Revision, idempotency key or resource state conflict."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request or business command."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Enterprise domain operation failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native identity or persistence dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": []
+          }
+        ],
+        "summary": "Download Document"
+      }
+    },
     "/enterprise/api/v1/run-requests/lookup": {
       "get": {
         "operationId": "get_run_by_request_key_enterprise_api_v1_run_requests_lookup_get",

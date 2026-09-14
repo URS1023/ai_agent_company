@@ -2629,6 +2629,19 @@ export const zScheduleActorChoicesEnterpriseApiV1DevicesDeviceIdScenarioSchedule
  */
 export const zCurrentAccessEnterpriseApiV1MeGetResponse = zBusinessAccess
 
+export const zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetPath = z.object({
+  file_id: z.uuid(),
+})
+
+export const zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetQuery = z.object({
+  expected_revision: z.string().regex(/^[1-9][0-9]{0,18}$/),
+})
+
+/**
+ * Successful Response
+ */
+export const zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponse = z.string()
+
 export const zGetRunByRequestKeyEnterpriseApiV1RunRequestsLookupGetQuery = z.object({
   request_key: z.string().min(1).max(128),
 })

@@ -25,7 +25,9 @@ try {
         'packages/contracts/node_modules/@hey-api/openapi-ts/bin/run.js',
         '-f', 'enterprise/tools/openapi-ts.business.config.ts'
     )
-    Invoke-Checked -Program $Node -Arguments @('node_modules/vite-plus/bin/vp', 'fmt', 'enterprise/contracts/generated')
+    Invoke-Checked -Program $Node -Arguments @(
+        'node_modules/vite-plus/bin/vp', 'fmt', '--ignore-path', '.gitignore', 'enterprise/contracts/generated'
+    )
     Invoke-Checked -Program $Node -Arguments @(
         'node_modules/@typescript/native/bin/tsc', '-p', 'enterprise/contracts/tsconfig.json'
     )

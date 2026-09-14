@@ -2158,6 +2158,37 @@ export type CurrentAccessEnterpriseApiV1MeGetResponses = {
 export type CurrentAccessEnterpriseApiV1MeGetResponse =
   CurrentAccessEnterpriseApiV1MeGetResponses[keyof CurrentAccessEnterpriseApiV1MeGetResponses]
 
+export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetData = {
+  body?: never
+  path: {
+    file_id: string
+  }
+  query: {
+    expected_revision: string
+  }
+  url: '/enterprise/api/v1/office/files/{file_id}/document'
+}
+
+export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetErrors = {
+  401: ErrorResponse
+  403: ErrorResponse
+  404: ErrorResponse
+  409: ErrorResponse
+  422: ErrorResponse
+  500: ErrorResponse
+  503: ErrorResponse
+}
+
+export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetError =
+  DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetErrors[keyof DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetErrors]
+
+export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponses = {
+  200: Blob | File
+}
+
+export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponse =
+  DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponses[keyof DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponses]
+
 export type GetRunByRequestKeyEnterpriseApiV1RunRequestsLookupGetData = {
   body?: never
   path?: never

@@ -33,6 +33,7 @@ from enterprise_platform.application.contracts import (
 )
 from enterprise_platform.application.dashboard_service import DashboardService
 from enterprise_platform.application.errors import AccessDenied, EnterpriseError, InvalidInput
+from enterprise_platform.application.office_export import OfficeExportService
 from enterprise_platform.application.ports import IdentityProvider
 from enterprise_platform.application.schedule_service import ScheduleService
 from enterprise_platform.application.service import BusinessService, RunRequest
@@ -43,6 +44,7 @@ from enterprise_platform.application.workflow_enrollment_service import Workflow
 from enterprise_platform.application.workflow_provisioning_service import WorkflowProvisioningService
 from enterprise_platform.application.workflow_setup_service import WorkflowSetupService
 from enterprise_platform.http.dashboard_routes import add_dashboard_routes
+from enterprise_platform.http.office_routes import add_office_routes
 from enterprise_platform.http.schedule_routes import add_schedule_routes
 from enterprise_platform.http.source_routes import add_source_routes
 from enterprise_platform.http.workbench_routes import add_workbench_routes
@@ -218,6 +220,7 @@ def create_app(
     dashboards: DashboardService | None = None,
     workbench: WorkbenchChatDispatcher | None = None,
     workbench_branches: WorkbenchBranchService | None = None,
+    office_exports: OfficeExportService | None = None,
 ) -> FastAPI:
     if "*" in allowed_origins:
         raise ValueError("Explicit browser origins are required")
@@ -398,5 +401,6 @@ def create_app(
     add_schedule_routes(router, schedules, actor, ErrorResponse)
     add_dashboard_routes(router, dashboards, actor, ErrorResponse)
     add_workbench_routes(router, workbench, actor, ErrorResponse, workbench_branches)
+    add_office_routes(router, office_exports, actor)
     app.include_router(router)
     return app

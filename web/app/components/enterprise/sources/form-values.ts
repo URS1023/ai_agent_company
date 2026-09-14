@@ -22,6 +22,7 @@ export function readSourceForm(data: FormData, previous?: SourceView): SourceDra
   const rows = (name: string) => data.getAll(name).map(String)
   const parsed = zSourceDraftWritable.safeParse({
     name: text('name').trim(),
+    enabled: data.has('lifecycle_present') ? checked('enabled') : (previous?.enabled ?? true),
     device_ids: rows('device_ids'),
     device_parameter: text('device_parameter').trim(),
     device_column: text('device_column').trim(),

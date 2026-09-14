@@ -158,7 +158,7 @@ def test_same_key_actor_or_command_conflict():
     assert len(importer.calls) == 1
 
 
-@pytest.mark.parametrize("kind", ["revision", "membership", "workspace", "source_id", "device", "binding"])
+@pytest.mark.parametrize("kind", ["revision", "membership", "workspace", "source_id", "device", "binding", "disabled"])
 def test_fresh_scope_and_revision_rejections_have_no_native_side_effect(kind):
     service, repo, business, sources, importer, request = harness()
     if kind == "device":
@@ -174,6 +174,7 @@ def test_fresh_scope_and_revision_rejections_have_no_native_side_effect(kind):
             "membership": {"device_ids": ("other",)},
             "workspace": {"workspace_id": "other"},
             "source_id": {"source_id": "other"},
+            "disabled": {"enabled": False},
         }
         sources.get_source.return_value = sources.get_source.return_value.model_copy(update=updates[kind])
     with pytest.raises((Conflict, AccessDenied)):

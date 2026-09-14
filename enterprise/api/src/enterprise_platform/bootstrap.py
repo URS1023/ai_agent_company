@@ -22,6 +22,7 @@ from sqlalchemy.exc import ArgumentError
 from sqlalchemy.orm import sessionmaker
 
 from enterprise_platform.adapters.dify_identity import DifyIdentityClient
+from enterprise_platform.adapters.office_docx import render_office_docx
 from enterprise_platform.adapters.source_encryption import AesGcmSourceCipher, SourceKeyring
 from enterprise_platform.adapters.workflow_credential_encryption import AesGcmCredentialCipher, CredentialKeyring
 from enterprise_platform.adapters.workflow_draft_client import DifyWorkflowDraftClient
@@ -48,6 +49,9 @@ from enterprise_platform.application.managed_execution import (
     ManagedExecutionService,
 )
 from enterprise_platform.application.native_registration import NativeRegistrationService, validate_registration_token
+from enterprise_platform.application.office_directory import OfficeDirectoryService
+from enterprise_platform.application.office_edits import OfficeEditService
+from enterprise_platform.application.office_export import OfficeExportService
 from enterprise_platform.application.service import BusinessService
 from enterprise_platform.application.source_registration import EndpointPolicy, SourceEndpoint
 from enterprise_platform.application.source_service import SourceService, StoredReadCatalog
@@ -66,6 +70,9 @@ from enterprise_platform.http.app import create_app
 from enterprise_platform.http.internal import create_managed_router
 from enterprise_platform.http.native_registration import create_registration_router
 from enterprise_platform.persistence.execution_lookup import SqlAlchemyExecutionLookup
+from enterprise_platform.persistence.office_directory import SqlAlchemyOfficeDirectory
+from enterprise_platform.persistence.office_repository import SqlAlchemyOfficeEditRepository
+from enterprise_platform.persistence.office_source_access import SqlAlchemyRegisteredOfficeSourceAccess
 from enterprise_platform.persistence.repository import SqlAlchemyRepository
 from enterprise_platform.persistence.sources import SqlAlchemySourceRepository
 from enterprise_platform.persistence.workflow_activation_lookup import SqlAlchemyActiveExecutionKeyLookup
@@ -481,6 +488,14 @@ def create_runtime(settings: Settings) -> Runtime:
             if settings.dashboards is not None
             else None
         )
+        office_repository = (
+            SqlAlchemyOfficeEditRepository(sessions, SqlAlchemyRegisteredOfficeSourceAccess(cipher))
+            if cipher is not None
+            else None
+        )
+        office_files = (
+            OfficeEditService(office_repository, office_repository) if office_repository is not None else None
+        )
         app = create_app(
             service,
             identity,
@@ -494,6 +509,11 @@ def create_runtime(settings: Settings) -> Runtime:
             dashboards=dashboards.service if dashboards is not None else None,
             workbench=workbench.dispatcher if workbench is not None else None,
             workbench_branches=workbench.branch_service if workbench is not None else None,
+            office_files=office_files,
+            office_exports=OfficeExportService(office_files, render_office_docx) if office_files is not None else None,
+            office_directory=OfficeDirectoryService(SqlAlchemyOfficeDirectory(sessions), office_files)
+            if office_files is not None
+            else None,
         )
         if settings.managed_execution_keys or workflow_activation is not None:
             managed = ManagedExecutionService(

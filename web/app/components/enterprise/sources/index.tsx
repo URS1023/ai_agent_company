@@ -128,6 +128,11 @@ function SourceList({ scope }: { scope: readonly string[] }) {
                     {source.connection.kind === 'db' ? source.connection.dialect : 'HTTP'}
                   </span>
                 </div>
+                <p className="system-sm-medium text-text-secondary">
+                  {source.enabled === false
+                    ? t(($) => $['modelProvider.selector.disabled'])
+                    : t(($) => $['enterprise.schedule.enabled'])}
+                </p>
                 <p className="system-sm-regular text-text-tertiary">
                   {t(($) => $['enterprise.sources.notTested'])} ·{' '}
                   {t(

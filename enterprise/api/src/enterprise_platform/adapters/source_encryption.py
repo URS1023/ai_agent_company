@@ -67,6 +67,9 @@ def _registration_json(entry: RegisteredRead) -> str:
 
 def _draft_json(draft: SourceDraft) -> str:
     document: JsonObject = draft.model_dump(mode="json")
+    if draft.enabled:
+        # Missing and true both mean enabled; retain existing idempotency fingerprints.
+        document.pop("enabled", None)
     connection: JsonObject = draft.connection.model_dump(mode="json")
     if isinstance(draft.connection, DbSourceDraft):
         connection["username"] = draft.connection.username.get_secret_value() if draft.connection.username else None
@@ -109,7 +112,11 @@ class AesGcmSourceCipher:
 
     @staticmethod
     def _aad(view: SourceView, key_id: str) -> bytes:
-        return ("enterprise-source/aesgcm/v1/" + key_id + "\n" + canonical_json(view.model_dump(mode="json"))).encode()
+        document: JsonObject = view.model_dump(mode="json")
+        if view.enabled:
+            # Preserve pre-lifecycle ciphertext; false remains authenticated, not omitted.
+            document.pop("enabled", None)
+        return ("enterprise-source/aesgcm/v1/" + key_id + "\n" + canonical_json(document)).encode()
 
     def seal(self, view: SourceView, registration: RegisteredRead) -> SealedSource:
         _scope(view, registration)

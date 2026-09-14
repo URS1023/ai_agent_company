@@ -107,7 +107,9 @@ function SetupController({ deviceId, scenario, scope, expectedBindingRevision, d
     sources.data?.items.some((source) => source.workspace_id !== scope[1]) ?? false
   const eligible = invalidSources
     ? []
-    : (sources.data?.items.filter((source) => source.device_ids.includes(deviceId)) ?? [])
+    : (sources.data?.items.filter(
+        (source) => source.enabled !== false && source.device_ids.includes(deviceId),
+      ) ?? [])
   const selectedSource = eligible.find(
     (source) =>
       source.source_id === selected?.source_id &&

@@ -43,6 +43,7 @@ vi.mock('@/context/account-state', async () => ({
 function source(): Awaited<ReturnType<Client['sources']['bySourceId']['get']>> {
   return {
     name: 'Plant readings',
+    enabled: true,
     workspace_id: 'workspace-1',
     source_id: 'source-1',
     source_revision: 's1',
@@ -197,6 +198,35 @@ describe('Sources ordinary configuration', () => {
       ),
     ).not.toContain('test-only-password')
   })
+
+  it.each([false, true])(
+    'should save the selected lifecycle state of a disabled source: %s',
+    async (enable) => {
+      api.get.mockResolvedValue({ ...source(), enabled: false })
+      api.list.mockResolvedValue({
+        items: [{ ...source(), enabled: false }],
+        total: 1,
+        offset: 0,
+        limit: 20,
+      })
+      renderSources()
+      expect(await screen.findByText('common.modelProvider.selector.disabled')).toBeInTheDocument()
+      await userEvent.click(
+        screen.getByRole('button', { name: 'common.enterprise.sources.details' }),
+      )
+      const checkbox = await screen.findByRole('checkbox', {
+        name: 'common.enterprise.schedule.enabled',
+      })
+      expect(checkbox).not.toBeChecked()
+      if (enable) await userEvent.click(checkbox)
+      await userEvent.click(
+        screen.getByRole('checkbox', { name: 'common.enterprise.sources.readOnlyConfirmation' }),
+      )
+      await userEvent.click(screen.getByRole('button', { name: 'common.operation.confirm' }))
+      await waitFor(() => expect(api.update).toHaveBeenCalledOnce())
+      expect(api.update.mock.calls[0]?.[0]).toMatchObject({ body: { enabled: enable } })
+    },
+  )
 
   it('should fetch the latest source before editing and use that fixed revision with blank credential retention', async () => {
     api.get.mockResolvedValue({ ...source(), revision: 7 })

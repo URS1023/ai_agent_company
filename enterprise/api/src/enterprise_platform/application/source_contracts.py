@@ -100,6 +100,7 @@ class HttpSourceDraft(HttpSourceSettings):
 
 
 class SourceScope(SourceContract):
+    enabled: bool = Field(default=True, strict=True)
     name: Label
     device_ids: tuple[Identifier, ...] = Field(min_length=1, max_length=1000)
     device_parameter: ParameterName

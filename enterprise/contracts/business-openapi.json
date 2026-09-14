@@ -4461,6 +4461,11 @@
             "title": "Device Parameter",
             "type": "string"
           },
+          "enabled": {
+            "default": true,
+            "title": "Enabled",
+            "type": "boolean"
+          },
           "limits": {
             "$ref": "#/components/schemas/ReadLimits"
           },
@@ -4604,6 +4609,11 @@
             "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
             "title": "Device Parameter",
             "type": "string"
+          },
+          "enabled": {
+            "default": true,
+            "title": "Enabled",
+            "type": "boolean"
           },
           "limits": {
             "$ref": "#/components/schemas/ReadLimits"

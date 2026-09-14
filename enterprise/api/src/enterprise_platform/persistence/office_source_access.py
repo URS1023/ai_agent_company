@@ -14,13 +14,20 @@ from sqlalchemy.orm import Session
 
 from enterprise_platform.application.errors import AccessDenied, PersistenceError
 from enterprise_platform.application.office_edits import OfficeFileRecord, OfficeGrant
+from enterprise_platform.application.source_ports import SourceCipher
 
 from .office_source_models import OfficeSnapshotRow, OfficeSourceGrantRow, OfficeSourceRow
 from .office_source_transaction import require_source_transaction
+from .sources import require_enabled_source
 
 
 class SqlAlchemyOfficeSourceAccess:
     def require(self, session: Session, grant: OfficeGrant, record: OfficeFileRecord) -> None:
+        self._require_snapshot_sources(session, grant, record)
+
+    def _require_snapshot_sources(
+        self, session: Session, grant: OfficeGrant, record: OfficeFileRecord
+    ) -> tuple[str, ...]:
         if (
             (grant.workspace_id, grant.file_id) != (record.workspace_id, record.content.file_id)
             or grant.action not in {"read", "edit"}
@@ -67,3 +74,20 @@ class SqlAlchemyOfficeSourceAccess:
         for snapshot in snapshots:
             if hashlib.sha256(snapshot.payload_json.encode("utf-8")).hexdigest() != snapshot.payload_hash:
                 raise PersistenceError("office_snapshot_invalid")
+        return tuple(sorted({snapshot.source_id for snapshot in snapshots}))
+
+
+class SqlAlchemyRegisteredOfficeSourceAccess(SqlAlchemyOfficeSourceAccess):
+    """Combine Office grants with authenticated current registered-source lifecycle.
+
+    Lock order: file head (caller), sorted Office source heads, sorted registered
+    source heads. Neither layer grants file access or commits the transaction.
+    """
+
+    def __init__(self, cipher: SourceCipher) -> None:
+        self._cipher = cipher
+
+    def require(self, session: Session, grant: OfficeGrant, record: OfficeFileRecord) -> None:
+        sources = self._require_snapshot_sources(session, grant, record)
+        for source_id in sources:
+            require_enabled_source(session, self._cipher, grant.workspace_id, source_id)

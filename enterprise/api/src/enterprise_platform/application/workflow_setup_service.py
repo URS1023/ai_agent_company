@@ -134,6 +134,8 @@ class WorkflowSetupService:
             raise AccessDenied("workflow_setup_source_scope_mismatch")
         if device_id not in source.device_ids:
             raise AccessDenied("workflow_setup_source_device_mismatch")
+        if not source.enabled:
+            raise AccessDenied("source_disabled")
         if source.revision != payload.expected_source_revision:
             raise Conflict("workflow_setup_source_revision_changed")
         try:

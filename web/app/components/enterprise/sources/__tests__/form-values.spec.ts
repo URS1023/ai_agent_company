@@ -51,6 +51,16 @@ function previous(): SourceView {
 }
 
 describe('Source form values', () => {
+  it('should preserve a disabled source when lifecycle controls are absent', () => {
+    expect(readSourceForm(values(), { ...previous(), enabled: false }).enabled).toBe(false)
+  })
+
+  it.each([true, false])('should submit the explicit enabled checkbox state: %s', (enabled) => {
+    const data = values({ lifecycle_present: '1' })
+    if (enabled) data.set('enabled', 'on')
+    expect(readSourceForm(data, { ...previous(), enabled: !enabled }).enabled).toBe(enabled)
+  })
+
   beforeEach(() => {
     vi.clearAllMocks()
   })

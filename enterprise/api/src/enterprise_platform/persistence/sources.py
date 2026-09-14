@@ -1,6 +1,7 @@
 """Transactional source heads and immutable encrypted revisions in the enterprise DB.
 
-No connection testing, key resolution or decryption happens in this repository.
+The repository performs no connection testing, key resolution or decryption.
+The separate transaction access helper authenticates the current encrypted head.
 All source/device/audit writes share one transaction. CAS losers append no version.
 """
 
@@ -8,12 +9,45 @@ from sqlalchemy import Select, and_, func, select, update
 from sqlalchemy.orm import Session, sessionmaker
 
 from enterprise_platform.application.contracts import Page
-from enterprise_platform.application.errors import Conflict, NotFound, PersistenceError
+from enterprise_platform.application.errors import AccessDenied, Conflict, NotFound, PersistenceError
 from enterprise_platform.application.source_contracts import SourceView
-from enterprise_platform.application.source_ports import SealedSource, StoredSource
+from enterprise_platform.application.source_ports import SealedSource, SourceCipher, StoredSource
 
 from .mapping import audit, cas, decode, lock_device, serialized, transaction, validate_page, validate_revision
+from .office_source_transaction import require_source_transaction
 from .source_models import SourceHeadRow, SourceVersionRow
+
+
+def require_enabled_source(session: Session, cipher: SourceCipher, workspace_id: str, source_id: str) -> None:
+    """Authenticate current state under the same head lock used by source updates.
+
+    Caller owns the transaction and actor authorization; this grants no read access.
+    """
+    require_source_transaction(session)
+    head = session.scalar(
+        select(SourceHeadRow)
+        .where(SourceHeadRow.workspace_id == workspace_id, SourceHeadRow.source_id == source_id)
+        .with_for_update()
+        .execution_options(populate_existing=True)
+    )
+    if head is None:
+        raise AccessDenied("source_unavailable")
+    row = session.scalar(
+        select(SourceVersionRow)
+        .where(
+            SourceVersionRow.workspace_id == workspace_id,
+            SourceVersionRow.source_id == source_id,
+            SourceVersionRow.revision == head.revision,
+            SourceVersionRow.read_id == head.read_id,
+        )
+        .execution_options(populate_existing=True)
+    )
+    if row is None:
+        raise PersistenceError("source_head_invalid")
+    stored = as_source(row)
+    cipher.open(stored.view, stored.sealed)
+    if not stored.view.enabled:
+        raise AccessDenied("source_disabled")
 
 
 def source_version_row(source: StoredSource) -> SourceVersionRow:

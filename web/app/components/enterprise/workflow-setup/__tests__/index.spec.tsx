@@ -138,6 +138,7 @@ describe('WorkflowSetup', () => {
 function source(): Awaited<ReturnType<Client['sources']['get']>>['items'][number] {
   return {
     name: 'Plant readings',
+    enabled: true,
     workspace_id: 'workspace-1',
     source_id: 'source-1',
     source_revision: 's1',
@@ -300,7 +301,21 @@ describe('Workflow setup response integrity', () => {
 })
 
 describe('Current source eligibility', () => {
-  it.each([{ revision: 5 }, { device_ids: ['other-device'] }])(
+  it('should exclude disabled sources from new workflow setup', async () => {
+    api.sources.mockResolvedValue({
+      items: [{ ...source(), enabled: false }],
+      total: 1,
+      offset: 0,
+      limit: 20,
+    })
+    mount()
+    await userEvent.click(screen.getByRole('button', { name: 'common.enterprise.setup.title' }))
+    expect(await screen.findByText('common.enterprise.setup.noSources')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'common.enterprise.setup.create' })).toBeDisabled()
+    expect(api.create).not.toHaveBeenCalled()
+  })
+
+  it.each([{ revision: 5 }, { device_ids: ['other-device'] }, { enabled: false }])(
     'requires reselection when a pre-attempt source changes: %o',
     async (changes) => {
       api.sources.mockResolvedValue({ items: [source()], total: 1, offset: 0, limit: 20 })

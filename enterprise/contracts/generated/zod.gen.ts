@@ -1587,6 +1587,7 @@ export const zSourceDraft = z.object({
     .string()
     .max(80)
     .regex(/^[A-Za-z_][A-Za-z0-9_]*$/),
+  enabled: z.boolean().optional().default(true),
   limits: zReadLimits.optional(),
   name: z.string().min(1).max(200),
   parameters: z.array(zParameterDeclaration).max(100).optional().default([]),
@@ -1637,6 +1638,7 @@ export const zSourceView = z.object({
     .string()
     .max(80)
     .regex(/^[A-Za-z_][A-Za-z0-9_]*$/),
+  enabled: z.boolean().optional().default(true),
   limits: zReadLimits.optional(),
   name: z.string().min(1).max(200),
   parameters: z.array(zParameterDeclaration).max(100).optional().default([]),
@@ -2171,6 +2173,7 @@ export const zSourceDraftWritable = z.object({
     .string()
     .max(80)
     .regex(/^[A-Za-z_][A-Za-z0-9_]*$/),
+  enabled: z.boolean().optional().default(true),
   limits: zReadLimits.optional(),
   name: z.string().min(1).max(200),
   parameters: z.array(zParameterDeclaration).max(100).optional().default([]),

@@ -32,6 +32,13 @@ export function SourceFields({
   const oldHttp = initial?.connection.kind === 'http' ? initial.connection : undefined
   return (
     <div className="space-y-6">
+      <input type="hidden" name="lifecycle_present" value="1" />
+      <Toggle
+        name="enabled"
+        label={t(($) => $['enterprise.schedule.enabled'])}
+        defaultChecked={initial?.enabled ?? true}
+        disabled={disabled}
+      />
       <TextField
         name="name"
         label={t(($) => $['enterprise.sources.name'])}

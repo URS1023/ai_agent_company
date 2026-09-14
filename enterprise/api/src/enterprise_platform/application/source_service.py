@@ -17,7 +17,7 @@ from pydantic import ValidationError
 from enterprise_platform.domain.data_sources import DataSourceError, SourceRef
 
 from .contracts import Device, Page, Principal
-from .errors import AccessDenied, Conflict, DependencyUnavailable, InvalidInput, PersistenceError
+from .errors import AccessDenied, Conflict, DependencyUnavailable, InvalidInput, NotFound, PersistenceError
 from .input_capture import ImmutableReadCatalog, RegisteredRead
 from .source_contracts import SourceCapabilities, SourceDraft, SourceView
 from .source_ports import SourceCipher, SourceRepository, StoredSource
@@ -199,6 +199,15 @@ class StoredReadCatalog:
     ) -> None:
         self._repository, self._cipher, self._endpoints, self._static = repository, cipher, endpoints, static
 
+    def _require_enabled_head(self, workspace_id: str, source_id: str) -> None:
+        current_source = self._repository.get(workspace_id, source_id)
+        current = current_source.view
+        if (current.workspace_id, current.source_id) != (workspace_id, source_id):
+            raise PersistenceError("source_registration_scope_mismatch")
+        self._cipher.open(current, current_source.sealed)
+        if not current.enabled:
+            raise AccessDenied("source_disabled")
+
     def resolve(
         self, workspace_id: str, source_id: str, source_revision: str, read_id: str, read_revision: str
     ) -> RegisteredRead:
@@ -211,11 +220,16 @@ class StoredReadCatalog:
         if source is None:
             if static is None:
                 raise InvalidInput("registered_read_unavailable")
+            try:
+                self._require_enabled_head(workspace_id, source_id)
+            except NotFound:
+                pass
             return static
         if static is not None:
             raise Conflict("duplicate_registered_read")
         view = source.view
         if (view.workspace_id, view.source_id, view.source_revision, view.read_id, view.read_revision) != key:
             raise PersistenceError("source_registration_scope_mismatch")
+        self._require_enabled_head(workspace_id, source_id)
         self._endpoints.require(view.connection)
         return self._cipher.open(view, source.sealed)

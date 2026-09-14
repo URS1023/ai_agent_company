@@ -878,6 +878,7 @@ export type SourceDraft = {
   device_column: string
   device_ids: Array<string>
   device_parameter: string
+  enabled?: boolean
   limits?: ReadLimits
   name: string
   parameters?: Array<ParameterDeclaration>
@@ -905,6 +906,7 @@ export type SourceView = {
   device_column: string
   device_ids: Array<string>
   device_parameter: string
+  enabled?: boolean
   limits?: ReadLimits
   name: string
   parameters?: Array<ParameterDeclaration>
@@ -1173,6 +1175,7 @@ export type SourceDraftWritable = {
   device_column: string
   device_ids: Array<string>
   device_parameter: string
+  enabled?: boolean
   limits?: ReadLimits
   name: string
   parameters?: Array<ParameterDeclaration>

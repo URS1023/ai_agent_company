@@ -9,6 +9,7 @@ from database_environment import database_tests_enabled
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from test_repository import repository as repository
+from test_sources import managed_sources as managed_sources
 
 from enterprise_platform.application.errors import AccessDenied, PersistenceError
 from enterprise_platform.application.office_edits import OfficeFileRecord, OfficeGrant
@@ -24,6 +25,237 @@ from enterprise_platform.persistence.office_source_models import (
 pytestmark = pytest.mark.skipif(
     not database_tests_enabled(os.environ), reason="Explicit disposable database opt-in required"
 )
+
+
+@pytest.mark.parametrize("enabled", [True, False])
+def test_registered_office_policy_obeys_original_source_lifecycle(managed_sources, enabled):
+    import base64
+    from datetime import UTC, datetime
+    from io import BytesIO
+    from unittest.mock import AsyncMock, patch
+    from zipfile import ZipFile
+
+    from fastapi.testclient import TestClient
+    from pydantic import SecretStr
+
+    from enterprise_platform.adapters.source_encryption import SourceKeyring
+    from enterprise_platform.bootstrap import Settings, create_runtime
+    from enterprise_platform.persistence.office_documents import encode_office_record
+    from enterprise_platform.persistence.office_models import (
+        OfficeBase,
+        OfficeFileRow,
+        OfficeGrantRow,
+        OfficeRevisionRow,
+    )
+    from enterprise_platform.persistence.office_source_access import SqlAlchemyRegisteredOfficeSourceAccess
+
+    service, _, devices, cipher, _, principal, draft = managed_sources
+    first = service.create_source(principal, draft, request_key="office-original")
+    engine = devices._sessions.kw["bind"]
+    OfficeSourceBase.metadata.create_all(engine)
+    with devices._sessions.begin() as session:
+        session.add(
+            OfficeSourceRow(
+                workspace_id=principal.workspace_id, source_id=first.source_id, enabled=True, acl_revision=1
+            )
+        )
+        session.flush()
+        session.add(
+            OfficeSourceGrantRow(
+                workspace_id=principal.workspace_id,
+                source_id=first.source_id,
+                actor_id=principal.actor_id,
+                can_read=True,
+            )
+        )
+        session.add(
+            OfficeSnapshotRow(
+                workspace_id=principal.workspace_id,
+                snapshot_id="snapshot",
+                source_id=first.source_id,
+                source_revision=first.source_revision,
+                payload_json="{}",
+                payload_hash=hashlib.sha256(b"{}").hexdigest(),
+            )
+        )
+    grant = OfficeGrant(principal.workspace_id, principal.actor_id, UUID(int=1), "read", 1)
+    record = OfficeFileRecord(
+        principal.workspace_id,
+        "document-default",
+        1,
+        ("snapshot",),
+        OfficeRevision(
+            file_id=grant.file_id,
+            revision=1,
+            kind="document",
+            units=(OfficeUnit(unit_id=UUID(int=2), kind="paragraph", content=(OfficeText(text="Report"),)),),
+        ),
+    )
+    policy = SqlAlchemyRegisteredOfficeSourceAccess(cipher)
+    with devices._sessions() as reader:
+        policy.require(reader, grant, record)
+    if not enabled:
+        service.update_source(
+            principal, first.source_id, draft.model_copy(update={"enabled": False}), expected_revision=1
+        )
+    with devices._sessions() as reader:
+        if enabled:
+            policy.require(reader, grant, record)
+        else:
+            with pytest.raises(AccessDenied, match="source_disabled"):
+                policy.require(reader, grant, record)
+
+    OfficeBase.metadata.create_all(engine)
+    document = encode_office_record(record)
+    now = datetime.now(UTC)
+    with devices._sessions.begin() as session:
+        session.add(
+            OfficeFileRow(
+                workspace_id=principal.workspace_id,
+                file_id=str(grant.file_id),
+                current_revision=1,
+                acl_revision=1,
+                created_by=principal.actor_id,
+                created_at=now,
+            )
+        )
+        session.flush()
+        session.add(
+            OfficeGrantRow(
+                workspace_id=principal.workspace_id,
+                file_id=str(grant.file_id),
+                actor_id=principal.actor_id,
+                can_read=True,
+                can_edit=True,
+            )
+        )
+        session.add(
+            OfficeRevisionRow(
+                workspace_id=principal.workspace_id,
+                file_id=str(grant.file_id),
+                revision=1,
+                document_json=document,
+                document_hash=hashlib.sha256(document.encode()).hexdigest(),
+                actor_id=principal.actor_id,
+                created_at=now,
+            )
+        )
+    config = Settings(
+        database_url=SecretStr("postgresql+psycopg://unused:unused@127.0.0.1:55432/enterprise_test"),
+        dify_console_url="http://127.0.0.1/console/api",
+        dify_service_url="http://127.0.0.1/v1",
+        allowed_origins=("http://127.0.0.1",),
+        source_keyring=SourceKeyring.model_validate(
+            {
+                "active_key_id": "fixture-key",
+                "keys": [{"key_id": "fixture-key", "key": base64.urlsafe_b64encode(b"k" * 32).decode()}],
+            }
+        ),
+    )
+    with (
+        patch("enterprise_platform.bootstrap.create_engine") as engine_factory,
+        patch(
+            "enterprise_platform.adapters.dify_identity.DifyIdentityClient.resolve",
+            new=AsyncMock(return_value=principal),
+        ) as identity,
+    ):
+        engine_factory.return_value.execution_options.return_value = engine
+        runtime = create_runtime(config)
+        engine_factory.return_value.execution_options.assert_called_once_with(schema_translate_map={None: "public"})
+        try:
+            with TestClient(runtime.app) as client:
+                path = f"/enterprise/api/v1/office/files/{grant.file_id}"
+                listing = client.get("/enterprise/api/v1/office/files")
+                assert listing.status_code == 200, listing.text
+                assert len(listing.json()["items"]) == int(enabled)
+                assert client.get(path).status_code == (200 if enabled else 403)
+                download = client.get(f"{path}/document?expected_revision=1")
+                assert download.status_code == (200 if enabled else 403)
+                assert download.headers["cache-control"] == "private, no-store"
+                if enabled:
+                    with ZipFile(BytesIO(download.content)) as package:
+                        assert package.testzip() is None
+                        assert b"Report" in package.read("word/document.xml")
+                command = {
+                    "request_id": str(UUID(int=3)),
+                    "expected_revision": "1",
+                    "replacements": [{"unit_id": str(UUID(int=2)), "content": [{"text": "Updated report"}]}],
+                }
+                headers = {"Origin": "http://127.0.0.1"}
+                edited = client.post(f"{path}/edits", json=command, headers=headers)
+                assert edited.status_code == (200 if enabled else 403), edited.text
+                if enabled:
+                    assert edited.json()["revision"] == "2"
+                    assert edited.json()["units"][0]["unit_id"] == str(UUID(int=2))
+                    assert client.post(f"{path}/edits", json=command, headers=headers).json() == edited.json()
+                    stale = {**command, "request_id": str(UUID(int=4))}
+                    assert client.post(f"{path}/edits", json=stale, headers=headers).status_code == 409
+                    assert client.get(f"{path}/document?expected_revision=1").status_code == 409
+                    exported = client.get(f"{path}/document?expected_revision=2")
+                    assert exported.status_code == 200
+                    with ZipFile(BytesIO(exported.content)) as package:
+                        assert package.testzip() is None
+                        assert b"Updated report" in package.read("word/document.xml")
+                identity.return_value = principal.model_copy(update={"actor_id": "another-actor"})
+                assert client.get("/enterprise/api/v1/office/files").json()["items"] == []
+                assert client.get(path).status_code == 403
+                assert client.get(f"{path}/document?expected_revision=2").status_code == 403
+        finally:
+            runtime.close()
+
+
+def test_original_source_disable_waits_for_transaction_reader(managed_sources):
+    import time
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+
+    from sqlalchemy import event, text
+
+    from enterprise_platform.persistence.sources import require_enabled_source
+
+    service, _, devices, cipher, _, principal, draft = managed_sources
+    engine = devices._sessions.kw["bind"]
+    if engine.dialect.name != "postgresql":
+        pytest.skip("Observable PostgreSQL original source update lock")
+    first = service.create_source(principal, draft, request_key="original-source")
+    ready = Event()
+    pids = []
+
+    def before_update(connection, cursor, statement, parameters, context, executemany):
+        if statement.lstrip().upper().startswith("UPDATE") and "enterprise_source_heads" in statement:
+            pids.append(connection.scalar(text("SELECT pg_backend_pid()")))
+            ready.set()
+
+    event.listen(engine, "before_cursor_execute", before_update)
+    try:
+        with devices._sessions() as reader, ThreadPoolExecutor(max_workers=1) as pool:
+            require_enabled_source(reader, cipher, principal.workspace_id, first.source_id)
+            future = pool.submit(
+                service.update_source,
+                principal,
+                first.source_id,
+                draft.model_copy(update={"enabled": False}),
+                expected_revision=1,
+            )
+            try:
+                assert ready.wait(10)
+                observed = False
+                deadline = time.monotonic() + 10
+                with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as observer:
+                    while time.monotonic() < deadline:
+                        if observer.scalar(text("SELECT cardinality(pg_blocking_pids(:pid)) > 0"), {"pid": pids[0]}):
+                            observed = True
+                            break
+                        time.sleep(0.05)
+                assert observed, "Original source update bypassed the reader lock"
+            finally:
+                reader.rollback()
+            assert future.result(timeout=10).enabled is False
+        with devices._sessions() as reader:
+            with pytest.raises(AccessDenied, match="source_disabled"):
+                require_enabled_source(reader, cipher, principal.workspace_id, first.source_id)
+    finally:
+        event.remove(engine, "before_cursor_execute", before_update)
 
 
 @pytest.mark.parametrize("isolation", ["READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE", "AUTOCOMMIT"])
@@ -250,3 +482,72 @@ def test_concurrent_identical_capture_stores_one_snapshot(repository):
         assert session.scalar(select(func.count()).select_from(OfficeSnapshotRow)) == 1
         stored = session.get(OfficeSnapshotRow, ("ws", str(identifier)))
         assert "1.2300000000000000001" in stored.payload_json
+
+
+def test_cross_source_snapshot_collision_maps_to_conflict_without_overwrite(repository):
+    import json
+    from concurrent.futures import ThreadPoolExecutor
+    from datetime import UTC, datetime
+    from threading import Barrier
+
+    from sqlalchemy import event, func
+
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.errors import Conflict
+    from enterprise_platform.domain.data_sources import FrozenRows, PageEvidence, SourceRef
+    from enterprise_platform.persistence.mapping import transaction
+    from enterprise_platform.persistence.office_snapshot_capture import capture_office_snapshot
+
+    engine = repository._sessions.kw["bind"]
+    if engine.dialect.name != "postgresql":
+        pytest.skip("PostgreSQL cross-source unique-key collision")
+    OfficeSourceBase.metadata.create_all(engine)
+    with repository._sessions.begin() as session:
+        for source_id in ("left", "right"):
+            session.add(OfficeSourceRow(workspace_id="ws", source_id=source_id, enabled=True, acl_revision=1))
+        session.flush()
+        for source_id in ("left", "right"):
+            session.add(OfficeSourceGrantRow(workspace_id="ws", source_id=source_id, actor_id="actor", can_read=True))
+    both_read_missing = Barrier(2)
+
+    def synchronize(connection, cursor, statement, parameters, context, executemany):
+        if statement.lstrip().startswith("SELECT") and "enterprise_office_snapshots" in statement:
+            both_read_missing.wait(timeout=10)
+
+    principal = Principal(workspace_id="ws", actor_id="actor", workspace_role="normal", display_name="Actor")
+    identifier = UUID(int=50)
+
+    def capture(source_id):
+        data = FrozenRows(
+            SourceRef(workspace_id="ws", source_id=source_id, revision="r1"),
+            "read",
+            "r1",
+            "a" * 64,
+            datetime(2026, 9, 14, tzinfo=UTC),
+            ("value",),
+            ((source_id,),),
+            (PageEvidence(1, 1, "b" * 64),),
+        )
+        try:
+            with transaction(repository._sessions) as session:
+                capture_office_snapshot(session, principal, identifier, data)
+            return source_id, "committed"
+        except Conflict as error:
+            assert str(error) == "database_constraint_conflict"
+            assert error.status_code == 409
+            return source_id, error.code
+
+    event.listen(engine, "after_cursor_execute", synchronize)
+    try:
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            first, second = pool.submit(capture, "left"), pool.submit(capture, "right")
+            results = [first.result(timeout=20), second.result(timeout=20)]
+    finally:
+        event.remove(engine, "after_cursor_execute", synchronize)
+    assert sorted(result for _, result in results) == ["committed", "conflict"]
+    winner = next(source for source, result in results if result == "committed")
+    with repository._sessions() as session:
+        assert session.scalar(select(func.count()).select_from(OfficeSnapshotRow)) == 1
+        stored = session.get(OfficeSnapshotRow, ("ws", str(identifier)))
+        assert stored.source_id == winner
+        assert json.loads(stored.payload_json)["source"]["source_id"] == winner

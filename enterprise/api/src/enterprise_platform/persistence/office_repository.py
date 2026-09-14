@@ -1,8 +1,8 @@
 """Transactional Office revision storage; live source authorization is mandatory.
 
 All file/ACL mutations must take the same file-head lock. Historical revisions
-are appended, never overwritten. This adapter is not wired to HTTP until schema
-migration and PostgreSQL concurrency tests are verified.
+are appended, never overwritten. Runtime wiring requires a configured source
+cipher; deployment must apply the Office schema migrations before serving files.
 """
 
 import hashlib

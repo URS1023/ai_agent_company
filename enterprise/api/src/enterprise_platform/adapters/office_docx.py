@@ -79,6 +79,10 @@ def render_office_docx(record: OfficeFileRecord) -> bytes:
                 raise InvalidInput("office_table_content_invalid")
             table = document.add_table(rows=len(data.rows) + 1, cols=len(data.headers))
             table.style = "Light Grid Accent 1"
+            # Keep column meaning visible when Word paginates a long native table.
+            header = OxmlElement("w:tblHeader")
+            header.set(qn("w:val"), "true")
+            table.rows[0]._tr.get_or_add_trPr().append(header)
             for row, values in zip(table.rows, (data.headers, *data.rows), strict=True):
                 for cell, value in zip(row.cells, values, strict=True):
                     cell.text = "" if value is None else _xml_text(str(value))

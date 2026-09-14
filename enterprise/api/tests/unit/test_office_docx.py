@@ -151,3 +151,14 @@ def test_nonvisible_metadata_rejects_invalid_xml_and_surrogate_text(field):
         invalid = replace(original, content=original.content.model_copy(update={"units": (unit,)}))
     with pytest.raises(InvalidInput, match="^office_document_text_invalid$"):
         render_office_docx(invalid)
+
+
+def test_table_header_repeats_on_continuation_pages_without_marking_data_rows():
+    with zipfile.ZipFile(io.BytesIO(render_office_docx(record()))) as package:
+        root = ET.fromstring(package.read("word/document.xml"))
+        rows = list(root.iter(W + "tr"))
+        header = rows[0].find(f"{W}trPr/{W}tblHeader")
+        assert header is not None
+        assert header.get(W + "val") == "true"
+        assert all(row.find(f"{W}trPr/{W}tblHeader") is None for row in rows[1:])
+        assert len(rows) == 3

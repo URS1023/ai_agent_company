@@ -18,6 +18,7 @@ dependencies = [
     "psycopg[binary]>=3.2,<4",
     "pymysql>=1.1,<2",
     "cryptography>=49,<50",
+    "python-docx==1.2.0",
 ]
 
 [dependency-groups]

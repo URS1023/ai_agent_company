@@ -120,7 +120,7 @@ def normalized_check(sql: str) -> str:
     # Limit this equivalence to known credential/hash lengths and the provisioning phase count;
     # bounded/lossy casts, other functions and different operands stay structural.
     credential_text_columns = {"key_id", "nonce", "ciphertext"}
-    length_text_columns = credential_text_columns | {"document_hash", "command_hash"}
+    length_text_columns = credential_text_columns | {"document_hash", "command_hash", "payload_hash"}
 
     def known_text_length(node: exp.Expression) -> exp.Expression:
         if isinstance(node, exp.Length) and type(node.this) is exp.Cast:

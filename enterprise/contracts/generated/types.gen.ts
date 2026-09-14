@@ -514,10 +514,23 @@ export type OfficeDecimalView = {
   decimal: string
 }
 
+export type OfficeDirectoryPage = {
+  items: Array<OfficeFileSummary>
+  next_offset: number | null
+}
+
 export type OfficeEditRequest = {
   expected_revision: string
   replacements: Array<OfficeReplacementInput>
   request_id: string
+}
+
+export type OfficeFileSummary = {
+  file_id: string
+  kind: 'document' | 'presentation'
+  revision: string
+  template_id: string
+  template_revision: string
 }
 
 export type OfficeFileView = {
@@ -2234,6 +2247,35 @@ export type CurrentAccessEnterpriseApiV1MeGetResponses = {
 
 export type CurrentAccessEnterpriseApiV1MeGetResponse =
   CurrentAccessEnterpriseApiV1MeGetResponses[keyof CurrentAccessEnterpriseApiV1MeGetResponses]
+
+export type ListFilesEnterpriseApiV1OfficeFilesGetData = {
+  body?: never
+  path?: never
+  query?: {
+    offset?: number
+  }
+  url: '/enterprise/api/v1/office/files'
+}
+
+export type ListFilesEnterpriseApiV1OfficeFilesGetErrors = {
+  401: ErrorResponse
+  403: ErrorResponse
+  404: ErrorResponse
+  409: ErrorResponse
+  422: ErrorResponse
+  500: ErrorResponse
+  503: ErrorResponse
+}
+
+export type ListFilesEnterpriseApiV1OfficeFilesGetError =
+  ListFilesEnterpriseApiV1OfficeFilesGetErrors[keyof ListFilesEnterpriseApiV1OfficeFilesGetErrors]
+
+export type ListFilesEnterpriseApiV1OfficeFilesGetResponses = {
+  200: OfficeDirectoryPage
+}
+
+export type ListFilesEnterpriseApiV1OfficeFilesGetResponse =
+  ListFilesEnterpriseApiV1OfficeFilesGetResponses[keyof ListFilesEnterpriseApiV1OfficeFilesGetResponses]
 
 export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetData = {
   body?: never

@@ -726,6 +726,25 @@ export const zOfficeDecimalView = z.object({
 })
 
 /**
+ * OfficeFileSummary
+ */
+export const zOfficeFileSummary = z.object({
+  file_id: z.uuid(),
+  kind: z.enum(['document', 'presentation']),
+  revision: z.string(),
+  template_id: z.string(),
+  template_revision: z.string(),
+})
+
+/**
+ * OfficeDirectoryPage
+ */
+export const zOfficeDirectoryPage = z.object({
+  items: z.array(zOfficeFileSummary),
+  next_offset: z.int().nullable(),
+})
+
+/**
  * OfficeIntegerView
  */
 export const zOfficeIntegerView = z.object({
@@ -2760,6 +2779,15 @@ export const zScheduleActorChoicesEnterpriseApiV1DevicesDeviceIdScenarioSchedule
  * Successful Response
  */
 export const zCurrentAccessEnterpriseApiV1MeGetResponse = zBusinessAccess
+
+export const zListFilesEnterpriseApiV1OfficeFilesGetQuery = z.object({
+  offset: z.int().gte(0).lte(2147483647).optional().default(0),
+})
+
+/**
+ * Successful Response
+ */
+export const zListFilesEnterpriseApiV1OfficeFilesGetResponse = zOfficeDirectoryPage
 
 export const zReadFileEnterpriseApiV1OfficeFilesFileIdGetPath = z.object({
   file_id: z.uuid(),

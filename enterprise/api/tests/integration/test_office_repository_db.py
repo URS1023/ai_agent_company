@@ -548,3 +548,47 @@ def test_acl_audit_failure_rolls_back_permission_and_acl_version(office, reposit
     assert store.get(grant).fingerprint() == original.fingerprint()
     with repository._sessions() as session:
         assert session.scalar(select(func.count()).select_from(AuditEventRow)) == 0
+
+
+def test_directory_reads_only_current_actor_grants_and_omits_revoked_files(office):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.office_directory import OfficeDirectoryService
+    from enterprise_platform.application.office_edits import OfficeEditService
+    from enterprise_platform.persistence.office_directory import SqlAlchemyOfficeDirectory
+
+    store, grant, original, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="User"
+    )
+    directory = OfficeDirectoryService(SqlAlchemyOfficeDirectory(store._sessions), OfficeEditService(store, store))
+    page = directory.list_files(principal)
+    assert [item.file_id for item in page.items] == [original.content.file_id]
+    assert page.next_offset is None
+    assert directory.list_files(principal.model_copy(update={"actor_id": "other"})).items == ()
+    assert directory.list_files(principal.model_copy(update={"workspace_id": "other"})).items == ()
+    with store._sessions.begin() as session:
+        permission = session.get(OfficeGrantRow, (grant.workspace_id, str(grant.file_id), grant.actor_id))
+        permission.can_read = False
+        permission.can_edit = False
+    assert directory.list_files(principal).items == ()
+
+
+def test_directory_checks_sources_after_candidate_scan_without_returning_content(office):
+    from enterprise_platform.application.contracts import Principal
+    from enterprise_platform.application.office_directory import OfficeDirectoryService
+    from enterprise_platform.application.office_edits import OfficeEditService
+    from enterprise_platform.persistence.office_directory import SqlAlchemyOfficeDirectory
+
+    class DeniedSources:
+        def require(self, session, grant, record):
+            raise AccessDenied()
+
+    store, grant, _, _ = office
+    principal = Principal(
+        workspace_id=grant.workspace_id, actor_id=grant.actor_id, workspace_role="normal", display_name="User"
+    )
+    denied_store = SqlAlchemyOfficeEditRepository(store._sessions, DeniedSources())
+    directory = OfficeDirectoryService(
+        SqlAlchemyOfficeDirectory(store._sessions), OfficeEditService(denied_store, denied_store)
+    )
+    assert directory.list_files(principal).items == ()

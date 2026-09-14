@@ -796,3 +796,23 @@ test('Office edits carry retry identity and exact tagged values without binding 
     false,
   )
 })
+
+test('Office directory exposes bounded metadata and supports empty continuing pages', () => {
+  assert.ok(contract.office.files.get)
+  assert.deepEqual(validators.zOfficeDirectoryPage.parse({ items: [], next_offset: 50 }), {
+    items: [],
+    next_offset: 50,
+  })
+  assert.deepEqual(Object.keys(validators.zOfficeFileSummary.shape).sort(), [
+    'file_id',
+    'kind',
+    'revision',
+    'template_id',
+    'template_revision',
+  ])
+  const route = document.paths['/enterprise/api/v1/office/files'].get
+  assert.equal(route.requestBody, undefined)
+  const offset = route.parameters.find((parameter) => parameter.name === 'offset')
+  assert.equal(offset.schema.minimum, 0)
+  assert.equal(offset.schema.maximum, 2147483647)
+})

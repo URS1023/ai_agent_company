@@ -108,6 +108,8 @@ import {
   zListDashboardTemplatesEnterpriseApiV1DashboardTemplatesGetResponse,
   zListDevicesEnterpriseApiV1DevicesGetQuery,
   zListDevicesEnterpriseApiV1DevicesGetResponse,
+  zListFilesEnterpriseApiV1OfficeFilesGetQuery,
+  zListFilesEnterpriseApiV1OfficeFilesGetResponse,
   zListProvisioningEnterpriseApiV1WorkflowSetupsSetupIdProvisioningGetPath,
   zListProvisioningEnterpriseApiV1WorkflowSetupsSetupIdProvisioningGetQuery,
   zListProvisioningEnterpriseApiV1WorkflowSetupsSetupIdProvisioningGetResponse,
@@ -1062,7 +1064,23 @@ export const byFileId = {
   edits,
 }
 
+/**
+ * List Files
+ */
+export const get24 = oc
+  .route({
+    inputStructure: 'detailed',
+    method: 'GET',
+    operationId: 'list_files_enterprise_api_v1_office_files_get',
+    path: '/enterprise/api/v1/office/files',
+    summary: 'List Files',
+    tags: ['default'],
+  })
+  .input(z.object({ query: zListFilesEnterpriseApiV1OfficeFilesGetQuery.optional() }))
+  .output(zListFilesEnterpriseApiV1OfficeFilesGetResponse)
+
 export const files = {
+  get: get24,
   byFileId,
 }
 
@@ -1073,7 +1091,7 @@ export const office = {
 /**
  * Get Run By Request Key
  */
-export const get24 = oc
+export const get25 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1086,7 +1104,7 @@ export const get24 = oc
   .output(zGetRunByRequestKeyEnterpriseApiV1RunRequestsLookupGetResponse)
 
 export const lookup = {
-  get: get24,
+  get: get25,
 }
 
 export const runRequests = {
@@ -1096,7 +1114,7 @@ export const runRequests = {
 /**
  * Events
  */
-export const get25 = oc
+export const get26 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1114,13 +1132,13 @@ export const get25 = oc
   .output(zEventsEnterpriseApiV1RunsRunIdEventsGetResponse)
 
 export const events = {
-  get: get25,
+  get: get26,
 }
 
 /**
  * Get Run
  */
-export const get26 = oc
+export const get27 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1133,7 +1151,7 @@ export const get26 = oc
   .output(zGetRunEnterpriseApiV1RunsRunIdGetResponse)
 
 export const byRunId = {
-  get: get26,
+  get: get27,
   events,
 }
 
@@ -1169,7 +1187,7 @@ export const state = {
 /**
  * Get Schedule
  */
-export const get27 = oc
+export const get28 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1182,7 +1200,7 @@ export const get27 = oc
   .output(zGetScheduleEnterpriseApiV1SchedulesScheduleIdGetResponse)
 
 export const byScheduleId = {
-  get: get27,
+  get: get28,
   state,
 }
 
@@ -1193,7 +1211,7 @@ export const schedules = {
 /**
  * Capabilities
  */
-export const get28 = oc
+export const get29 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1205,13 +1223,13 @@ export const get28 = oc
   .output(zCapabilitiesEnterpriseApiV1SourcesCapabilitiesGetResponse)
 
 export const capabilities = {
-  get: get28,
+  get: get29,
 }
 
 /**
  * Get Source
  */
-export const get29 = oc
+export const get30 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1245,14 +1263,14 @@ export const put4 = oc
   .output(zUpdateSourceEnterpriseApiV1SourcesSourceIdPutResponse)
 
 export const bySourceId = {
-  get: get29,
+  get: get30,
   put: put4,
 }
 
 /**
  * List Sources
  */
-export const get30 = oc
+export const get31 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1286,7 +1304,7 @@ export const post12 = oc
   .output(zCreateSourceEnterpriseApiV1SourcesPostResponse)
 
 export const sources = {
-  get: get30,
+  get: get31,
   post: post12,
   capabilities,
   bySourceId,
@@ -1295,7 +1313,7 @@ export const sources = {
 /**
  * Get Message
  */
-export const get31 = oc
+export const get32 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1316,7 +1334,7 @@ export const get31 = oc
   )
 
 export const byClientMessageId = {
-  get: get31,
+  get: get32,
 }
 
 /**
@@ -1353,7 +1371,7 @@ export const messages = {
 /**
  * Get Branch
  */
-export const get32 = oc
+export const get33 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1371,14 +1389,14 @@ export const get32 = oc
   .output(zGetBranchEnterpriseApiV1WorkbenchAppsInstalledAppIdBranchesBranchIdGetResponse)
 
 export const byBranchId = {
-  get: get32,
+  get: get33,
   messages,
 }
 
 /**
  * List Branches
  */
-export const get33 = oc
+export const get34 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1417,7 +1435,7 @@ export const post14 = oc
   .output(zCreateRootEnterpriseApiV1WorkbenchAppsInstalledAppIdBranchesPostResponse)
 
 export const branches = {
-  get: get33,
+  get: get34,
   post: post14,
   byBranchId,
 }
@@ -1463,7 +1481,7 @@ export const revoke = {
 /**
  * Get Activation
  */
-export const get34 = oc
+export const get35 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1476,7 +1494,7 @@ export const get34 = oc
   .output(zGetActivationEnterpriseApiV1WorkflowActivationsActivationIdGetResponse)
 
 export const byActivationId = {
-  get: get34,
+  get: get35,
   revoke,
 }
 
@@ -1487,7 +1505,7 @@ export const workflowActivations = {
 /**
  * Find Activation
  */
-export const get35 = oc
+export const get36 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1528,14 +1546,14 @@ export const post16 = oc
   .output(zStartActivationEnterpriseApiV1WorkflowEnrollmentsEnrollmentIdActivationPostResponse)
 
 export const activation = {
-  get: get35,
+  get: get36,
   post: post16,
 }
 
 /**
  * Activation Specifications
  */
-export const get36 = oc
+export const get37 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1556,7 +1574,7 @@ export const get36 = oc
   )
 
 export const activationSpecifications = {
-  get: get36,
+  get: get37,
 }
 
 /**
@@ -1588,7 +1606,7 @@ export const advance = {
 /**
  * Get Enrollment
  */
-export const get37 = oc
+export const get38 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1601,7 +1619,7 @@ export const get37 = oc
   .output(zGetEnrollmentEnterpriseApiV1WorkflowEnrollmentsEnrollmentIdGetResponse)
 
 export const byEnrollmentId = {
-  get: get37,
+  get: get38,
   activation,
   activationSpecifications,
   advance,
@@ -1641,7 +1659,7 @@ export const advance2 = {
 /**
  * Find Enrollment
  */
-export const get38 = oc
+export const get39 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1683,14 +1701,14 @@ export const post19 = oc
   .output(zStartEnrollmentEnterpriseApiV1WorkflowProvisioningProvisioningIdEnrollmentPostResponse)
 
 export const enrollment = {
-  get: get38,
+  get: get39,
   post: post19,
 }
 
 /**
  * Get Provisioning
  */
-export const get39 = oc
+export const get40 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1705,7 +1723,7 @@ export const get39 = oc
   .output(zGetProvisioningEnterpriseApiV1WorkflowProvisioningProvisioningIdGetResponse)
 
 export const byProvisioningId = {
-  get: get39,
+  get: get40,
   advance: advance2,
   enrollment,
 }
@@ -1717,7 +1735,7 @@ export const workflowProvisioning = {
 /**
  * List Provisioning
  */
-export const get40 = oc
+export const get41 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1758,14 +1776,14 @@ export const post20 = oc
   .output(zStartProvisioningEnterpriseApiV1WorkflowSetupsSetupIdProvisioningPostResponse)
 
 export const provisioning = {
-  get: get40,
+  get: get41,
   post: post20,
 }
 
 /**
  * List Provisioning Profiles
  */
-export const get41 = oc
+export const get42 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1786,13 +1804,13 @@ export const get41 = oc
   )
 
 export const provisioningProfiles = {
-  get: get41,
+  get: get42,
 }
 
 /**
  * Get Setup
  */
-export const get42 = oc
+export const get43 = oc
   .route({
     inputStructure: 'detailed',
     method: 'GET',
@@ -1805,7 +1823,7 @@ export const get42 = oc
   .output(zGetSetupEnterpriseApiV1WorkflowSetupsSetupIdGetResponse)
 
 export const bySetupId = {
-  get: get42,
+  get: get43,
   provisioning,
   provisioningProfiles,
 }

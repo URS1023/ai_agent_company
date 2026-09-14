@@ -11,6 +11,7 @@ from fastapi.routing import APIRoute
 
 from enterprise_platform.application.contracts import Principal
 from enterprise_platform.application.errors import DependencyUnavailable, EnterpriseError, InvalidInput
+from enterprise_platform.application.office_directory import OfficeDirectoryPage, OfficeDirectoryService
 from enterprise_platform.application.office_edits import OfficeEditService
 from enterprise_platform.application.office_export import OfficeExportService
 from enterprise_platform.http.office_commands import OfficeEditRequest
@@ -24,6 +25,7 @@ def add_office_routes(
     exports: OfficeExportService | None,
     actor: Callable[[Request], Awaitable[Principal]],
     files: OfficeEditService | None = None,
+    directory: OfficeDirectoryService | None = None,
 ) -> None:
     class PrivateOfficeRoute(APIRoute):
         def get_route_handler(self) -> Callable[[Request], Coroutine[None, None, Response]]:
@@ -43,6 +45,15 @@ def add_office_routes(
             return private_handler
 
     routes = APIRouter(route_class=PrivateOfficeRoute)
+
+    @routes.get("/enterprise/api/v1/office/files", response_model=OfficeDirectoryPage)
+    def list_files(
+        principal: Annotated[Principal, Depends(actor)],
+        offset: Annotated[int, Query(ge=0, le=2147483647)] = 0,
+    ) -> OfficeDirectoryPage:
+        if directory is None:
+            raise DependencyUnavailable()
+        return directory.list_files(principal, offset=offset)
 
     @routes.post("/enterprise/api/v1/office/files/{file_id}/edits", response_model=OfficeFileView)
     def edit_file(

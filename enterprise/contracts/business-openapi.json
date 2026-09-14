@@ -2650,6 +2650,35 @@
         "title": "OfficeDecimalView",
         "type": "object"
       },
+      "OfficeDirectoryPage": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeFileSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "next_offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Offset"
+          }
+        },
+        "required": [
+          "items",
+          "next_offset"
+        ],
+        "title": "OfficeDirectoryPage",
+        "type": "object"
+      },
       "OfficeEditRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2679,6 +2708,45 @@
           "replacements"
         ],
         "title": "OfficeEditRequest",
+        "type": "object"
+      },
+      "OfficeFileSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "file_id": {
+            "format": "uuid",
+            "title": "File Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "document",
+              "presentation"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "string"
+          },
+          "template_id": {
+            "title": "Template Id",
+            "type": "string"
+          },
+          "template_revision": {
+            "title": "Template Revision",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file_id",
+          "revision",
+          "kind",
+          "template_id",
+          "template_revision"
+        ],
+        "title": "OfficeFileSummary",
         "type": "object"
       },
       "OfficeFileView": {
@@ -10846,6 +10914,140 @@
           }
         ],
         "summary": "Current Access"
+      }
+    },
+    "/enterprise/api/v1/office/files": {
+      "get": {
+        "operationId": "list_files_enterprise_api_v1_office_files_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "maximum": 2147483647,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeDirectoryPage"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native Dify account session is not authenticated."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Identity, role, CSRF or browser origin check failed."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Resource does not exist in the current workspace."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Revision, idempotency key or resource state conflict."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request or business command."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Enterprise domain operation failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native identity or persistence dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": []
+          }
+        ],
+        "summary": "List Files"
       }
     },
     "/enterprise/api/v1/office/files/{file_id}": {

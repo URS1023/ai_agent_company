@@ -17,6 +17,7 @@ from lxml import etree
 
 from enterprise_platform.application.errors import InvalidInput
 from enterprise_platform.domain.office_content import ChartData
+from enterprise_platform.domain.office_templates import OfficeTemplate
 
 from .office_chart_package import restore_chart_data
 
@@ -78,7 +79,9 @@ def _workbook_target(package: ZipFile, chart_name: str, chart: bytes, names: set
     return resolved
 
 
-def assemble_chart_data(pptx: bytes, bindings: tuple[ChartBinding, ...]) -> bytes:
+def assemble_chart_data(
+    pptx: bytes, bindings: tuple[ChartBinding, ...], *, template: OfficeTemplate | None = None
+) -> bytes:
     """Update every bound chart plus its internal workbook, returning only a complete ZIP."""
     if len(pptx) > _PACKAGE_LIMIT:
         raise _invalid()
@@ -133,7 +136,7 @@ def assemble_chart_data(pptx: bytes, bindings: tuple[ChartBinding, ...]) -> byte
                 if workbook in replacements:
                     # Two chart bindings must not overwrite a shared workbook independently.
                     raise _invalid()
-                parts = restore_chart_data(original, binding.data)
+                parts = restore_chart_data(original, binding.data, template=template)
                 replacements[binding.part_name] = parts.chart_xml
                 replacements[workbook] = parts.workbook
             size = sum(

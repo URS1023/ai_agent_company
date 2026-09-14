@@ -8,6 +8,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 import pytest
 
 from enterprise_platform.adapters.office_pptx_package import ChartBinding, assemble_chart_data
+from enterprise_platform.adapters.office_templates import get_builtin_template
 from enterprise_platform.application.errors import InvalidInput
 from enterprise_platform.domain.office_content import ChartData, ChartSeries
 
@@ -111,6 +112,25 @@ def test_unbound_second_chart_is_not_silently_left_with_stale_values():
 def test_malformed_zip_produces_domain_error():
     with pytest.raises(InvalidInput):
         assemble_chart_data(b"not a zip", (binding(),))
+
+
+def test_explicit_template_color_reaches_the_assembled_native_chart():
+    output = BytesIO()
+    with ZipFile(BytesIO(fixture())) as source, ZipFile(output, "w") as target:
+        chart = ET.fromstring(source.read(PART))
+        axis = ET.SubElement(chart.find(f"{C}chart/{C}plotArea"), C + "valAx")
+        ET.SubElement(axis, C + "crossAx", val="2")
+        for name in source.namelist():
+            target.writestr(name, ET.tostring(chart) if name == PART else source.read(name))
+    template = get_builtin_template("midnight-analytics", 1)
+    result = assemble_chart_data(output.getvalue(), (binding(),), template=template)
+    a = "{http://schemas.openxmlformats.org/drawingml/2006/main}"
+    with ZipFile(BytesIO(result)) as package:
+        chart = ET.fromstring(package.read(PART))
+        assert (
+            chart.find(f".//{C}valAx/{C}txPr/{a}p/{a}pPr/{a}defRPr/{a}solidFill/{a}srgbClr").get("val")
+            == template.theme.text
+        )
 
 
 @pytest.mark.parametrize("shared", [False, True])

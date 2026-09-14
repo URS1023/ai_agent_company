@@ -4,6 +4,8 @@ Chart caches and the accompanying editable XLSX store the same exact decimal
 lexemes. Office applications may round numbers when calculating or resaving;
 these bytes are not a guarantee of arbitrary-precision spreadsheet arithmetic.
 The PPT package assembler must install both parts using the existing relationship.
+An explicit template also restores axis/legend text color from its palette; omitting
+it retains existing text styling for data-only repairs.
 """
 
 from dataclasses import dataclass
@@ -15,12 +17,14 @@ from lxml import etree
 
 from enterprise_platform.application.errors import InvalidInput
 from enterprise_platform.domain.office_content import ChartData
+from enterprise_platform.domain.office_templates import OfficeTemplate
 
 C = "{http://schemas.openxmlformats.org/drawingml/2006/chart}"
 S = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 P = "{http://schemas.openxmlformats.org/package/2006/relationships}"
 T = "{http://schemas.openxmlformats.org/package/2006/content-types}"
+A = "{http://schemas.openxmlformats.org/drawingml/2006/main}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -153,7 +157,52 @@ def _string_reference(parent: etree._Element, formula: str, values: tuple[str, .
         etree.SubElement(etree.SubElement(cache, C + "pt", idx=str(index)), C + "v").text = value
 
 
-def restore_chart_data(chart_xml: bytes, data: ChartData) -> OfficeChartParts:
+def _text_fill(properties: etree._Element, color: str) -> None:
+    fills = {A + name for name in ("noFill", "solidFill", "gradFill", "blipFill", "pattFill", "grpFill")}
+    existing = [child for child in properties if child.tag in fills]
+    position = properties.index(existing[0]) if existing else (1 if properties.find(A + "ln") is not None else 0)
+    for child in existing:
+        properties.remove(child)
+    fill = etree.Element(A + "solidFill")
+    etree.SubElement(fill, A + "srgbClr", val=color)
+    properties.insert(position, fill)
+
+
+def _template_axis_text(root: etree._Element, template: OfficeTemplate) -> None:
+    containers = {C + name for name in ("catAx", "valAx", "dateAx", "serAx", "legend", "legendEntry")}
+    for container in root.iter():
+        if container.tag not in containers:
+            continue
+        text = container.find(C + "txPr")
+        if text is None:
+            text = etree.Element(C + "txPr")
+            position = next(
+                (i for i, child in enumerate(container) if child.tag in {C + "crossAx", C + "extLst"}), len(container)
+            )
+            container.insert(position, text)
+            etree.SubElement(text, A + "bodyPr")
+            etree.SubElement(text, A + "lstStyle")
+        paragraphs = text.findall(A + "p")
+        if not paragraphs:
+            paragraphs = [etree.SubElement(text, A + "p")]
+        for paragraph in paragraphs:
+            properties = paragraph.find(A + "pPr")
+            if properties is None:
+                properties = etree.Element(A + "pPr")
+                paragraph.insert(0, properties)
+            default = properties.find(A + "defRPr")
+            if default is None:
+                default = etree.Element(A + "defRPr")
+                extension = properties.find(A + "extLst")
+                properties.insert(properties.index(extension) if extension is not None else len(properties), default)
+        for properties in text.iter():
+            if properties.tag in {A + "defRPr", A + "rPr", A + "endParaRPr"}:
+                _text_fill(properties, template.theme.text)
+
+
+def restore_chart_data(
+    chart_xml: bytes, data: ChartData, *, template: OfficeTemplate | None = None
+) -> OfficeChartParts:
     """Repair a generated category chart; reject incompatible series mapping."""
     try:
         source = chart_xml.decode("utf-8")
@@ -210,5 +259,7 @@ def restore_chart_data(chart_xml: bytes, data: ChartData) -> OfficeChartParts:
         )
         chart.insert(insertion, blanks)
     blanks.set("val", "gap")
+    if template is not None:
+        _template_axis_text(root, template)
     serialized = etree.tostring(root, encoding="utf-8", xml_declaration=True)
     return OfficeChartParts(chart_xml=serialized, workbook=_workbook(data, tuple(formats)))

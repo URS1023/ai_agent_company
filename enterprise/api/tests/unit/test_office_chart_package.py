@@ -10,6 +10,7 @@ from lxml import etree
 from pydantic import ValidationError
 
 from enterprise_platform.adapters.office_chart_package import restore_chart_data
+from enterprise_platform.adapters.office_templates import get_builtin_template
 from enterprise_platform.application.errors import InvalidInput
 from enterprise_platform.domain.office_content import ChartData, ChartSeries
 
@@ -141,3 +142,33 @@ def test_literal_numeric_percentage_format_survives_data_replacement():
         xf = styles.find(S + "cellXfs")[int(cell.get("s"))]
         number_format = next(node for node in styles.iter(S + "numFmt") if node.get("numFmtId") == xf.get("numFmtId"))
         assert number_format.get("formatCode") == "0.00%"
+
+
+@pytest.mark.parametrize("template_id", ["midnight-analytics", "noir-gold", "cyber-neon", "executive-ivory"])
+def test_explicit_template_text_color_fixes_axes_without_changing_series_style(template_id):
+    template = get_builtin_template(template_id, 1)
+    root = etree.fromstring(chart_xml())
+    a = "{http://schemas.openxmlformats.org/drawingml/2006/main}"
+    plot = root.find(f"{C}chart/{C}plotArea")
+    axis = etree.SubElement(plot, C + "valAx")
+    text = etree.SubElement(axis, C + "txPr")
+    etree.SubElement(text, a + "bodyPr")
+    etree.SubElement(text, a + "lstStyle")
+    paragraph = etree.SubElement(text, a + "p")
+    props = etree.SubElement(etree.SubElement(paragraph, a + "pPr"), a + "defRPr", sz="900", b="1")
+    etree.SubElement(etree.SubElement(props, a + "solidFill"), a + "srgbClr", val="000000")
+    etree.SubElement(props, a + "latin", typeface="Arial")
+    etree.SubElement(axis, C + "crossAx", val="2")
+    category = etree.SubElement(plot, C + "catAx")
+    etree.SubElement(category, C + "crossAx", val="1")
+    before_style = etree.tostring(root.find(f".//{C}ser/{C}spPr"))
+
+    result = etree.fromstring(restore_chart_data(etree.tostring(root), source(), template=template).chart_xml)
+    restored = result.find(f".//{C}valAx/{C}txPr/{a}p/{a}pPr/{a}defRPr")
+    assert restored.attrib == {"sz": "900", "b": "1"}
+    assert restored.find(a + "latin").get("typeface") == "Arial"
+    assert restored.find(f"{a}solidFill/{a}srgbClr").get("val") == template.theme.text
+    category = result.find(f".//{C}catAx")
+    assert [child.tag for child in category] == [C + "txPr", C + "crossAx"]
+    assert category.find(f"{C}txPr/{a}p/{a}pPr/{a}defRPr/{a}solidFill/{a}srgbClr").get("val") == template.theme.text
+    assert etree.tostring(result.find(f".//{C}ser/{C}spPr")) == before_style

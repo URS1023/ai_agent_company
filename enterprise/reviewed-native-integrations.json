@@ -360,6 +360,16 @@
         "Full Web report before re-enabling: 30123 passed, zero failed, two skipped. Current-tree full-suite rerun remains required.",
         "ESLint exposed the pre-existing unused user variable after re-enabling. Follow-up review and scoped validation cover removal of the unused setup/import; the preceding four runs covered skip-only bytes."
       ]
+    },
+    {
+      "path": "web/app/components/workflow/panel/chat-record/__tests__/index.spec.tsx",
+      "baselineSha256": "60e688aaf906f3bd5881a5b4b442806f836a3e7fcfc70d9032e0b34fd81d9405",
+      "reviewedSha256": "86870774e8f0fc7d9173c8c00c436abe8fe0da35e30182be6943c08bcb5a220a",
+      "reason": "Await the real lazy Markdown chunk before timing chat-history interactions; no production edits, mock replacements, assertion changes or timeout increases.",
+      "verification": [
+        "Full Web run 40393: 30124 passed, one ChatRecord failure, zero skipped. Original isolated file reproduced two failed/one passed in session66127.",
+        "Single-variable preload change passed all three tests in session16532; independent diagnosis traced empty Markdown body to real dynamic initialization. Follow-up exact-change review and combined regression pending."
+      ]
     }
   ]
 }

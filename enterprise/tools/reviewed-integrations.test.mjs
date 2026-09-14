@@ -289,3 +289,17 @@ test('limits re-enabled regression reviews to exact test bytes', () => {
       validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
     )
 })
+
+test('limits chat-history lazy-chunk review to its exact regression test', () => {
+  const path = 'web/app/components/workflow/panel/chat-record/__tests__/index.spec.tsx'
+  const reviews = validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit')
+  assert.equal(matchesReview(path, 'original\n', 'additive reviewed version\n', reviews), true)
+  assert.equal(matchesReview(path, 'original\n', 'unreviewed change\n', reviews), false)
+  for (const path of [
+    'web/app/components/workflow/panel/chat-record/index.tsx',
+    'web/app/components/base/markdown/streamdown-wrapper.tsx',
+  ])
+    assert.throws(() =>
+      validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
+    )
+})

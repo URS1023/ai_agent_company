@@ -21,6 +21,11 @@ const historyWorkflowData: HistoryWorkflowData = {
 }
 
 describe('ChatRecord', () => {
+  beforeAll(async () => {
+    // Compile the real lazy Markdown chunk before timing chat-history interactions.
+    await import('@/app/components/base/markdown/streamdown-wrapper')
+  })
+
   beforeEach(() => {
     vi.clearAllMocks()
     useAppStore.setState({

@@ -1,6 +1,7 @@
 """Atomic initial Office files with mandatory creation authorization and exact replay."""
 
 import hashlib
+from collections.abc import Callable
 from typing import Protocol
 
 from sqlalchemy import select
@@ -13,7 +14,7 @@ from enterprise_platform.application.office_edits import OfficeFileRecord, Offic
 from .mapping import audit, transaction, utc_now
 from .office_documents import encode_office_record
 from .office_models import OfficeFileRow, OfficeGrantRow, OfficeRevisionRow
-from .office_repository import SqlAlchemyOfficeEditRepository
+from .office_repository import OfficeSourceAccess, SqlAlchemyOfficeEditRepository
 
 
 class OfficeCreationAccess(Protocol):
@@ -23,6 +24,20 @@ class OfficeCreationAccess(Protocol):
         Called again for retries; no cached authorization or permissive default.
         """
         ...
+
+
+class RegisteredOfficeCreationAccess:
+    def __init__(self, sources: OfficeSourceAccess, require_template: Callable[[OfficeFileRecord], None]) -> None:
+        self._sources, self._require_template = sources, require_template
+
+    def require(self, session: Session, principal: Principal, record: OfficeFileRecord) -> None:
+        if not principal.can("run") or record.workspace_id != principal.workspace_id:
+            raise AccessDenied()
+        self._require_template(record)
+        # This context checks source entitlements only; the creator grants file ACLs
+        # after the complete creation policy succeeds in the same transaction.
+        source_context = OfficeGrant(principal.workspace_id, principal.actor_id, record.content.file_id, "read", 1)
+        self._sources.require(session, source_context, record)
 
 
 class SqlAlchemyOfficeFileCreator:

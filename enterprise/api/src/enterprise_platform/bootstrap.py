@@ -23,6 +23,7 @@ from sqlalchemy.orm import sessionmaker
 
 from enterprise_platform.adapters.dify_identity import DifyIdentityClient
 from enterprise_platform.adapters.office_docx import render_office_docx
+from enterprise_platform.adapters.office_templates import require_office_template
 from enterprise_platform.adapters.source_encryption import AesGcmSourceCipher, SourceKeyring
 from enterprise_platform.adapters.workflow_credential_encryption import AesGcmCredentialCipher, CredentialKeyring
 from enterprise_platform.adapters.workflow_draft_client import DifyWorkflowDraftClient
@@ -70,6 +71,7 @@ from enterprise_platform.http.app import create_app
 from enterprise_platform.http.internal import create_managed_router
 from enterprise_platform.http.native_registration import create_registration_router
 from enterprise_platform.persistence.execution_lookup import SqlAlchemyExecutionLookup
+from enterprise_platform.persistence.office_creation import RegisteredOfficeCreationAccess, SqlAlchemyOfficeFileCreator
 from enterprise_platform.persistence.office_directory import SqlAlchemyOfficeDirectory
 from enterprise_platform.persistence.office_repository import SqlAlchemyOfficeEditRepository
 from enterprise_platform.persistence.office_source_access import SqlAlchemyRegisteredOfficeSourceAccess
@@ -488,10 +490,9 @@ def create_runtime(settings: Settings) -> Runtime:
             if settings.dashboards is not None
             else None
         )
+        office_sources = SqlAlchemyRegisteredOfficeSourceAccess(cipher) if cipher is not None else None
         office_repository = (
-            SqlAlchemyOfficeEditRepository(sessions, SqlAlchemyRegisteredOfficeSourceAccess(cipher))
-            if cipher is not None
-            else None
+            SqlAlchemyOfficeEditRepository(sessions, office_sources) if office_sources is not None else None
         )
         office_files = (
             OfficeEditService(office_repository, office_repository) if office_repository is not None else None
@@ -510,6 +511,11 @@ def create_runtime(settings: Settings) -> Runtime:
             workbench=workbench.dispatcher if workbench is not None else None,
             workbench_branches=workbench.branch_service if workbench is not None else None,
             office_files=office_files,
+            office_creator=SqlAlchemyOfficeFileCreator(
+                sessions, RegisteredOfficeCreationAccess(office_sources, require_office_template)
+            )
+            if office_sources is not None
+            else None,
             office_exports=OfficeExportService(office_files, render_office_docx) if office_files is not None else None,
             office_directory=OfficeDirectoryService(SqlAlchemyOfficeDirectory(sessions), office_files)
             if office_files is not None

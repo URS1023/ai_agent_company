@@ -245,6 +245,7 @@ function Session({ title, branch, inputs, history }: Props) {
 
   return (
     <WorkbenchConversation
+      officeScope={{ actor: scope.actor_id, workspace: scope.workspace_id }}
       title={title}
       history={history}
       messages={messages.map((message, index) => ({

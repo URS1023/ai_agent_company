@@ -1,15 +1,16 @@
 """Convert lossless browser values to existing domain edit commands, never bindings."""
 
 from decimal import Decimal
+from typing import Literal
 from uuid import UUID
 
 from pydantic import Field, StrictStr
 
-from enterprise_platform.application.contracts import Contract
-from enterprise_platform.application.errors import InvalidInput
-from enterprise_platform.application.office_edits import OfficeEditCommand
+from enterprise_platform.application.contracts import Contract, Identifier, Principal
+from enterprise_platform.application.errors import AccessDenied, InvalidInput
+from enterprise_platform.application.office_edits import OfficeEditCommand, OfficeFileRecord
 from enterprise_platform.domain.office_content import ChartData, ChartSeries, TableCell, TableData
-from enterprise_platform.domain.office_revision import OfficeText, UnitReplacement
+from enterprise_platform.domain.office_revision import OfficeRevision, OfficeText, OfficeUnit, UnitReplacement
 from enterprise_platform.http.office_views import OfficeDecimalView, OfficeIntegerView
 
 
@@ -77,6 +78,46 @@ class OfficeEditRequest(Contract):
                 replacements=tuple(
                     UnitReplacement(unit_id=item.unit_id, content=tuple(_content(value) for value in item.content))
                     for item in self.replacements
+                ),
+            )
+        except (ValueError, ArithmeticError):
+            raise InvalidInput("office_unit_content_invalid") from None
+
+
+class OfficeUnitInput(OfficeReplacementInput):
+    kind: Literal["slide", "paragraph", "table"]
+
+
+class OfficeCreateRequest(Contract):
+    expected_actor_id: Identifier
+    expected_workspace_id: Identifier
+    file_id: UUID
+    kind: Literal["presentation", "document"]
+    template_id: StrictStr = Field(min_length=1, max_length=256)
+    template_revision: StrictStr = Field(pattern=r"^[1-9][0-9]{0,18}$")
+    source_snapshot_ids: tuple[StrictStr, ...] = Field(default=(), max_length=1000)
+    units: tuple[OfficeUnitInput, ...] = Field(min_length=1, max_length=10000)
+
+    def record(self, principal: Principal) -> OfficeFileRecord:
+        # Preconditions fence stale tabs; authenticated identity alone selects persistence scope.
+        if self.expected_actor_id != principal.actor_id or self.expected_workspace_id != principal.workspace_id:
+            raise AccessDenied()
+        try:
+            return OfficeFileRecord(
+                principal.workspace_id,
+                self.template_id,
+                int(self.template_revision),
+                self.source_snapshot_ids,
+                OfficeRevision(
+                    file_id=self.file_id,
+                    revision=1,
+                    kind=self.kind,
+                    units=tuple(
+                        OfficeUnit(
+                            unit_id=unit.unit_id, kind=unit.kind, content=tuple(_content(item) for item in unit.content)
+                        )
+                        for unit in self.units
+                    ),
                 ),
             )
         except (ValueError, ArithmeticError):

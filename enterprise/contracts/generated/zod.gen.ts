@@ -829,6 +829,40 @@ export const zOfficeEditRequest = z.object({
 })
 
 /**
+ * OfficeUnitInput
+ */
+export const zOfficeUnitInput = z.object({
+  content: z
+    .array(z.union([zOfficeTextInput, zOfficeChartInput, zOfficeTableInput]))
+    .min(1)
+    .max(1000),
+  kind: z.enum(['slide', 'paragraph', 'table']),
+  unit_id: z.uuid(),
+})
+
+/**
+ * OfficeCreateRequest
+ */
+export const zOfficeCreateRequest = z.object({
+  expected_actor_id: z
+    .string()
+    .min(1)
+    .max(128)
+    .regex(/^\S(?:.*\S)?$/),
+  expected_workspace_id: z
+    .string()
+    .min(1)
+    .max(128)
+    .regex(/^\S(?:.*\S)?$/),
+  file_id: z.uuid(),
+  kind: z.enum(['presentation', 'document']),
+  source_snapshot_ids: z.array(z.string()).max(1000).optional().default([]),
+  template_id: z.string().min(1).max(256),
+  template_revision: z.string().regex(/^[1-9][0-9]{0,18}$/),
+  units: z.array(zOfficeUnitInput).min(1).max(10000),
+})
+
+/**
  * OfficeUnitView
  */
 export const zOfficeUnitView = z.object({
@@ -2791,6 +2825,17 @@ export const zListFilesEnterpriseApiV1OfficeFilesGetQuery = z.object({
  * Successful Response
  */
 export const zListFilesEnterpriseApiV1OfficeFilesGetResponse = zOfficeDirectoryPage
+
+export const zCreateFileEnterpriseApiV1OfficeFilesPostBody = zOfficeCreateRequest
+
+export const zCreateFileEnterpriseApiV1OfficeFilesPostHeaders = z.object({
+  Origin: z.string(),
+})
+
+/**
+ * Successful Response
+ */
+export const zCreateFileEnterpriseApiV1OfficeFilesPostResponse = zOfficeFileView
 
 export const zReadFileEnterpriseApiV1OfficeFilesFileIdGetPath = z.object({
   file_id: z.uuid(),

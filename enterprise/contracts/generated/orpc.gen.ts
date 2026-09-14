@@ -27,6 +27,9 @@ import {
   zCreateDeviceEnterpriseApiV1DevicesPostBody,
   zCreateDeviceEnterpriseApiV1DevicesPostHeaders,
   zCreateDeviceEnterpriseApiV1DevicesPostResponse,
+  zCreateFileEnterpriseApiV1OfficeFilesPostBody,
+  zCreateFileEnterpriseApiV1OfficeFilesPostHeaders,
+  zCreateFileEnterpriseApiV1OfficeFilesPostResponse,
   zCreateRootEnterpriseApiV1WorkbenchAppsInstalledAppIdBranchesPostBody,
   zCreateRootEnterpriseApiV1WorkbenchAppsInstalledAppIdBranchesPostHeaders,
   zCreateRootEnterpriseApiV1WorkbenchAppsInstalledAppIdBranchesPostPath,
@@ -1079,8 +1082,30 @@ export const get24 = oc
   .input(z.object({ query: zListFilesEnterpriseApiV1OfficeFilesGetQuery.optional() }))
   .output(zListFilesEnterpriseApiV1OfficeFilesGetResponse)
 
+/**
+ * Create File
+ */
+export const post11 = oc
+  .route({
+    inputStructure: 'detailed',
+    method: 'POST',
+    operationId: 'create_file_enterprise_api_v1_office_files_post',
+    path: '/enterprise/api/v1/office/files',
+    successStatus: 201,
+    summary: 'Create File',
+    tags: ['default'],
+  })
+  .input(
+    z.object({
+      body: zCreateFileEnterpriseApiV1OfficeFilesPostBody,
+      headers: zCreateFileEnterpriseApiV1OfficeFilesPostHeaders,
+    }),
+  )
+  .output(zCreateFileEnterpriseApiV1OfficeFilesPostResponse)
+
 export const files = {
   get: get24,
+  post: post11,
   byFileId,
 }
 
@@ -1162,7 +1187,7 @@ export const runs2 = {
 /**
  * Switch Schedule
  */
-export const post11 = oc
+export const post12 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1181,7 +1206,7 @@ export const post11 = oc
   .output(zSwitchScheduleEnterpriseApiV1SchedulesScheduleIdStatePostResponse)
 
 export const state = {
-  post: post11,
+  post: post12,
 }
 
 /**
@@ -1285,7 +1310,7 @@ export const get31 = oc
 /**
  * Create Source
  */
-export const post12 = oc
+export const post13 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1305,7 +1330,7 @@ export const post12 = oc
 
 export const sources = {
   get: get31,
-  post: post12,
+  post: post13,
   capabilities,
   bySourceId,
 }
@@ -1340,7 +1365,7 @@ export const byClientMessageId = {
 /**
  * Send Message
  */
-export const post13 = oc
+export const post14 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1364,7 +1389,7 @@ export const post13 = oc
   )
 
 export const messages = {
-  post: post13,
+  post: post14,
   byClientMessageId,
 }
 
@@ -1416,7 +1441,7 @@ export const get34 = oc
 /**
  * Create Root
  */
-export const post14 = oc
+export const post15 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1436,7 +1461,7 @@ export const post14 = oc
 
 export const branches = {
   get: get34,
-  post: post14,
+  post: post15,
   byBranchId,
 }
 
@@ -1455,7 +1480,7 @@ export const workbench = {
 /**
  * Revoke Activation
  */
-export const post15 = oc
+export const post16 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1475,7 +1500,7 @@ export const post15 = oc
   .output(zRevokeActivationEnterpriseApiV1WorkflowActivationsActivationIdRevokePostResponse)
 
 export const revoke = {
-  post: post15,
+  post: post16,
 }
 
 /**
@@ -1525,7 +1550,7 @@ export const get36 = oc
 /**
  * Start Activation
  */
-export const post16 = oc
+export const post17 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1547,7 +1572,7 @@ export const post16 = oc
 
 export const activation = {
   get: get36,
-  post: post16,
+  post: post17,
 }
 
 /**
@@ -1580,7 +1605,7 @@ export const activationSpecifications = {
 /**
  * Advance Enrollment
  */
-export const post17 = oc
+export const post18 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1600,7 +1625,7 @@ export const post17 = oc
   .output(zAdvanceEnrollmentEnterpriseApiV1WorkflowEnrollmentsEnrollmentIdAdvancePostResponse)
 
 export const advance = {
-  post: post17,
+  post: post18,
 }
 
 /**
@@ -1632,7 +1657,7 @@ export const workflowEnrollments = {
 /**
  * Advance Provisioning
  */
-export const post18 = oc
+export const post19 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1653,7 +1678,7 @@ export const post18 = oc
   .output(zAdvanceProvisioningEnterpriseApiV1WorkflowProvisioningProvisioningIdAdvancePostResponse)
 
 export const advance2 = {
-  post: post18,
+  post: post19,
 }
 
 /**
@@ -1679,7 +1704,7 @@ export const get39 = oc
 /**
  * Start Enrollment
  */
-export const post19 = oc
+export const post20 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1702,7 +1727,7 @@ export const post19 = oc
 
 export const enrollment = {
   get: get39,
-  post: post19,
+  post: post20,
 }
 
 /**
@@ -1755,7 +1780,7 @@ export const get41 = oc
 /**
  * Start Provisioning
  */
-export const post20 = oc
+export const post21 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1777,7 +1802,7 @@ export const post20 = oc
 
 export const provisioning = {
   get: get41,
-  post: post20,
+  post: post21,
 }
 
 /**

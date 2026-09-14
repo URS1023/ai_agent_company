@@ -71,6 +71,10 @@ class OfficeEditReceipt:
     record: OfficeFileRecord
 
 
+class OfficeFileCreator(Protocol):
+    def create(self, principal: Principal, record: OfficeFileRecord) -> OfficeFileRecord: ...
+
+
 class OfficeAccessPolicy(Protocol):
     def authorize(self, principal: Principal, file_id: UUID, action: OfficeAction) -> OfficeGrant:
         """Check current file/source permissions; return a versioned grant or raise AccessDenied."""

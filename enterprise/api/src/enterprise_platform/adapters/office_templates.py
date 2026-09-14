@@ -7,6 +7,7 @@ from pydantic import Field, ValidationError, model_validator
 
 from enterprise_platform.application.contracts import canonical_hash
 from enterprise_platform.application.errors import NotFound, PersistenceError
+from enterprise_platform.application.office_edits import OfficeFileRecord
 from enterprise_platform.domain.office_content import OfficeContent
 from enterprise_platform.domain.office_templates import OfficeTemplate
 
@@ -45,3 +46,16 @@ def get_builtin_template(template_id: str, revision: int) -> OfficeTemplate:
         if item.id == template_id:
             return item
     raise NotFound("office_template_not_found")
+
+
+def require_office_template(record: OfficeFileRecord) -> None:
+    """Resolve exact immutable bindings; never silently substitute another design."""
+    if record.content.kind == "document":
+        if (
+            record.template_id != "document-default"
+            or type(record.template_revision) is not int
+            or record.template_revision != 1
+        ):
+            raise NotFound("office_template_not_found")
+        return
+    get_builtin_template(record.template_id, record.template_revision)

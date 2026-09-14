@@ -30,7 +30,6 @@ pytestmark = pytest.mark.skipif(
 @pytest.mark.parametrize("enabled", [True, False])
 def test_registered_office_policy_obeys_original_source_lifecycle(managed_sources, enabled):
     import base64
-    from datetime import UTC, datetime
     from io import BytesIO
     from unittest.mock import AsyncMock, patch
     from zipfile import ZipFile
@@ -38,15 +37,14 @@ def test_registered_office_policy_obeys_original_source_lifecycle(managed_source
     from fastapi.testclient import TestClient
     from pydantic import SecretStr
 
+    from enterprise_platform.adapters.office_templates import require_office_template
     from enterprise_platform.adapters.source_encryption import SourceKeyring
     from enterprise_platform.bootstrap import Settings, create_runtime
-    from enterprise_platform.persistence.office_documents import encode_office_record
-    from enterprise_platform.persistence.office_models import (
-        OfficeBase,
-        OfficeFileRow,
-        OfficeGrantRow,
-        OfficeRevisionRow,
+    from enterprise_platform.persistence.office_creation import (
+        RegisteredOfficeCreationAccess,
+        SqlAlchemyOfficeFileCreator,
     )
+    from enterprise_platform.persistence.office_models import OfficeBase, OfficeFileRow
     from enterprise_platform.persistence.office_source_access import SqlAlchemyRegisteredOfficeSourceAccess
 
     service, _, devices, cipher, _, principal, draft = managed_sources
@@ -94,6 +92,12 @@ def test_registered_office_policy_obeys_original_source_lifecycle(managed_source
     policy = SqlAlchemyRegisteredOfficeSourceAccess(cipher)
     with devices._sessions() as reader:
         policy.require(reader, grant, record)
+    OfficeBase.metadata.create_all(engine)
+    creator = SqlAlchemyOfficeFileCreator(
+        devices._sessions, RegisteredOfficeCreationAccess(policy, require_office_template)
+    )
+    assert creator.create(principal, record) == record
+    assert creator.create(principal, record) == record
     if not enabled:
         service.update_source(
             principal, first.source_id, draft.model_copy(update={"enabled": False}), expected_revision=1
@@ -105,41 +109,9 @@ def test_registered_office_policy_obeys_original_source_lifecycle(managed_source
             with pytest.raises(AccessDenied, match="source_disabled"):
                 policy.require(reader, grant, record)
 
-    OfficeBase.metadata.create_all(engine)
-    document = encode_office_record(record)
-    now = datetime.now(UTC)
-    with devices._sessions.begin() as session:
-        session.add(
-            OfficeFileRow(
-                workspace_id=principal.workspace_id,
-                file_id=str(grant.file_id),
-                current_revision=1,
-                acl_revision=1,
-                created_by=principal.actor_id,
-                created_at=now,
-            )
-        )
-        session.flush()
-        session.add(
-            OfficeGrantRow(
-                workspace_id=principal.workspace_id,
-                file_id=str(grant.file_id),
-                actor_id=principal.actor_id,
-                can_read=True,
-                can_edit=True,
-            )
-        )
-        session.add(
-            OfficeRevisionRow(
-                workspace_id=principal.workspace_id,
-                file_id=str(grant.file_id),
-                revision=1,
-                document_json=document,
-                document_hash=hashlib.sha256(document.encode()).hexdigest(),
-                actor_id=principal.actor_id,
-                created_at=now,
-            )
-        )
+    if not enabled:
+        with pytest.raises(AccessDenied, match="source_disabled"):
+            creator.create(principal, record)
     config = Settings(
         database_url=SecretStr("postgresql+psycopg://unused:unused@127.0.0.1:55432/enterprise_test"),
         dify_console_url="http://127.0.0.1/console/api",
@@ -165,9 +137,63 @@ def test_registered_office_policy_obeys_original_source_lifecycle(managed_source
         try:
             with TestClient(runtime.app) as client:
                 path = f"/enterprise/api/v1/office/files/{grant.file_id}"
+                headers = {"Origin": "http://127.0.0.1"}
+                creation = {
+                    "expected_actor_id": principal.actor_id,
+                    "expected_workspace_id": principal.workspace_id,
+                    "file_id": str(UUID(int=9)),
+                    "kind": "document",
+                    "template_id": record.template_id,
+                    "template_revision": "1",
+                    "source_snapshot_ids": ["snapshot"],
+                    "units": [unit.model_dump(mode="json") for unit in record.content.units],
+                }
+                create_path = "/enterprise/api/v1/office/files"
+                assert client.post(create_path, json=creation).status_code == 403
+                assert (
+                    client.post(create_path, json={**creation, "workspace_id": "other"}, headers=headers).status_code
+                    == 422
+                )
+                # A transcript has no source bindings: only the expected-scope fence prevents a misplaced write.
+                transcript = {**creation, "file_id": str(UUID(int=10)), "source_snapshot_ids": []}
+                for changed_scope in ({"workspace_id": "other-workspace"}, {"actor_id": "other-actor"}):
+                    identity.return_value = principal.model_copy(update=changed_scope)
+                    assert client.post(create_path, json=transcript, headers=headers).status_code == 403
+                    with devices._sessions() as check:
+                        assert (
+                            check.scalar(select(OfficeFileRow).where(OfficeFileRow.file_id == transcript["file_id"]))
+                            is None
+                        )
+                identity.return_value = principal
+                identity.return_value = principal.model_copy(update={"workspace_role": "normal"})
+                assert client.post(create_path, json=creation, headers=headers).status_code == 403
+                identity.return_value = principal
+                created = client.post(create_path, json=creation, headers=headers)
+                assert created.status_code == (201 if enabled else 403), created.text
+                if enabled:
+                    assert created.json()["revision"] == "1"
+                    assert client.post(create_path, json=creation, headers=headers).json() == created.json()
+                    changed = {
+                        **creation,
+                        "units": [
+                            {
+                                "unit_id": str(UUID(int=2)),
+                                "kind": "paragraph",
+                                "content": [{"text": "Different creation"}],
+                            }
+                        ],
+                    }
+                    assert client.post(create_path, json=changed, headers=headers).status_code == 409
+                    fresh_path = f"{create_path}/{UUID(int=9)}"
+                    assert client.get(fresh_path).json() == created.json()
+                    fresh_doc = client.get(f"{fresh_path}/document?expected_revision=1")
+                    assert fresh_doc.status_code == 200
+                    with ZipFile(BytesIO(fresh_doc.content)) as package:
+                        assert package.testzip() is None
+                        assert b"Report" in package.read("word/document.xml")
                 listing = client.get("/enterprise/api/v1/office/files")
                 assert listing.status_code == 200, listing.text
-                assert len(listing.json()["items"]) == int(enabled)
+                assert len(listing.json()["items"]) == 2 * int(enabled)
                 assert client.get(path).status_code == (200 if enabled else 403)
                 download = client.get(f"{path}/document?expected_revision=1")
                 assert download.status_code == (200 if enabled else 403)

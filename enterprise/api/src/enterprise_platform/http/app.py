@@ -34,7 +34,7 @@ from enterprise_platform.application.contracts import (
 from enterprise_platform.application.dashboard_service import DashboardService
 from enterprise_platform.application.errors import AccessDenied, EnterpriseError, InvalidInput
 from enterprise_platform.application.office_directory import OfficeDirectoryService
-from enterprise_platform.application.office_edits import OfficeEditService
+from enterprise_platform.application.office_edits import OfficeEditService, OfficeFileCreator
 from enterprise_platform.application.office_export import OfficeExportService
 from enterprise_platform.application.ports import IdentityProvider
 from enterprise_platform.application.schedule_service import ScheduleService
@@ -225,6 +225,7 @@ def create_app(
     office_exports: OfficeExportService | None = None,
     office_files: OfficeEditService | None = None,
     office_directory: OfficeDirectoryService | None = None,
+    office_creator: OfficeFileCreator | None = None,
 ) -> FastAPI:
     if "*" in allowed_origins:
         raise ValueError("Explicit browser origins are required")
@@ -405,6 +406,6 @@ def create_app(
     add_schedule_routes(router, schedules, actor, ErrorResponse)
     add_dashboard_routes(router, dashboards, actor, ErrorResponse)
     add_workbench_routes(router, workbench, actor, ErrorResponse, workbench_branches)
-    add_office_routes(router, office_exports, actor, office_files, office_directory)
+    add_office_routes(router, office_exports, actor, office_files, office_directory, office_creator)
     app.include_router(router)
     return app

@@ -11,6 +11,7 @@ import { Markdown } from '@/app/components/base/markdown'
 import { SkeletonRectangle } from '@/app/components/base/skeleton'
 import { WorkbenchComposer } from './composer'
 import { WorkbenchHistoryFiles } from './history-files'
+import { SaveAnswerDocument } from './save-answer'
 
 export type ConversationMessage = Readonly<{
   query: string
@@ -35,6 +36,7 @@ export function WorkbenchConversation({
   onSend,
   onCheckState,
   onRetryFiles,
+  officeScope,
 }: {
   title: string
   messages: readonly ConversationMessage[]
@@ -46,6 +48,7 @@ export function WorkbenchConversation({
   onSend: (value: string) => void
   onCheckState: (clientMessageId: string) => void
   onRetryFiles?: (clientMessageId: string) => void
+  officeScope?: { actor: string; workspace: string }
 }) {
   const { t } = useTranslation('common')
   const unresolved = messages.some(
@@ -75,6 +78,13 @@ export function WorkbenchConversation({
                   isAnimating={false}
                   customDisallowedElements={disallowedAnswerElements}
                 />
+                {officeScope && message.status === 'normal' && message.answer.trim() && (
+                  <SaveAnswerDocument
+                    {...officeScope}
+                    answer={message.answer}
+                    messageId={message.id}
+                  />
+                )}
                 <WorkbenchHistoryFiles
                   files={message.message_files.filter((file) => file.belongs_to === 'assistant')}
                 />
@@ -106,6 +116,18 @@ export function WorkbenchConversation({
                   mode={turn.connection === 'open' ? 'streaming' : 'static'}
                   customDisallowedElements={disallowedAnswerElements}
                 />
+                {officeScope &&
+                  turn.connection === 'closed' &&
+                  !turn.hadStreamError &&
+                  turn.durable?.outcome === 'succeeded' &&
+                  turn.identity?.message_id &&
+                  turn.answer.trim() && (
+                    <SaveAnswerDocument
+                      {...officeScope}
+                      answer={turn.answer}
+                      messageId={turn.identity.message_id}
+                    />
+                  )}
                 <WorkbenchHistoryFiles
                   files={(completedFiles ?? turn.files).filter(
                     (file) => file.belongs_to === 'assistant',

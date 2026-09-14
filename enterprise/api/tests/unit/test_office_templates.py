@@ -7,6 +7,56 @@ from enterprise_platform.adapters.office_templates import builtin_templates, get
 from enterprise_platform.application.errors import NotFound
 
 
+@pytest.mark.parametrize(
+    "template_id,revision,allowed",
+    [
+        ("document-default", 1, True),
+        ("document-default", True, False),
+        ("document-default", 2, False),
+        ("executive-ivory", 1, False),
+        ("missing", 1, False),
+    ],
+)
+def test_document_template_binding_is_exact(template_id, revision, allowed):
+    from dataclasses import replace
+
+    from test_office_export import setup
+
+    from enterprise_platform.adapters.office_templates import require_office_template
+
+    record = replace(setup()[-1], template_id=template_id, template_revision=revision)
+    if allowed:
+        require_office_template(record)
+    else:
+        with pytest.raises(NotFound):
+            require_office_template(record)
+
+
+def test_presentation_creation_accepts_all_twenty_original_templates():
+    from dataclasses import replace
+
+    from test_office_export import setup
+
+    from enterprise_platform.adapters.office_templates import require_office_template
+    from enterprise_platform.domain.office_revision import OfficeRevision, OfficeUnit
+
+    original = setup()[-1]
+    content = OfficeRevision(
+        file_id=original.content.file_id,
+        revision=1,
+        kind="presentation",
+        units=(
+            OfficeUnit(
+                unit_id=original.content.units[0].unit_id, kind="slide", content=original.content.units[0].content
+            ),
+        ),
+    )
+    for template in builtin_templates():
+        require_office_template(replace(original, content=content, template_id=template.id))
+    with pytest.raises(NotFound):
+        require_office_template(replace(original, content=content))
+
+
 def test_twenty_original_designs_are_available_with_preserved_chinese_metadata():
     templates = builtin_templates()
     assert len(templates) == len({t.id for t in templates}) == 20

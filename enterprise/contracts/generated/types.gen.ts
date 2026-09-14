@@ -510,6 +510,17 @@ export type OfficeChartInput = {
   series: Array<OfficeSeriesInput>
 }
 
+export type OfficeCreateRequest = {
+  expected_actor_id: string
+  expected_workspace_id: string
+  file_id: string
+  kind: 'presentation' | 'document'
+  source_snapshot_ids?: Array<string>
+  template_id: string
+  template_revision: string
+  units: Array<OfficeUnitInput>
+}
+
 export type OfficeDecimalView = {
   decimal: string
 }
@@ -575,6 +586,12 @@ export type OfficeText = {
 
 export type OfficeTextInput = {
   text: string
+}
+
+export type OfficeUnitInput = {
+  content: Array<OfficeTextInput | OfficeChartInput | OfficeTableInput>
+  kind: 'slide' | 'paragraph' | 'table'
+  unit_id: string
 }
 
 export type OfficeUnitView = {
@@ -2279,6 +2296,36 @@ export type ListFilesEnterpriseApiV1OfficeFilesGetResponses = {
 
 export type ListFilesEnterpriseApiV1OfficeFilesGetResponse =
   ListFilesEnterpriseApiV1OfficeFilesGetResponses[keyof ListFilesEnterpriseApiV1OfficeFilesGetResponses]
+
+export type CreateFileEnterpriseApiV1OfficeFilesPostData = {
+  body: OfficeCreateRequest
+  headers: {
+    Origin: string
+  }
+  path?: never
+  query?: never
+  url: '/enterprise/api/v1/office/files'
+}
+
+export type CreateFileEnterpriseApiV1OfficeFilesPostErrors = {
+  401: ErrorResponse
+  403: ErrorResponse
+  404: ErrorResponse
+  409: ErrorResponse
+  422: ErrorResponse
+  500: ErrorResponse
+  503: ErrorResponse
+}
+
+export type CreateFileEnterpriseApiV1OfficeFilesPostError =
+  CreateFileEnterpriseApiV1OfficeFilesPostErrors[keyof CreateFileEnterpriseApiV1OfficeFilesPostErrors]
+
+export type CreateFileEnterpriseApiV1OfficeFilesPostResponses = {
+  201: OfficeFileView
+}
+
+export type CreateFileEnterpriseApiV1OfficeFilesPostResponse =
+  CreateFileEnterpriseApiV1OfficeFilesPostResponses[keyof CreateFileEnterpriseApiV1OfficeFilesPostResponses]
 
 export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetData = {
   body?: never

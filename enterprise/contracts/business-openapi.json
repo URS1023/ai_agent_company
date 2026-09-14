@@ -2636,6 +2636,78 @@
         "title": "OfficeChartInput",
         "type": "object"
       },
+      "OfficeCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_actor_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$",
+            "title": "Expected Actor Id",
+            "type": "string"
+          },
+          "expected_workspace_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$",
+            "title": "Expected Workspace Id",
+            "type": "string"
+          },
+          "file_id": {
+            "format": "uuid",
+            "title": "File Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "presentation",
+              "document"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "source_snapshot_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1000,
+            "title": "Source Snapshot Ids",
+            "type": "array"
+          },
+          "template_id": {
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Template Id",
+            "type": "string"
+          },
+          "template_revision": {
+            "pattern": "^[1-9][0-9]{0,18}$",
+            "title": "Template Revision",
+            "type": "string"
+          },
+          "units": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeUnitInput"
+            },
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Units",
+            "type": "array"
+          }
+        },
+        "required": [
+          "expected_actor_id",
+          "expected_workspace_id",
+          "file_id",
+          "kind",
+          "template_id",
+          "template_revision",
+          "units"
+        ],
+        "title": "OfficeCreateRequest",
+        "type": "object"
+      },
       "OfficeDecimalView": {
         "additionalProperties": false,
         "properties": {
@@ -3001,6 +3073,51 @@
           "text"
         ],
         "title": "OfficeTextInput",
+        "type": "object"
+      },
+      "OfficeUnitInput": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/OfficeTextInput"
+                },
+                {
+                  "$ref": "#/components/schemas/OfficeChartInput"
+                },
+                {
+                  "$ref": "#/components/schemas/OfficeTableInput"
+                }
+              ]
+            },
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Content",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "slide",
+              "paragraph",
+              "table"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "unit_id": {
+            "format": "uuid",
+            "title": "Unit Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "unit_id",
+          "content",
+          "kind"
+        ],
+        "title": "OfficeUnitInput",
         "type": "object"
       },
       "OfficeUnitView": {
@@ -11058,6 +11175,145 @@
           }
         ],
         "summary": "List Files"
+      },
+      "post": {
+        "operationId": "create_file_enterprise_api_v1_office_files_post",
+        "parameters": [
+          {
+            "description": "Browser-supplied origin must exactly match a configured allowed origin. Missing/untrusted: 403. An empty deployment allowlist disables writes.",
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeFileView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native Dify account session is not authenticated."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Identity, role, CSRF or browser origin check failed."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Resource does not exist in the current workspace."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Revision, idempotency key or resource state conflict."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request or business command."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Enterprise domain operation failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native identity or persistence dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": []
+          }
+        ],
+        "summary": "Create File"
       }
     },
     "/enterprise/api/v1/office/files/{file_id}": {

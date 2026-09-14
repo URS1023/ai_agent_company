@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 // Exact reviewed bytes, not whole-file exemptions. Auth/permission/license code
 // cannot be approved through this mechanism. Evidence text is never executed.
 const reviewablePaths = new Set([
+  'web/context/modal-context.test.tsx',
+  'web/app/components/plugins/plugin-auth/__tests__/authorized-in-node.spec.tsx',
   'web/features/agent-v2/agent-detail/logs/__tests__/page.spec.tsx',
   'web/app/components/workflow/panel/chat-record/__tests__/index.spec.tsx',
   'web/app/components/base/mermaid/__tests__/index.spec.tsx',

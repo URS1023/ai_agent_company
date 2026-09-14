@@ -381,6 +381,26 @@
         "Independent web_runtime_review verified exact hashes and no blocking issue; cold-load performance remains unverified.",
         "Local combined session 54357: three files, eleven tests passed. Full-Web rerun remains required."
       ]
+    },
+    {
+      "path": "web/context/modal-context.test.tsx",
+      "baselineSha256": "cb180f9a75052493e8e78c69d2545ce2137d7f70f21394304bd895303bc926c3",
+      "reviewedSha256": "78492f1994fa4ba74292037bf0ce9aac48146069efdf8ccd4bc23e1e3bd54af5",
+      "reason": "Await real component initialization before native behavior assertions; no production change, timeout extension, mock substitution or assertion removal.",
+      "verification": [
+        "Independent read-only web_initialization_review approved the two exact test-only diffs.",
+        "Local baseline:27 passed2failed; after initialization hooks:29passed across all three previously failing files. Cold-start performance is not claimed."
+      ]
+    },
+    {
+      "path": "web/app/components/plugins/plugin-auth/__tests__/authorized-in-node.spec.tsx",
+      "baselineSha256": "973fc7cf2e0850152398039de4aca6fbd7e1dc8628fe40e9327cda6a3d7d07bb",
+      "reviewedSha256": "0e7c87d07c90b710ac3f6994612ea9164086832407e491588937671369c9b532",
+      "reason": "Await real component initialization before native behavior assertions; no production change, timeout extension, mock substitution or assertion removal.",
+      "verification": [
+        "Independent read-only web_initialization_review approved the two exact test-only diffs.",
+        "Local baseline:27 passed2failed; after initialization hooks:29passed across all three previously failing files. Cold-start performance is not claimed."
+      ]
     }
   ]
 }

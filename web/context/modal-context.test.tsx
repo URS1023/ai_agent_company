@@ -148,6 +148,11 @@ const PreferencesOpener = () => {
 }
 
 describe('ModalContextProvider trigger events limit modal', () => {
+  beforeAll(async () => {
+    // Exercise the real dialog without timing Vite's first module compilation.
+    await import('@/app/components/billing/trigger-events-limit-modal')
+  })
+
   beforeEach(() => {
     mockUseAppContext.mockReset()
     mockUseProviderContext.mockReset()

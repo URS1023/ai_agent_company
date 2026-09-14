@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import type { Credential, PluginPayload } from '../types'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { AuthCategory, CredentialTypeEnum } from '../types'
 
 // ==================== Mock Setup ====================
@@ -82,6 +82,11 @@ const createCredential = (overrides: Partial<Credential> = {}): Credential => ({
 // ==================== Tests ====================
 
 describe('AuthorizedInNode Component', () => {
+  beforeAll(async () => {
+    // Keep first-load module compilation outside the interaction-test deadline.
+    await import('../authorized-in-node')
+  })
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockIsCurrentWorkspaceManager.mockReturnValue(true)

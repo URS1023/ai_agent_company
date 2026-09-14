@@ -12,6 +12,25 @@ const entry = {
   verification: ['Native client regression suite and additive routing tests.'],
 }
 
+test('limits modal and plugin initialization reviews to exact test bytes', () => {
+  for (const path of [
+    'web/context/modal-context.test.tsx',
+    'web/app/components/plugins/plugin-auth/__tests__/authorized-in-node.spec.tsx',
+  ]) {
+    const reviews = validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit')
+    assert.equal(matchesReview(path, 'original\n', 'additive reviewed version\n', reviews), true)
+    assert.equal(matchesReview(path, 'original\n', 'removed assertion\n', reviews), false)
+  }
+  for (const path of [
+    'web/context/modal-context-provider.tsx',
+    'web/app/components/plugins/plugin-auth/authorized-in-node.tsx',
+  ]) {
+    assert.throws(() =>
+      validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
+    )
+  }
+})
+
 test('limits native copy-control repairs to exact reviewed component bytes', () => {
   for (const path of [
     'web/app/components/base/copy-icon/index.tsx',

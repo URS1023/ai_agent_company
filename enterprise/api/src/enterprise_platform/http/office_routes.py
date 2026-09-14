@@ -11,7 +11,9 @@ from fastapi.routing import APIRoute
 
 from enterprise_platform.application.contracts import Principal
 from enterprise_platform.application.errors import DependencyUnavailable, EnterpriseError, InvalidInput
+from enterprise_platform.application.office_edits import OfficeEditService
 from enterprise_platform.application.office_export import OfficeExportService
+from enterprise_platform.http.office_views import OfficeFileView
 
 DOCX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
@@ -20,6 +22,7 @@ def add_office_routes(
     router: APIRouter,
     exports: OfficeExportService | None,
     actor: Callable[[Request], Awaitable[Principal]],
+    files: OfficeEditService | None = None,
 ) -> None:
     class PrivateOfficeRoute(APIRoute):
         def get_route_handler(self) -> Callable[[Request], Coroutine[None, None, Response]]:
@@ -39,6 +42,12 @@ def add_office_routes(
             return private_handler
 
     routes = APIRouter(route_class=PrivateOfficeRoute)
+
+    @routes.get("/enterprise/api/v1/office/files/{file_id}", response_model=OfficeFileView)
+    def read_file(file_id: UUID, principal: Annotated[Principal, Depends(actor)]) -> OfficeFileView:
+        if files is None:
+            raise DependencyUnavailable()
+        return OfficeFileView.from_record(files.read(principal, file_id))
 
     @routes.get(
         "/enterprise/api/v1/office/files/{file_id}/document",

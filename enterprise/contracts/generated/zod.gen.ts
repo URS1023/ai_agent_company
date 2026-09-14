@@ -86,6 +86,25 @@ export const zBusinessAccess = z.object({
   workspace_id: z.string(),
 })
 
+/**
+ * ChartSeries
+ */
+export const zChartSeries = z.object({
+  name: z.string().min(1).max(256),
+  values: z
+    .array(z.union([z.string().regex(/^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$/), z.null()]))
+    .min(1)
+    .max(10000),
+})
+
+/**
+ * ChartData
+ */
+export const zChartData = z.object({
+  categories: z.array(z.string().min(1).max(256)).min(1).max(10000),
+  series: z.array(zChartSeries).min(1).max(64),
+})
+
 export const zColumnKind = z.enum(['string', 'integer', 'decimal', 'boolean'])
 
 /**
@@ -697,6 +716,62 @@ export const zNativePublicationMetadata = z.object({
   tool_name: z.literal('evaluate_device'),
   workflow_id: z.string(),
   workspace_id: z.string(),
+})
+
+/**
+ * OfficeDecimalView
+ */
+export const zOfficeDecimalView = z.object({
+  decimal: z.string(),
+})
+
+/**
+ * OfficeIntegerView
+ */
+export const zOfficeIntegerView = z.object({
+  integer: z.string().regex(/^-?(0|[1-9][0-9]*)$/),
+})
+
+export const zOfficeCellView = z
+  .union([z.string(), zOfficeIntegerView, zOfficeDecimalView])
+  .nullable()
+
+/**
+ * OfficeTableView
+ */
+export const zOfficeTableView = z.object({
+  headers: z.array(z.string()),
+  rows: z.array(z.array(zOfficeCellView)),
+  table_id: z.string(),
+})
+
+/**
+ * OfficeText
+ */
+export const zOfficeText = z.object({
+  text: z.string().max(100000),
+})
+
+/**
+ * OfficeUnitView
+ */
+export const zOfficeUnitView = z.object({
+  content: z.array(z.union([zOfficeText, zChartData, zOfficeTableView])),
+  kind: z.enum(['slide', 'paragraph', 'table']),
+  unit_id: z.uuid(),
+})
+
+/**
+ * OfficeFileView
+ */
+export const zOfficeFileView = z.object({
+  file_id: z.uuid(),
+  kind: z.enum(['presentation', 'document']),
+  revision: z.string().regex(/^[1-9][0-9]*$/),
+  source_snapshot_ids: z.array(z.string()),
+  template_id: z.string(),
+  template_revision: z.string().regex(/^[1-9][0-9]*$/),
+  units: z.array(zOfficeUnitView),
 })
 
 /**
@@ -2628,6 +2703,15 @@ export const zScheduleActorChoicesEnterpriseApiV1DevicesDeviceIdScenarioSchedule
  * Successful Response
  */
 export const zCurrentAccessEnterpriseApiV1MeGetResponse = zBusinessAccess
+
+export const zReadFileEnterpriseApiV1OfficeFilesFileIdGetPath = z.object({
+  file_id: z.uuid(),
+})
+
+/**
+ * Successful Response
+ */
+export const zReadFileEnterpriseApiV1OfficeFilesFileIdGetResponse = zOfficeFileView
 
 export const zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetPath = z.object({
   file_id: z.uuid(),

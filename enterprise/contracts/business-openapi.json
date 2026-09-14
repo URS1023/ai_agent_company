@@ -700,6 +700,71 @@
         "title": "BusinessResult",
         "type": "object"
       },
+      "ChartData": {
+        "additionalProperties": false,
+        "properties": {
+          "categories": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Categories",
+            "type": "array"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/ChartSeries"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Series",
+            "type": "array"
+          }
+        },
+        "required": [
+          "categories",
+          "series"
+        ],
+        "title": "ChartData",
+        "type": "object"
+      },
+      "ChartSeries": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "values"
+        ],
+        "title": "ChartSeries",
+        "type": "object"
+      },
       "ChatSendRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2524,6 +2589,199 @@
           "node_id"
         ],
         "title": "NativePublicationMetadata",
+        "type": "object"
+      },
+      "OfficeCellView": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/components/schemas/OfficeIntegerView"
+          },
+          {
+            "$ref": "#/components/schemas/OfficeDecimalView"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "OfficeDecimalView": {
+        "additionalProperties": false,
+        "properties": {
+          "decimal": {
+            "title": "Decimal",
+            "type": "string"
+          }
+        },
+        "required": [
+          "decimal"
+        ],
+        "title": "OfficeDecimalView",
+        "type": "object"
+      },
+      "OfficeFileView": {
+        "additionalProperties": false,
+        "properties": {
+          "file_id": {
+            "format": "uuid",
+            "title": "File Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "presentation",
+              "document"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "revision": {
+            "pattern": "^[1-9][0-9]*$",
+            "title": "Revision",
+            "type": "string"
+          },
+          "source_snapshot_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Snapshot Ids",
+            "type": "array"
+          },
+          "template_id": {
+            "title": "Template Id",
+            "type": "string"
+          },
+          "template_revision": {
+            "pattern": "^[1-9][0-9]*$",
+            "title": "Template Revision",
+            "type": "string"
+          },
+          "units": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeUnitView"
+            },
+            "title": "Units",
+            "type": "array"
+          }
+        },
+        "required": [
+          "file_id",
+          "revision",
+          "kind",
+          "template_id",
+          "template_revision",
+          "source_snapshot_ids",
+          "units"
+        ],
+        "title": "OfficeFileView",
+        "type": "object"
+      },
+      "OfficeIntegerView": {
+        "additionalProperties": false,
+        "properties": {
+          "integer": {
+            "pattern": "^-?(0|[1-9][0-9]*)$",
+            "title": "Integer",
+            "type": "string"
+          }
+        },
+        "required": [
+          "integer"
+        ],
+        "title": "OfficeIntegerView",
+        "type": "object"
+      },
+      "OfficeTableView": {
+        "additionalProperties": false,
+        "properties": {
+          "headers": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Headers",
+            "type": "array"
+          },
+          "rows": {
+            "items": {
+              "items": {
+                "$ref": "#/components/schemas/OfficeCellView"
+              },
+              "type": "array"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "table_id": {
+            "title": "Table Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "table_id",
+          "headers",
+          "rows"
+        ],
+        "title": "OfficeTableView",
+        "type": "object"
+      },
+      "OfficeText": {
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "maxLength": 100000,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "OfficeText",
+        "type": "object"
+      },
+      "OfficeUnitView": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/OfficeText"
+                },
+                {
+                  "$ref": "#/components/schemas/ChartData"
+                },
+                {
+                  "$ref": "#/components/schemas/OfficeTableView"
+                }
+              ]
+            },
+            "title": "Content",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "slide",
+              "paragraph",
+              "table"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "unit_id": {
+            "format": "uuid",
+            "title": "Unit Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "unit_id",
+          "kind",
+          "content"
+        ],
+        "title": "OfficeUnitView",
         "type": "object"
       },
       "Page_Device_": {
@@ -10394,6 +10652,138 @@
           }
         ],
         "summary": "Current Access"
+      }
+    },
+    "/enterprise/api/v1/office/files/{file_id}": {
+      "get": {
+        "operationId": "read_file_enterprise_api_v1_office_files__file_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "File Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeFileView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native Dify account session is not authenticated."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Identity, role, CSRF or browser origin check failed."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Resource does not exist in the current workspace."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Revision, idempotency key or resource state conflict."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request or business command."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Enterprise domain operation failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native identity or persistence dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": []
+          }
+        ],
+        "summary": "Read File"
       }
     },
     "/enterprise/api/v1/office/files/{file_id}/document": {

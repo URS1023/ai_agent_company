@@ -129,6 +129,16 @@ export type BusinessResult = {
   scenario: Scenario
 }
 
+export type ChartData = {
+  categories: Array<string>
+  series: Array<ChartSeries>
+}
+
+export type ChartSeries = {
+  name: string
+  values: Array<string | null>
+}
+
 export type ChatSendRequest = {
   client_message_id: string
   payload: JsonObject
@@ -491,6 +501,42 @@ export type NativePublicationMetadata = {
   tool_name: 'evaluate_device'
   workflow_id: string
   workspace_id: string
+}
+
+export type OfficeCellView = string | OfficeIntegerView | OfficeDecimalView | null
+
+export type OfficeDecimalView = {
+  decimal: string
+}
+
+export type OfficeFileView = {
+  file_id: string
+  kind: 'presentation' | 'document'
+  revision: string
+  source_snapshot_ids: Array<string>
+  template_id: string
+  template_revision: string
+  units: Array<OfficeUnitView>
+}
+
+export type OfficeIntegerView = {
+  integer: string
+}
+
+export type OfficeTableView = {
+  headers: Array<string>
+  rows: Array<Array<OfficeCellView>>
+  table_id: string
+}
+
+export type OfficeText = {
+  text: string
+}
+
+export type OfficeUnitView = {
+  content: Array<OfficeText | ChartData | OfficeTableView>
+  kind: 'slide' | 'paragraph' | 'table'
+  unit_id: string
 }
 
 export type PageDevice = {
@@ -2157,6 +2203,35 @@ export type CurrentAccessEnterpriseApiV1MeGetResponses = {
 
 export type CurrentAccessEnterpriseApiV1MeGetResponse =
   CurrentAccessEnterpriseApiV1MeGetResponses[keyof CurrentAccessEnterpriseApiV1MeGetResponses]
+
+export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetData = {
+  body?: never
+  path: {
+    file_id: string
+  }
+  query?: never
+  url: '/enterprise/api/v1/office/files/{file_id}'
+}
+
+export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetErrors = {
+  401: ErrorResponse
+  403: ErrorResponse
+  404: ErrorResponse
+  409: ErrorResponse
+  422: ErrorResponse
+  500: ErrorResponse
+  503: ErrorResponse
+}
+
+export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetError =
+  ReadFileEnterpriseApiV1OfficeFilesFileIdGetErrors[keyof ReadFileEnterpriseApiV1OfficeFilesFileIdGetErrors]
+
+export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetResponses = {
+  200: OfficeFileView
+}
+
+export type ReadFileEnterpriseApiV1OfficeFilesFileIdGetResponse =
+  ReadFileEnterpriseApiV1OfficeFilesFileIdGetResponses[keyof ReadFileEnterpriseApiV1OfficeFilesFileIdGetResponses]
 
 export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetData = {
   body?: never

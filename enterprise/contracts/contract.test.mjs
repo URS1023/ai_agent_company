@@ -726,3 +726,43 @@ test('workbench ledger reads expose the same bounded public state as SSE without
     false,
   )
 })
+
+test('Office read projection retains exact numeric tags and string revisions in JavaScript', () => {
+  assert.ok(contract.office.files.byFileId.get)
+  const value = JSON.parse(
+    JSON.stringify({
+      file_id: '00000000-0000-4000-8000-000000000001',
+      revision: '9007199254740993',
+      kind: 'document',
+      template_id: 'document-default',
+      template_revision: '9007199254740993',
+      source_snapshot_ids: [],
+      units: [
+        {
+          unit_id: '00000000-0000-4000-8000-000000000002',
+          kind: 'table',
+          content: [
+            {
+              table_id: 'values',
+              headers: ['code', 'large', 'exact', 'missing'],
+              rows: [
+                [
+                  '0007',
+                  { integer: '9007199254740993' },
+                  { decimal: '1.2300000000000000001' },
+                  null,
+                ],
+              ],
+            },
+          ],
+        },
+      ],
+    }),
+  )
+  assert.deepEqual(validators.zOfficeFileView.parse(value), value)
+  assert.equal(
+    validators.zOfficeIntegerView.safeParse({ integer: 9007199254740992 }).success,
+    false,
+  )
+  assert.equal(validators.zOfficeFileView.safeParse({ ...value, revision: 1 }).success, false)
+})

@@ -16,6 +16,7 @@ from enterprise_platform.application.errors import AccessDenied, PersistenceErro
 from enterprise_platform.application.office_edits import OfficeFileRecord, OfficeGrant
 
 from .office_source_models import OfficeSnapshotRow, OfficeSourceGrantRow, OfficeSourceRow
+from .office_source_transaction import require_source_transaction
 
 
 class SqlAlchemyOfficeSourceAccess:
@@ -26,9 +27,7 @@ class SqlAlchemyOfficeSourceAccess:
             or len(set(record.source_snapshot_ids)) != len(record.source_snapshot_ids)
         ):
             raise AccessDenied()
-        connection = session.connection()
-        if connection.dialect.name == "postgresql" and connection.get_isolation_level() != "READ COMMITTED":
-            raise PersistenceError("office_source_isolation_invalid")
+        require_source_transaction(session)
         snapshots: list[OfficeSnapshotRow] = []
         for snapshot_id in sorted(record.source_snapshot_ids):
             snapshot = session.scalar(

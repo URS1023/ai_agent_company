@@ -1,6 +1,6 @@
 """Real SQLite driver verification, deliberately excluded from local unit runs.
 
-The CI fixture writes only its own temporary database before the read-only adapter
+The explicitly enabled fixture writes only its temporary database before the read-only adapter
 opens it. PostgreSQL/MySQL read-only roles, TLS and server timeouts require their
 own deployment integration jobs; these SQLite checks do not certify those drivers.
 """
@@ -10,6 +10,7 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
+from database_environment import database_tests_enabled
 from pydantic import SecretStr
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
@@ -25,7 +26,9 @@ from enterprise_platform.domain.data_sources import (
 
 pytestmark = [
     pytest.mark.integration,
-    pytest.mark.skipif(os.environ.get("CI") != "true", reason="CI-only database read"),
+    pytest.mark.skipif(
+        not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+    ),
 ]
 
 

@@ -36,7 +36,7 @@ files = ["src"]
 testpaths = ["tests/unit"]
 pythonpath = ["src"]
 addopts = "--strict-markers"
-markers = ["integration: requires a database and runs in CI only"]
+markers = ["integration: requires explicit disposable database test execution"]
 
 [tool.ruff]
 target-version = "py312"

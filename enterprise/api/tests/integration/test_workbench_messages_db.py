@@ -1,4 +1,4 @@
-"""PostgreSQL ledger contention and rollback checks; run only in disposable CI schemas."""
+"""PostgreSQL ledger contention and rollback checks in explicitly enabled disposable schemas."""
 
 import os
 from concurrent.futures import ThreadPoolExecutor
@@ -6,6 +6,7 @@ from threading import Barrier
 from uuid import UUID
 
 import pytest
+from database_environment import database_tests_enabled
 from sqlalchemy import event, func, inspect, select, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -31,7 +32,9 @@ from enterprise_platform.persistence.workbench_repository import SqlAlchemyMessa
 
 pytestmark = [
     pytest.mark.integration,
-    pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only"),
+    pytest.mark.skipif(
+        not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+    ),
     pytest.mark.parametrize("repository", ["postgresql"], indirect=True),
 ]
 

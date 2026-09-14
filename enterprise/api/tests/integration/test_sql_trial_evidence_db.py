@@ -1,9 +1,10 @@
-"""Trial evidence transactions against ORM and release DDL; disposable CI databases only."""
+"""Trial evidence transactions against ORM and release DDL; explicitly enabled disposable databases."""
 
 import os
 from datetime import timedelta
 
 import pytest
+from database_environment import database_tests_enabled
 from sqlalchemy import inspect, select
 from test_dashboards import dashboards as dashboards
 from test_repository import repository as repository
@@ -26,7 +27,9 @@ from enterprise_platform.persistence.dashboard_sql_trial_evidence import (
 from enterprise_platform.persistence.migrate_sql_trials import read_sql_trials_sql, sql_trials_statements
 from enterprise_platform.persistence.models import AuditEventRow
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture

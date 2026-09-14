@@ -14,6 +14,11 @@ def database_tests_enabled(environment: Mapping[str, str]) -> bool:
     return environment.get("CI") == "true" or environment.get("ENTERPRISE_LOCAL_DATABASE_TESTS") == "1"
 
 
+def ci_public_migration_enabled(environment: Mapping[str, str], flag: str) -> bool:
+    """Local fixture opt-in does not opt into legacy shared-public-schema checks."""
+    return environment.get("CI") == "true" and environment.get(flag) == "1"
+
+
 def validate_local_database(database_url: str) -> None:
     try:
         url = make_url(database_url)

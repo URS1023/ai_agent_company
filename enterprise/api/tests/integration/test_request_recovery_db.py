@@ -4,6 +4,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
+from database_environment import database_tests_enabled
 from test_repository import lane
 from test_repository import repository as repository
 
@@ -12,7 +13,9 @@ from enterprise_platform.application.errors import Conflict, NotFound
 from enterprise_platform.application.service import BusinessService, RunRequest
 from enterprise_platform.persistence.repository import SqlAlchemyRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 def actor(workspace: str = "w") -> Principal:

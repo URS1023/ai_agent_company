@@ -1,4 +1,4 @@
-"""Draft transactions against ORM and release DDL; disposable CI database only.
+"""Draft transactions against ORM and release DDL; explicitly enabled disposable databases.
 
 PostgreSQL migration DDL is relocated into the fixture's generated schema. Neither
 this fixture nor its trial-evidence consumer executes DDL in shared public schema.
@@ -8,6 +8,7 @@ import os
 from datetime import UTC, datetime
 
 import pytest
+from database_environment import database_tests_enabled
 from sqlalchemy import Engine, inspect, select
 from test_dashboards import dashboards as dashboards
 from test_dashboards import initial
@@ -22,7 +23,9 @@ from enterprise_platform.persistence.migrate_sql_drafts import read_sql_drafts_s
 from enterprise_platform.persistence.models import AuditEventRow
 from enterprise_platform.persistence.repository import SqlAlchemyRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture(params=["model", "migration-ddl"])

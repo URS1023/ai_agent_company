@@ -1,7 +1,12 @@
 """Checks for explicit local test execution; these tests never connect to a database."""
 
 import pytest
-from database_environment import database_tests_enabled, local_database_connect_args, validate_local_database
+from database_environment import (
+    ci_public_migration_enabled,
+    database_tests_enabled,
+    local_database_connect_args,
+    validate_local_database,
+)
 from psycopg._conninfo_attempts import conninfo_attempts
 from sqlalchemy import create_engine
 
@@ -11,6 +16,13 @@ def test_database_execution_requires_explicit_opt_in() -> None:
     assert not database_tests_enabled({"ENTERPRISE_LOCAL_DATABASE_TESTS": "true"})
     assert database_tests_enabled({"ENTERPRISE_LOCAL_DATABASE_TESTS": "1"})
     assert database_tests_enabled({"CI": "true"})
+
+
+def test_local_opt_in_does_not_enable_legacy_public_schema_smoke() -> None:
+    flag = "ENTERPRISE_CI_MIGRATED_PUBLIC"
+    assert not ci_public_migration_enabled({"ENTERPRISE_LOCAL_DATABASE_TESTS": "1", flag: "1"}, flag)
+    assert not ci_public_migration_enabled({"CI": "true"}, flag)
+    assert ci_public_migration_enabled({"CI": "true", flag: "1"}, flag)
 
 
 def test_local_database_accepts_only_dedicated_loopback_target() -> None:

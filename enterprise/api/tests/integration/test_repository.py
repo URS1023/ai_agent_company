@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 import pytest
-from database_environment import database_tests_enabled, local_database_connect_args
+from database_environment import ci_public_migration_enabled, database_tests_enabled, local_database_connect_args
 
 from enterprise_platform.application.contracts import (
     BindingWrite,
@@ -448,7 +448,8 @@ def test_concurrent_delete_and_enqueue_never_leave_work_for_a_deleted_device(rep
 
 
 @pytest.mark.skipif(
-    os.environ.get("ENTERPRISE_CI_MIGRATED_PUBLIC") != "1", reason="Requires explicitly migrated disposable CI database"
+    not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_MIGRATED_PUBLIC"),
+    reason="Requires explicitly migrated disposable CI database",
 )
 def test_reviewed_migration_supports_production_public_schema_crud() -> None:
     from sqlalchemy import create_engine

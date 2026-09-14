@@ -1,4 +1,4 @@
-"""Real dashboard transactions; CI-only disposable enterprise databases."""
+"""Real dashboard transactions in explicitly enabled disposable enterprise databases."""
 
 import asyncio
 import os
@@ -7,6 +7,7 @@ from dataclasses import replace
 from unittest.mock import create_autospec, patch
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from sqlalchemy import select
 from test_repository import repository as repository
 
@@ -21,7 +22,9 @@ from enterprise_platform.persistence.dashboards import SqlAlchemyDashboardReposi
 from enterprise_platform.persistence.models import AuditEventRow
 from enterprise_platform.persistence.repository import SqlAlchemyRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture
@@ -37,7 +40,7 @@ def initial(workspace: str = "w") -> DashboardRecord:
 
 
 def test_public_schema_after_guarded_dashboard_migration() -> None:
-    if os.environ.get("ENTERPRISE_CI_DASHBOARD_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_DASHBOARD_MIGRATED_PUBLIC"):
         pytest.skip("Requires the guarded CI public migration step")
     from sqlalchemy import create_engine, inspect
 

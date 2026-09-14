@@ -1,4 +1,4 @@
-"""CI-only enrollment transactions; collection performs no database I/O."""
+"""Explicitly enabled disposable enrollment transactions; collection performs no database I/O."""
 
 import base64
 import os
@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from uuid import UUID
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from pydantic import SecretStr
 from sqlalchemy import inspect, select
 from test_repository import repository as repository
@@ -42,7 +43,9 @@ from enterprise_platform.persistence.workflow_enrollment_models import Enrollmen
 from enterprise_platform.persistence.workflow_enrollment_repository import SqlAlchemyWorkflowEnrollmentRepository
 from enterprise_platform.persistence.workflow_provisioning import provisioning_row
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 DRAFT, CREDENTIAL, WORKFLOW, ENROLLMENT, SECRET, TOKEN = [str(UUID(int=i)) for i in range(21, 27)]
 HASH = "a" * 64
 
@@ -229,7 +232,7 @@ def test_explicit_ci_0006_public_schema():
 
     from enterprise_platform.persistence.migrate import validate_target
 
-    if os.environ.get("ENTERPRISE_CI_ENROLLMENT_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_ENROLLMENT_MIGRATED_PUBLIC"):
         pytest.skip("Requires explicit CI 0006 migration")
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL")
     if not url:

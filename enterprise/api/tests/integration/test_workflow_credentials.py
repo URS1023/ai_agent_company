@@ -1,10 +1,11 @@
-"""CI-only credential transactions. Local runs skip before opening any database."""
+"""Credential transactions with explicit opt-in and isolated local fixtures."""
 
 import base64
 import os
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from pydantic import SecretStr
 from sqlalchemy import inspect, select
 from test_repository import repository as repository
@@ -20,7 +21,9 @@ from enterprise_platform.persistence.models import AuditEventRow
 from enterprise_platform.persistence.workflow_credential_models import CredentialBase, WorkflowCredentialRow
 from enterprise_platform.persistence.workflow_credentials import SqlAlchemyWorkflowCredentialVault
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture
@@ -106,7 +109,7 @@ def test_explicit_ci_0004_public_schema():
 
     from enterprise_platform.persistence.migrate import validate_target
 
-    if os.environ.get("ENTERPRISE_CI_CREDENTIAL_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_CREDENTIAL_MIGRATED_PUBLIC"):
         pytest.skip("Public 0004 smoke requires explicit CLI migration")
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL")
     if not url:

@@ -1,4 +1,4 @@
-"""CI-only transactional provisioning journal tests; local collection performs no I/O."""
+"""Explicitly enabled disposable transactional provisioning journal tests; local collection performs no I/O."""
 
 import os
 from concurrent.futures import ThreadPoolExecutor
@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from uuid import UUID
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from sqlalchemy import inspect, select
 from test_repository import repository as repository
 
@@ -24,7 +25,9 @@ from enterprise_platform.persistence.workflow_provisioning_models import Provisi
 from enterprise_platform.persistence.workflow_setup_models import SetupBase
 from enterprise_platform.persistence.workflow_setups import setup_row
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 WS = str(UUID(int=1))
 APP = str(UUID(int=2))
 NONCE = str(UUID(int=3))
@@ -132,7 +135,7 @@ def test_explicit_ci_0005_public_schema():
 
     from enterprise_platform.persistence.migrate import validate_target
 
-    if os.environ.get("ENTERPRISE_CI_PROVISIONING_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_PROVISIONING_MIGRATED_PUBLIC"):
         pytest.skip("Public0005 smoke requires explicit CLI migration")
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL")
     if not url:

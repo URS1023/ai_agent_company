@@ -1,4 +1,4 @@
-"""CI-only real setup transactions and reviewed DDL. Local use is collection only."""
+"""Real setup transactions and reviewed DDL with explicit disposable-fixture opt-in."""
 
 import os
 from concurrent.futures import ThreadPoolExecutor
@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from sqlalchemy import inspect, select
 from test_repository import repository as repository
 
@@ -24,7 +25,9 @@ from enterprise_platform.persistence.source_models import SourceBase
 from enterprise_platform.persistence.workflow_setup_models import SetupBase, WorkflowSetupRow
 from enterprise_platform.persistence.workflow_setups import SqlAlchemyWorkflowSetupRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture
@@ -164,7 +167,7 @@ def test_explicit_ci_migration_created_setup_in_public():
     from enterprise_platform.persistence.migrate import validate_target
     from enterprise_platform.persistence.migrate_workflow_setups import prerequisite_metadata
 
-    if os.environ.get("ENTERPRISE_CI_SETUP_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_SETUP_MIGRATED_PUBLIC"):
         pytest.skip("Public 0003 smoke is opt-in after explicit CLI migration")
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL")
     if not url:

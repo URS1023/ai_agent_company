@@ -1,4 +1,4 @@
-"""CI-only real transactions for schedule ownership and audited lifecycle."""
+"""Explicitly enabled disposable real transactions for schedule ownership and audited lifecycle."""
 
 import asyncio
 import os
@@ -7,6 +7,7 @@ from datetime import UTC, datetime, timedelta
 from unittest.mock import create_autospec
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from sqlalchemy import create_engine, inspect, select
 from test_repository import lane
 from test_repository import repository as repository
@@ -34,7 +35,9 @@ from enterprise_platform.persistence.schedules import SqlAlchemyScheduleReposito
 
 type ScheduleFixture = tuple[SqlAlchemyScheduleRepository, SqlAlchemyRepository, IntervalSchedule]
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture
@@ -177,7 +180,7 @@ def test_foreign_workspace_cannot_read_or_pause_schedule(scheduled: ScheduleFixt
 
 
 def test_explicit_ci_0008_public_schema() -> None:
-    if os.environ.get("ENTERPRISE_CI_SCHEDULE_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_SCHEDULE_MIGRATED_PUBLIC"):
         pytest.skip("Requires explicit CI 0008 migration")
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL")
     assert url, "Explicit migration gate requires its dedicated database"

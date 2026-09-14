@@ -1,6 +1,6 @@
-"""CI-only real source transactions, ciphertext persistence and 0002 DDL/reflection.
+"""Explicitly enabled disposable real source transactions, ciphertext persistence and 0002 DDL/reflection.
 
-Local collection skips every case. No production URL, key, source or table is used.
+Local opt-in uses isolated fixtures. No production URL, key, source or table is used.
 """
 
 import base64
@@ -8,6 +8,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
+from database_environment import database_tests_enabled
 from sqlalchemy import inspect, select
 from test_repository import repository as repository
 
@@ -23,7 +24,9 @@ from enterprise_platform.persistence.models import AuditEventRow
 from enterprise_platform.persistence.source_models import SourceBase, SourceVersionRow
 from enterprise_platform.persistence.sources import SqlAlchemySourceRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture
@@ -160,6 +163,8 @@ def test_deleted_device_rolls_back_head_version_and_audit_together(managed_sourc
 
 
 def test_explicit_ci_migrations_created_source_tables_in_public() -> None:
+    if os.environ.get("CI") != "true":
+        pytest.skip("Legacy public-schema smoke remains separate from local isolated fixtures")
     from sqlalchemy import create_engine
 
     from enterprise_platform.persistence.migrate import validate_target

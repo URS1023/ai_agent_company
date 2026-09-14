@@ -1,4 +1,4 @@
-"""CI-only verification of the explicitly migrated activation schema; no import I/O."""
+"""Explicitly enabled disposable verification of the explicitly migrated activation schema; no import I/O."""
 
 import os
 from concurrent.futures import ThreadPoolExecutor
@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from uuid import UUID
 
 import pytest
+from database_environment import ci_public_migration_enabled, database_tests_enabled
 from pydantic import SecretStr
 from sqlalchemy import create_engine, inspect, select
 from test_repository import repository as repository
@@ -35,7 +36,9 @@ from enterprise_platform.persistence.workflow_activation_lookup import SqlAlchem
 from enterprise_platform.persistence.workflow_activation_models import ActivationBase, WorkflowActivationRow
 from enterprise_platform.persistence.workflow_activation_repository import SqlAlchemyWorkflowActivationRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 @pytest.fixture
@@ -210,7 +213,7 @@ def test_revocation_audit_failure_preserves_active_grant(activation_ready, monke
 
 
 def test_explicit_ci_0007_public_schema():
-    if os.environ.get("ENTERPRISE_CI_ACTIVATION_MIGRATED_PUBLIC") != "1":
+    if not ci_public_migration_enabled(os.environ, "ENTERPRISE_CI_ACTIVATION_MIGRATED_PUBLIC"):
         pytest.skip("Requires explicit CI 0007 migration")
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL")
     assert url, "Explicit migration gate requires its dedicated database"

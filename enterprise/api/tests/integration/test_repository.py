@@ -1,7 +1,7 @@
-"""Real transactional tests run only in CI, against disposable enterprise databases.
+"""Real transactional tests run by explicit opt-in against disposable databases.
 
 Never read Dify database configuration. PostgreSQL uses a newly generated test schema;
-SQLite uses a temporary file. Local collection may verify skips, never database behavior.
+SQLite uses a temporary file. Local PostgreSQL requires a dedicated loopback test target.
 """
 
 from __future__ import annotations
@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 import pytest
+from database_environment import database_tests_enabled, local_database_connect_args
 
 from enterprise_platform.application.contracts import (
     BindingWrite,
@@ -31,7 +32,9 @@ if TYPE_CHECKING:
     from enterprise_platform.application.contracts import Binding, JsonObject, Run
     from enterprise_platform.persistence.repository import SqlAlchemyRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration tests are CI-only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 def test_device_search_filters_database_before_pagination_and_count(repository: SqlAlchemyRepository) -> None:
@@ -90,7 +93,8 @@ def repository(request: pytest.FixtureRequest, tmp_path: Path) -> Iterator[SqlAl
     url = os.environ.get("ENTERPRISE_TEST_DATABASE_URL") if postgres else f"sqlite+pysqlite:///{tmp_path / 'test.db'}"
     if not url:
         pytest.skip("Dedicated ENTERPRISE_TEST_DATABASE_URL is not configured")
-    engine = create_engine(url)
+    connect_args = local_database_connect_args(url) if postgres and os.environ.get("CI") != "true" else {}
+    engine = create_engine(url, connect_args=connect_args)
     schema = f"enterprise_test_{uuid4().hex}" if postgres else None
     if schema:
         with engine.begin() as connection:

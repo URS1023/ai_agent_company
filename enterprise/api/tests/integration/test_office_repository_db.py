@@ -1,4 +1,4 @@
-"""CI-only real Office transactions, using the existing disposable-schema fixture."""
+"""Explicitly enabled Office transactions using the disposable-schema fixture."""
 
 import hashlib
 import os
@@ -9,6 +9,7 @@ from threading import Event
 from uuid import UUID
 
 import pytest
+from database_environment import database_tests_enabled
 from sqlalchemy import event, func, select
 from sqlalchemy.orm import Session
 from test_repository import repository as repository
@@ -30,7 +31,9 @@ from enterprise_platform.persistence.office_models import (
 )
 from enterprise_platform.persistence.office_repository import SqlAlchemyOfficeEditRepository
 
-pytestmark = pytest.mark.skipif(os.environ.get("CI") != "true", reason="Database integration runs in CI only")
+pytestmark = pytest.mark.skipif(
+    not database_tests_enabled(os.environ), reason="Explicit disposable database test execution required"
+)
 
 
 class NoSourceReferences:

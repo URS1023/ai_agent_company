@@ -1,0 +1,1147 @@
+{
+  "catalog_version": "legacy-premium-v1",
+  "source_member": "the_company_agent-main/backend/app/modules/presentation/premium_catalog.py",
+  "source_sha256": "1c4f91170388c2d47724dbf4b8ab7f8306a9f100eef33bf368e7069bc0bdb68a",
+  "templates": [
+    {
+      "id": "executive-ivory",
+      "name": "象牙高管",
+      "category": "商务",
+      "description": "克制留白、结论先行的高管决策材料",
+      "recommended_for": ["董事会", "战略汇报"],
+      "layout_family": "premium",
+      "style_profile": "executive-ivory",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F4F1EA",
+        "accent": "#183A5A",
+        "text": "#17191C",
+        "layout": "split"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F4F1EA",
+        "surface": "FFFFFF",
+        "accent": "183A5A",
+        "accent2": "C9963B",
+        "text": "17191C",
+        "muted": "62666B",
+        "line": "D8D2C6"
+      },
+      "design": {
+        "cover": "split",
+        "chrome": "minimal",
+        "background": "plain",
+        "cards": "editorial",
+        "metrics": "columns",
+        "comparison": "split",
+        "timeline": "line"
+      }
+    },
+    {
+      "id": "midnight-analytics",
+      "name": "午夜数据",
+      "category": "数据",
+      "description": "深色分析画布、明亮数字与原生图表",
+      "recommended_for": ["经营分析", "财务复盘"],
+      "layout_family": "premium",
+      "style_profile": "midnight-analytics",
+      "density": "dense",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#0D1520",
+        "accent": "#38C6D9",
+        "text": "#F4F7FA",
+        "layout": "data_wall"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 34,
+        "body_size": 17
+      },
+      "theme": {
+        "background": "0D1520",
+        "surface": "172332",
+        "accent": "38C6D9",
+        "accent2": "F2B84B",
+        "text": "F4F7FA",
+        "muted": "A8B5C3",
+        "line": "2D3C4B"
+      },
+      "design": {
+        "cover": "data_wall",
+        "chrome": "rail",
+        "background": "grid",
+        "cards": "dark_tiles",
+        "metrics": "hero",
+        "comparison": "split",
+        "timeline": "nodes"
+      }
+    },
+    {
+      "id": "aurora-glass",
+      "name": "极光玻璃",
+      "category": "发布",
+      "description": "通透渐层、漂浮界面与数字产品质感",
+      "recommended_for": ["AI 产品", "SaaS 发布"],
+      "layout_family": "premium",
+      "style_profile": "aurora-glass",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#EEF2FF",
+        "accent": "#6257E8",
+        "text": "#171A3D",
+        "layout": "aurora"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "EEF2FF",
+        "surface": "FFFFFF",
+        "accent": "6257E8",
+        "accent2": "18AFA4",
+        "text": "171A3D",
+        "muted": "62698B",
+        "line": "D4DAF2"
+      },
+      "design": {
+        "cover": "aurora",
+        "chrome": "floating",
+        "background": "orbs",
+        "cards": "glass",
+        "metrics": "tiles",
+        "comparison": "cards",
+        "timeline": "pills"
+      }
+    },
+    {
+      "id": "swiss-signal",
+      "name": "瑞士信号",
+      "category": "极简",
+      "description": "严格网格、超大字号与红色视觉信号",
+      "recommended_for": ["咨询观点", "设计提案"],
+      "layout_family": "premium",
+      "style_profile": "swiss-signal",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#FFFFFF",
+        "accent": "#E21D2D",
+        "text": "#111111",
+        "layout": "swiss"
+      },
+      "typography": {
+        "title_font": "Arial",
+        "body_font": "Arial",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "FFFFFF",
+        "surface": "F7F7F7",
+        "accent": "E21D2D",
+        "accent2": "111111",
+        "text": "111111",
+        "muted": "666666",
+        "line": "D8D8D8"
+      },
+      "design": {
+        "cover": "swiss",
+        "chrome": "grid",
+        "background": "grid",
+        "cards": "outline",
+        "metrics": "poster",
+        "comparison": "rules",
+        "timeline": "ticks"
+      }
+    },
+    {
+      "id": "editorial-vermilion",
+      "name": "编辑部红",
+      "category": "叙事",
+      "description": "杂志标题、栏线、引文和证据层级",
+      "recommended_for": ["行业洞察", "品牌故事"],
+      "layout_family": "premium",
+      "style_profile": "editorial-vermilion",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F5F0E7",
+        "accent": "#D94C32",
+        "text": "#201D1A",
+        "layout": "editorial"
+      },
+      "typography": {
+        "title_font": "SimSun",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F5F0E7",
+        "surface": "FBF8F1",
+        "accent": "D94C32",
+        "accent2": "294754",
+        "text": "201D1A",
+        "muted": "6B6259",
+        "line": "D6CCBE"
+      },
+      "design": {
+        "cover": "editorial",
+        "chrome": "editorial",
+        "background": "paper",
+        "cards": "editorial",
+        "metrics": "columns",
+        "comparison": "rules",
+        "timeline": "line"
+      }
+    },
+    {
+      "id": "blueprint-pro",
+      "name": "工程蓝图",
+      "category": "技术",
+      "description": "深蓝图纸、坐标网格与工程标注",
+      "recommended_for": ["架构评审", "工程方案"],
+      "layout_family": "premium",
+      "style_profile": "blueprint-pro",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#0B365B",
+        "accent": "#78C7FF",
+        "text": "#EAF5FF",
+        "layout": "blueprint"
+      },
+      "typography": {
+        "title_font": "Consolas",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "0B365B",
+        "surface": "124A77",
+        "accent": "78C7FF",
+        "accent2": "F4C14E",
+        "text": "EAF5FF",
+        "muted": "A8D0EC",
+        "line": "2F6D9C"
+      },
+      "design": {
+        "cover": "blueprint",
+        "chrome": "technical",
+        "background": "blueprint",
+        "cards": "schematic",
+        "metrics": "blueprint",
+        "comparison": "technical",
+        "timeline": "dimension"
+      }
+    },
+    {
+      "id": "paper-strategy",
+      "name": "纸张策略",
+      "category": "咨询",
+      "description": "温润纸色、铅笔规则和手工批注感",
+      "recommended_for": ["战略共创", "工作坊"],
+      "layout_family": "premium",
+      "style_profile": "paper-strategy",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F7F0E3",
+        "accent": "#355C55",
+        "text": "#242521",
+        "layout": "paper"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F7F0E3",
+        "surface": "FFFDF7",
+        "accent": "355C55",
+        "accent2": "B86D43",
+        "text": "242521",
+        "muted": "6B685F",
+        "line": "D8CEBD"
+      },
+      "design": {
+        "cover": "paper",
+        "chrome": "notebook",
+        "background": "paper",
+        "cards": "paper",
+        "metrics": "ledger",
+        "comparison": "notes",
+        "timeline": "handline"
+      }
+    },
+    {
+      "id": "ink-wash-modern",
+      "name": "现代水墨",
+      "category": "文化",
+      "description": "宣纸留白、墨色层次与朱砂印记",
+      "recommended_for": ["文化项目", "品牌哲思"],
+      "layout_family": "premium",
+      "style_profile": "ink-wash-modern",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F3F0E8",
+        "accent": "#242824",
+        "text": "#1E211F",
+        "layout": "ink"
+      },
+      "typography": {
+        "title_font": "SimSun",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F3F0E8",
+        "surface": "FAF8F2",
+        "accent": "242824",
+        "accent2": "A23A32",
+        "text": "1E211F",
+        "muted": "696B65",
+        "line": "D2CEC3"
+      },
+      "design": {
+        "cover": "ink",
+        "chrome": "ink",
+        "background": "wash",
+        "cards": "ink",
+        "metrics": "vertical",
+        "comparison": "ink",
+        "timeline": "brush"
+      }
+    },
+    {
+      "id": "memphis-studio",
+      "name": "孟菲斯创意",
+      "category": "创意",
+      "description": "高饱和几何、粗描边与年轻节奏",
+      "recommended_for": ["营销活动", "创意提案"],
+      "layout_family": "premium",
+      "style_profile": "memphis-studio",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#FFF5E8",
+        "accent": "#EF5B3C",
+        "text": "#17202B",
+        "layout": "memphis"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "FFF5E8",
+        "surface": "FFFFFF",
+        "accent": "EF5B3C",
+        "accent2": "6C5CE7",
+        "text": "17202B",
+        "muted": "5D6470",
+        "line": "17202B"
+      },
+      "design": {
+        "cover": "memphis",
+        "chrome": "playful",
+        "background": "confetti",
+        "cards": "pop",
+        "metrics": "bubbles",
+        "comparison": "pop",
+        "timeline": "steps"
+      }
+    },
+    {
+      "id": "neo-brutalist",
+      "name": "黑白粗野",
+      "category": "观点",
+      "description": "黑白硬边、粗线框和直接表达",
+      "recommended_for": ["宣言", "创新提案"],
+      "layout_family": "premium",
+      "style_profile": "neo-brutalist",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F6F4EF",
+        "accent": "#111111",
+        "text": "#111111",
+        "layout": "brutalist"
+      },
+      "typography": {
+        "title_font": "Arial Black",
+        "body_font": "Arial",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F6F4EF",
+        "surface": "FFFFFF",
+        "accent": "111111",
+        "accent2": "FF5A36",
+        "text": "111111",
+        "muted": "555555",
+        "line": "111111"
+      },
+      "design": {
+        "cover": "brutalist",
+        "chrome": "boxed",
+        "background": "plain",
+        "cards": "brutal",
+        "metrics": "poster",
+        "comparison": "boxed",
+        "timeline": "blocks"
+      }
+    },
+    {
+      "id": "soft-saas",
+      "name": "柔和 SaaS",
+      "category": "产品",
+      "description": "柔和曲面、友好层级和清晰产品信息",
+      "recommended_for": ["产品方案", "客户成功"],
+      "layout_family": "premium",
+      "style_profile": "soft-saas",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F5F4FA",
+        "accent": "#7058A3",
+        "text": "#292535",
+        "layout": "soft"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F5F4FA",
+        "surface": "FFFFFF",
+        "accent": "7058A3",
+        "accent2": "E9A05A",
+        "text": "292535",
+        "muted": "696274",
+        "line": "DED8E7"
+      },
+      "design": {
+        "cover": "soft",
+        "chrome": "floating",
+        "background": "soft",
+        "cards": "soft",
+        "metrics": "tiles",
+        "comparison": "cards",
+        "timeline": "pills"
+      }
+    },
+    {
+      "id": "cyber-neon",
+      "name": "赛博霓虹",
+      "category": "科技",
+      "description": "黑色舞台、霓虹边缘与未来系统感",
+      "recommended_for": ["网络安全", "前沿科技"],
+      "layout_family": "premium",
+      "style_profile": "cyber-neon",
+      "density": "dense",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#070B14",
+        "accent": "#2FF3E0",
+        "text": "#F5F7FF",
+        "layout": "cyber"
+      },
+      "typography": {
+        "title_font": "Consolas",
+        "body_font": "Microsoft YaHei",
+        "title_size": 34,
+        "body_size": 17
+      },
+      "theme": {
+        "background": "070B14",
+        "surface": "111827",
+        "accent": "2FF3E0",
+        "accent2": "9C6CFF",
+        "text": "F5F7FF",
+        "muted": "9AA8BC",
+        "line": "243247"
+      },
+      "design": {
+        "cover": "cyber",
+        "chrome": "technical",
+        "background": "circuit",
+        "cards": "neon",
+        "metrics": "hero",
+        "comparison": "technical",
+        "timeline": "nodes"
+      }
+    },
+    {
+      "id": "esg-canopy",
+      "name": "ESG 自然",
+      "category": "可持续",
+      "description": "自然绿、年轮曲线与可持续证据",
+      "recommended_for": ["ESG 报告", "可持续战略"],
+      "layout_family": "premium",
+      "style_profile": "esg-canopy",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#EEF3E9",
+        "accent": "#2E6B4F",
+        "text": "#203329",
+        "layout": "canopy"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "EEF3E9",
+        "surface": "FAFCF7",
+        "accent": "2E6B4F",
+        "accent2": "C89B4B",
+        "text": "203329",
+        "muted": "617064",
+        "line": "CFDCCF"
+      },
+      "design": {
+        "cover": "canopy",
+        "chrome": "organic",
+        "background": "rings",
+        "cards": "organic",
+        "metrics": "vertical",
+        "comparison": "organic",
+        "timeline": "path"
+      }
+    },
+    {
+      "id": "noir-gold",
+      "name": "黑金典藏",
+      "category": "高端",
+      "description": "黑色底幕、金色细线和克制奢华",
+      "recommended_for": ["高端品牌", "投资推介"],
+      "layout_family": "premium",
+      "style_profile": "noir-gold",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#0C0C0D",
+        "accent": "#C9A45D",
+        "text": "#F7F2E8",
+        "layout": "luxury"
+      },
+      "typography": {
+        "title_font": "SimSun",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "0C0C0D",
+        "surface": "171719",
+        "accent": "C9A45D",
+        "accent2": "8E6C35",
+        "text": "F7F2E8",
+        "muted": "AAA397",
+        "line": "35312B"
+      },
+      "design": {
+        "cover": "luxury",
+        "chrome": "luxury",
+        "background": "frame",
+        "cards": "luxury",
+        "metrics": "columns",
+        "comparison": "rules",
+        "timeline": "ticks"
+      }
+    },
+    {
+      "id": "civic-red",
+      "name": "政务红",
+      "category": "政务",
+      "description": "庄重红、规范横幅与正式汇报秩序",
+      "recommended_for": ["政府汇报", "国企总结"],
+      "layout_family": "premium",
+      "style_profile": "civic-red",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#FAF7F2",
+        "accent": "#A71924",
+        "text": "#29201F",
+        "layout": "civic"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "FAF7F2",
+        "surface": "FFFFFF",
+        "accent": "A71924",
+        "accent2": "D7B06A",
+        "text": "29201F",
+        "muted": "6E5A58",
+        "line": "DDCFC8"
+      },
+      "design": {
+        "cover": "civic",
+        "chrome": "band",
+        "background": "plain",
+        "cards": "formal",
+        "metrics": "ledger",
+        "comparison": "boxed",
+        "timeline": "blocks"
+      }
+    },
+    {
+      "id": "clinical-blue",
+      "name": "医疗洁净",
+      "category": "医疗",
+      "description": "洁净蓝白、临床数据和可信证据",
+      "recommended_for": ["医学研究", "医疗方案"],
+      "layout_family": "premium",
+      "style_profile": "clinical-blue",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F1F7FA",
+        "accent": "#24749A",
+        "text": "#193540",
+        "layout": "clinical"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "F1F7FA",
+        "surface": "FFFFFF",
+        "accent": "24749A",
+        "accent2": "45A88B",
+        "text": "193540",
+        "muted": "5B727B",
+        "line": "CDE0E7"
+      },
+      "design": {
+        "cover": "clinical",
+        "chrome": "clinical",
+        "background": "soft_grid",
+        "cards": "clinical",
+        "metrics": "tiles",
+        "comparison": "clinical",
+        "timeline": "nodes"
+      }
+    },
+    {
+      "id": "academic-burgundy",
+      "name": "学术酒红",
+      "category": "研究",
+      "description": "论文式层级、酒红注脚和方法证据",
+      "recommended_for": ["论文答辩", "研究报告"],
+      "layout_family": "premium",
+      "style_profile": "academic-burgundy",
+      "density": "dense",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F8F6F2",
+        "accent": "#7B2937",
+        "text": "#222222",
+        "layout": "academic"
+      },
+      "typography": {
+        "title_font": "SimSun",
+        "body_font": "Microsoft YaHei",
+        "title_size": 34,
+        "body_size": 17
+      },
+      "theme": {
+        "background": "F8F6F2",
+        "surface": "FFFFFF",
+        "accent": "7B2937",
+        "accent2": "244B63",
+        "text": "222222",
+        "muted": "66625F",
+        "line": "D9D4CC"
+      },
+      "design": {
+        "cover": "academic",
+        "chrome": "academic",
+        "background": "paper",
+        "cards": "academic",
+        "metrics": "columns",
+        "comparison": "rules",
+        "timeline": "line"
+      }
+    },
+    {
+      "id": "industrial-orange",
+      "name": "工业橙",
+      "category": "工业",
+      "description": "石墨灰、警示橙与制造现场秩序",
+      "recommended_for": ["制造汇报", "安全生产"],
+      "layout_family": "premium",
+      "style_profile": "industrial-orange",
+      "density": "dense",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#20252B",
+        "accent": "#F28C28",
+        "text": "#F5F6F7",
+        "layout": "industrial"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 34,
+        "body_size": 17
+      },
+      "theme": {
+        "background": "20252B",
+        "surface": "2A3138",
+        "accent": "F28C28",
+        "accent2": "5CB8B2",
+        "text": "F5F6F7",
+        "muted": "B4BCC4",
+        "line": "414A53"
+      },
+      "design": {
+        "cover": "industrial",
+        "chrome": "technical",
+        "background": "grid",
+        "cards": "industrial",
+        "metrics": "hero",
+        "comparison": "technical",
+        "timeline": "dimension"
+      }
+    },
+    {
+      "id": "cinematic-story",
+      "name": "影像叙事",
+      "category": "品牌",
+      "description": "电影字幕、宽幅影像区和强叙事节奏",
+      "recommended_for": ["品牌故事", "案例发布"],
+      "layout_family": "premium",
+      "style_profile": "cinematic-story",
+      "density": "balanced",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#171718",
+        "accent": "#F05A3E",
+        "text": "#FAF7F1",
+        "layout": "cinematic"
+      },
+      "typography": {
+        "title_font": "Microsoft YaHei UI",
+        "body_font": "Microsoft YaHei",
+        "title_size": 36,
+        "body_size": 18
+      },
+      "theme": {
+        "background": "171718",
+        "surface": "232326",
+        "accent": "F05A3E",
+        "accent2": "D5B26D",
+        "text": "FAF7F1",
+        "muted": "B7B0A7",
+        "line": "39383A"
+      },
+      "design": {
+        "cover": "cinematic",
+        "chrome": "cinematic",
+        "background": "frame",
+        "cards": "cinematic",
+        "metrics": "poster",
+        "comparison": "cinematic",
+        "timeline": "film"
+      }
+    },
+    {
+      "id": "data-press",
+      "name": "数据新闻",
+      "category": "数据",
+      "description": "多栏证据、来源线和新闻编辑节奏",
+      "recommended_for": ["市场研究", "行业报告"],
+      "layout_family": "premium",
+      "style_profile": "data-press",
+      "density": "dense",
+      "layouts": [
+        "statement",
+        "agenda",
+        "section",
+        "content",
+        "two_column",
+        "cards",
+        "metrics",
+        "comparison",
+        "timeline",
+        "table",
+        "chart",
+        "quote",
+        "image",
+        "matrix",
+        "closing"
+      ],
+      "preview": {
+        "background": "#F7F5EF",
+        "accent": "#155D78",
+        "text": "#1B292E",
+        "layout": "press"
+      },
+      "typography": {
+        "title_font": "SimSun",
+        "body_font": "Microsoft YaHei",
+        "title_size": 34,
+        "body_size": 17
+      },
+      "theme": {
+        "background": "F7F5EF",
+        "surface": "FFFFFF",
+        "accent": "155D78",
+        "accent2": "D95D39",
+        "text": "1B292E",
+        "muted": "606B70",
+        "line": "D8D3C9"
+      },
+      "design": {
+        "cover": "press",
+        "chrome": "press",
+        "background": "paper_grid",
+        "cards": "press",
+        "metrics": "ledger",
+        "comparison": "rules",
+        "timeline": "line"
+      }
+    }
+  ]
+}

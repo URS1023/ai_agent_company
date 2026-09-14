@@ -737,6 +737,36 @@ export const zOfficeCellView = z
   .nullable()
 
 /**
+ * OfficeSeriesInput
+ */
+export const zOfficeSeriesInput = z.object({
+  name: z.string().min(1).max(256),
+  values: z
+    .array(z.union([z.string(), z.null()]))
+    .min(1)
+    .max(10000),
+})
+
+/**
+ * OfficeChartInput
+ */
+export const zOfficeChartInput = z.object({
+  categories: z.array(z.string()).min(1).max(10000),
+  series: z.array(zOfficeSeriesInput).min(1).max(64),
+})
+
+/**
+ * OfficeTableInput
+ */
+export const zOfficeTableInput = z.object({
+  headers: z.array(z.string()).min(1).max(64),
+  rows: z
+    .array(z.array(z.union([z.string(), zOfficeIntegerView, zOfficeDecimalView, z.null()])))
+    .max(100000),
+  table_id: z.string().min(1).max(256),
+})
+
+/**
  * OfficeTableView
  */
 export const zOfficeTableView = z.object({
@@ -750,6 +780,33 @@ export const zOfficeTableView = z.object({
  */
 export const zOfficeText = z.object({
   text: z.string().max(100000),
+})
+
+/**
+ * OfficeTextInput
+ */
+export const zOfficeTextInput = z.object({
+  text: z.string().max(100000),
+})
+
+/**
+ * OfficeReplacementInput
+ */
+export const zOfficeReplacementInput = z.object({
+  content: z
+    .array(z.union([zOfficeTextInput, zOfficeChartInput, zOfficeTableInput]))
+    .min(1)
+    .max(1000),
+  unit_id: z.uuid(),
+})
+
+/**
+ * OfficeEditRequest
+ */
+export const zOfficeEditRequest = z.object({
+  expected_revision: z.string().regex(/^[1-9][0-9]{0,18}$/),
+  replacements: z.array(zOfficeReplacementInput).min(1).max(10000),
+  request_id: z.uuid(),
 })
 
 /**
@@ -2725,6 +2782,21 @@ export const zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetQuery =
  * Successful Response
  */
 export const zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponse = z.string()
+
+export const zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostBody = zOfficeEditRequest
+
+export const zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostHeaders = z.object({
+  Origin: z.string(),
+})
+
+export const zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostPath = z.object({
+  file_id: z.uuid(),
+})
+
+/**
+ * Successful Response
+ */
+export const zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponse = zOfficeFileView
 
 export const zGetRunByRequestKeyEnterpriseApiV1RunRequestsLookupGetQuery = z.object({
   request_key: z.string().min(1).max(128),

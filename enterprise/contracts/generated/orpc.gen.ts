@@ -45,6 +45,10 @@ import {
   zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetPath,
   zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetQuery,
   zDownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponse,
+  zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostBody,
+  zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostHeaders,
+  zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostPath,
+  zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponse,
   zEnqueueRunEnterpriseApiV1DevicesDeviceIdBindingsScenarioRunsPostBody,
   zEnqueueRunEnterpriseApiV1DevicesDeviceIdBindingsScenarioRunsPostHeaders,
   zEnqueueRunEnterpriseApiV1DevicesDeviceIdBindingsScenarioRunsPostPath,
@@ -1013,6 +1017,31 @@ export const document_ = {
 }
 
 /**
+ * Edit File
+ */
+export const post10 = oc
+  .route({
+    inputStructure: 'detailed',
+    method: 'POST',
+    operationId: 'edit_file_enterprise_api_v1_office_files__file_id__edits_post',
+    path: '/enterprise/api/v1/office/files/{file_id}/edits',
+    summary: 'Edit File',
+    tags: ['default'],
+  })
+  .input(
+    z.object({
+      body: zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostBody,
+      headers: zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostHeaders,
+      params: zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostPath,
+    }),
+  )
+  .output(zEditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponse)
+
+export const edits = {
+  post: post10,
+}
+
+/**
  * Read File
  */
 export const get23 = oc
@@ -1030,6 +1059,7 @@ export const get23 = oc
 export const byFileId = {
   get: get23,
   document: document_,
+  edits,
 }
 
 export const files = {
@@ -1114,7 +1144,7 @@ export const runs2 = {
 /**
  * Switch Schedule
  */
-export const post10 = oc
+export const post11 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1133,7 +1163,7 @@ export const post10 = oc
   .output(zSwitchScheduleEnterpriseApiV1SchedulesScheduleIdStatePostResponse)
 
 export const state = {
-  post: post10,
+  post: post11,
 }
 
 /**
@@ -1237,7 +1267,7 @@ export const get30 = oc
 /**
  * Create Source
  */
-export const post11 = oc
+export const post12 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1257,7 +1287,7 @@ export const post11 = oc
 
 export const sources = {
   get: get30,
-  post: post11,
+  post: post12,
   capabilities,
   bySourceId,
 }
@@ -1292,7 +1322,7 @@ export const byClientMessageId = {
 /**
  * Send Message
  */
-export const post12 = oc
+export const post13 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1316,7 +1346,7 @@ export const post12 = oc
   )
 
 export const messages = {
-  post: post12,
+  post: post13,
   byClientMessageId,
 }
 
@@ -1368,7 +1398,7 @@ export const get33 = oc
 /**
  * Create Root
  */
-export const post13 = oc
+export const post14 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1388,7 +1418,7 @@ export const post13 = oc
 
 export const branches = {
   get: get33,
-  post: post13,
+  post: post14,
   byBranchId,
 }
 
@@ -1407,7 +1437,7 @@ export const workbench = {
 /**
  * Revoke Activation
  */
-export const post14 = oc
+export const post15 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1427,7 +1457,7 @@ export const post14 = oc
   .output(zRevokeActivationEnterpriseApiV1WorkflowActivationsActivationIdRevokePostResponse)
 
 export const revoke = {
-  post: post14,
+  post: post15,
 }
 
 /**
@@ -1477,7 +1507,7 @@ export const get35 = oc
 /**
  * Start Activation
  */
-export const post15 = oc
+export const post16 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1499,7 +1529,7 @@ export const post15 = oc
 
 export const activation = {
   get: get35,
-  post: post15,
+  post: post16,
 }
 
 /**
@@ -1532,7 +1562,7 @@ export const activationSpecifications = {
 /**
  * Advance Enrollment
  */
-export const post16 = oc
+export const post17 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1552,7 +1582,7 @@ export const post16 = oc
   .output(zAdvanceEnrollmentEnterpriseApiV1WorkflowEnrollmentsEnrollmentIdAdvancePostResponse)
 
 export const advance = {
-  post: post16,
+  post: post17,
 }
 
 /**
@@ -1584,7 +1614,7 @@ export const workflowEnrollments = {
 /**
  * Advance Provisioning
  */
-export const post17 = oc
+export const post18 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1605,7 +1635,7 @@ export const post17 = oc
   .output(zAdvanceProvisioningEnterpriseApiV1WorkflowProvisioningProvisioningIdAdvancePostResponse)
 
 export const advance2 = {
-  post: post17,
+  post: post18,
 }
 
 /**
@@ -1631,7 +1661,7 @@ export const get38 = oc
 /**
  * Start Enrollment
  */
-export const post18 = oc
+export const post19 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1654,7 +1684,7 @@ export const post18 = oc
 
 export const enrollment = {
   get: get38,
-  post: post18,
+  post: post19,
 }
 
 /**
@@ -1707,7 +1737,7 @@ export const get40 = oc
 /**
  * Start Provisioning
  */
-export const post19 = oc
+export const post20 = oc
   .route({
     inputStructure: 'detailed',
     method: 'POST',
@@ -1729,7 +1759,7 @@ export const post19 = oc
 
 export const provisioning = {
   get: get40,
-  post: post19,
+  post: post20,
 }
 
 /**

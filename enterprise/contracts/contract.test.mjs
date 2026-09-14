@@ -766,3 +766,33 @@ test('Office read projection retains exact numeric tags and string revisions in 
   )
   assert.equal(validators.zOfficeFileView.safeParse({ ...value, revision: 1 }).success, false)
 })
+
+test('Office edits carry retry identity and exact tagged values without binding overrides', () => {
+  assert.ok(contract.office.files.byFileId.edits.post)
+  const value = {
+    request_id: '00000000-0000-4000-8000-000000000001',
+    expected_revision: '1',
+    replacements: [
+      {
+        unit_id: '00000000-0000-4000-8000-000000000002',
+        content: [
+          { table_id: 'values', headers: ['exact'], rows: [[{ integer: '9007199254740993' }]] },
+        ],
+      },
+    ],
+  }
+  assert.deepEqual(validators.zOfficeEditRequest.parse(value), value)
+  assert.equal(
+    validators.zOfficeEditRequest.safeParse({ ...value, expected_revision: 1 }).success,
+    false,
+  )
+  assert.deepEqual(validators.zOfficeEditRequest.parse({ ...value, template_id: 'other' }), value)
+  assert.equal(
+    validators.zOfficeTableInput.safeParse({
+      table_id: 'values',
+      headers: ['value'],
+      rows: [[1.5]],
+    }).success,
+    false,
+  )
+})

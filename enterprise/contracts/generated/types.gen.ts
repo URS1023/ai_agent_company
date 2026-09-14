@@ -505,8 +505,19 @@ export type NativePublicationMetadata = {
 
 export type OfficeCellView = string | OfficeIntegerView | OfficeDecimalView | null
 
+export type OfficeChartInput = {
+  categories: Array<string>
+  series: Array<OfficeSeriesInput>
+}
+
 export type OfficeDecimalView = {
   decimal: string
+}
+
+export type OfficeEditRequest = {
+  expected_revision: string
+  replacements: Array<OfficeReplacementInput>
+  request_id: string
 }
 
 export type OfficeFileView = {
@@ -523,6 +534,22 @@ export type OfficeIntegerView = {
   integer: string
 }
 
+export type OfficeReplacementInput = {
+  content: Array<OfficeTextInput | OfficeChartInput | OfficeTableInput>
+  unit_id: string
+}
+
+export type OfficeSeriesInput = {
+  name: string
+  values: Array<string | null>
+}
+
+export type OfficeTableInput = {
+  headers: Array<string>
+  rows: Array<Array<string | OfficeIntegerView | OfficeDecimalView | null>>
+  table_id: string
+}
+
 export type OfficeTableView = {
   headers: Array<string>
   rows: Array<Array<OfficeCellView>>
@@ -530,6 +557,10 @@ export type OfficeTableView = {
 }
 
 export type OfficeText = {
+  text: string
+}
+
+export type OfficeTextInput = {
   text: string
 }
 
@@ -2263,6 +2294,38 @@ export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponses
 
 export type DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponse =
   DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponses[keyof DownloadDocumentEnterpriseApiV1OfficeFilesFileIdDocumentGetResponses]
+
+export type EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostData = {
+  body: OfficeEditRequest
+  headers: {
+    Origin: string
+  }
+  path: {
+    file_id: string
+  }
+  query?: never
+  url: '/enterprise/api/v1/office/files/{file_id}/edits'
+}
+
+export type EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostErrors = {
+  401: ErrorResponse
+  403: ErrorResponse
+  404: ErrorResponse
+  409: ErrorResponse
+  422: ErrorResponse
+  500: ErrorResponse
+  503: ErrorResponse
+}
+
+export type EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostError =
+  EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostErrors[keyof EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostErrors]
+
+export type EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponses = {
+  200: OfficeFileView
+}
+
+export type EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponse =
+  EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponses[keyof EditFileEnterpriseApiV1OfficeFilesFileIdEditsPostResponses]
 
 export type GetRunByRequestKeyEnterpriseApiV1RunRequestsLookupGetData = {
   body?: never

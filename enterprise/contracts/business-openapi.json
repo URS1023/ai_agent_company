@@ -2607,6 +2607,35 @@
           }
         ]
       },
+      "OfficeChartInput": {
+        "additionalProperties": false,
+        "properties": {
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Categories",
+            "type": "array"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeSeriesInput"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Series",
+            "type": "array"
+          }
+        },
+        "required": [
+          "categories",
+          "series"
+        ],
+        "title": "OfficeChartInput",
+        "type": "object"
+      },
       "OfficeDecimalView": {
         "additionalProperties": false,
         "properties": {
@@ -2619,6 +2648,37 @@
           "decimal"
         ],
         "title": "OfficeDecimalView",
+        "type": "object"
+      },
+      "OfficeEditRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_revision": {
+            "pattern": "^[1-9][0-9]{0,18}$",
+            "title": "Expected Revision",
+            "type": "string"
+          },
+          "replacements": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeReplacementInput"
+            },
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Replacements",
+            "type": "array"
+          },
+          "request_id": {
+            "format": "uuid",
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "expected_revision",
+          "replacements"
+        ],
+        "title": "OfficeEditRequest",
         "type": "object"
       },
       "OfficeFileView": {
@@ -2693,6 +2753,125 @@
         "title": "OfficeIntegerView",
         "type": "object"
       },
+      "OfficeReplacementInput": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/OfficeTextInput"
+                },
+                {
+                  "$ref": "#/components/schemas/OfficeChartInput"
+                },
+                {
+                  "$ref": "#/components/schemas/OfficeTableInput"
+                }
+              ]
+            },
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Content",
+            "type": "array"
+          },
+          "unit_id": {
+            "format": "uuid",
+            "title": "Unit Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "unit_id",
+          "content"
+        ],
+        "title": "OfficeReplacementInput",
+        "type": "object"
+      },
+      "OfficeSeriesInput": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "values"
+        ],
+        "title": "OfficeSeriesInput",
+        "type": "object"
+      },
+      "OfficeTableInput": {
+        "additionalProperties": false,
+        "properties": {
+          "headers": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Headers",
+            "type": "array"
+          },
+          "rows": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OfficeIntegerView"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OfficeDecimalView"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "maxItems": 100000,
+            "title": "Rows",
+            "type": "array"
+          },
+          "table_id": {
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Table Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "table_id",
+          "headers",
+          "rows"
+        ],
+        "title": "OfficeTableInput",
+        "type": "object"
+      },
       "OfficeTableView": {
         "additionalProperties": false,
         "properties": {
@@ -2739,6 +2918,21 @@
           "text"
         ],
         "title": "OfficeText",
+        "type": "object"
+      },
+      "OfficeTextInput": {
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "maxLength": 100000,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "OfficeTextInput",
         "type": "object"
       },
       "OfficeUnitView": {
@@ -10927,6 +11121,157 @@
           }
         ],
         "summary": "Download Document"
+      }
+    },
+    "/enterprise/api/v1/office/files/{file_id}/edits": {
+      "post": {
+        "operationId": "edit_file_enterprise_api_v1_office_files__file_id__edits_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "File Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Browser-supplied origin must exactly match a configured allowed origin. Missing/untrusted: 403. An empty deployment allowlist disables writes.",
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeEditRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeFileView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native Dify account session is not authenticated."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Identity, role, CSRF or browser origin check failed."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Resource does not exist in the current workspace."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Revision, idempotency key or resource state conflict."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request or business command."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Enterprise domain operation failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Native identity or persistence dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifySession": []
+          },
+          {
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": [],
+            "DifyHostSession": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFCookie": [],
+            "DifyCSRFHeader": []
+          },
+          {
+            "DifyBearer": [],
+            "DifyCSRFHeader": [],
+            "DifyHostCSRFCookie": []
+          }
+        ],
+        "summary": "Edit File"
       }
     },
     "/enterprise/api/v1/run-requests/lookup": {

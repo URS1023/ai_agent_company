@@ -370,6 +370,17 @@
         "Full Web run 40393: 30124 passed, one ChatRecord failure, zero skipped. Original isolated file reproduced two failed/one passed in session66127.",
         "Single-variable preload change passed all three tests in session16532; independent diagnosis traced empty Markdown body to real dynamic initialization. Follow-up exact-change review and combined regression pending."
       ]
+    },
+    {
+      "path": "web/features/agent-v2/agent-detail/logs/__tests__/page.spec.tsx",
+      "baselineSha256": "2ae2fc2da33f8b819f11d39769fca124145c39bc81756d3796bab0a60815eaae",
+      "reviewedSha256": "205f192a11c689651f696cc809c6b7f13e7bbd62324a6020ddfc858a556e9279",
+      "reason": "Await the real lazy Markdown chunk before timing log drawer interactions; no production changes, mocks, assertion changes or timeout increases.",
+      "verification": [
+        "Original isolated log page reproduced the missing-answer failure; preload-only change passed all five tests.",
+        "Independent web_runtime_review verified exact hashes and no blocking issue; cold-load performance remains unverified.",
+        "Local combined session 54357: three files, eleven tests passed. Full-Web rerun remains required."
+      ]
     }
   ]
 }

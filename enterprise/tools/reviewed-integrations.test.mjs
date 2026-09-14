@@ -303,3 +303,17 @@ test('limits chat-history lazy-chunk review to its exact regression test', () =>
       validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit'),
     )
 })
+
+test('limits Agent V2 log Markdown initialization review to the exact test file', () => {
+  const path = 'web/features/agent-v2/agent-detail/logs/__tests__/page.spec.tsx'
+  const reviews = validateReviews({ baseline: 'commit', entries: [{ ...entry, path }] }, 'commit')
+  assert.equal(matchesReview(path, 'original\n', 'additive reviewed version\n', reviews), true)
+  assert.equal(matchesReview(path, 'original\n', 'unreviewed change\n', reviews), false)
+  for (const adjacent of [
+    'web/features/agent-v2/agent-detail/logs/page.tsx',
+    'web/features/agent-v2/agent-detail/logs/components/log-detail-panel.tsx',
+  ])
+    assert.throws(() =>
+      validateReviews({ baseline: 'commit', entries: [{ ...entry, path: adjacent }] }, 'commit'),
+    )
+})

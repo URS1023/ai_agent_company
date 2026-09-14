@@ -200,6 +200,11 @@ const getLatestLogsQueryInput = () => {
 }
 
 describe('AgentLogsPage', () => {
+  beforeAll(async () => {
+    // Compile the real lazy Markdown chunk before timing log drawer interactions.
+    await import('@/app/components/base/markdown/streamdown-wrapper')
+  })
+
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.logsQueryFn.mockResolvedValue(emptyLogsResponse)

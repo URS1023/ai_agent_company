@@ -1,0 +1,36 @@
+{
+  "batch": "2026-10-04-major-18",
+  "old_gate_fixture": "6c52b992e48d44d95d6a2d531ac699986f85051b9aa112499850b24c2b77bad6",
+  "patch_after_gate": true,
+  "first_attempt": {
+    "old_browser_source_sha256": "6c52b992e48d44d95d6a2d531ac699986f85051b9aa112499850b24c2b77bad6",
+    "applied_after_gate": true,
+    "gate_manifest": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/manifest.json",
+    "patch_sha256": "ee08635b3cdb97e04f288d8b086d5211403c4def425299a1fc409c01dc379278",
+    "exit_code": 1,
+    "seconds": 0.453,
+    "log": ".implementation/natural-continuation-browser-batch18-contract.log",
+    "log_sha256": "3ad2d2e767f040edde83a039d8463172edbb49e159d8f8393278bd0966aefbc2",
+    "new_browser_source_sha256": "22add9266e6bd8f180db8465433e7cdb6fcd920ff6f11d610952106df591f9e1",
+    "node_passed": 8,
+    "node_failed": 1,
+    "reason": "根代理独立补验命令漏传TEST5_E2E_PYTHON；不归为产品缺陷"
+  },
+  "corrected_attempt": {
+    "old_browser_source_sha256": "6c52b992e48d44d95d6a2d531ac699986f85051b9aa112499850b24c2b77bad6",
+    "applied_after_gate": true,
+    "gate_manifest": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/manifest.json",
+    "patch_sha256": "ee08635b3cdb97e04f288d8b086d5211403c4def425299a1fc409c01dc379278",
+    "exit_code": 0,
+    "seconds": 0.89,
+    "log": ".implementation/natural-continuation-browser-batch18-contract-corrected.log",
+    "log_sha256": "4c2a3ae39e55324c5f1bd17595a355d61cc81219cd629ebf16f5f0f92d4e9351",
+    "new_browser_source_sha256": "22add9266e6bd8f180db8465433e7cdb6fcd920ff6f11d610952106df591f9e1",
+    "first_failed_record": ".implementation/batch18-browser-patch-proof-first-failed.json",
+    "correction": "补验启动命令显式传TEST5_E2E_PYTHON；产品和测试代码未改",
+    "node_passed": 9,
+    "node_failed": 0
+  },
+  "browser_complete": false,
+  "scope": "只补验受影响离线合同，未将其当作真实浏览器通过"
+}

@@ -1,0 +1,55 @@
+{
+  "batch": "2026-10-04-major-12",
+  "source_baseline": "0cc7d2d",
+  "source_branch": "codex/major-capability-contracts",
+  "status": "passed",
+  "scope": "合成数据、临时SQLite、本机模型桩；不连接业务库或真实模型",
+  "started_at": "2026-10-04T09:08:09.538824+08:00",
+  "completed_at": "2026-10-04T09:14:35.388212+08:00",
+  "backend_tests_passed": 683,
+  "dashboard_viewports_passed": 18,
+  "local_model_stub_requests": 24,
+  "phases": [
+    {
+      "name": "python-syntax",
+      "exit_code": 0,
+      "seconds": 1.14
+    },
+    {
+      "name": "backend-contracts",
+      "exit_code": 0,
+      "seconds": 256.03
+    },
+    {
+      "name": "chart-units",
+      "exit_code": 0,
+      "seconds": 0.41
+    },
+    {
+      "name": "chat-state",
+      "exit_code": 0,
+      "seconds": 0.14
+    },
+    {
+      "name": "stream-recovery",
+      "exit_code": 0,
+      "seconds": 0.12
+    },
+    {
+      "name": "stream-scroll",
+      "exit_code": 0,
+      "seconds": 10.09
+    },
+    {
+      "name": "dashboard-matrix",
+      "exit_code": 0,
+      "seconds": 62.73
+    },
+    {
+      "name": "native-worker",
+      "exit_code": 0,
+      "seconds": 55.17
+    }
+  ],
+  "original_manifest_sha256": "41f24469883889b9e8813f536f0d3ce9b63b34203f10c34931c8a097915cbbb3"
+}

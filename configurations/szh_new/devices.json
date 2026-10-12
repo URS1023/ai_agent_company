@@ -1,0 +1,571 @@
+[
+  {
+    "sourceDeviceId": "0001567-0d546da083404d689ccb5270254f4986",
+    "deviceId": "01M24QT72DST6R6BQTWJBYCYXT",
+    "name": "2#炉环形加料机",
+    "planType": 2,
+    "plans": [
+      "电石炉五楼设备润滑保养"
+    ],
+    "workflowId": "01M24QT8ZF8QRWA3662JP71E80",
+    "version": 21,
+    "ruleId": "01M24QT8X8JKMKRXRYG1MDYDG0",
+    "executionId": "01M25B80WHH52R1T5VCANZ4PMQ",
+    "reportId": "01M25B84NYK5CZ7QDHAZ9S54WQ",
+    "outcome": "issues",
+    "requirementCount": 3,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-0d8b8beb96a7437185ee4ec2b307b133",
+    "deviceId": "01M24QT74QG1GKYNZGAXXY7P2E",
+    "name": "1#炉出炉机器人B",
+    "planType": 2,
+    "plans": [
+      "电石炉区域出炉机器人"
+    ],
+    "workflowId": "01M24QT9BD3GB6Z94N6768ZCRZ",
+    "version": 21,
+    "ruleId": "01M24QT99F3A7TZW0NW1AZS6WY",
+    "executionId": "01M25B85C1A5BF1ME521C8FQ5P",
+    "reportId": "01M25B8APDH623DZSN43DP3KF8",
+    "outcome": "issues",
+    "requirementCount": 5,
+    "repairEnabled": true,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-1080e120bada4139bac3a9e29443b539",
+    "deviceId": "01M24QT76ZJXWVTZ6NS8H51DZ8",
+    "name": "4#皮带机B",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QT9QC66X6RMCMNMVPVPP8",
+    "version": 21,
+    "ruleId": "01M24QT9NCHKJMFZHKC9K2JF52",
+    "executionId": "01M24ZGTVGPG5X294H9M687XEQ",
+    "reportId": "01M24ZGVEG8VZEX2NPS9711M8P",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-18f3f1c5f2874e8db3434b02c61055a4",
+    "deviceId": "01M24QT78TB6E3BPPK009D4RQZ",
+    "name": "3#皮带机",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTA3PQ6MTFFHXKMZTN9TM",
+    "version": 21,
+    "ruleId": "01M24QTA1PEWMKCSR1GQ3CR2H7",
+    "executionId": "01M24ZGVTZG074P30KVX2GP13G",
+    "reportId": "01M24ZGWENHER8FWQKAN8B8F8Z",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-1de1cce66ae84554929bbedcba548b3d",
+    "deviceId": "01M24QT7ANS34X2G3CD290VK27",
+    "name": "减速机",
+    "planType": 2,
+    "plans": [
+      "原料区域减速机"
+    ],
+    "workflowId": "01M24QTAFHZMYNYZN3F856F178",
+    "version": 21,
+    "ruleId": "01M24QTADFQK3Q363NMSXW2NFV",
+    "executionId": "01M24ZGWTT80BVV85MMWR6HF96",
+    "reportId": "01M24ZGX2TM8J4VNPK37PW7YT6",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-2227c1d8e09749c99557f251ac93afe1",
+    "deviceId": "01M24QT7CDQ68SF8ZYAV71NS4J",
+    "name": "1-2出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTATZ4AWK5JT4VA4DGQ67",
+    "version": 21,
+    "ruleId": "01M24QTAS5KBY39FADMPN9E1Q0",
+    "executionId": "01M24ZGXCYPQ09KA443264NHE6",
+    "reportId": "01M24ZGXP0Z3812GAW4TP7DFSG",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-2838347eb276479bbb75018e98bac4b7",
+    "deviceId": "01M24QT7EA413MC98CHGTRZ59N",
+    "name": "2#炉出炉机器人B",
+    "planType": 2,
+    "plans": [
+      "电石炉区域出炉机器人"
+    ],
+    "workflowId": "01M24QTB6WQB3X5CZS5WSQXSRD",
+    "version": 21,
+    "ruleId": "01M24QTB4R7VXT9XWNT0AC4ZW2",
+    "executionId": "01M25B8BPVERFZMTN4Q14CKSQA",
+    "reportId": "01M25B8ESN1A6SP8MTEHFPSFXS",
+    "outcome": "issues",
+    "requirementCount": 5,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-2adce1a7bb454828a312185d4f07d344",
+    "deviceId": "01M24QT7G4HQDR4ZP566N5HJ2V",
+    "name": "5#皮带机B",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTBJ09BAV8HXQVV7P442K",
+    "version": 21,
+    "ruleId": "01M24QTBG7T0F3PQGQ4VY5YSN3",
+    "executionId": "01M24ZGYNXRQ9HCE7A02HEH23E",
+    "reportId": "01M24ZGZ83KVTAFFNGEY56HCMA",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-2b3b6be1388d46c9b2ba75378a421fba",
+    "deviceId": "01M24QT7J803Z7AFM6T0ZWMYEM",
+    "name": "1#炉出炉机器人C",
+    "planType": 2,
+    "plans": [
+      "电石炉区域出炉机器人"
+    ],
+    "workflowId": "01M24QTBXVGVMRCMX96JWQ7ZJH",
+    "version": 21,
+    "ruleId": "01M24QTBVQANJXE9WJC66JTHSX",
+    "executionId": "01M25B8FG4P9GVB7Q5AA182Z29",
+    "reportId": "01M25B8JPKCQG78CME3JZVSHPP",
+    "outcome": "issues",
+    "requirementCount": 5,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-3b3ebc4911774f069b65a08ffabf03b5",
+    "deviceId": "01M24QT7M22222PPR9SFHTR69S",
+    "name": "8#皮带机",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTC9JKJ1N0A8R36EEJ1Q7",
+    "version": 21,
+    "ruleId": "01M24QTC7R3JDNEHY8Y9C09501",
+    "executionId": "01M24ZH0AR4HBQ9D9H829WPA9D",
+    "reportId": "01M24ZH110S77MWQR7S5J6SG57",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-4bd2a5151fc44e89bc5cb2781d87c7cb",
+    "deviceId": "01M24QT7NRQGQ59ZHR2V4NCHMK",
+    "name": "1-3出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTCMZ9CEAVYKJJGR66JVX",
+    "version": 21,
+    "ruleId": "01M24QTCK2B6AJJP5MQB3ZJEB4",
+    "executionId": "01M24ZH1D9W0EQPAC5MQ20PP04",
+    "reportId": "01M24ZH1P008Q8B884TNVQTZ5T",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-5780ab52fc0746c6ad97ae8db6695776",
+    "deviceId": "01M24QT7QFXQ461Q5KN7WKPTEH",
+    "name": "1#炉出炉机器人A",
+    "planType": 2,
+    "plans": [
+      "电石炉区域出炉机器人"
+    ],
+    "workflowId": "01M24QTD08K2VAFVBYDXRX0DFT",
+    "version": 21,
+    "ruleId": "01M24QTCYDPHNA2JC247C6QZS3",
+    "executionId": "01M25B8KHQBV3REANEPPQ99JB5",
+    "reportId": "01M25B8PMQKNPQD873ARK8849M",
+    "outcome": "issues",
+    "requirementCount": 5,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-5e088c31b145431980ac690cee3981dd",
+    "deviceId": "01M24QT7SAFJ9R17ZJ681XP2XM",
+    "name": "2#皮带机",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTDBZ75X6ZJEMYQ822AV3",
+    "version": 21,
+    "ruleId": "01M24QTDA0T4E4GW8XZPVWZS6F",
+    "executionId": "01M24ZH2QJZPZ6MY9PBH5DPEYA",
+    "reportId": "01M24ZH3A7SBRCEJZCRYXM8THR",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-6cb6cc0f56974639af022cabcdddaccc",
+    "deviceId": "01M24QT7V2R2PDTHTXHX7QT89G",
+    "name": "2#炉出炉机器人C",
+    "planType": 2,
+    "plans": [
+      "电石炉区域出炉机器人"
+    ],
+    "workflowId": "01M24QTDRNPMBWNPXEVXTG38T9",
+    "version": 21,
+    "ruleId": "01M24QTDPSVMCT3G4147W6X0M6",
+    "executionId": "01M25B8QBD6WR8A6NFX5DYMHMM",
+    "reportId": "01M25B8TG5BES72SQSBC0MGPV6",
+    "outcome": "issues",
+    "requirementCount": 5,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-7e836097cfda42818c0d58315e8473af",
+    "deviceId": "01M24QT7WSE0XT225HKBCA5B3H",
+    "name": "1#主变",
+    "planType": 1,
+    "plans": [
+      "110kV变电站1#主变巡检"
+    ],
+    "workflowId": "01M24QTE4E73W5E01978ARRX00",
+    "version": 17,
+    "ruleId": "01M24QTE2D8KNVZG94GA8FGG87",
+    "executionId": "01M24ZH4ENNJG8BCHNE90B7Y8V",
+    "reportId": "01M24ZH7Z79ZDQMZ98JVN9BW7S",
+    "outcome": "issues",
+    "requirementCount": 17,
+    "repairEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-84bce3b6a55c4caab52aaf1ce2230c2d",
+    "deviceId": "01M24QT7YH7P0E5GHVA7X49F81",
+    "name": "配料站配电室",
+    "planType": 1,
+    "plans": [
+      "配料站配电室"
+    ],
+    "workflowId": "01M24QTEFTWVRWWBE7C95YJT7Y",
+    "version": 17,
+    "ruleId": "01M24QTEE0BK83F7BAFYJE7VSS",
+    "executionId": "01M24ZH8E0T7BQ7QDST4P9N4MW",
+    "reportId": "01M24ZH9HS39FSF3M7GT2T9ASH",
+    "outcome": "issues",
+    "requirementCount": 3,
+    "repairEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-86cc8ee2e79b479aa1fcd1142df991b8",
+    "deviceId": "01M24QT80F06AKWQMJJYT7JAGV",
+    "name": "2#炉出炉机器人A",
+    "planType": 2,
+    "plans": [
+      "电石炉区域出炉机器人"
+    ],
+    "workflowId": "01M24QTEW0B2CKN39AAE354N56",
+    "version": 21,
+    "ruleId": "01M24QTESZZR8M8G6Y24DQVSTK",
+    "executionId": "01M25B8VBKTQZ5F1HWN9JY35YP",
+    "reportId": "01M25B8YDY9S0A4KJ4JA1CDRP1",
+    "outcome": "issues",
+    "requirementCount": 5,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-8f825b609c124b66a2ae9b6328bd3e64",
+    "deviceId": "01M24QT8281W9573SBX48GSE95",
+    "name": "2-1西出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTF8172ZXP5608FCKGEZB",
+    "version": 21,
+    "ruleId": "01M24QTF66KN7J60BEKWP9K131",
+    "executionId": "01M24ZHAJZQTF68PJ5PRGEPCPR",
+    "reportId": "01M24ZHATY9R3S89V8PMAMD50C",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-91ae2dcf786c41889e5f3069cbe15ff1",
+    "deviceId": "01M24QT83YRV7FQHM3J9EH7C0E",
+    "name": "1#皮带机",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTFM20TPNYQHS86CTVRVC",
+    "version": 21,
+    "ruleId": "01M24QTFJ3SX6VJS6KQFA1Y62A",
+    "executionId": "01M24ZHB4T5361X2B2HK6BF3WS",
+    "reportId": "01M24ZHBQS30PVM3JB1T3C9KBY",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-92fc6ba2e8324c728d683bf0e27626ef",
+    "deviceId": "01M24QT85QPPFRQZ8V85WJVJ09",
+    "name": "5#皮带机A",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTFZY0FZW8ZDRTAW1MD9D",
+    "version": 21,
+    "ruleId": "01M24QTFXZQCPEBKRA1DCGFGTG",
+    "executionId": "01M24ZHC3GKE8PG445559EF8R1",
+    "reportId": "01M24ZHCZ5SQCZ1YEG8XXGDQYG",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-97204e30725d4d46b93b016a7795a779",
+    "deviceId": "01M24QT87FQ5GDXTWG1BJMAV1S",
+    "name": "2-3出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTGCE58MX4Y8HPTXTP71S",
+    "version": 21,
+    "ruleId": "01M24QTGA9ASCGYZJSHZX23RHF",
+    "executionId": "01M24ZHDAEF1E1GMRN21Z2MJGC",
+    "reportId": "01M24ZHDKG56CX49YQASBX31CR",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-a87fb0db4f864eb4a996da0ab49761c9",
+    "deviceId": "01M24QT897VM0GM0FEWQBWXD8E",
+    "name": "2#主变",
+    "planType": 1,
+    "plans": [
+      "110kV变电站2#主变巡检"
+    ],
+    "workflowId": "01M24QTGSVXKSFHNDN20GWVQCM",
+    "version": 17,
+    "ruleId": "01M24QTGQRKKBDJ8Q1H7PN4B1Z",
+    "executionId": "01M24ZHDZ2SXWQ067ASKJEK37D",
+    "reportId": "01M24ZHHFYP177BKRMS9W9BY6V",
+    "outcome": "issues",
+    "requirementCount": 17,
+    "repairEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-ad510b1cab1b46e3a947104af63642e4",
+    "deviceId": "01M24QT8AYNV12AYS45VAE8TR8",
+    "name": "2-1东出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTH900BB4NT387P2KZYRD",
+    "version": 21,
+    "ruleId": "01M24QTH6R6Z58T7NTS6E9P56B",
+    "executionId": "01M24ZHHX1DH5KZN54CQH9DYQY",
+    "reportId": "01M24ZHJ52AB8WADF7DZ8QD4QA",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-bdb5b8d174ef404abfb1bbfc4537b782",
+    "deviceId": "01M24QT8CQMJ06P4D9Z6FE41Y3",
+    "name": "4#皮带机A",
+    "planType": 2,
+    "plans": [
+      "皮带机"
+    ],
+    "workflowId": "01M24QTHN6TYQ34AX0XPXD5H5W",
+    "version": 21,
+    "ruleId": "01M24QTHKDC6EV72ZKCB1CZP99",
+    "executionId": "01M24ZHJF2BQZV14NTA8D5ETRJ",
+    "reportId": "01M24ZHK1GXTAFATY4HQX4542Q",
+    "outcome": "issues",
+    "requirementCount": 12,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-ca64d6ba125445b8bd72e0a735f1afc4",
+    "deviceId": "01M24QT8EFD1M5EAV9DBHGND1Q",
+    "name": "柴油发电机",
+    "planType": 1,
+    "plans": [
+      "柴油发电机巡检"
+    ],
+    "workflowId": "01M24QTHYA7BQW8XSESDNRNFEE",
+    "version": 17,
+    "ruleId": "01M24QTHWSH2CCFH1430X3GDXY",
+    "executionId": "01M24ZHKGVSBQJRJFFHNT4WTEV",
+    "reportId": "01M24ZHPPRP1M8BKS3JD0Y505B",
+    "outcome": "issues",
+    "requirementCount": 15,
+    "repairEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-ce6009b3fbfe430897987101421486b6",
+    "deviceId": "01M24QT8G97ZGPHFWN78N7PX8K",
+    "name": "2-2出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTJ7BM6P8ND1ZG7GQPMYB",
+    "version": 21,
+    "ruleId": "01M24QTJ5VDQQBFDV17JEMGXY4",
+    "executionId": "01M24ZHQ4T3RA4Z8F2656EWB7E",
+    "reportId": "01M24ZHQCK17Y5Q0M8GBA8J4X8",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-d6bf0ac1428141aa889243c859387f84",
+    "deviceId": "01M24QT8J15E69X6QJTRQF7GHM",
+    "name": "1-1西出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTJG8Q3M5YT2FB1DNZ3AD",
+    "version": 21,
+    "ruleId": "01M24QTJET11TRP4X2K625E9TR",
+    "executionId": "01M24ZHQPKXFKGMYXYR7NY113Y",
+    "reportId": "01M24ZHQYKS5DCXE90BFGFTA2M",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-dbd388c5196d4bcaa5a10b11bc12f90f",
+    "deviceId": "01M24QT8KT2QGH95SY4PSV1VPH",
+    "name": "1#炉环形加料机",
+    "planType": 2,
+    "plans": [
+      "电石炉五楼设备润滑保养"
+    ],
+    "workflowId": "01M24QTJRZGV40QRWRKKKA9JPQ",
+    "version": 32,
+    "ruleId": "01M24QTJQGN9V6EWBGRV8F9P8R",
+    "executionId": "01M25B9041QCPCHZJ29570NPEP",
+    "reportId": "01M25B932DNY12JQ9Z2A38EN2B",
+    "outcome": "issues",
+    "requirementCount": 3,
+    "repairEnabled": false,
+    "actualInspectionEnabled": true
+  },
+  {
+    "sourceDeviceId": "0001567-e0cef5e6c4354433a20d92297b45d2a4",
+    "deviceId": "01M24QT8NHGRHTZ25JJYVP14W3",
+    "name": "1-1东出炉小车",
+    "planType": 2,
+    "plans": [
+      "电石区域出炉小车润滑"
+    ],
+    "workflowId": "01M24QTK2SRP8WTSNJ05JV7W45",
+    "version": 21,
+    "ruleId": "01M24QTK1CTFNZ4RF7RZF5NRGH",
+    "executionId": "01M24ZHRWQQGFP5XPNY3KMA27Q",
+    "reportId": "01M24ZHS47FV7Q3C8AP3JV8SWG",
+    "outcome": "issues",
+    "requirementCount": 1,
+    "repairEnabled": false,
+    "actualInspectionEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-efaa56c92bef43edb1f5637df367ec3b",
+    "deviceId": "01M24QT8QB8F2TPXH32ED0730F",
+    "name": "直流充电屏",
+    "planType": 1,
+    "plans": [
+      "直流屏巡检"
+    ],
+    "workflowId": "01M24QTKBCXR8GKD2HM1QY6J4E",
+    "version": 17,
+    "ruleId": "01M24QTK9XCD5JSSVMVYSWEV6A",
+    "executionId": "01M24ZHSFQN8ZC2AAF8J23E9SX",
+    "reportId": "01M24ZHV988D1VV43843EG08NH",
+    "outcome": "issues",
+    "requirementCount": 7,
+    "repairEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-eff59d873a7a47a195572814fa49ae97",
+    "deviceId": "01M24QT8S9K944X9YBW87BHG8P",
+    "name": "原料配电室",
+    "planType": 1,
+    "plans": [
+      "原料配电室"
+    ],
+    "workflowId": "01M24QTKM0ZQA4WPC66GB1193Y",
+    "version": 17,
+    "ruleId": "01M24QTKJHA2D95QV8BFZAJ5MV",
+    "executionId": "01M24ZHVPMDEPCDK9E7VMVQ43E",
+    "reportId": "01M24ZHXFPB7A7718PA148EXS3",
+    "outcome": "issues",
+    "requirementCount": 7,
+    "repairEnabled": false
+  },
+  {
+    "sourceDeviceId": "0001567-f75482aac9b14e4489a9c82841c6cb41",
+    "deviceId": "01M24QT8V2XTSPEW0FXD4S2MFD",
+    "name": "石灰窑配电室",
+    "planType": 1,
+    "plans": [
+      "石灰窑配电室"
+    ],
+    "workflowId": "01M24QTKWGSZXRR3806PAVZHKS",
+    "version": 17,
+    "ruleId": "01M24QTKV5HCAC7RZS0NKA0TRQ",
+    "executionId": "01M24ZHXWJAKDPP8EDSM3TRJX6",
+    "reportId": "01M24ZHZQ6QVGDFNNFSS5VHTEA",
+    "outcome": "issues",
+    "requirementCount": 7,
+    "repairEnabled": false
+  }
+]

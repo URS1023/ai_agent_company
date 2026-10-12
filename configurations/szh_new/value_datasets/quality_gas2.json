@@ -1,0 +1,62 @@
+{
+  "id": "01M252Y7DXP08KP0S7HDP8SQJT",
+  "name": "出厂检测原始数据",
+  "category": "工作流读取值",
+  "content": "SELECT d.incomingMaterialQcItemDetails2Id recordKey,\n                h.incomingMaterialQcFormId AS `单据标识`,h.c_incomingQcNo AS `质检单号`,d.c_timePoint AS `检测时间`,\n                d.c_luyanshu AS `炉眼`,d.c_faqiliang AS `发气量_L每kg`,\n                d.c_linhuaqing AS `磷化氢_百分比`,d.c_liuhuaqing AS `硫化氢_百分比`,d.c_jieguo AS `原检验结果`\n                FROM t_incomingmaterialqcitemdetails2 d JOIN t_incomingmaterialqcform h\n                ON h.incomingMaterialQcFormId=d.mdIncomingMaterialQcFormId AND h.isDeleted=0\n                WHERE (:formNumber='' OR h.c_incomingQcNo=:formNumber) AND d.isDeleted=0 AND h.c_qualityInspection=:category ORDER BY d.incomingMaterialQcItemDetails2Id",
+  "mode": "sql",
+  "parameters": {
+    "inputs": [
+      {
+        "name": "category",
+        "label": "质检类别（1来料、2过程、3成品）",
+        "default": 1
+      },
+      {
+        "name": "formNumber",
+        "label": "质检单号（留空全部）",
+        "default": ""
+      }
+    ],
+    "columns": [
+      {
+        "name": "单据标识",
+        "label": "单据标识"
+      },
+      {
+        "name": "质检单号",
+        "label": "质检单号"
+      },
+      {
+        "name": "检测时间",
+        "label": "检测时间"
+      },
+      {
+        "name": "炉眼",
+        "label": "炉眼"
+      },
+      {
+        "name": "发气量_L每kg",
+        "label": "发气量_L每kg"
+      },
+      {
+        "name": "磷化氢_百分比",
+        "label": "磷化氢_百分比"
+      },
+      {
+        "name": "硫化氢_百分比",
+        "label": "硫化氢_百分比"
+      },
+      {
+        "name": "原检验结果",
+        "label": "原检验结果"
+      }
+    ],
+    "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+    "identityFields": [
+      "recordKey"
+    ],
+    "workflowValues": true
+  },
+  "usageCount": 0,
+  "version": 2
+}

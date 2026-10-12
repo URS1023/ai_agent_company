@@ -1,0 +1,1 @@
+function r(t){if(!t)return"—";const e=/(?:Z|[+-]\d{2}:?\d{2})$/i.test(t)?t:`${t}Z`,i=new Date(e);return Number.isNaN(i.getTime())?"—":i.toLocaleString("zh-CN",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:!1})}export{r as f};

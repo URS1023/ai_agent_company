@@ -1,0 +1,4223 @@
+[
+  {
+    "file": "backend/app/main.py",
+    "line": 244,
+    "method": "GET",
+    "local_path": "/api/health",
+    "function": "health"
+  },
+  {
+    "file": "backend/app/main.py",
+    "line": 249,
+    "method": "GET",
+    "local_path": "/api/ready",
+    "function": "readiness"
+  },
+  {
+    "file": "backend/app/main.py",
+    "line": 264,
+    "method": "GET",
+    "local_path": "/api/ai/ready",
+    "function": "ai_readiness"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 39,
+    "method": "GET",
+    "local_path": "/device-catalogue",
+    "function": "device_cards"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 46,
+    "method": "POST",
+    "local_path": "/card-images/{kind}/{target_id}",
+    "function": "upload_card_image"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 58,
+    "method": "DELETE",
+    "local_path": "/card-images/{kind}/{target_id}",
+    "function": "remove_card_image"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 64,
+    "method": "GET",
+    "local_path": "/card-images/{kind}/{target_id}/content",
+    "function": "card_image_content"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 74,
+    "method": "GET",
+    "local_path": "/devices",
+    "function": "devices"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 80,
+    "method": "POST",
+    "local_path": "/devices",
+    "function": "create_device"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 86,
+    "method": "GET",
+    "local_path": "/devices/{record_id}",
+    "function": "get_device"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 92,
+    "method": "PUT",
+    "local_path": "/devices/{record_id}",
+    "function": "update_device"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 98,
+    "method": "DELETE",
+    "local_path": "/devices/{record_id}",
+    "function": "remove_device"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 105,
+    "method": "GET",
+    "local_path": "/points",
+    "function": "points"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 111,
+    "method": "POST",
+    "local_path": "/points",
+    "function": "create_point"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 117,
+    "method": "GET",
+    "local_path": "/points/{record_id}",
+    "function": "get_point"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 123,
+    "method": "PUT",
+    "local_path": "/points/{record_id}",
+    "function": "update_point"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 129,
+    "method": "DELETE",
+    "local_path": "/points/{record_id}",
+    "function": "remove_point"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 136,
+    "method": "GET",
+    "local_path": "/advice",
+    "function": "advice"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 142,
+    "method": "POST",
+    "local_path": "/advice",
+    "function": "create_advice"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 148,
+    "method": "GET",
+    "local_path": "/advice/{record_id}",
+    "function": "get_advice"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 154,
+    "method": "PUT",
+    "local_path": "/advice/{record_id}",
+    "function": "update_advice"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 160,
+    "method": "DELETE",
+    "local_path": "/advice/{record_id}",
+    "function": "remove_advice"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 167,
+    "method": "GET",
+    "local_path": "/rules",
+    "function": "rules"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 173,
+    "method": "POST",
+    "local_path": "/rules",
+    "function": "create_rule"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 179,
+    "method": "GET",
+    "local_path": "/rules/{record_id}",
+    "function": "get_rule"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 185,
+    "method": "PUT",
+    "local_path": "/rules/{record_id}",
+    "function": "update_rule"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 191,
+    "method": "DELETE",
+    "local_path": "/rules/{record_id}",
+    "function": "remove_rule"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 198,
+    "method": "GET",
+    "local_path": "/rules/{record_id}/revisions",
+    "function": "rule_revisions"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 205,
+    "method": "POST",
+    "local_path": "/workflows",
+    "function": "create_alert_workflow"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 211,
+    "method": "GET",
+    "local_path": "/reports",
+    "function": "report_list"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 217,
+    "method": "GET",
+    "local_path": "/reports/{report_id}",
+    "function": "report_detail"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 223,
+    "method": "GET",
+    "local_path": "/reports/{report_id}/export",
+    "function": "report_export"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 231,
+    "method": "GET",
+    "local_path": "/problems",
+    "function": "problem_list"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 238,
+    "method": "POST",
+    "local_path": "/problems/{problem_id}/actions",
+    "function": "problem_action"
+  },
+  {
+    "file": "backend/app/modules/alerts/router.py",
+    "line": 244,
+    "method": "GET",
+    "local_path": "/problems/{problem_id}/actions",
+    "function": "problem_history"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 29,
+    "method": "GET",
+    "local_path": "/datasources",
+    "function": "list_sources"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 35,
+    "method": "POST",
+    "local_path": "/datasources",
+    "function": "create_source"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 41,
+    "method": "GET",
+    "local_path": "/datasources/page",
+    "function": "source_page"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 55,
+    "method": "POST",
+    "local_path": "/datasources/test",
+    "function": "test_source_config"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 61,
+    "method": "POST",
+    "local_path": "/datasources/import",
+    "function": "import_source"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 74,
+    "method": "GET",
+    "local_path": "/datasources/config-export",
+    "function": "export_source_configurations"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 89,
+    "method": "POST",
+    "local_path": "/datasources/config-import",
+    "function": "import_source_configurations"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 95,
+    "method": "PUT",
+    "local_path": "/datasources/{source_id}",
+    "function": "update_source"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 101,
+    "method": "DELETE",
+    "local_path": "/datasources/{source_id}",
+    "function": "delete_source"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 108,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/health",
+    "function": "source_health"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 115,
+    "method": "POST",
+    "local_path": "/datasources/{source_id}/health-checks",
+    "function": "run_source_health"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 122,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/health-checks",
+    "function": "source_health_history"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 131,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/policy",
+    "function": "source_policy"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 137,
+    "method": "PUT",
+    "local_path": "/datasources/{source_id}/policy",
+    "function": "update_source_policy"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 143,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/pool-status",
+    "function": "source_pool"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 149,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/tables",
+    "function": "source_tables"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 157,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/tables/info",
+    "function": "source_tables_info"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 165,
+    "method": "GET",
+    "local_path": "/datasources/{source_id}/tables/{table_name}/schema",
+    "function": "source_table_schema"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 173,
+    "method": "POST",
+    "local_path": "/datasources/{source_id}/sync",
+    "function": "sync_source"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 195,
+    "method": "POST",
+    "local_path": "/query",
+    "function": "query"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 201,
+    "method": "POST",
+    "local_path": "/execute-sql",
+    "function": "execute_sql"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 208,
+    "method": "GET",
+    "local_path": "/history/recent",
+    "function": "recent_history"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 215,
+    "method": "GET",
+    "local_path": "/history/datasource/{source_id}",
+    "function": "datasource_history"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 221,
+    "method": "GET",
+    "local_path": "/history/{query_id}",
+    "function": "history_result"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 227,
+    "method": "POST",
+    "local_path": "/quality-check",
+    "function": "quality_check"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 233,
+    "method": "GET",
+    "local_path": "/query-templates",
+    "function": "query_template_list"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 239,
+    "method": "POST",
+    "local_path": "/query-templates",
+    "function": "create_query_template"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 245,
+    "method": "PUT",
+    "local_path": "/query-templates/{template_id}",
+    "function": "update_query_template"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 251,
+    "method": "POST",
+    "local_path": "/query-templates/{template_id}/use",
+    "function": "use_query_template"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 257,
+    "method": "DELETE",
+    "local_path": "/query-templates/{template_id}",
+    "function": "delete_query_template"
+  },
+  {
+    "file": "backend/app/modules/analytics/router.py",
+    "line": 265,
+    "method": "POST",
+    "local_path": "/export",
+    "function": "export"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 24,
+    "method": "GET",
+    "local_path": "",
+    "function": "applications_list"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 41,
+    "method": "GET",
+    "local_path": "/catalog",
+    "function": "applications_resource_catalog"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 49,
+    "method": "POST",
+    "local_path": "",
+    "function": "applications_create"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 57,
+    "method": "GET",
+    "local_path": "/{application_id}",
+    "function": "applications_get"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 63,
+    "method": "PUT",
+    "local_path": "/{application_id}",
+    "function": "applications_version_create"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 71,
+    "method": "POST",
+    "local_path": "/{application_id}/publish",
+    "function": "applications_publish"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 82,
+    "method": "POST",
+    "local_path": "/{application_id}/disable",
+    "function": "applications_disable"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 90,
+    "method": "POST",
+    "local_path": "/{application_id}/clone",
+    "function": "applications_clone"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 96,
+    "method": "DELETE",
+    "local_path": "/{application_id}",
+    "function": "applications_archive"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 109,
+    "method": "POST",
+    "local_path": "/{application_id}/launch",
+    "function": "applications_launch"
+  },
+  {
+    "file": "backend/app/modules/applications/router.py",
+    "line": 119,
+    "method": "GET",
+    "local_path": "/{application_id}/launches",
+    "function": "applications_launches_list"
+  },
+  {
+    "file": "backend/app/modules/artifact/router.py",
+    "line": 26,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_artifacts"
+  },
+  {
+    "file": "backend/app/modules/artifact/router.py",
+    "line": 33,
+    "method": "GET",
+    "local_path": "/{artifact_id}",
+    "function": "get_artifact"
+  },
+  {
+    "file": "backend/app/modules/artifact/router.py",
+    "line": 40,
+    "method": "GET",
+    "local_path": "/{artifact_id}/download",
+    "function": "download"
+  },
+  {
+    "file": "backend/app/modules/artifact/router.py",
+    "line": 61,
+    "method": "GET",
+    "local_path": "/{artifact_id}/content",
+    "function": "content"
+  },
+  {
+    "file": "backend/app/modules/artifact/router.py",
+    "line": 91,
+    "method": "POST",
+    "local_path": "/{artifact_id}/use",
+    "function": "use_as_input"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 21,
+    "method": "GET",
+    "local_path": "/types",
+    "function": "asset_types"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 29,
+    "method": "GET",
+    "local_path": "/catalog",
+    "function": "asset_catalog"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 50,
+    "method": "GET",
+    "local_path": "/catalog/{asset_type}/{asset_id}",
+    "function": "asset_detail"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 58,
+    "method": "PUT",
+    "local_path": "/catalog/{asset_type}/{asset_id}/annotation",
+    "function": "annotation_save"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 67,
+    "method": "DELETE",
+    "local_path": "/catalog/{asset_type}/{asset_id}/annotation",
+    "function": "annotation_archive"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 76,
+    "method": "GET",
+    "local_path": "/terms",
+    "function": "term_list"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 85,
+    "method": "POST",
+    "local_path": "/terms",
+    "function": "term_create"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 93,
+    "method": "PUT",
+    "local_path": "/terms/{term_id}",
+    "function": "term_update"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 101,
+    "method": "DELETE",
+    "local_path": "/terms/{term_id}",
+    "function": "term_archive"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 110,
+    "method": "GET",
+    "local_path": "/metrics",
+    "function": "metric_list"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 119,
+    "method": "POST",
+    "local_path": "/metrics",
+    "function": "metric_create"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/metrics/{metric_id}",
+    "function": "metric_get"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 135,
+    "method": "PUT",
+    "local_path": "/metrics/{metric_id}",
+    "function": "metric_update"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 143,
+    "method": "DELETE",
+    "local_path": "/metrics/{metric_id}",
+    "function": "metric_archive"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 152,
+    "method": "GET",
+    "local_path": "/relations",
+    "function": "relation_list"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 161,
+    "method": "POST",
+    "local_path": "/relations",
+    "function": "relation_create"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 169,
+    "method": "PUT",
+    "local_path": "/relations/{relation_id}",
+    "function": "relation_update"
+  },
+  {
+    "file": "backend/app/modules/assets/router.py",
+    "line": 177,
+    "method": "DELETE",
+    "local_path": "/relations/{relation_id}",
+    "function": "relation_archive"
+  },
+  {
+    "file": "backend/app/modules/audit/router.py",
+    "line": 28,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_audit"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 43,
+    "method": "POST",
+    "local_path": "/login",
+    "function": "login"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 67,
+    "method": "GET",
+    "local_path": "/sso/providers",
+    "function": "list_sso_providers"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 82,
+    "method": "POST",
+    "local_path": "/sso/{provider_id}/authorize",
+    "function": "begin_oidc"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 105,
+    "method": "GET",
+    "local_path": "/sso/callback",
+    "function": "finish_oidc"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 125,
+    "method": "POST",
+    "local_path": "/client-token",
+    "function": "client_token"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 144,
+    "method": "POST",
+    "local_path": "/logout",
+    "function": "logout"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 159,
+    "method": "GET",
+    "local_path": "/me",
+    "function": "me"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 212,
+    "method": "GET",
+    "local_path": "/profile",
+    "function": "get_self_profile"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 234,
+    "method": "PATCH",
+    "local_path": "/profile",
+    "function": "update_self_profile"
+  },
+  {
+    "file": "backend/app/modules/auth/router.py",
+    "line": 255,
+    "method": "POST",
+    "local_path": "/password",
+    "function": "change_password"
+  },
+  {
+    "file": "backend/app/modules/business_ai/router.py",
+    "line": 22,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_business_actions"
+  },
+  {
+    "file": "backend/app/modules/business_ai/router.py",
+    "line": 29,
+    "method": "POST",
+    "local_path": "/data-sources/discover",
+    "function": "discover_data_sources"
+  },
+  {
+    "file": "backend/app/modules/business_ai/router.py",
+    "line": 36,
+    "method": "POST",
+    "local_path": "/alerts/overview",
+    "function": "view_alerts"
+  },
+  {
+    "file": "backend/app/modules/business_ai/router.py",
+    "line": 43,
+    "method": "POST",
+    "local_path": "/dashboards/drafts",
+    "function": "create_dashboard_draft"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 42,
+    "method": "GET",
+    "local_path": "/tools",
+    "function": "tools_list"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 58,
+    "method": "GET",
+    "local_path": "/categories",
+    "function": "categories_list"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 64,
+    "method": "POST",
+    "local_path": "/categories",
+    "function": "categories_create"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 74,
+    "method": "PATCH",
+    "local_path": "/categories/{category_id}",
+    "function": "categories_update"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 84,
+    "method": "DELETE",
+    "local_path": "/categories/{category_id}",
+    "function": "categories_archive"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 94,
+    "method": "GET",
+    "local_path": "/categories-export",
+    "function": "categories_export"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 108,
+    "method": "GET",
+    "local_path": "/methods",
+    "function": "methods_list"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 129,
+    "method": "PATCH",
+    "local_path": "/methods/{tool_name}",
+    "function": "methods_update"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 135,
+    "method": "POST",
+    "local_path": "/methods/{tool_name}/test",
+    "function": "methods_test"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 141,
+    "method": "POST",
+    "local_path": "/methods/batch",
+    "function": "methods_batch_update"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 151,
+    "method": "GET",
+    "local_path": "/methods-export",
+    "function": "methods_export"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 161,
+    "method": "POST",
+    "local_path": "/tools/{tool_name}/validate",
+    "function": "tool_arguments_validate"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 167,
+    "method": "POST",
+    "local_path": "/tools/{tool_name}/compile",
+    "function": "tool_arguments_compile"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 173,
+    "method": "GET",
+    "local_path": "/connectors",
+    "function": "connectors_list"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 187,
+    "method": "POST",
+    "local_path": "/connectors",
+    "function": "connectors_create"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 193,
+    "method": "GET",
+    "local_path": "/connectors/{connector_id}",
+    "function": "connectors_get"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 203,
+    "method": "POST",
+    "local_path": "/connectors/{connector_id}/versions",
+    "function": "connector_versions_create"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 209,
+    "method": "POST",
+    "local_path": "/connectors/{connector_id}/publish",
+    "function": "connectors_publish"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 215,
+    "method": "POST",
+    "local_path": "/connectors/{connector_id}/test",
+    "function": "connectors_test"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 224,
+    "method": "POST",
+    "local_path": "/connectors/{connector_id}/clone",
+    "function": "connectors_clone"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 230,
+    "method": "POST",
+    "local_path": "/connectors/{connector_id}/share",
+    "function": "connectors_share"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 240,
+    "method": "DELETE",
+    "local_path": "/connectors/{connector_id}",
+    "function": "connectors_archive"
+  },
+  {
+    "file": "backend/app/modules/capabilities/router.py",
+    "line": 247,
+    "method": "POST",
+    "local_path": "/from-run",
+    "function": "from_run_create"
+  },
+  {
+    "file": "backend/app/modules/capability/router.py",
+    "line": 56,
+    "method": "POST",
+    "local_path": "/analyze",
+    "function": "analyze"
+  },
+  {
+    "file": "backend/app/modules/capability/router.py",
+    "line": 65,
+    "method": "POST",
+    "local_path": "/from-run",
+    "function": "from_run"
+  },
+  {
+    "file": "backend/app/modules/capability/router.py",
+    "line": 77,
+    "method": "POST",
+    "local_path": "/compile-arguments",
+    "function": "compile_arguments"
+  },
+  {
+    "file": "backend/app/modules/capability/router.py",
+    "line": 94,
+    "method": "POST",
+    "local_path": "/modify",
+    "function": "modify"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 143,
+    "method": "GET",
+    "local_path": "/business-modules",
+    "function": "business_modules"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 149,
+    "method": "GET",
+    "local_path": "/models",
+    "function": "available_chat_models"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 156,
+    "method": "POST",
+    "local_path": "/conversations",
+    "function": "create_conversation"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 169,
+    "method": "GET",
+    "local_path": "/conversations",
+    "function": "list_conversations"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 185,
+    "method": "GET",
+    "local_path": "/conversations/{conversation_id}",
+    "function": "conversation_detail"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 220,
+    "method": "DELETE",
+    "local_path": "/conversations/{conversation_id}",
+    "function": "delete_conversation"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 317,
+    "method": "POST",
+    "local_path": "/conversations/{conversation_id}/send",
+    "function": "send"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 531,
+    "method": "GET",
+    "local_path": "/runs/{run_id}/events",
+    "function": "replay_run"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 545,
+    "method": "POST",
+    "local_path": "/runs/{run_id}/cancel",
+    "function": "cancel_run"
+  },
+  {
+    "file": "backend/app/modules/chat/router.py",
+    "line": 575,
+    "method": "GET",
+    "local_path": "/runs/{run_id}/trace",
+    "function": "run_trace"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 17,
+    "method": "GET",
+    "local_path": "/sources",
+    "function": "list_sources"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 23,
+    "method": "POST",
+    "local_path": "/sources",
+    "function": "create_source"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 29,
+    "method": "GET",
+    "local_path": "/sources/{source_id}",
+    "function": "get_source"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 35,
+    "method": "PUT",
+    "local_path": "/sources/{source_id}",
+    "function": "update_source"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 41,
+    "method": "DELETE",
+    "local_path": "/sources/{source_id}",
+    "function": "delete_source"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 50,
+    "method": "POST",
+    "local_path": "/sources/{source_id}/collect",
+    "function": "collect"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 58,
+    "method": "POST",
+    "local_path": "/extract-preview",
+    "function": "extract_preview"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 64,
+    "method": "GET",
+    "local_path": "/sources/{source_id}/history",
+    "function": "history_list"
+  },
+  {
+    "file": "backend/app/modules/collection/router.py",
+    "line": 70,
+    "method": "GET",
+    "local_path": "/history/{history_id}",
+    "function": "history_get"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 120,
+    "method": "POST",
+    "local_path": "",
+    "function": "create"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 135,
+    "method": "POST",
+    "local_path": "/derive",
+    "function": "derive"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 176,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_all"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 183,
+    "method": "GET",
+    "local_path": "/{connector_id}",
+    "function": "detail"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 189,
+    "method": "POST",
+    "local_path": "/{connector_id}/publish",
+    "function": "publish"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 201,
+    "method": "POST",
+    "local_path": "/{connector_id}/versions",
+    "function": "new_version"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 219,
+    "method": "POST",
+    "local_path": "/{connector_id}/test-invoke",
+    "function": "test_invoke"
+  },
+  {
+    "file": "backend/app/modules/connector/router.py",
+    "line": 232,
+    "method": "DELETE",
+    "local_path": "/{connector_id}",
+    "function": "delete"
+  },
+  {
+    "file": "backend/app/modules/datasource/router.py",
+    "line": 33,
+    "method": "POST",
+    "local_path": "",
+    "function": "create_ds"
+  },
+  {
+    "file": "backend/app/modules/datasource/router.py",
+    "line": 51,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_ds"
+  },
+  {
+    "file": "backend/app/modules/datasource/router.py",
+    "line": 62,
+    "method": "POST",
+    "local_path": "/{ds_id}/test",
+    "function": "test_ds"
+  },
+  {
+    "file": "backend/app/modules/datasource/router.py",
+    "line": 71,
+    "method": "DELETE",
+    "local_path": "/{ds_id}",
+    "function": "delete_ds"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 27,
+    "method": "GET",
+    "local_path": "/generations",
+    "function": "generation_list"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 44,
+    "method": "POST",
+    "local_path": "/generations",
+    "function": "generation_create"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 52,
+    "method": "GET",
+    "local_path": "/generations/{generation_id}",
+    "function": "generation_get"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 59,
+    "method": "PUT",
+    "local_path": "/generations/{generation_id}",
+    "function": "generation_update"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 68,
+    "method": "DELETE",
+    "local_path": "/generations/{generation_id}",
+    "function": "generation_archive"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 77,
+    "method": "POST",
+    "local_path": "/generations/{generation_id}/copy",
+    "function": "generation_copy"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 83,
+    "method": "POST",
+    "local_path": "/generations/{generation_id}/execute",
+    "function": "generation_execute"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 93,
+    "method": "GET",
+    "local_path": "/generations/{generation_id}/events",
+    "function": "generation_events"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 99,
+    "method": "GET",
+    "local_path": "/generations/{generation_id}/presentation-draft",
+    "function": "presentation_draft_get"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 107,
+    "method": "POST",
+    "local_path": "/generations/{generation_id}/presentation-plan",
+    "function": "presentation_plan_create"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 116,
+    "method": "POST",
+    "local_path": "/generations/{generation_id}/presentation-slides",
+    "function": "presentation_slides_write"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 125,
+    "method": "GET",
+    "local_path": "/generations/{generation_id}/preview",
+    "function": "generation_preview"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 138,
+    "method": "GET",
+    "local_path": "/generations/{generation_id}/download",
+    "function": "generation_download"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 148,
+    "method": "GET",
+    "local_path": "/templates",
+    "function": "template_list"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 156,
+    "method": "POST",
+    "local_path": "/templates",
+    "function": "template_upload"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 175,
+    "method": "GET",
+    "local_path": "/templates/{template_id}/preview",
+    "function": "template_preview"
+  },
+  {
+    "file": "backend/app/modules/documents/router.py",
+    "line": 182,
+    "method": "DELETE",
+    "local_path": "/templates/{template_id}",
+    "function": "template_delete"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 112,
+    "method": "GET",
+    "local_path": "/categories",
+    "function": "list_categories"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 121,
+    "method": "POST",
+    "local_path": "/categories",
+    "function": "create_category"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 136,
+    "method": "PATCH",
+    "local_path": "/categories/{category_id}",
+    "function": "update_category"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 156,
+    "method": "DELETE",
+    "local_path": "/categories/{category_id}",
+    "function": "delete_category"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 172,
+    "method": "POST",
+    "local_path": "/batch",
+    "function": "batch_upload"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 223,
+    "method": "GET",
+    "local_path": "/export",
+    "function": "export_catalog"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 254,
+    "method": "POST",
+    "local_path": "",
+    "function": "upload_file"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 278,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_files"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 303,
+    "method": "GET",
+    "local_path": "/{file_id}/download",
+    "function": "download"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 323,
+    "method": "GET",
+    "local_path": "/{file_id}/text",
+    "function": "file_text"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 337,
+    "method": "GET",
+    "local_path": "/{file_id}/parse-events",
+    "function": "parse_events"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 351,
+    "method": "GET",
+    "local_path": "/{file_id}/versions",
+    "function": "list_versions"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 361,
+    "method": "POST",
+    "local_path": "/{file_id}/versions",
+    "function": "create_version"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 385,
+    "method": "POST",
+    "local_path": "/{file_id}/versions/{revision_number}/restore",
+    "function": "restore_version"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 408,
+    "method": "PATCH",
+    "local_path": "/{file_id}/metadata",
+    "function": "update_metadata"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 428,
+    "method": "POST",
+    "local_path": "/{file_id}/copy",
+    "function": "copy_file"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 457,
+    "method": "PATCH",
+    "local_path": "/{file_id}",
+    "function": "rename_file"
+  },
+  {
+    "file": "backend/app/modules/files/router.py",
+    "line": 472,
+    "method": "DELETE",
+    "local_path": "/{file_id}",
+    "function": "delete_file"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 156,
+    "method": "POST",
+    "local_path": "",
+    "function": "create_kb"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 184,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_kbs"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 194,
+    "method": "POST",
+    "local_path": "/documents",
+    "function": "add_document"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 224,
+    "method": "POST",
+    "local_path": "/search",
+    "function": "search"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 267,
+    "method": "GET",
+    "local_path": "/recall-logs",
+    "function": "recall_logs"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 289,
+    "method": "GET",
+    "local_path": "/{kb_id}",
+    "function": "get_kb"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 298,
+    "method": "GET",
+    "local_path": "/{kb_id}/settings",
+    "function": "get_settings"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 308,
+    "method": "PATCH",
+    "local_path": "/{kb_id}/settings",
+    "function": "update_settings"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 335,
+    "method": "GET",
+    "local_path": "/{kb_id}/segments",
+    "function": "list_segments"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 359,
+    "method": "POST",
+    "local_path": "/{kb_id}/segments",
+    "function": "create_segment"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 391,
+    "method": "POST",
+    "local_path": "/{kb_id}/segments/batch",
+    "function": "batch_create_segments"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 414,
+    "method": "POST",
+    "local_path": "/{kb_id}/segments/import",
+    "function": "import_segments"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 463,
+    "method": "GET",
+    "local_path": "/{kb_id}/segments/export",
+    "function": "export_segments"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 490,
+    "method": "PATCH",
+    "local_path": "/{kb_id}/segments/{chunk_id}",
+    "function": "update_segment"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 521,
+    "method": "DELETE",
+    "local_path": "/{kb_id}/segments/{chunk_id}",
+    "function": "delete_segment"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 541,
+    "method": "POST",
+    "local_path": "/{kb_id}/sync",
+    "function": "sync_files"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 567,
+    "method": "GET",
+    "local_path": "/{kb_id}/sync-runs",
+    "function": "sync_runs"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 580,
+    "method": "GET",
+    "local_path": "/{kb_id}/role-grants",
+    "function": "list_role_grants"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 609,
+    "method": "POST",
+    "local_path": "/{kb_id}/role-grants",
+    "function": "create_role_grant"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 638,
+    "method": "DELETE",
+    "local_path": "/{kb_id}/role-grants/{grant_id}",
+    "function": "delete_role_grant"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 660,
+    "method": "PATCH",
+    "local_path": "/{kb_id}",
+    "function": "update_kb"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 690,
+    "method": "GET",
+    "local_path": "/{kb_id}/documents",
+    "function": "list_documents"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 714,
+    "method": "POST",
+    "local_path": "/{kb_id}/documents/{document_id}/reindex",
+    "function": "reindex_document"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 751,
+    "method": "DELETE",
+    "local_path": "/{kb_id}/documents/{document_id}",
+    "function": "remove_document"
+  },
+  {
+    "file": "backend/app/modules/knowledge/router.py",
+    "line": 780,
+    "method": "DELETE",
+    "local_path": "/{kb_id}",
+    "function": "delete_kb"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 45,
+    "method": "GET",
+    "local_path": "",
+    "function": "ontology_list"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 53,
+    "method": "POST",
+    "local_path": "",
+    "function": "ontology_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 61,
+    "method": "GET",
+    "local_path": "/{ontology_id}",
+    "function": "ontology_get"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 70,
+    "method": "PUT",
+    "local_path": "/{ontology_id}",
+    "function": "ontology_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 78,
+    "method": "DELETE",
+    "local_path": "/{ontology_id}",
+    "function": "ontology_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 87,
+    "method": "POST",
+    "local_path": "/{ontology_id}/concepts",
+    "function": "concept_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 95,
+    "method": "PUT",
+    "local_path": "/{ontology_id}/concepts/{concept_id}",
+    "function": "concept_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 103,
+    "method": "DELETE",
+    "local_path": "/{ontology_id}/concepts/{concept_id}",
+    "function": "concept_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 112,
+    "method": "POST",
+    "local_path": "/{ontology_id}/relation-types",
+    "function": "relation_type_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 120,
+    "method": "PUT",
+    "local_path": "/{ontology_id}/relation-types/{relation_id}",
+    "function": "relation_type_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 128,
+    "method": "DELETE",
+    "local_path": "/{ontology_id}/relation-types/{relation_id}",
+    "function": "relation_type_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 137,
+    "method": "POST",
+    "local_path": "/{ontology_id}/publish",
+    "function": "ontology_publish"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 145,
+    "method": "GET",
+    "local_path": "/{ontology_id}/revisions",
+    "function": "ontology_revision_list"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 153,
+    "method": "GET",
+    "local_path": "",
+    "function": "extraction_list"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 161,
+    "method": "POST",
+    "local_path": "",
+    "function": "extraction_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 169,
+    "method": "GET",
+    "local_path": "/{job_id}",
+    "function": "extraction_get"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 177,
+    "method": "PUT",
+    "local_path": "/{job_id}",
+    "function": "extraction_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 185,
+    "method": "DELETE",
+    "local_path": "/{job_id}",
+    "function": "extraction_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 194,
+    "method": "POST",
+    "local_path": "/{job_id}/execute",
+    "function": "extraction_execute"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 202,
+    "method": "GET",
+    "local_path": "/{job_id}/runs",
+    "function": "extraction_runs"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 210,
+    "method": "GET",
+    "local_path": "/{job_id}/runs/{run_id}/candidates",
+    "function": "extraction_candidates"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 221,
+    "method": "POST",
+    "local_path": "/{job_id}/runs/{run_id}/review",
+    "function": "extraction_review"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 229,
+    "method": "POST",
+    "local_path": "/{job_id}/materialize",
+    "function": "extraction_materialize"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 237,
+    "method": "GET",
+    "local_path": "",
+    "function": "graph_list"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 245,
+    "method": "POST",
+    "local_path": "",
+    "function": "graph_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 253,
+    "method": "GET",
+    "local_path": "/{graph_id}",
+    "function": "graph_get"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 261,
+    "method": "PUT",
+    "local_path": "/{graph_id}",
+    "function": "graph_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 269,
+    "method": "DELETE",
+    "local_path": "/{graph_id}",
+    "function": "graph_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 278,
+    "method": "GET",
+    "local_path": "/{graph_id}/entities",
+    "function": "graph_entities"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 289,
+    "method": "POST",
+    "local_path": "/{graph_id}/entities",
+    "function": "graph_entity_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 297,
+    "method": "PUT",
+    "local_path": "/{graph_id}/entities/{entity_id}",
+    "function": "graph_entity_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 305,
+    "method": "DELETE",
+    "local_path": "/{graph_id}/entities/{entity_id}",
+    "function": "graph_entity_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 314,
+    "method": "GET",
+    "local_path": "/{graph_id}/relations",
+    "function": "graph_relations"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 322,
+    "method": "POST",
+    "local_path": "/{graph_id}/relations",
+    "function": "graph_relation_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 330,
+    "method": "PUT",
+    "local_path": "/{graph_id}/relations/{relation_id}",
+    "function": "graph_relation_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 338,
+    "method": "DELETE",
+    "local_path": "/{graph_id}/relations/{relation_id}",
+    "function": "graph_relation_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 347,
+    "method": "GET",
+    "local_path": "/{graph_id}/explore",
+    "function": "graph_explore"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 356,
+    "method": "GET",
+    "local_path": "/{graph_id}/statistics",
+    "function": "graph_statistics"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 364,
+    "method": "POST",
+    "local_path": "/{graph_id}/publish",
+    "function": "graph_publish"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 372,
+    "method": "GET",
+    "local_path": "/{graph_id}/revisions",
+    "function": "graph_revisions"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 380,
+    "method": "GET",
+    "local_path": "",
+    "function": "bot_list"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 388,
+    "method": "POST",
+    "local_path": "",
+    "function": "bot_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 396,
+    "method": "GET",
+    "local_path": "/binding-options",
+    "function": "bot_binding_options"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 405,
+    "method": "GET",
+    "local_path": "/{bot_id}",
+    "function": "bot_get"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 413,
+    "method": "PUT",
+    "local_path": "/{bot_id}",
+    "function": "bot_update"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 421,
+    "method": "DELETE",
+    "local_path": "/{bot_id}",
+    "function": "bot_delete"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 430,
+    "method": "POST",
+    "local_path": "/{bot_id}/debug",
+    "function": "bot_debug"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 439,
+    "method": "GET",
+    "local_path": "/{bot_id}/runs",
+    "function": "bot_runs"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 447,
+    "method": "POST",
+    "local_path": "/{bot_id}/publish",
+    "function": "bot_publish"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 455,
+    "method": "GET",
+    "local_path": "/{bot_id}/revisions",
+    "function": "bot_revisions"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 463,
+    "method": "POST",
+    "local_path": "/{bot_id}/api-keys",
+    "function": "bot_api_key_create"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 471,
+    "method": "GET",
+    "local_path": "/{bot_id}/api-keys",
+    "function": "bot_api_keys"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 479,
+    "method": "DELETE",
+    "local_path": "/{bot_id}/api-keys/{key_id}",
+    "function": "bot_api_key_revoke"
+  },
+  {
+    "file": "backend/app/modules/knowledge_graph/router.py",
+    "line": 487,
+    "method": "POST",
+    "local_path": "/{bot_id}/invoke",
+    "function": "public_bot_invoke"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 138,
+    "method": "GET",
+    "local_path": "/marketplace",
+    "function": "model_marketplace"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 151,
+    "method": "GET",
+    "local_path": "/usage",
+    "function": "usage_summary"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 173,
+    "method": "GET",
+    "local_path": "/usage/export",
+    "function": "export_usage"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 199,
+    "method": "GET",
+    "local_path": "/cost-policy",
+    "function": "get_cost_policy"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 212,
+    "method": "PUT",
+    "local_path": "/cost-policy",
+    "function": "put_cost_policy"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 233,
+    "method": "GET",
+    "local_path": "/profiles",
+    "function": "list_profiles"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 249,
+    "method": "POST",
+    "local_path": "/profiles",
+    "function": "create_profile"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 300,
+    "method": "PUT",
+    "local_path": "/profiles/{profile_name}",
+    "function": "update_profile"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 350,
+    "method": "POST",
+    "local_path": "/probe/{profile_name}",
+    "function": "probe_effective"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 377,
+    "method": "POST",
+    "local_path": "/profiles/{profile_id}/probe",
+    "function": "probe_profile"
+  },
+  {
+    "file": "backend/app/modules/model/router.py",
+    "line": 403,
+    "method": "DELETE",
+    "local_path": "/profiles/{profile_id}",
+    "function": "delete_profile"
+  },
+  {
+    "file": "backend/app/modules/operations/router.py",
+    "line": 26,
+    "method": "GET",
+    "local_path": "/summary",
+    "function": "operations_summary"
+  },
+  {
+    "file": "backend/app/modules/operations/router.py",
+    "line": 42,
+    "method": "GET",
+    "local_path": "/runs",
+    "function": "operations_runs_list"
+  },
+  {
+    "file": "backend/app/modules/operations/router.py",
+    "line": 65,
+    "method": "GET",
+    "local_path": "/runs/{run_id}",
+    "function": "operations_runs_get"
+  },
+  {
+    "file": "backend/app/modules/operations/router.py",
+    "line": 77,
+    "method": "POST",
+    "local_path": "/runs/recover",
+    "function": "operations_runs_recover"
+  },
+  {
+    "file": "backend/app/modules/operations/router.py",
+    "line": 91,
+    "method": "GET",
+    "local_path": "/audit",
+    "function": "operations_audit_list"
+  },
+  {
+    "file": "backend/app/modules/operations/router.py",
+    "line": 115,
+    "method": "GET",
+    "local_path": "/business",
+    "function": "operations_business_summary"
+  },
+  {
+    "file": "backend/app/modules/platform/router.py",
+    "line": 35,
+    "method": "GET",
+    "local_path": "/navigation",
+    "function": "navigation"
+  },
+  {
+    "file": "backend/app/modules/platform/router.py",
+    "line": 70,
+    "method": "GET",
+    "local_path": "/overview",
+    "function": "overview"
+  },
+  {
+    "file": "backend/app/modules/platform/router.py",
+    "line": 111,
+    "method": "GET",
+    "local_path": "/openapi.json",
+    "function": "openapi_spec"
+  },
+  {
+    "file": "backend/app/modules/platform/router.py",
+    "line": 119,
+    "method": "GET",
+    "local_path": "/api-collection",
+    "function": "api_collection"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 52,
+    "method": "POST",
+    "local_path": "",
+    "function": "create"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 68,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_all"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 78,
+    "method": "GET",
+    "local_path": "/{plugin_id}",
+    "function": "detail"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 90,
+    "method": "POST",
+    "local_path": "/{plugin_id}/versions",
+    "function": "new_version"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 98,
+    "method": "POST",
+    "local_path": "/{plugin_id}/publish",
+    "function": "publish"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 109,
+    "method": "POST",
+    "local_path": "/{plugin_id}/clone",
+    "function": "clone"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 127,
+    "method": "POST",
+    "local_path": "/{plugin_id}/test-run",
+    "function": "test_run"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 142,
+    "method": "POST",
+    "local_path": "/{plugin_id}/share",
+    "function": "share"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 154,
+    "method": "POST",
+    "local_path": "/{plugin_id}/archive",
+    "function": "archive"
+  },
+  {
+    "file": "backend/app/modules/plugin/router.py",
+    "line": 166,
+    "method": "DELETE",
+    "local_path": "/{plugin_id}",
+    "function": "delete"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 35,
+    "method": "GET",
+    "local_path": "",
+    "function": "templates"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 46,
+    "method": "GET",
+    "local_path": "/resources",
+    "function": "resources"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 55,
+    "method": "GET",
+    "local_path": "/resources/icons",
+    "function": "icons"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 71,
+    "method": "POST",
+    "local_path": "/upload",
+    "function": "upload_template"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 98,
+    "method": "GET",
+    "local_path": "/{template_id}/preview",
+    "function": "template_preview"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 116,
+    "method": "GET",
+    "local_path": "/{template_id}/example",
+    "function": "template_example"
+  },
+  {
+    "file": "backend/app/modules/presentation/router.py",
+    "line": 137,
+    "method": "DELETE",
+    "local_path": "/{template_id}",
+    "function": "delete_template"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 56,
+    "method": "GET",
+    "local_path": "/products",
+    "function": "quality_products"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 63,
+    "method": "GET",
+    "local_path": "/concession-rules",
+    "function": "list_concession_rules"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 70,
+    "method": "POST",
+    "local_path": "/concession-rules",
+    "function": "create_concession_rule"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 77,
+    "method": "PUT",
+    "local_path": "/concession-rules/{rule_id}",
+    "function": "update_concession_rule"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 84,
+    "method": "DELETE",
+    "local_path": "/concession-rules/{rule_id}",
+    "function": "remove_concession_rule"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 92,
+    "method": "GET",
+    "local_path": "/concession-sources",
+    "function": "list_concession_sources"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 102,
+    "method": "GET",
+    "local_path": "/concessions",
+    "function": "list_concession_requests"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 110,
+    "method": "POST",
+    "local_path": "/concessions/evaluate",
+    "function": "evaluate_concession"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 117,
+    "method": "POST",
+    "local_path": "/concessions/{request_id}/decision",
+    "function": "decide_concession"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 124,
+    "method": "POST",
+    "local_path": "/workflows",
+    "function": "create_quality_workflow"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 130,
+    "method": "GET",
+    "local_path": "/workflows/{workflow_id}/run-plan",
+    "function": "run_plan"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 137,
+    "method": "POST",
+    "local_path": "/workflows/{workflow_id}/runs",
+    "function": "run_submit"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 145,
+    "method": "GET",
+    "local_path": "/workflows/{workflow_id}/runs/{execution_id}",
+    "function": "run_result"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 151,
+    "method": "POST",
+    "local_path": "/images",
+    "function": "upload_image"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 161,
+    "method": "GET",
+    "local_path": "/images/{file_id}",
+    "function": "get_image"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 180,
+    "method": "GET",
+    "local_path": "/images/{file_id}/content",
+    "function": "get_image_content"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 187,
+    "method": "GET",
+    "local_path": "/inspections/{inspection_id}/images/{file_id}",
+    "function": "get_inspection_image"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 196,
+    "method": "GET",
+    "local_path": "/metrics",
+    "function": "list_metrics"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 202,
+    "method": "POST",
+    "local_path": "/metrics",
+    "function": "create_metric"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 208,
+    "method": "GET",
+    "local_path": "/metrics/{record_id}",
+    "function": "get_metric"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 215,
+    "method": "PUT",
+    "local_path": "/metrics/{record_id}",
+    "function": "update_metric"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 221,
+    "method": "DELETE",
+    "local_path": "/metrics/{record_id}",
+    "function": "remove_metric"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 228,
+    "method": "GET",
+    "local_path": "/templates",
+    "function": "list_templates"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 234,
+    "method": "POST",
+    "local_path": "/templates",
+    "function": "create_template"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 240,
+    "method": "GET",
+    "local_path": "/templates/{record_id}",
+    "function": "get_template"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 248,
+    "method": "PUT",
+    "local_path": "/templates/{record_id}",
+    "function": "update_template"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 254,
+    "method": "DELETE",
+    "local_path": "/templates/{record_id}",
+    "function": "remove_template"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 261,
+    "method": "GET",
+    "local_path": "/templates/{template_id}/revisions",
+    "function": "revisions"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 267,
+    "method": "GET",
+    "local_path": "/inspections",
+    "function": "list_inspections"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 273,
+    "method": "POST",
+    "local_path": "/inspections",
+    "function": "create_inspection"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 279,
+    "method": "GET",
+    "local_path": "/inspections/{inspection_id}",
+    "function": "get_inspection"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 285,
+    "method": "POST",
+    "local_path": "/inspections/{inspection_id}/reviews",
+    "function": "review"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 291,
+    "method": "DELETE",
+    "local_path": "/inspections/{inspection_id}",
+    "function": "archive"
+  },
+  {
+    "file": "backend/app/modules/quality/router.py",
+    "line": 298,
+    "method": "GET",
+    "local_path": "/inspections/{inspection_id}/export",
+    "function": "export"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 46,
+    "method": "POST",
+    "local_path": "/http-query",
+    "function": "preview_http"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 52,
+    "method": "GET",
+    "local_path": "/list",
+    "function": "list_reports"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 58,
+    "method": "GET",
+    "local_path": "/component-catalog",
+    "function": "component_catalog"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 65,
+    "method": "GET",
+    "local_path": "/source-catalog",
+    "function": "report_source_catalog"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 77,
+    "method": "POST",
+    "local_path": "",
+    "function": "create_report"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 83,
+    "method": "POST",
+    "local_path": "/widget/ai-generate",
+    "function": "generate_widget"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 89,
+    "method": "POST",
+    "local_path": "/screen/ai-generate",
+    "function": "generate_screen"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 95,
+    "method": "GET",
+    "local_path": "/generations/{generation_id}",
+    "function": "generation_detail"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 101,
+    "method": "POST",
+    "local_path": "/query",
+    "function": "preview_query"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 107,
+    "method": "POST",
+    "local_path": "/drilldown",
+    "function": "drilldown"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 113,
+    "method": "GET",
+    "local_path": "/{report_id}/widgets/{widget_id}/data",
+    "function": "widget_data"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 119,
+    "method": "GET",
+    "local_path": "/{report_id}/revisions",
+    "function": "report_revisions"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 125,
+    "method": "POST",
+    "local_path": "/{report_id}/restore",
+    "function": "restore_report"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 131,
+    "method": "GET",
+    "local_path": "/{report_id}",
+    "function": "report_detail"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 137,
+    "method": "PUT",
+    "local_path": "/{report_id}",
+    "function": "update_report"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 143,
+    "method": "DELETE",
+    "local_path": "/{report_id}",
+    "function": "delete_report"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 150,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_templates"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 160,
+    "method": "POST",
+    "local_path": "",
+    "function": "create_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 172,
+    "method": "POST",
+    "local_path": "/from-report/{report_id}",
+    "function": "create_template_from_report"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 178,
+    "method": "POST",
+    "local_path": "/import",
+    "function": "import_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 184,
+    "method": "GET",
+    "local_path": "/{template_id}",
+    "function": "get_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 190,
+    "method": "GET",
+    "local_path": "/{template_id}/export",
+    "function": "export_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 196,
+    "method": "GET",
+    "local_path": "/{template_id}/revisions",
+    "function": "template_revisions"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 202,
+    "method": "GET",
+    "local_path": "/{template_id}/usage",
+    "function": "template_usage"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 208,
+    "method": "PUT",
+    "local_path": "/{template_id}",
+    "function": "update_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 214,
+    "method": "POST",
+    "local_path": "/{template_id}/publish",
+    "function": "publish_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 220,
+    "method": "POST",
+    "local_path": "/{template_id}/restore",
+    "function": "restore_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 226,
+    "method": "POST",
+    "local_path": "/{template_id}/recover",
+    "function": "recover_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 232,
+    "method": "DELETE",
+    "local_path": "/{template_id}",
+    "function": "disable_template"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 239,
+    "method": "GET",
+    "local_path": "/categories",
+    "function": "prompt_categories"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 245,
+    "method": "POST",
+    "local_path": "/categories",
+    "function": "create_prompt_category"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 251,
+    "method": "PUT",
+    "local_path": "/categories/{category_id}",
+    "function": "update_prompt_category"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 257,
+    "method": "DELETE",
+    "local_path": "/categories/{category_id}",
+    "function": "delete_prompt_category"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 264,
+    "method": "GET",
+    "local_path": "/templates",
+    "function": "prompt_list"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 272,
+    "method": "POST",
+    "local_path": "/templates",
+    "function": "create_prompt"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 278,
+    "method": "PUT",
+    "local_path": "/templates/{prompt_id}",
+    "function": "update_prompt"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 284,
+    "method": "DELETE",
+    "local_path": "/templates/{prompt_id}",
+    "function": "delete_prompt"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 291,
+    "method": "POST",
+    "local_path": "/templates/{prompt_id}/use",
+    "function": "use_prompt"
+  },
+  {
+    "file": "backend/app/modules/reports/router.py",
+    "line": 297,
+    "method": "GET",
+    "local_path": "/templates/{prompt_id}/revisions",
+    "function": "prompt_revisions"
+  },
+  {
+    "file": "backend/app/modules/runtime/router.py",
+    "line": 32,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_runs"
+  },
+  {
+    "file": "backend/app/modules/runtime/router.py",
+    "line": 90,
+    "method": "POST",
+    "local_path": "/recover-stale",
+    "function": "recover_stale"
+  },
+  {
+    "file": "backend/app/modules/runtime/router.py",
+    "line": 109,
+    "method": "GET",
+    "local_path": "/{run_id}",
+    "function": "run_detail"
+  },
+  {
+    "file": "backend/app/modules/secret/router.py",
+    "line": 55,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_secrets"
+  },
+  {
+    "file": "backend/app/modules/secret/router.py",
+    "line": 77,
+    "method": "POST",
+    "local_path": "",
+    "function": "create_secret"
+  },
+  {
+    "file": "backend/app/modules/secret/router.py",
+    "line": 101,
+    "method": "DELETE",
+    "local_path": "/{secret_id}",
+    "function": "revoke_secret"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 59,
+    "method": "POST",
+    "local_path": "",
+    "function": "create"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 75,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_all"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 83,
+    "method": "GET",
+    "local_path": "/business-inventory",
+    "function": "business_inventory"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 106,
+    "method": "GET",
+    "local_path": "/{skill_id}",
+    "function": "detail"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 119,
+    "method": "POST",
+    "local_path": "/{skill_id}/versions",
+    "function": "new_version"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 130,
+    "method": "POST",
+    "local_path": "/{skill_id}/publish",
+    "function": "publish"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 144,
+    "method": "POST",
+    "local_path": "/{skill_id}/test-run",
+    "function": "test_run"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 157,
+    "method": "POST",
+    "local_path": "/{skill_id}/clone",
+    "function": "clone"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 174,
+    "method": "POST",
+    "local_path": "/{skill_id}/share",
+    "function": "share"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 186,
+    "method": "POST",
+    "local_path": "/{skill_id}/archive",
+    "function": "archive"
+  },
+  {
+    "file": "backend/app/modules/skill/router.py",
+    "line": 198,
+    "method": "DELETE",
+    "local_path": "/{skill_id}",
+    "function": "delete"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 63,
+    "method": "GET",
+    "local_path": "/organizations",
+    "function": "list_organizations"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 75,
+    "method": "POST",
+    "local_path": "/organizations",
+    "function": "create_organization"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 88,
+    "method": "PATCH",
+    "local_path": "/organizations/{record_id}",
+    "function": "update_organization"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 102,
+    "method": "GET",
+    "local_path": "/workspaces",
+    "function": "list_workspaces"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 115,
+    "method": "POST",
+    "local_path": "/workspaces",
+    "function": "create_workspace"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 128,
+    "method": "PATCH",
+    "local_path": "/workspaces/{record_id}",
+    "function": "update_workspace"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 142,
+    "method": "POST",
+    "local_path": "/workspaces/member-transfer",
+    "function": "transfer_workspace_member"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 157,
+    "method": "GET",
+    "local_path": "/security/policy",
+    "function": "get_security_policy"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 169,
+    "method": "PATCH",
+    "local_path": "/security/policy",
+    "function": "update_security_policy"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 182,
+    "method": "GET",
+    "local_path": "/security/devices",
+    "function": "list_trusted_devices"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 197,
+    "method": "PATCH",
+    "local_path": "/security/devices/{record_id}",
+    "function": "decide_trusted_device"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 211,
+    "method": "GET",
+    "local_path": "/security/login-events",
+    "function": "list_login_events"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 226,
+    "method": "GET",
+    "local_path": "/sso-providers",
+    "function": "list_oidc_providers"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 237,
+    "method": "POST",
+    "local_path": "/sso-providers",
+    "function": "create_oidc_provider"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 249,
+    "method": "PATCH",
+    "local_path": "/sso-providers/{record_id}",
+    "function": "update_oidc_provider"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 262,
+    "method": "POST",
+    "local_path": "/sso-providers/{record_id}/discover",
+    "function": "discover_oidc_provider"
+  },
+  {
+    "file": "backend/app/modules/system/governance_router.py",
+    "line": 276,
+    "method": "DELETE",
+    "local_path": "/sso-providers/{record_id}",
+    "function": "delete_oidc_provider"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 74,
+    "method": "GET",
+    "local_path": "/organization",
+    "function": "organization_info"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 86,
+    "method": "GET",
+    "local_path": "/users",
+    "function": "list_users"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 124,
+    "method": "GET",
+    "local_path": "/users/import-template",
+    "function": "download_user_import_template"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 143,
+    "method": "GET",
+    "local_path": "/users/export",
+    "function": "export_users"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 168,
+    "method": "POST",
+    "local_path": "/users/import-preview",
+    "function": "preview_user_import"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 193,
+    "method": "POST",
+    "local_path": "/users/import",
+    "function": "import_users"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 213,
+    "method": "POST",
+    "local_path": "/users",
+    "function": "create_user"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 226,
+    "method": "GET",
+    "local_path": "/users/{record_id}",
+    "function": "get_user"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 237,
+    "method": "PATCH",
+    "local_path": "/users/{record_id}",
+    "function": "update_user"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 250,
+    "method": "DELETE",
+    "local_path": "/users/{record_id}",
+    "function": "remove_user"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 264,
+    "method": "POST",
+    "local_path": "/users/{record_id}/password-reset",
+    "function": "reset_user_password"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 277,
+    "method": "GET",
+    "local_path": "/users/{record_id}/permissions",
+    "function": "effective_user_permissions"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 288,
+    "method": "GET",
+    "local_path": "/roles",
+    "function": "list_roles"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 300,
+    "method": "POST",
+    "local_path": "/roles",
+    "function": "create_role"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 312,
+    "method": "GET",
+    "local_path": "/roles/{record_id}",
+    "function": "get_role"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 324,
+    "method": "PATCH",
+    "local_path": "/roles/{record_id}",
+    "function": "update_role"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 335,
+    "method": "DELETE",
+    "local_path": "/roles/{record_id}",
+    "function": "delete_role"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 349,
+    "method": "GET",
+    "local_path": "/departments",
+    "function": "list_departments"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 360,
+    "method": "POST",
+    "local_path": "/departments",
+    "function": "create_department"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 373,
+    "method": "GET",
+    "local_path": "/departments/{record_id}",
+    "function": "get_department"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 385,
+    "method": "PATCH",
+    "local_path": "/departments/{record_id}",
+    "function": "update_department"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 396,
+    "method": "DELETE",
+    "local_path": "/departments/{record_id}",
+    "function": "delete_department"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 410,
+    "method": "GET",
+    "local_path": "/positions",
+    "function": "list_positions"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 422,
+    "method": "POST",
+    "local_path": "/positions",
+    "function": "create_position"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 434,
+    "method": "GET",
+    "local_path": "/positions/{record_id}",
+    "function": "get_position"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 446,
+    "method": "PATCH",
+    "local_path": "/positions/{record_id}",
+    "function": "update_position"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 459,
+    "method": "DELETE",
+    "local_path": "/positions/{record_id}",
+    "function": "delete_position"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 473,
+    "method": "GET",
+    "local_path": "/permissions",
+    "function": "permission_catalog"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 491,
+    "method": "GET",
+    "local_path": "/permission-history",
+    "function": "list_permission_history"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 522,
+    "method": "GET",
+    "local_path": "/resource-grants",
+    "function": "list_resource_grants"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 535,
+    "method": "POST",
+    "local_path": "/resource-grants",
+    "function": "create_resource_grant"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 547,
+    "method": "DELETE",
+    "local_path": "/resource-grants/{record_id}",
+    "function": "delete_resource_grant"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 560,
+    "method": "GET",
+    "local_path": "/menus",
+    "function": "list_menus"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 573,
+    "method": "PUT",
+    "local_path": "/menus/{menu_id}",
+    "function": "update_menu"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 584,
+    "method": "GET",
+    "local_path": "/sessions",
+    "function": "list_sessions"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 597,
+    "method": "DELETE",
+    "local_path": "/sessions/{record_id}",
+    "function": "revoke_session"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 613,
+    "method": "GET",
+    "local_path": "/settings",
+    "function": "list_settings"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 626,
+    "method": "PUT",
+    "local_path": "/settings/{key}",
+    "function": "update_setting"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 639,
+    "method": "GET",
+    "local_path": "/dictionary",
+    "function": "list_dictionary"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 652,
+    "method": "POST",
+    "local_path": "/dictionary",
+    "function": "create_dictionary"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 665,
+    "method": "PATCH",
+    "local_path": "/dictionary/{record_id}",
+    "function": "update_dictionary"
+  },
+  {
+    "file": "backend/app/modules/system/router.py",
+    "line": 676,
+    "method": "DELETE",
+    "local_path": "/dictionary/{record_id}",
+    "function": "delete_dictionary"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 49,
+    "method": "GET",
+    "local_path": "/notification-templates",
+    "function": "list_notification_templates"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 55,
+    "method": "POST",
+    "local_path": "/notification-templates",
+    "function": "create_notification_template"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 61,
+    "method": "PATCH",
+    "local_path": "/notification-templates/{record_id}",
+    "function": "update_notification_template"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 67,
+    "method": "POST",
+    "local_path": "/notification-templates/{record_id}/disable",
+    "function": "disable_notification_template"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 74,
+    "method": "GET",
+    "local_path": "/notices",
+    "function": "list_notices"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 83,
+    "method": "POST",
+    "local_path": "/notices",
+    "function": "create_notice"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 89,
+    "method": "GET",
+    "local_path": "/notices/{record_id}",
+    "function": "get_notice"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 95,
+    "method": "PATCH",
+    "local_path": "/notices/{record_id}",
+    "function": "update_notice"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 101,
+    "method": "POST",
+    "local_path": "/notices/{record_id}/publish",
+    "function": "publish_notice"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 107,
+    "method": "POST",
+    "local_path": "/notices/{record_id}/archive",
+    "function": "archive_notice"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 113,
+    "method": "GET",
+    "local_path": "/inbox",
+    "function": "inbox"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 124,
+    "method": "POST",
+    "local_path": "/inbox/{record_id}/read",
+    "function": "read_message"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 130,
+    "method": "POST",
+    "local_path": "/inbox/{record_id}/archive",
+    "function": "archive_message"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 136,
+    "method": "GET",
+    "local_path": "/jobs",
+    "function": "list_jobs"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 145,
+    "method": "POST",
+    "local_path": "/jobs",
+    "function": "create_job"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 151,
+    "method": "PATCH",
+    "local_path": "/jobs/{record_id}",
+    "function": "update_job"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 157,
+    "method": "POST",
+    "local_path": "/jobs/{record_id}/status/{action}",
+    "function": "change_job"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 167,
+    "method": "POST",
+    "local_path": "/jobs/{record_id}/run",
+    "function": "run_job"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 173,
+    "method": "GET",
+    "local_path": "/jobs/{record_id}/runs",
+    "function": "list_job_runs"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 179,
+    "method": "GET",
+    "local_path": "/health",
+    "function": "health"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 185,
+    "method": "GET",
+    "local_path": "/cache",
+    "function": "cache"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 191,
+    "method": "GET",
+    "local_path": "/backups",
+    "function": "list_backups"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 197,
+    "method": "POST",
+    "local_path": "/backups",
+    "function": "create_backup"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 203,
+    "method": "GET",
+    "local_path": "/backups/{record_id}/download",
+    "function": "download_backup"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 210,
+    "method": "GET",
+    "local_path": "/backups/{record_id}/restore-plan",
+    "function": "backup_restore_plan"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 216,
+    "method": "GET",
+    "local_path": "/integration-clients",
+    "function": "list_clients"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 222,
+    "method": "POST",
+    "local_path": "/integration-clients",
+    "function": "create_client"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 228,
+    "method": "PATCH",
+    "local_path": "/integration-clients/{record_id}",
+    "function": "update_client"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 234,
+    "method": "POST",
+    "local_path": "/integration-clients/{record_id}/rotate",
+    "function": "rotate_client"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 240,
+    "method": "POST",
+    "local_path": "/integration-clients/{record_id}/disable",
+    "function": "disable_client"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 246,
+    "method": "GET",
+    "local_path": "/certificates",
+    "function": "list_certificates"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 252,
+    "method": "POST",
+    "local_path": "/certificates",
+    "function": "create_certificate"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 258,
+    "method": "POST",
+    "local_path": "/certificates/{record_id}/disable",
+    "function": "disable_certificate"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 264,
+    "method": "GET",
+    "local_path": "/migration/sources",
+    "function": "migration_sources"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 270,
+    "method": "GET",
+    "local_path": "/migration/batches",
+    "function": "migration_batches"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 276,
+    "method": "POST",
+    "local_path": "/migration/batches",
+    "function": "migration_scan"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 282,
+    "method": "GET",
+    "local_path": "/migration/batches/{record_id}",
+    "function": "migration_batch"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 288,
+    "method": "GET",
+    "local_path": "/migration/batches/{record_id}/records",
+    "function": "migration_records"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 299,
+    "method": "GET",
+    "local_path": "/api-directory",
+    "function": "api_directory"
+  },
+  {
+    "file": "backend/app/modules/system_tools/router.py",
+    "line": 308,
+    "method": "POST",
+    "local_path": "/client-code",
+    "function": "client_code"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 38,
+    "method": "GET",
+    "local_path": "/business-results",
+    "function": "business_results"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 54,
+    "method": "GET",
+    "local_path": "/business-results/{execution_id}",
+    "function": "business_result"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 64,
+    "method": "GET",
+    "local_path": "/catalog",
+    "function": "catalog"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 71,
+    "method": "GET",
+    "local_path": "/value-sources",
+    "function": "value_sources"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 82,
+    "method": "POST",
+    "local_path": "/value-preview",
+    "function": "value_preview"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 93,
+    "method": "POST",
+    "local_path": "/validate",
+    "function": "validate"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 102,
+    "method": "POST",
+    "local_path": "/generate",
+    "function": "generate"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 108,
+    "method": "GET",
+    "local_path": "",
+    "function": "list_flows"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 116,
+    "method": "POST",
+    "local_path": "",
+    "function": "create"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 123,
+    "method": "POST",
+    "local_path": "/device-entry",
+    "function": "device_entry"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 129,
+    "method": "GET",
+    "local_path": "/{workflow_id}",
+    "function": "get"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 135,
+    "method": "PUT",
+    "local_path": "/{workflow_id}",
+    "function": "update"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 141,
+    "method": "DELETE",
+    "local_path": "/{workflow_id}",
+    "function": "delete"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 148,
+    "method": "POST",
+    "local_path": "/{workflow_id}/publish",
+    "function": "publish"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 154,
+    "method": "POST",
+    "local_path": "/{workflow_id}/disable",
+    "function": "disable"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 160,
+    "method": "GET",
+    "local_path": "/{workflow_id}/revisions",
+    "function": "revisions"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 166,
+    "method": "POST",
+    "local_path": "/{workflow_id}/restore",
+    "function": "restore"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 172,
+    "method": "GET",
+    "local_path": "/{workflow_id}/export",
+    "function": "export"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 181,
+    "method": "POST",
+    "local_path": "/{workflow_id}/runs",
+    "function": "run"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 191,
+    "method": "GET",
+    "local_path": "/{workflow_id}/runs",
+    "function": "runs"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 203,
+    "method": "GET",
+    "local_path": "/{workflow_id}/monitor",
+    "function": "monitor"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 211,
+    "method": "GET",
+    "local_path": "/{workflow_id}/runs/{execution_id}",
+    "function": "run_detail"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 217,
+    "method": "POST",
+    "local_path": "/{workflow_id}/runs/{execution_id}/resume",
+    "function": "resume_run"
+  },
+  {
+    "file": "backend/app/modules/workflows/router.py",
+    "line": 226,
+    "method": "POST",
+    "local_path": "/{workflow_id}/runs/{execution_id}/cancel",
+    "function": "cancel_run"
+  },
+  {
+    "file": "backend/app/modules/workspace/router.py",
+    "line": 33,
+    "method": "GET",
+    "local_path": "",
+    "function": "workspace_info"
+  },
+  {
+    "file": "backend/app/modules/workspace/router.py",
+    "line": 51,
+    "method": "GET",
+    "local_path": "/members",
+    "function": "members"
+  },
+  {
+    "file": "backend/app/modules/workspace/router.py",
+    "line": 100,
+    "method": "POST",
+    "local_path": "/users",
+    "function": "create_user"
+  },
+  {
+    "file": "backend/app/modules/workspace/router.py",
+    "line": 150,
+    "method": "POST",
+    "local_path": "/members",
+    "function": "add_member"
+  },
+  {
+    "file": "backend/app/modules/writeback/router.py",
+    "line": 25,
+    "method": "GET",
+    "local_path": "/targets",
+    "function": "list_targets"
+  },
+  {
+    "file": "backend/app/modules/writeback/router.py",
+    "line": 31,
+    "method": "GET",
+    "local_path": "/targets/{target_id}",
+    "function": "get_target"
+  },
+  {
+    "file": "backend/app/modules/writeback/router.py",
+    "line": 38,
+    "method": "POST",
+    "local_path": "/targets",
+    "function": "create_target"
+  },
+  {
+    "file": "backend/app/modules/writeback/router.py",
+    "line": 44,
+    "method": "PUT",
+    "local_path": "/targets/{target_id}",
+    "function": "update_target"
+  },
+  {
+    "file": "backend/app/modules/writeback/router.py",
+    "line": 50,
+    "method": "DELETE",
+    "local_path": "/targets/{target_id}",
+    "function": "remove_target"
+  },
+  {
+    "file": "backend/app/modules/writeback/router.py",
+    "line": 57,
+    "method": "GET",
+    "local_path": "/operations",
+    "function": "list_operations"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 44,
+    "method": "GET",
+    "local_path": "/api/webinfo",
+    "function": "webinfo"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 50,
+    "method": "GET",
+    "local_path": "/",
+    "function": "index"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 65,
+    "method": "GET",
+    "local_path": "/app",
+    "function": "app_index"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 73,
+    "method": "GET",
+    "local_path": "/ai",
+    "function": "ai_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 82,
+    "method": "GET",
+    "local_path": "/analytics-app",
+    "function": "analytics_bundle"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/datasources",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/workflows",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/alerts",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/quality",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/analytics",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/dashboards",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/templates",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/prompts",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/report",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/report/designer",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/jimu-screen",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/data-query",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/ontology",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/extraction",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/graphs",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/bots",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/assets-catalog",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/documents",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/capabilities",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/connectors",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/skills",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/plugins",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/applications",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/operations",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/knowledge",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 127,
+    "method": "GET",
+    "local_path": "/files",
+    "function": "analytics_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 137,
+    "method": "GET",
+    "local_path": "/workflows/{workflow_id}",
+    "function": "workflow_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 153,
+    "method": "GET",
+    "local_path": "/workflows/{workflow_id}/{section}",
+    "function": "workflow_workspace_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 166,
+    "method": "GET",
+    "local_path": "/alerts/devices/{device_id}/workflow",
+    "function": "device_workflow_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 166,
+    "method": "GET",
+    "local_path": "/quality/devices/{device_id}/workflow",
+    "function": "device_workflow_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 179,
+    "method": "GET",
+    "local_path": "/alerts/devices/{device_id}/workflow/{section}",
+    "function": "device_workflow_workspace_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 179,
+    "method": "GET",
+    "local_path": "/quality/devices/{device_id}/workflow/{section}",
+    "function": "device_workflow_workspace_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 188,
+    "method": "GET",
+    "local_path": "/quality/{page}",
+    "function": "quality_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 196,
+    "method": "GET",
+    "local_path": "/qc/{page}",
+    "function": "legacy_quality_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 209,
+    "method": "GET",
+    "local_path": "/alerts/{page}",
+    "function": "alert_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 219,
+    "method": "GET",
+    "local_path": "/alert/report",
+    "function": "legacy_alert_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 219,
+    "method": "GET",
+    "local_path": "/alert/problem",
+    "function": "legacy_alert_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 219,
+    "method": "GET",
+    "local_path": "/alert/rule",
+    "function": "legacy_alert_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 230,
+    "method": "GET",
+    "local_path": "/account/profile",
+    "function": "account_profile_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 239,
+    "method": "GET",
+    "local_path": "/analytics/{page}",
+    "function": "analytics_subpage"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 247,
+    "method": "GET",
+    "local_path": "/report/{mode}/{report_id}",
+    "function": "report_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 262,
+    "method": "GET",
+    "local_path": "/sso/callback",
+    "function": "oidc_callback_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 271,
+    "method": "GET",
+    "local_path": "/system/api",
+    "function": "legacy_api_center_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 280,
+    "method": "GET",
+    "local_path": "/system/{page}",
+    "function": "system_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 291,
+    "method": "GET",
+    "local_path": "/system/users/{user_id}",
+    "function": "user_detail_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 300,
+    "method": "GET",
+    "local_path": "/runs",
+    "function": "existing_business_page"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 310,
+    "method": "GET",
+    "local_path": "/admin",
+    "function": "admin_index"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 321,
+    "method": "GET",
+    "local_path": "/app.js",
+    "function": "app_js_file"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 333,
+    "method": "GET",
+    "local_path": "/app.css",
+    "function": "app_css_file"
+  },
+  {
+    "file": "backend/app/static_router.py",
+    "line": 345,
+    "method": "GET",
+    "local_path": "/{page_name}.html",
+    "function": "module_page"
+  }
+]

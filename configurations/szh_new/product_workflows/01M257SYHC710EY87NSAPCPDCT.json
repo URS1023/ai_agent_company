@@ -1,0 +1,1735 @@
+{
+  "name": "过程质检 · 待确认归属 · 未关联产品与模板",
+  "description": "仅检查过程质检 · 待确认归属 · 未关联产品与模板。使用源库模板关联定位产品；读取值 → 计算值 → 判断值 → 输出 → 结束。源库只读，不自动审批或让步放行。",
+  "domains": [
+    "quality"
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "start",
+        "kind": "start",
+        "title": "开始",
+        "description": "",
+        "position": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "variables": [
+            {
+              "hint": "过程质检 · 待确认归属 · 未关联产品与模板",
+              "type": "text-input",
+              "label": "质检单号（留空检查当前范围）",
+              "default": "",
+              "variable": "formNumber"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "quality_items_read",
+        "kind": "read-values",
+        "title": "读取值 · 质检项目、实测值与标准",
+        "description": "过程质检 · 待确认归属 · 未关联产品与模板；只读取该范围的单据。",
+        "position": {
+          "x": 320.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "有效项目",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "deviceId": null,
+          "parameters": {
+            "category": 2,
+            "formNumber": "",
+            "qualityTemplate": ""
+          },
+          "templateId": "01M257SVZTDM0ZQY6F4NR9GBM2",
+          "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+          "templateVersion": 2,
+          "parameterSources": {
+            "category": "fixed",
+            "formNumber": "input",
+            "qualityTemplate": "fixed"
+          },
+          "datasourceVersion": 2
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_calc",
+        "kind": "calculate-values",
+        "title": "计算值 · 实测与阈值的差额",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "calculations": [
+            {
+              "left": {
+                "field": "测量值",
+                "source": "field"
+              },
+              "name": "距阈值差额",
+              "right": {
+                "field": "阈值",
+                "source": "field"
+              },
+              "operation": "subtract"
+            },
+            {
+              "left": {
+                "field": "测量值",
+                "source": "field"
+              },
+              "name": "距下界差额",
+              "right": {
+                "field": "下界",
+                "source": "field"
+              },
+              "operation": "subtract"
+            },
+            {
+              "left": {
+                "field": "标准文本",
+                "source": "field"
+              },
+              "name": "含夏季条件",
+              "right": {
+                "value": "夏",
+                "source": "constant"
+              },
+              "operation": "contains"
+            },
+            {
+              "left": {
+                "field": "标准文本",
+                "source": "field"
+              },
+              "name": "含冬季条件",
+              "right": {
+                "value": "冬",
+                "source": "constant"
+              },
+              "operation": "contains"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_missing",
+        "kind": "condition",
+        "title": "判断值 · 实测或项目是否缺失",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "missing",
+                "args": [
+                  {
+                    "field": "实测记录"
+                  }
+                ]
+              },
+              {
+                "op": "missing",
+                "args": [
+                  {
+                    "field": "有效项目"
+                  }
+                ]
+              },
+              {
+                "op": "missing",
+                "args": [
+                  {
+                    "field": "测量值"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_missing_output",
+        "kind": "output-values",
+        "title": "输出 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 300.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "缺少必检项实测记录、测量值或有效项目。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "season_gate",
+        "kind": "condition",
+        "title": "判断值 · 是否涉及季节标准",
+        "description": "",
+        "position": {
+          "x": 1330.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "field": "含夏季条件"
+                  },
+                  {
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "field": "含冬季条件"
+                  },
+                  {
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "season_if_0",
+        "kind": "condition",
+        "title": "判断值 · 两季上限均满足",
+        "description": "",
+        "position": {
+          "x": 1660.0,
+          "y": -650.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "field": "标准文本"
+                  },
+                  {
+                    "value": "夏季≤12.0%\n冬季≤14.0%"
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "field": "测量值"
+                  },
+                  {
+                    "value": 12
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "season_output_0",
+        "kind": "output-values",
+        "title": "输出 · 合格",
+        "description": "",
+        "position": {
+          "x": 1660.0,
+          "y": -420.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "测量值不超过12%，同时满足源标准的夏季和冬季上限。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "season_if_1",
+        "kind": "condition",
+        "title": "判断值 · 两季上限均超出",
+        "description": "",
+        "position": {
+          "x": 1990.0,
+          "y": -650.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "field": "标准文本"
+                  },
+                  {
+                    "value": "夏季≤12.0%\n冬季≤14.0%"
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "field": "测量值"
+                  },
+                  {
+                    "value": 14
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "season_output_1",
+        "kind": "output-values",
+        "title": "输出 · 不合格",
+        "description": "",
+        "position": {
+          "x": 1990.0,
+          "y": -420.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "测量值超过14%，源标准的夏季和冬季上限均不满足。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "season_otherwise",
+        "kind": "output-values",
+        "title": "输出 · 待确认",
+        "description": "",
+        "position": {
+          "x": 2320.0,
+          "y": -650.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "需要确认适用季节标准；不根据月份自行指定夏季或冬季。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_if_0",
+        "kind": "condition",
+        "title": "判断值 · 运算与阈值是否有效",
+        "description": "",
+        "position": {
+          "x": 1660.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "判定方式"
+                      },
+                      {
+                        "value": "lte"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "判定方式"
+                      },
+                      {
+                        "value": "gte"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "判定方式"
+                      },
+                      {
+                        "value": "between_closed"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "missing",
+                        "args": [
+                          {
+                            "field": "距阈值差额"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "field": "判定方式"
+                          },
+                          {
+                            "value": "between_closed"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "or",
+                        "args": [
+                          {
+                            "op": "or",
+                            "args": [
+                              {
+                                "op": "missing",
+                                "args": [
+                                  {
+                                    "field": "距下界差额"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "op": "gt",
+                            "args": [
+                              {
+                                "field": "下界"
+                              },
+                              {
+                                "field": "阈值"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_output_0",
+        "kind": "output-values",
+        "title": "输出 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1660.0,
+          "y": 230.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "判定方式未配置、数值不可计算、阈值缺失或上下界倒置。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_if_1",
+        "kind": "condition",
+        "title": "判断值 · 是否超出本项标准",
+        "description": "",
+        "position": {
+          "x": 1990.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "field": "判定方式"
+                      },
+                      {
+                        "value": "lte"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "gt",
+                    "args": [
+                      {
+                        "field": "距阈值差额"
+                      },
+                      {
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "field": "判定方式"
+                      },
+                      {
+                        "value": "gte"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "lt",
+                    "args": [
+                      {
+                        "field": "距阈值差额"
+                      },
+                      {
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "field": "判定方式"
+                      },
+                      {
+                        "value": "between_closed"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "lt",
+                        "args": [
+                          {
+                            "field": "距下界差额"
+                          },
+                          {
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "op": "gt",
+                        "args": [
+                          {
+                            "field": "距阈值差额"
+                          },
+                          {
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_output_1",
+        "kind": "output-values",
+        "title": "输出 · 不合格",
+        "description": "",
+        "position": {
+          "x": 1990.0,
+          "y": 230.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "实际值不满足该单保存的比较方式与阈值。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_otherwise",
+        "kind": "output-values",
+        "title": "输出 · 合格",
+        "description": "",
+        "position": {
+          "x": 2320.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态",
+            "实测记录",
+            "检验项目",
+            "标准文本",
+            "测量值",
+            "判定方式",
+            "下界",
+            "阈值"
+          ],
+          "message": "实测值满足本项结构化标准，包含边界。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "item_results",
+        "kind": "merge",
+        "title": "汇总各项目结果",
+        "description": "",
+        "position": {
+          "x": 3800.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "measurements_end",
+        "kind": "end",
+        "title": "输出 · 项目实测与逐项结论",
+        "description": "",
+        "position": {
+          "x": 4150.0,
+          "y": 400.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_counts",
+        "kind": "aggregator",
+        "title": "计算值 · 按质检单统计结果",
+        "description": "",
+        "position": {
+          "x": 4150.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "groupBy": [
+            "单据标识",
+            "质检单号",
+            "有效模板",
+            "必检项数",
+            "原检验结果",
+            "原合格状态",
+            "原单据状态"
+          ],
+          "metrics": [
+            {
+              "name": "实测项数",
+              "field": "实测记录",
+              "operation": "count"
+            },
+            {
+              "name": "不合格项数",
+              "field": "不合格标记",
+              "operation": "sum"
+            },
+            {
+              "name": "待确认项数",
+              "field": "待确认标记",
+              "operation": "sum"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_scope",
+        "kind": "calculate-values",
+        "title": "计算值 · 保留复判范围",
+        "description": "",
+        "position": {
+          "x": 4470.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "calculations": [
+            {
+              "left": {
+                "value": "仅复判有依据的结构化项目；不代表审批通过或正式放行。",
+                "source": "constant"
+              },
+              "name": "复判范围",
+              "operation": "copy"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_if_0",
+        "kind": "condition",
+        "title": "判断值 · 是否存在不合格项目",
+        "description": "",
+        "position": {
+          "x": 4800.0,
+          "y": 850.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "gt",
+            "args": [
+              {
+                "field": "不合格项数"
+              },
+              {
+                "value": 0
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_output_0",
+        "kind": "output-values",
+        "title": "输出 · 不合格",
+        "description": "",
+        "position": {
+          "x": 4800.0,
+          "y": 1080.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "message": "存在不合格项目，需按业务流程处置。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_if_1",
+        "kind": "condition",
+        "title": "判断值 · 数据和必检项是否齐全",
+        "description": "",
+        "position": {
+          "x": 5130.0,
+          "y": 850.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "有效模板"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "field": "必检项数"
+                  },
+                  {
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "field": "实测项数"
+                  },
+                  {
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "field": "待确认项数"
+                  },
+                  {
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_output_1",
+        "kind": "output-values",
+        "title": "输出 · 待确认",
+        "description": "",
+        "position": {
+          "x": 5130.0,
+          "y": 1080.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "message": "模板、必检项目、测量值或判定依据尚不完整。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_otherwise",
+        "kind": "output-values",
+        "title": "输出 · 结构化项目合格",
+        "description": "",
+        "position": {
+          "x": 5460.0,
+          "y": 850.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "quality",
+          "message": "仅复判有依据的结构化项目；不代表审批通过或正式放行。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "document_results",
+        "kind": "merge",
+        "title": "汇总单据结论",
+        "description": "",
+        "position": {
+          "x": 5900.0,
+          "y": 850.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "end",
+        "kind": "end",
+        "title": "结束 · 质检单复判结果",
+        "description": "",
+        "position": {
+          "x": 6230.0,
+          "y": 850.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "quality_gas1_read",
+        "kind": "read-values",
+        "title": "读取值 · 炉前实测",
+        "description": "过程质检 · 待确认归属 · 未关联产品与模板；只读取该范围的单据。",
+        "position": {
+          "x": 320.0,
+          "y": 1750.0
+        },
+        "inputs": {},
+        "config": {
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "检测时间",
+            "炉眼",
+            "发气量_L每kg",
+            "磷化氢_百分比",
+            "硫化氢_百分比",
+            "原检验结果"
+          ],
+          "deviceId": null,
+          "parameters": {
+            "category": 2,
+            "formNumber": "",
+            "qualityTemplate": ""
+          },
+          "templateId": "01M257SW1BFH4N4P2FY2EXEQG1",
+          "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+          "templateVersion": 2,
+          "parameterSources": {
+            "category": "fixed",
+            "formNumber": "input",
+            "qualityTemplate": "fixed"
+          },
+          "datasourceVersion": 2
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "gas1_end",
+        "kind": "end",
+        "title": "输出 · 炉前实测",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 1750.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "quality_gas2_read",
+        "kind": "read-values",
+        "title": "读取值 · 出厂实测",
+        "description": "过程质检 · 待确认归属 · 未关联产品与模板；只读取该范围的单据。",
+        "position": {
+          "x": 320.0,
+          "y": 2000.0
+        },
+        "inputs": {},
+        "config": {
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "检测时间",
+            "炉眼",
+            "发气量_L每kg",
+            "磷化氢_百分比",
+            "硫化氢_百分比",
+            "原检验结果"
+          ],
+          "deviceId": null,
+          "parameters": {
+            "category": 2,
+            "formNumber": "",
+            "qualityTemplate": ""
+          },
+          "templateId": "01M257SW2RNQ4JEM3VK0KGAQQ9",
+          "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+          "templateVersion": 2,
+          "parameterSources": {
+            "category": "fixed",
+            "formNumber": "input",
+            "qualityTemplate": "fixed"
+          },
+          "datasourceVersion": 2
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "gas2_end",
+        "kind": "end",
+        "title": "输出 · 出厂实测",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 2000.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "quality_statistics_read",
+        "kind": "read-values",
+        "title": "读取值 · 统计明细",
+        "description": "过程质检 · 待确认归属 · 未关联产品与模板；只读取该范围的单据。",
+        "position": {
+          "x": 320.0,
+          "y": 2250.0
+        },
+        "inputs": {},
+        "config": {
+          "fields": [
+            "单据标识",
+            "质检单号",
+            "有效氧化钙（%）1_c_n0001",
+            "氧化镁（%）_c_n0002",
+            "生过烧（%）_c_n0003",
+            "盐酸不溶物（%）_c_n0004",
+            "三氧化二物（%）_c_n0005",
+            "活性度（%）_c_n0006",
+            "粒度（≤10mm）（%）_c_n0007",
+            "外水分 （%）_c_n0008",
+            "内水分（%）_c_n0009",
+            "灰分（%）_c_n0010",
+            "挥发分（%）_c_n0011",
+            "固定碳（%）_c_n0012",
+            "硫（%）_c_n0013",
+            "氧化钙(%)_c_n0014",
+            "二氧化硅(%)_c_n0015",
+            "粒度（40-80）mm(%)_c_n0016",
+            "水分(%)_c_n0017",
+            "粒度（≤10mm）（%）_c_n0018",
+            "氧化镁_c_n0052",
+            "三氧化二物_c_n0053",
+            "固定碳（%）_c_n0054",
+            "灰份（%）_c_n0055",
+            "挥发份（%）_c_n0056"
+          ],
+          "deviceId": null,
+          "parameters": {
+            "category": 2,
+            "formNumber": "",
+            "qualityTemplate": ""
+          },
+          "templateId": "01M257SW4JSZNZ5E3HE5GWQ9XS",
+          "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+          "templateVersion": 2,
+          "parameterSources": {
+            "category": "fixed",
+            "formNumber": "input",
+            "qualityTemplate": "fixed"
+          },
+          "datasourceVersion": 2
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "statistics_end",
+        "kind": "end",
+        "title": "输出 · 统计明细",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 2250.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      }
+    ],
+    "edges": [
+      {
+        "id": "start_out_quality_items_read",
+        "source": "start",
+        "target": "quality_items_read",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_missing_false_item_calc",
+        "source": "item_missing",
+        "target": "item_calc",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "quality_items_read_out_item_missing",
+        "source": "quality_items_read",
+        "target": "item_missing",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_missing_true_item_missing_output",
+        "source": "item_missing",
+        "target": "item_missing_output",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_calc_out_season_gate",
+        "source": "item_calc",
+        "target": "season_gate",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_gate_true_season_if_0",
+        "source": "season_gate",
+        "target": "season_if_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_if_0_true_season_output_0",
+        "source": "season_if_0",
+        "target": "season_output_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_if_0_false_season_if_1",
+        "source": "season_if_0",
+        "target": "season_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_if_1_true_season_output_1",
+        "source": "season_if_1",
+        "target": "season_output_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_if_1_false_season_otherwise",
+        "source": "season_if_1",
+        "target": "season_otherwise",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_gate_false_item_if_0",
+        "source": "season_gate",
+        "target": "item_if_0",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_if_0_true_item_output_0",
+        "source": "item_if_0",
+        "target": "item_output_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_if_0_false_item_if_1",
+        "source": "item_if_0",
+        "target": "item_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_if_1_true_item_output_1",
+        "source": "item_if_1",
+        "target": "item_output_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_if_1_false_item_otherwise",
+        "source": "item_if_1",
+        "target": "item_otherwise",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_missing_output_out_item_results",
+        "source": "item_missing_output",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_output_0_out_item_results",
+        "source": "season_output_0",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_output_1_out_item_results",
+        "source": "season_output_1",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "season_otherwise_out_item_results",
+        "source": "season_otherwise",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_output_0_out_item_results",
+        "source": "item_output_0",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_output_1_out_item_results",
+        "source": "item_output_1",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_otherwise_out_item_results",
+        "source": "item_otherwise",
+        "target": "item_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_results_out_measurements_end",
+        "source": "item_results",
+        "target": "measurements_end",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "item_results_out_document_counts",
+        "source": "item_results",
+        "target": "document_counts",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_counts_out_document_scope",
+        "source": "document_counts",
+        "target": "document_scope",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_scope_out_document_if_0",
+        "source": "document_scope",
+        "target": "document_if_0",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_if_0_true_document_output_0",
+        "source": "document_if_0",
+        "target": "document_output_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_if_0_false_document_if_1",
+        "source": "document_if_0",
+        "target": "document_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_if_1_true_document_output_1",
+        "source": "document_if_1",
+        "target": "document_output_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_if_1_false_document_otherwise",
+        "source": "document_if_1",
+        "target": "document_otherwise",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_output_0_out_document_results",
+        "source": "document_output_0",
+        "target": "document_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_output_1_out_document_results",
+        "source": "document_output_1",
+        "target": "document_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_otherwise_out_document_results",
+        "source": "document_otherwise",
+        "target": "document_results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "document_results_out_end",
+        "source": "document_results",
+        "target": "end",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "start_out_quality_gas1_read",
+        "source": "start",
+        "target": "quality_gas1_read",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "quality_gas1_read_out_gas1_end",
+        "source": "quality_gas1_read",
+        "target": "gas1_end",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "start_out_quality_gas2_read",
+        "source": "start",
+        "target": "quality_gas2_read",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "quality_gas2_read_out_gas2_end",
+        "source": "quality_gas2_read",
+        "target": "gas2_end",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "start_out_quality_statistics_read",
+        "source": "start",
+        "target": "quality_statistics_read",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "quality_statistics_read_out_statistics_end",
+        "source": "quality_statistics_read",
+        "target": "statistics_end",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      }
+    ]
+  }
+}

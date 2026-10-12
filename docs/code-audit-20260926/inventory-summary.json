@@ -1,0 +1,14 @@
+{
+  "scope": "项目一方源文件、构建产物及被纳入的第三方前端文件；不包含依赖、运行数据、上游仓库、参考材料与审查报告自身",
+  "files": 3259,
+  "categories": {
+    "first_party": 1070,
+    "third_party_reference": 45,
+    "generated": 2144
+  },
+  "first_party_lines": 201394,
+  "python_parsed": 632,
+  "python_errors": [],
+  "route_declarations": 603,
+  "route_note": "路由为 AST 声明清单，未展开 APIRouter/include_router 前缀；不代表运行时挂载数量。"
+}

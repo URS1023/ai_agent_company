@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN" class="light" style="color-scheme: light;">
+<head>
+  <!--
+    AI 工作台（旧版聊天外壳）：由后端静态托管，访问地址 /ai（首页 "/" 同样渲染该页）。
+    本页只服务对话页（body data-page="chat"）；知识库等业务页各有独立 HTML。
+    依赖：后端服务需在运行（/api/**），所有交互逻辑在同目录 app.js 中，
+    样式来自 /app.css 与 /assets/platform/business-chat.css。
+    影响范围：登录后令牌写入 localStorage；发消息/建会话会在后端落库。页面自身不做权限判定，
+    入口显隐由后端返回的权限与导航决定。约束：内联 onclick 引用的函数必须保持为 app.js 的全局函数。
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AI 工作台 · 智慧云脑 Cloud Brain</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/assets/platform/business-chat.css?v=20260914-2">
+  <link rel="stylesheet" href="/assets/platform/chat-session.css?v=20260928-native-dsh-4">
+  <link rel="stylesheet" href="/assets/platform/chat-dashboard-preview.css?v=20260928-native-dsh-4">
+</head>
+<body data-page="chat">
+<div id="app" class="app-root">
+  <div id="login-view" class="hidden login-bg" aria-label="登录">
+    <div class="login-wrap">
+      <div class="login-card">
+        <div class="login-head"><div class="login-logo" aria-hidden="true">云</div><div><div class="login-title">智慧云脑 Cloud Brain</div><div class="login-sub">连接企业知识、文件、数据与程序</div></div></div>
+        <div class="field"><label class="field-label" for="login-username">用户名</label><input id="login-username" class="field-input" value="workspace-admin" autocomplete="username"></div>
+        <div class="field"><label class="field-label" for="login-password">密码</label><input id="login-password" type="password" class="field-input" autocomplete="current-password"></div>
+        <div id="login-error" class="login-error" role="alert"></div><button id="login-btn" class="btn-primary btn-block">登录</button>
+      </div>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="chat-sidebar" aria-label="AI 对话会话栏">
+    <div class="sidebar-inner">
+      <nav id="ai-resource-links" class="ai-resource-links" aria-label="AI 能力入口" hidden></nav>
+      <div class="sidebar-brand-row">
+        <div class="conversation-rail-title"><strong>对话记录</strong></div>
+        <div class="sidebar-brand-actions">
+          <button id="sidebar-search-btn" class="quiet-icon" title="搜索对话" aria-label="搜索对话"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.3-3.3"></path></svg></button>
+          <button id="sidebar-collapse-btn" class="quiet-icon" title="收起侧边栏" aria-label="收起侧边栏"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M9 4v16"></path></svg></button>
+        </div>
+      </div>
+      <nav class="side-menu">
+        <button id="new-chat-btn" class="side-item side-action active"><svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg><span>新聊天</span></button>
+      </nav>
+      <section id="business-chat-modules" class="business-chat-modules" aria-label="业务对话"></section>
+      <div class="history-section">
+        <div class="history-head"><span class="history-title">最近</span><span class="history-count" id="history-count"></span></div>
+        <div id="history-search-wrap" class="search-box hidden"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.3-3.3"></path></svg><input id="search-chat" class="search-input" placeholder="搜索对话" aria-label="搜索对话"></div>
+        <ul id="conversation-list" class="history-list" tabindex="0" aria-label="最近对话"></ul><div id="conversation-empty" class="history-empty hidden">暂无对话</div>
+      </div>
+    </div><div id="sidebar-resizer" title="拖动调整宽度"></div>
+  </aside>
+
+  <main id="pages" class="chat-main">
+    <section id="page-chat" class="page chat-page is-empty">
+      <header class="chat-topbar">
+        <div class="ph-left"><button id="mobile-sidebar-btn" class="quiet-icon mobile-only" aria-label="打开侧边栏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button><button id="model-chip" class="model-chip" aria-haspopup="menu">企业 AI <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></button><span id="header-title" class="ph-title hidden">新聊天</span></div>
+        <div class="ph-right"><button id="share-conversation" class="topbar-action" aria-label="分享当前对话"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 8 5-5 5 5"></path><path d="M5 13v6h14v-6"></path></svg><span>分享</span></button><button id="top-more-btn" class="quiet-icon" aria-label="更多操作"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></svg></button></div>
+      </header>
+      <div class="page-body chat-body"><div id="scroll-root" class="scroll-root"><div id="thread" class="thread-inner"><main id="messages" class="messages" aria-live="polite"></main></div></div></div>
+      <footer class="composer-wrap"><div class="composer-max">
+        <div id="business-chat-badge" class="business-chat-badge" hidden></div>
+        <div id="preset-plugins" class="preset-row"><span id="preset-chips" class="preset-chips"></span></div>
+        <div id="composer-attachments" class="attach-row"></div>
+        <form id="composer-form" class="composer-shell" autocomplete="off">
+          <textarea id="prompt-textarea" class="composer-textarea" rows="1" placeholder="询问企业 AI" aria-label="输入消息"></textarea>
+          <div class="composer-bar">
+            <button type="button" id="add-menu-btn" class="composer-icon" title="添加内容" aria-label="添加内容"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+            <button type="button" id="business-source-btn" class="composer-context hidden" aria-label="选择业务数据源"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"></ellipse><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6m-14 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"></path></svg><span>数据源</span><b id="business-source-label">选择</b></button>
+            <button type="button" id="dashboard-template-btn" class="composer-context hidden" aria-label="选择数字大屏模板"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 15v2m5-6v6m5-10v10"></path></svg><span>大屏模板</span><b id="dashboard-template-label">动态适配</b></button>
+            <button type="button" id="active-mode-btn" class="composer-mode hidden"><span id="active-mode-label"></span><span aria-hidden="true">×</span></button><div class="spacer"></div>
+            <select id="chat-model-select" class="chat-model-select" aria-label="对话模型" title="选择本轮对话使用的模型" disabled><option>加载模型…</option></select>
+            <button type="button" id="chat-model-retry" class="composer-icon hidden" aria-label="重新加载模型列表" title="重新加载模型列表">↻</button>
+            <button type="button" id="voice-input-btn" class="composer-icon" title="语音输入" aria-label="语音输入"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></svg></button>
+            <button type="submit" id="composer-submit-button" class="send-btn" disabled aria-label="发送"><svg class="send-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg><svg class="stop-icon hidden" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"></rect></svg></button>
+          </div>
+        </form><div id="voice-input-feedback" class="voice-input-feedback" role="status" aria-live="polite" hidden><span></span><button type="button" aria-label="关闭语音输入提示">关闭</button></div><div class="composer-note muted">AI 结果请核对</div>
+      </div></footer>
+    </section>
+  </main>
+
+<div id="overlay" class="hidden overlay"></div><div id="menu-panel" class="hidden menu-panel" role="menu"></div><div id="toast" class="hidden toast" role="status" aria-live="polite"></div><input id="file-input" type="file" multiple class="hidden" aria-label="上传聊天文件">
+  <div id="template-modal" class="hidden modal-layer" role="dialog" aria-modal="true" aria-labelledby="template-title">
+    <div class="template-dialog">
+<div class="template-head"><div><div class="template-eyebrow">PPT 生成</div><h2 id="template-title">选择演示文稿模板</h2><p>模板决定版式、字体与配色，内容仍由本次对话生成。</p></div><div class="template-head-actions"><input id="template-upload-input" class="hidden" type="file" accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" aria-label="上传客户 PPT 模板"><button id="template-upload-btn" class="template-upload">上传客户模板</button><button id="template-close" class="quiet-icon" aria-label="关闭模板选择"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div></div>
+      <div class="template-library-controls">
+        <div class="template-library-row">
+          <label class="template-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.2-3.2"></path></svg><input id="template-search-input" placeholder="搜索模板、用途或风格" aria-label="搜索演示文稿模板"></label>
+          <select id="template-source-filter" aria-label="模板来源"><option value="all">全部来源</option><option value="builtin">内置模板</option><option value="custom">我的模板</option></select>
+          <span id="template-result-count" class="template-result-count" aria-live="polite"></span>
+        </div>
+        <div id="template-category-filters" class="template-category-filters" role="toolbar" aria-label="模板分类"></div>
+      </div>
+      <div id="template-grid" class="template-grid"></div>
+      <div class="template-options"><div id="template-selection-summary" class="template-selection-summary">请选择模板</div><label>页面比例<select id="template-ratio"><option value="16:9">16:9 宽屏</option><option value="4:3">4:3 标准</option></select></label><label class="template-page-field"><span>总页数<small>含封面与结束页</small></span><select id="template-page-count" aria-label="选择演示文稿总页数"><option value="auto">自动决定</option></select></label><button id="template-use" class="template-use" disabled>使用此模板</button></div>
+    </div>
+  </div>
+  <div id="dashboard-template-modal" class="hidden modal-layer" role="dialog" aria-modal="true" aria-labelledby="dashboard-template-title">
+    <div class="dashboard-template-dialog">
+      <header class="dashboard-template-head"><div><span>DASHBOARD TEMPLATE</span><h2 id="dashboard-template-title">选择数字大屏模板</h2><p>未指定模板时参考现有模板生成；指定模板后只生成 SQL，保留原有布局、组件与样式。</p></div><button id="dashboard-template-close" class="quiet-icon" type="button" aria-label="关闭大屏模板选择"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></header>
+      <div class="dashboard-template-toolbar">
+        <div id="dashboard-template-strategy" class="dashboard-template-strategy" role="group" aria-label="模板策略"><button type="button" data-dashboard-mode="auto">自动参考模板</button><button type="button" data-dashboard-mode="manual">指定模板 · 只生成 SQL</button></div>
+        <label class="dashboard-template-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.2-3.2"></path></svg><input id="dashboard-template-search" type="search" placeholder="搜索财务、销售、设备或模板名称" aria-label="搜索数字大屏模板"></label>
+        <select id="dashboard-template-category" aria-label="筛选大屏模板分类"><option value="全部">全部业务域</option></select>
+      </div>
+      <div id="dashboard-template-grid" class="dashboard-template-grid" aria-live="polite"></div>
+      <footer class="dashboard-template-footer"><div id="dashboard-template-summary" class="dashboard-template-summary"><strong>动态适配</strong><span>按业务意图与数据结构选择，不固定默认模板</span></div><button id="dashboard-template-use" class="dashboard-template-use" type="button">确认选择</button></footer>
+    </div>
+  </div>
+</div>
+<script src="/assets/platform/chat-session.js?v=20260928-native-dsh-4"></script>
+<script src="/assets/platform/chat-session-view.js?v=20260928-native-dsh-4"></script>
+<script src="/assets/platform/chat-dashboard-preview.js?v=20260928-native-dsh-4"></script>
+<script src="/app.js?v=20260928-native-dsh-4"></script>
+</body>
+</html>

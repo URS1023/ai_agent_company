@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "name": "1#炉出炉机器人C · 本设备逐项判断",
+  "description": "按本设备计划、检查项或润滑点逐项核对；缺少实际值及标准明确标为待确认；副本时间回放。",
+  "deviceId": "01M24QT7J803Z7AFM6T0ZWMYEM",
+  "adviceId": null,
+  "recordKeyField": "recordKey",
+  "rules": [
+    {
+      "id": "abnormal",
+      "name": "存在需关注的异常或逾期",
+      "expression": {
+        "op": "gt",
+        "args": [
+          {
+            "field": "alertCount"
+          },
+          {
+            "value": 0
+          }
+        ]
+      },
+      "severity": "warning",
+      "message": "存在需关注的异常或逾期；详细数量、源记录和口径见本行数据。"
+    },
+    {
+      "id": "incomplete",
+      "name": "缺少数据或判断依据，需补全后确认",
+      "expression": {
+        "op": "gt",
+        "args": [
+          {
+            "field": "pendingCount"
+          },
+          {
+            "value": 0
+          }
+        ]
+      },
+      "severity": "info",
+      "message": "缺少数据或判断依据，需补全后确认；详细数量、源记录和口径见本行数据。"
+    }
+  ],
+  "status": "active",
+  "id": "01M24QTBVQANJXE9WJC66JTHSX",
+  "createTime": "2026-09-10T04:04:38",
+  "updateTime": "2026-09-10T05:21:21"
+}

@@ -1,0 +1,113 @@
+{
+  "id": "01M24ZDZC4A7HMT2CRDFDW8P8W",
+  "name": "润滑点周期要求与实际保养记录",
+  "category": "工作流读取值",
+  "content": "WITH plans AS (SELECT i.c_device deviceKey,v.c_deviceName deviceName,\n        p.dInspectionMaintenancePlanId planId,p.c_planName planName,\n        p.c_xunjianzhibiao cycleCode,p.c_jihualeixing planType,\n        (SELECT COUNT(*) FROM t_dinspectionmaintenanceplan p2\n         WHERE p2.isDeleted=0 AND p2.c_planName=p.c_planName) sameNameCount\n        FROM t_dinspectionmaintenanceplan p JOIN t_inspectiondevice i\n        ON i.mdDInspectionMaintenancePlanId=p.dInspectionMaintenancePlanId AND i.isDeleted=0\n        JOIN t_devicemanagement v ON v.deviceManagementId=i.c_device AND v.isDeleted=0\n        WHERE p.isDeleted=0 AND p.c_jihualeixing IN (1,2)\n        AND i.c_device IN ('0001567-0d546da083404d689ccb5270254f4986','0001567-0d8b8beb96a7437185ee4ec2b307b133','0001567-1080e120bada4139bac3a9e29443b539','0001567-18f3f1c5f2874e8db3434b02c61055a4','0001567-1de1cce66ae84554929bbedcba548b3d','0001567-2227c1d8e09749c99557f251ac93afe1','0001567-2838347eb276479bbb75018e98bac4b7','0001567-2adce1a7bb454828a312185d4f07d344','0001567-2b3b6be1388d46c9b2ba75378a421fba','0001567-3b3ebc4911774f069b65a08ffabf03b5','0001567-4bd2a5151fc44e89bc5cb2781d87c7cb','0001567-5780ab52fc0746c6ad97ae8db6695776','0001567-5e088c31b145431980ac690cee3981dd','0001567-6cb6cc0f56974639af022cabcdddaccc','0001567-7e836097cfda42818c0d58315e8473af','0001567-84bce3b6a55c4caab52aaf1ce2230c2d','0001567-86cc8ee2e79b479aa1fcd1142df991b8','0001567-8f825b609c124b66a2ae9b6328bd3e64','0001567-91ae2dcf786c41889e5f3069cbe15ff1','0001567-92fc6ba2e8324c728d683bf0e27626ef','0001567-97204e30725d4d46b93b016a7795a779','0001567-a87fb0db4f864eb4a996da0ab49761c9','0001567-ad510b1cab1b46e3a947104af63642e4','0001567-bdb5b8d174ef404abfb1bbfc4537b782','0001567-ca64d6ba125445b8bd72e0a735f1afc4','0001567-ce6009b3fbfe430897987101421486b6','0001567-d6bf0ac1428141aa889243c859387f84','0001567-dbd388c5196d4bcaa5a10b11bc12f90f','0001567-e0cef5e6c4354433a20d92297b45d2a4','0001567-efaa56c92bef43edb1f5637df367ec3b','0001567-eff59d873a7a47a195572814fa49ae97','0001567-f75482aac9b14e4489a9c82841c6cb41') AND (:deviceKey='' OR i.c_device=:deviceKey)), linked AS (\n        SELECT p.deviceKey,p.planId,p.deviceName,p.planName,p.sameNameCount,\n        s.xunjianjihuarunhuabaoyangId itemId,s.c_runhuadianweimingcheng point,\n        s.c_runhuadianweibianhao pointCode,s.c_runhuazhouqi days,\n        s.c_runhuayoupaihao oil,s.c_runhualiang amount,s.c_runhuafangshi method,\n        s.c_huanyouzhouqi changeCycle,s.c_huanyouliang changeAmount,\n        m.c_maintenanceStatus taskStatus,m.c_recentMaintenancePeriod completedAt,\n        d.c_baoyangzhuangtai pointStatus,d.c_runhuayoupaihao actualOil,\n        d.c_runhualiang actualAmount,d.c_runhuafangshi actualMethod,\n        d.shebeirunhuabaoyangmingxibiaoId sourceRecord,\n        MAX(CASE WHEN m.c_maintenanceStatus=1 AND d.c_baoyangzhuangtai=1\n            AND m.c_recentMaintenancePeriod<=:asOf THEN m.c_recentMaintenancePeriod ELSE NULL END)\n          OVER (PARTITION BY p.deviceKey,p.planId,s.xunjianjihuarunhuabaoyangId) lastCompleted,\n        ROW_NUMBER() OVER (PARTITION BY p.deviceKey,p.planId,s.xunjianjihuarunhuabaoyangId\n            ORDER BY m.createdOn DESC,m.deviceInspectionMaintenanceId DESC,d.shebeirunhuabaoyangmingxibiaoId DESC) rowNum\n        FROM plans p JOIN t_xunjianjihuarunhuabaoyang s\n        ON s.mdDInspectionMaintenancePlanId=p.planId AND s.isDeleted=0\n        LEFT JOIN t_deviceinspectionmaintenance m ON m.c_deviceId=p.deviceKey\n        AND m.c_xunjianjihua=p.planName AND m.isDeleted=0 AND m.createdOn<=:asOf\n        LEFT JOIN t_shebeirunhuabaoyangmingxibiao d ON d.mdDeviceInspectionMaintenanceId=m.deviceInspectionMaintenanceId\n        AND d.isDeleted=0 AND ((s.c_runhuadianweibianhao IS NOT NULL AND s.c_runhuadianweibianhao<>''\n          AND d.c_runhuadianweibianhao=s.c_runhuadianweibianhao)\n          OR ((s.c_runhuadianweibianhao IS NULL OR s.c_runhuadianweibianhao='')\n          AND d.c_runhuadianweimingcheng=s.c_runhuadianweimingcheng))\n        WHERE p.planType=2)\n        SELECT CONCAT(deviceKey,':',planId,':',itemId) recordKey,deviceKey,planId,itemId,'maintenance' category,\n        deviceName AS `设备`,planName AS `计划`,sameNameCount AS `同名计划数`,\n        point AS `润滑点`,pointCode AS `点位编号`,days AS `周期天数`,\n        oil AS `要求油品`,amount AS `要求用量`,method AS `要求方式`,\n        changeCycle AS `换油周期`,changeAmount AS `换油量`,lastCompleted AS `上次完成时间`,\n        taskStatus AS `任务状态`,pointStatus AS `点位状态`,completedAt AS `本次完成时间`,\n        actualOil AS `记录油品`,actualAmount AS `记录用量`,actualMethod AS `记录方式`,\n        sourceRecord AS `原记录`,:asOf AS `参考时间`\n        FROM linked WHERE rowNum=1 ORDER BY deviceKey,planId,itemId",
+  "mode": "sql",
+  "parameters": {
+    "inputs": [
+      {
+        "name": "asOf",
+        "label": "参考时间（导入副本）",
+        "default": "2026-09-02 13:53:59"
+      },
+      {
+        "name": "deviceKey",
+        "default": ""
+      }
+    ],
+    "columns": [
+      {
+        "name": "设备",
+        "label": "设备"
+      },
+      {
+        "name": "计划",
+        "label": "计划"
+      },
+      {
+        "name": "同名计划数",
+        "label": "同名计划数"
+      },
+      {
+        "name": "润滑点",
+        "label": "润滑点"
+      },
+      {
+        "name": "点位编号",
+        "label": "点位编号"
+      },
+      {
+        "name": "周期天数",
+        "label": "周期天数"
+      },
+      {
+        "name": "要求油品",
+        "label": "要求油品"
+      },
+      {
+        "name": "要求用量",
+        "label": "要求用量"
+      },
+      {
+        "name": "要求方式",
+        "label": "要求方式"
+      },
+      {
+        "name": "换油周期",
+        "label": "换油周期"
+      },
+      {
+        "name": "换油量",
+        "label": "换油量"
+      },
+      {
+        "name": "上次完成时间",
+        "label": "上次完成时间"
+      },
+      {
+        "name": "任务状态",
+        "label": "任务状态"
+      },
+      {
+        "name": "点位状态",
+        "label": "点位状态"
+      },
+      {
+        "name": "本次完成时间",
+        "label": "本次完成时间"
+      },
+      {
+        "name": "记录油品",
+        "label": "记录油品"
+      },
+      {
+        "name": "记录用量",
+        "label": "记录用量"
+      },
+      {
+        "name": "记录方式",
+        "label": "记录方式"
+      },
+      {
+        "name": "原记录",
+        "label": "原记录"
+      },
+      {
+        "name": "参考时间",
+        "label": "参考时间"
+      }
+    ],
+    "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+    "identityFields": [
+      "recordKey",
+      "deviceKey",
+      "planId",
+      "itemId",
+      "category"
+    ],
+    "workflowValues": true
+  },
+  "usageCount": 0,
+  "version": 2
+}

@@ -1,0 +1,69 @@
+{
+  "id": "01M24ZDZGSBQ9SJT86TY4AVY8N",
+  "name": "维修任务期限与完成验收记录",
+  "category": "工作流读取值",
+  "content": "SELECT CONCAT(m.c_zhubiaoshebei,':repair:',m.equipmentMaintenanceLogId) recordKey,\n        m.c_zhubiaoshebei deviceKey,m.c_weixiujihuamingcheng planId,m.equipmentMaintenanceLogId itemId,\n        'repair' category,v.c_deviceName AS `设备`,m.c_jianxiudianmingcheng AS `维修点`,\n        m.c_jianxiuneirong AS `维修内容`,m.c_weixiuzhuangtai AS `维修状态`,\n        m.c_yujichuliwanchengshijian AS `预计完成时间`,m.c_shijichuliwanchengshijian AS `实际完成时间`,\n        m.c_daochangyanshoushifouhege AS `验收状态`,m.c_shifouanzhuangwancheng AS `安装状态`,:asOf AS `参考时间`\n        FROM t_equipmentmaintenancelog m JOIN t_devicemanagement v ON v.deviceManagementId=m.c_zhubiaoshebei AND v.isDeleted=0\n        WHERE m.isDeleted=0 AND m.c_zhubiaoshebei IN ('0001567-d938ab471bfb45158106d4891899ec67','0001567-475de08579ed4c0dbca3e321621be689','0001567-0d8b8beb96a7437185ee4ec2b307b133','0001567-ef3b4a6f6fd044acb58611601f8c7fe6','0001567-633708dc15704c89a08bf3ba3f694170','0001567-4d92beef8a3d41d1aaa6cbc79882a4e4','0001567-a109d8729425475ca380b7585d648c6c','0001567-a4861e1bc15a4345af1f24511fba4fed','0001567-5dee6aa3f0604192ac6f02fdee5a88fa','0001567-a7b40ef857b345f4941ae49cc6b17bc7','0001567-ea19198594f24f8485d59397a896577a','0001567-8d117c498c5546a580af2c789a34a5d8','0001567-0458be1d7ee14b0488460825885cbd05')\n        AND (:deviceKey='' OR m.c_zhubiaoshebei=:deviceKey) AND m.createdOn<=:asOf\n        ORDER BY m.c_zhubiaoshebei,m.equipmentMaintenanceLogId",
+  "mode": "sql",
+  "parameters": {
+    "inputs": [
+      {
+        "name": "asOf",
+        "label": "参考时间（导入副本）",
+        "default": "2026-09-02 13:53:59"
+      },
+      {
+        "name": "deviceKey",
+        "default": ""
+      }
+    ],
+    "columns": [
+      {
+        "name": "设备",
+        "label": "设备"
+      },
+      {
+        "name": "维修点",
+        "label": "维修点"
+      },
+      {
+        "name": "维修内容",
+        "label": "维修内容"
+      },
+      {
+        "name": "维修状态",
+        "label": "维修状态"
+      },
+      {
+        "name": "预计完成时间",
+        "label": "预计完成时间"
+      },
+      {
+        "name": "实际完成时间",
+        "label": "实际完成时间"
+      },
+      {
+        "name": "验收状态",
+        "label": "验收状态"
+      },
+      {
+        "name": "安装状态",
+        "label": "安装状态"
+      },
+      {
+        "name": "参考时间",
+        "label": "参考时间"
+      }
+    ],
+    "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+    "identityFields": [
+      "recordKey",
+      "deviceKey",
+      "planId",
+      "itemId",
+      "category"
+    ],
+    "workflowValues": true
+  },
+  "usageCount": 0,
+  "version": 2
+}

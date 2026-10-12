@@ -1,0 +1,1232 @@
+{
+  "batch": "2026-10-04-major-18",
+  "status": "passed-listed-gates",
+  "scope": "合成数据、临时SQLite、本机模型桩；不连接业务库或真实模型",
+  "started_at": "2026-10-04T06:01:21.066540+00:00",
+  "completed_at": "2026-10-04T06:29:26.302993+00:00",
+  "source_branch": "codex/major-natural-continuation",
+  "source_freeze": {
+    "frozen_at": "2026-10-04T06:01:07.961481+00:00",
+    "base_commit": "4f47d51eb2deb1de7e39dccd21310c9133e1da8e",
+    "source_is_committed": false,
+    "status_at_freeze": [
+      " M backend/app/business_worker/delivery_contract.py",
+      " M backend/app/business_worker/tasks.py",
+      " M scripts/verify_chat_delivery.py",
+      " M tests/backend/test_dsh_halted_task_saved_deliveries.py",
+      " M tests/ui/isolated_browser_guard.cjs",
+      "?? docs/audit/review_20261004/batch18-overview.md",
+      "?? docs/audit/review_20261004/fix-dsh-schema-contract-batch18.md",
+      "?? docs/audit/review_20261004/fix-natural-continuation-batch18.md",
+      "?? tests/backend/test_dsh_natural_continuation.py",
+      "?? tests/backend/test_dsh_presentation_schema.py",
+      "?? tests/dsh/presentation_schema_probe.mjs",
+      "?? tests/ui/network_report_writer.cjs",
+      "?? tests/ui/network_report_writer.test.cjs"
+    ],
+    "inherited_comparison": [
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory_identity.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "backend/app/modules/business_ai/inventory_evidence.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/backend/test_inventory_semantic_counts.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/backend/test_inventory_query.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/backend/test_inventory_evidence.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/backend/test_business_worker.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/backend/test_presentation_partial_batches.py",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/.gitattributes",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE",
+        "byte_equal": true,
+        "only_checkout_line_endings_differ": false
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE_HISTORY",
+        "byte_equal": true,
+        "only_checkout_line_endings_differ": false
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE_NOTICE",
+        "byte_equal": true,
+        "only_checkout_line_endings_differ": false
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/README.md",
+        "byte_equal": false,
+        "only_checkout_line_endings_differ": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/tools.py.txt",
+        "byte_equal": true,
+        "only_checkout_line_endings_differ": false
+      }
+    ],
+    "files": [
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "sha256": "f2aff32d0f1d1f3ef72acd57bb59f17f8700000d32dcb45f10610c1bbb3f959e"
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "sha256": "e8dfc75a07cbaa152755bc0f5627486fe1ed1c6792353cfa84083f6e94e3cefb"
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory.py",
+        "sha256": "491683f8265dfd848857df75ae4e9c15fb6ee44507133e49b7ab5aee575dec6c"
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory_identity.py",
+        "sha256": "c2cdfec06a6a05d143796eee9e26c2e88ff68579fc1bb19ad738d7c9b4e2ec3c"
+      },
+      {
+        "path": "backend/app/modules/business_ai/inventory_evidence.py",
+        "sha256": "b6e3c428ffea2d8b3b7a1c8d476d4f7e72d1e3e0b9aa4b79d73e8bc55a96c9ff"
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "sha256": "0c643f126310aa298ce4fb96814c11d9624f68bb28089e7e633cc3071ad5f3cd"
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "sha256": "dfc9a226fef85c7ca01777f42ed883353a50fd6b7720cc1e9ef30f96612afe00"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "sha256": "e1e59652d77dda33a20895eb8e7978e76aecf73cb54162e787ee2917d878209d"
+      },
+      {
+        "path": "tests/backend/test_dsh_halted_task_saved_deliveries.py",
+        "sha256": "0084b916543df9f9446c8cd6aa492d44db7d407edde2a12bb6f67dacd08f11ed"
+      },
+      {
+        "path": "tests/backend/test_inventory_semantic_counts.py",
+        "sha256": "4456777f5bf6e3bc7ee1be989abe5f3e1f126d455da75d951008bf6d80283a0b"
+      },
+      {
+        "path": "tests/backend/test_inventory_query.py",
+        "sha256": "b87a756a2e7c69e8dc8d3648fd728afd32eb31ffcc56b670af3b2064fb3bf702"
+      },
+      {
+        "path": "tests/backend/test_inventory_evidence.py",
+        "sha256": "e8b4383a4abc2d2442d671f8a4edee4b36d688ad190e20bcdffbcaf7089685f1"
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "sha256": "cd93d43133e070b387467d6892b475ef2577fce907fd364d400ac62b5d79dd9b"
+      },
+      {
+        "path": "tests/backend/test_business_worker.py",
+        "sha256": "5bdf7e84a8993e8c99433bfa0902bb047e8752b7c260abb08954e68590652877"
+      },
+      {
+        "path": "tests/backend/test_presentation_partial_batches.py",
+        "sha256": "85a1630be846b43c7d1c1d7a3999bd56523751c198831ae665fdbaa6d864566d"
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/.gitattributes",
+        "sha256": "3ab23552d113ec0f8c90329f197309bf5dd4a95ecf0061375a7f09f490c02ce2"
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE",
+        "sha256": "5f1bd74c48bf13ab0f82e177ad9e637313b92533d20ead2593d49347a47fc232"
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE_HISTORY",
+        "sha256": "b1567cc9763241a41569e01f08272a167dac57273f717b95b31ba7b5ec935e17"
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE_NOTICE",
+        "sha256": "9de72254becbb9a317410a459447be7e8f042b911a846c58307319c77e50df00"
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/README.md",
+        "sha256": "961821f812d33a73a78748910d520f180cde59de8b89db97968436ad39e083cc"
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/tools.py.txt",
+        "sha256": "ae4fc82448f914863a770bb105591f5c161a372b16bcbf40014f22b28c8bc9b9"
+      },
+      {
+        "path": "backend/app/business_worker/delivery_contract.py",
+        "sha256": "01180f565755a0bda5775b234b2509d16b7ac32d0b44f06446d66c3f6321a2fd"
+      },
+      {
+        "path": "backend/app/business_worker/tasks.py",
+        "sha256": "17ac39974fe8fa9ffbf21188677801998353c787c6b561096bc77f22cebf2988"
+      },
+      {
+        "path": "tests/backend/test_dsh_natural_continuation.py",
+        "sha256": "7d226415bb402f9d7e1226ae502560d439ab04addbcc648cd450b6a73347c8e4"
+      },
+      {
+        "path": "tests/backend/test_dsh_presentation_schema.py",
+        "sha256": "bb6e2bf01be72a4694a1b4534404adb67eac5718e41730e95bff978b2557d713"
+      },
+      {
+        "path": "tests/dsh/presentation_schema_probe.mjs",
+        "sha256": "5d0215d2c2d21f10273d9952700c2787d89b80e96c844388ff4da91ac852b1a8"
+      },
+      {
+        "path": "tests/ui/isolated_browser_guard.cjs",
+        "sha256": "dc9d11ff43a7192801c06a0edbb2af8d6ba301df5bffbf5585e978b8fa57d644"
+      },
+      {
+        "path": "tests/ui/network_report_writer.cjs",
+        "sha256": "37e8d8b543bd930783f522bf143881e10c35c75418cb99aa58098ac3b396ebae"
+      },
+      {
+        "path": "tests/ui/network_report_writer.test.cjs",
+        "sha256": "aa1af93defaf534d072e785da41fce39b4d70a63b9d0a1d9814b596a488625b8"
+      },
+      {
+        "path": "tests/dsh/business_browser_acceptance.py",
+        "sha256": "5cc729f0781f726595df1c576f67b2adcd6e9def610aed35951e952aa884433f"
+      }
+    ]
+  },
+  "source_is_committed_at_gate_start": false,
+  "base_commit_at_gate_start": "4f47d51eb2deb1de7e39dccd21310c9133e1da8e",
+  "summary_head": "4f47d51eb2deb1de7e39dccd21310c9133e1da8e",
+  "original_manifest": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/manifest.json",
+  "original_manifest_sha256": "49476e7207e9c269eb66a7618f03700223db682f874f382dbd4e7fa2060a49d7",
+  "phases": [
+    {
+      "name": "python-syntax",
+      "exit_code": 0,
+      "seconds": 1.99,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "backend/compile_check.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/python-syntax.log",
+      "log_sha256": "7ac33879db6ab906186ac9fe992b803e832a85b66db36bbc3414b746d00cb9c7"
+    },
+    {
+      "name": "backend-deliveries",
+      "exit_code": 0,
+      "seconds": 186.11,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_task_clarification_delivery.py",
+        "tests/backend/test_business_worker.py",
+        "tests/backend/test_dsh_query_execution.py",
+        "tests/backend/test_dsh_dashboard_delivery.py",
+        "tests/backend/test_template_query_snapshot.py",
+        "tests/backend/test_template_snapshot_matrix.py",
+        "tests/backend/test_openwebui_query_dashboard.py",
+        "tests/backend/test_query_delivery.py",
+        "tests/backend/test_query_presentation.py",
+        "tests/backend/test_query_presentation_report.py",
+        "tests/backend/test_dsh_query_delivery_resume.py",
+        "tests/backend/test_dsh_multiple_presentation_drafts.py",
+        "tests/backend/test_presentation_request_pages.py",
+        "tests/backend/test_presentation_partial_batches.py",
+        "tests/backend/test_presentation_intent_integrity.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/backend-deliveries.log",
+      "log_sha256": "3a4244268f620d4757ec3632adfd1e9d8d8a0afe8239aec20aa7795d0e1a430f",
+      "pytest_passed": 503,
+      "pytest_seconds": 172.69
+    },
+    {
+      "name": "backend-platform-contracts",
+      "exit_code": 0,
+      "seconds": 448.14,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_tool_schema_contract.py",
+        "tests/backend/test_runtime_tool_registration.py",
+        "tests/backend/test_dsh_presentation_schema.py",
+        "tests/backend/test_connector_derivation_contract.py",
+        "tests/backend/test_model_and_workspace_permission_edges.py",
+        "tests/backend/test_auth_token_logout.py",
+        "tests/backend/test_knowledge_search_authority.py",
+        "tests/backend/test_file_template_font_units.py",
+        "tests/backend/test_analytics_snapshot_authorization.py",
+        "tests/backend/test_analytics_chart_snapshot_scope.py",
+        "tests/backend/test_analytics_dsh_and_export_contract.py",
+        "tests/backend/test_analytics_numeric_precision.py",
+        "tests/backend/test_bot_runtime_authorization.py",
+        "tests/backend/test_knowledge_tool_scope.py",
+        "tests/backend/test_business_numeric_wire.py",
+        "tests/backend/test_analytics_config_lifecycle.py",
+        "tests/backend/test_dsh_completion_contract.py",
+        "tests/backend/test_runtime_recovery.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/backend-platform-contracts.log",
+      "log_sha256": "d1ff206e5d5e5e4b9eeb4222e5fba14463390eea46a9a46724dfe5929410af9e",
+      "pytest_passed": 368,
+      "pytest_seconds": 436.65
+    },
+    {
+      "name": "backend-task-continuation",
+      "exit_code": 0,
+      "seconds": 231.27,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_dsh_compound_contract.py",
+        "tests/backend/test_dsh_compound_boundaries.py",
+        "tests/backend/test_dsh_task_operation_guard.py",
+        "tests/backend/test_dsh_task_datasource_halt.py",
+        "tests/backend/test_dsh_halted_task_saved_deliveries.py",
+        "tests/backend/test_dsh_natural_continuation.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/backend-task-continuation.log",
+      "log_sha256": "c9cb8cc3ccb03124a335abe410e6663ac9d10730beacb50e2507f90606521d7d",
+      "pytest_passed": 165,
+      "pytest_seconds": 222.52
+    },
+    {
+      "name": "backend-data-contracts",
+      "exit_code": 0,
+      "seconds": 492.73,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_query_lifecycle_control.py",
+        "tests/backend/test_query_lifecycle_governance.py",
+        "tests/backend/test_dsh_query_cancellation.py",
+        "tests/backend/test_database_provider.py",
+        "tests/backend/test_datasource_governance.py",
+        "tests/backend/test_analytics_task_control.py",
+        "tests/backend/test_analytics.py",
+        "tests/backend/test_semantic_relation_contract.py",
+        "tests/backend/test_data_profile.py",
+        "tests/backend/test_read_connection_pool.py",
+        "tests/backend/test_graph_property_contracts.py",
+        "tests/backend/test_knowledge_graph.py",
+        "tests/backend/test_graph_explore_contract.py",
+        "tests/backend/test_extraction_source_authority.py",
+        "tests/backend/test_extraction_materialization_contract.py",
+        "tests/backend/test_extraction_review_contract.py",
+        "tests/backend/test_query_source_revalidation.py",
+        "tests/backend/test_query_source_revalidation_boundaries.py",
+        "tests/backend/test_query_source_revalidation_dsh.py",
+        "tests/backend/test_query_source_revalidation_replay.py",
+        "tests/backend/test_http_query_export_contract.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/backend-data-contracts.log",
+      "log_sha256": "cd57117a0b6842a139cfd2d0b683301581b64c4f29ba1d49ec6882ea3c0df732",
+      "pytest_passed": 375,
+      "pytest_seconds": 483.16
+    },
+    {
+      "name": "backend-inventory-contracts",
+      "exit_code": 0,
+      "seconds": 78.84,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_inventory_semantic_counts.py",
+        "tests/backend/test_inventory_query.py",
+        "tests/backend/test_inventory_evidence.py",
+        "tests/backend/test_business_data_regression_0928.py",
+        "tests/backend/test_inventory_plugin_contract.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/backend-inventory-contracts.log",
+      "log_sha256": "8686db0d212473ed2b425cc817f3f77ee3f4f2f95449659dbdd2864e2cef97ae",
+      "pytest_passed": 77,
+      "pytest_seconds": 71.78
+    },
+    {
+      "name": "python-socketpair-guard",
+      "exit_code": 0,
+      "seconds": 0.88,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/test_python_socketpair_guard.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/python-socketpair-guard.log",
+      "log_sha256": "adbf0d60e0fee3db73f999ed7cbf61276e072a8467524544e5c0b8088858a600",
+      "unittest_passed": 9
+    },
+    {
+      "name": "browser-network-evidence",
+      "exit_code": 0,
+      "seconds": 1.27,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/network_report_writer.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/browser-network-evidence.log",
+      "log_sha256": "5b7107454148e28e74aad909a3cc9ba382fd6f9f9ed3db6089dab7f3ace12d7b"
+    },
+    {
+      "name": "browser-port-allocation",
+      "exit_code": 0,
+      "seconds": 0.61,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/test_browser_port_allocation.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/browser-port-allocation.log",
+      "log_sha256": "f4490c69cca664bf7e44360e4841270ccdd6e4dc8f634ce36976178fdf048b72",
+      "unittest_passed": 4
+    },
+    {
+      "name": "host-recovery",
+      "exit_code": 0,
+      "seconds": 0.44,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "services/dsh_host/tests/recovery-request-window.test.mjs",
+        "services/dsh_host/tests/lifecycle-recovery.test.mjs",
+        "services/dsh_host/tests/event-order.test.mjs",
+        "services/dsh_host/tests/projection.test.mjs",
+        "services/dsh_host/tests/business-tool-receipt.test.mjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/host-recovery.log",
+      "log_sha256": "cedc31901c4c3aa27d0fa35bad084689db9c1b15e3aece8f47a404e5101ba7c2"
+    },
+    {
+      "name": "host-completion",
+      "exit_code": 0,
+      "seconds": 47.0,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_dsh_completion_host.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/host-completion.log",
+      "log_sha256": "3921198b09360a325963ecde1d29a3c9e73c8d8990753d8284a7f1950bb49c42",
+      "pytest_passed": 1,
+      "pytest_seconds": 39.66
+    },
+    {
+      "name": "chart-units",
+      "exit_code": 0,
+      "seconds": 1.09,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/snapshot_chart_option.test.js",
+        "tests/ui/saved_dashboard_series.test.js",
+        "tests/ui/chat_dashboard_snapshot.test.js",
+        "tests/ui/chart_precision.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/chart-units.log",
+      "log_sha256": "4c4842081e18ed3514b9dcd683ed95f8e0e8fd0123049c1f78069e54fe87799d"
+    },
+    {
+      "name": "compound-file-inspector",
+      "exit_code": 0,
+      "seconds": 2.41,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/offline/test_compound_file_inspector.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/compound-file-inspector.log",
+      "log_sha256": "eeb2c57a2fa917ed87aa271ad9e6b32ff626d4b9e1b3c5904360ccf1b4beb1b6",
+      "pytest_passed": 19,
+      "pytest_seconds": 1.37
+    },
+    {
+      "name": "compound-browser-contract",
+      "exit_code": 0,
+      "seconds": 0.95,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/compound_browser_contract.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/compound-browser-contract.log",
+      "log_sha256": "19a45fe7d08741c172ace97b099ad895caea59b74e50f319f36fc1e2e99207f9"
+    },
+    {
+      "name": "chart-precision-browser",
+      "exit_code": 0,
+      "seconds": 10.05,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chart_precision_browser.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/chart-precision-browser.log",
+      "log_sha256": "9604492bdbf072678fa6d5d62ffbeb1b8bcbb78f4851541bbfcd9e6b642ef415"
+    },
+    {
+      "name": "numeric-display",
+      "exit_code": 0,
+      "seconds": 5.69,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/numeric_statistics_display.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/numeric-display.log",
+      "log_sha256": "917bcc7ffb99fd1ec1511da0210cd70a5af82573bc1e71fb45188d584baf05de"
+    },
+    {
+      "name": "chat-state",
+      "exit_code": 0,
+      "seconds": 0.44,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/dsh_chat_session.test.js"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/chat-state.log",
+      "log_sha256": "0dc12d5a11391c207b2b05b8a678c0b2eda67e9899fbc6ec570b5e3fad128985"
+    },
+    {
+      "name": "stream-recovery",
+      "exit_code": 0,
+      "seconds": 0.41,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chat_stream_recovery.test.js"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/stream-recovery.log",
+      "log_sha256": "1a866a3ad3f6b841f86943dd87f301440a7c584005d432227f0da81c3688daac"
+    },
+    {
+      "name": "stream-scroll",
+      "exit_code": 0,
+      "seconds": 17.97,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chat_stream_scroll.js"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/stream-scroll.log",
+      "log_sha256": "bcc3e88ff85e2051b05b56fa51e21a23df3e388a02901dfb304406f0df3dc66a"
+    },
+    {
+      "name": "dashboard-matrix",
+      "exit_code": 0,
+      "seconds": 95.31,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/dashboard_delivery_matrix.js",
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-natural-continuation\\.implementation\\quality-gates\\chat-delivery\\20261004-060121-74cf61e6\\dashboard-matrix"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/dashboard-matrix.log",
+      "log_sha256": "286c1e3b77c3891c5d1565b48e7eff121d758e24335f3e2d71df593b2dab7476"
+    },
+    {
+      "name": "native-worker",
+      "exit_code": 0,
+      "seconds": 61.62,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/real_platform_smoke.py",
+        "--output",
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-natural-continuation\\.implementation\\quality-gates\\chat-delivery\\20261004-060121-74cf61e6\\native-worker.json"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/native-worker.log",
+      "log_sha256": "c43f5aaafa667f23fd0f86fdf1ea24ea168fd56013aacb99948d6a8e5f2d3849"
+    }
+  ],
+  "pytest_passed": 1508,
+  "infrastructure_unittest_passed": 13,
+  "frontend_inherited_assets": {
+    "source_batch": 16,
+    "entry": {
+      "path": "apps/web/assets/analytics/index.html",
+      "bytes": 506,
+      "sha256": "28459b26bc3fbeb966ad749865b8a8d1131b0fb4d8868b18db6f3d1729ec71d6"
+    },
+    "normalization": "CRLF to LF only; raw hashes also retained",
+    "files": [
+      {
+        "path": "apps/web/assets/analytics/index.html",
+        "sha256": "fd21c926af9a7b036af03e5899f8863d1bfcfd96a46414936dd7f84657864e85",
+        "batch16_sha256": "28459b26bc3fbeb966ad749865b8a8d1131b0fb4d8868b18db6f3d1729ec71d6",
+        "raw_equal": false,
+        "normalized_sha256": "00461615c462a5337daf993b04842ae1d382419153efc1bdea83654d7e0c3af0"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-v4compatibility-C9RhG_FT.woff2",
+        "sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd",
+        "batch16_sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd",
+        "raw_equal": true,
+        "normalized_sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-v4compatibility-CCth-dXg.ttf",
+        "sha256": "30f6abf6baa425825828793d6dfad1fb63765d0e5abaa7af6feafb9bfcece5a0",
+        "batch16_sha256": "30f6abf6baa425825828793d6dfad1fb63765d0e5abaa7af6feafb9bfcece5a0",
+        "raw_equal": true,
+        "normalized_sha256": "97a9163cfe11f57ec8877bef6b2880487b15acc820955a79d543f7d22475c4e1"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-regular-400-BjRzuEpd.woff2",
+        "sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5",
+        "batch16_sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5",
+        "raw_equal": true,
+        "normalized_sha256": "11e8295918dd68881877597b9451bb8f1ef6e74682618eb8c8be242062b9c8dc"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-regular-400-DZaxPHgR.ttf",
+        "sha256": "54cf6086f7bb21f9d072ad494a19b4681fa516dd0a14cee52da01d3651a913a3",
+        "batch16_sha256": "54cf6086f7bb21f9d072ad494a19b4681fa516dd0a14cee52da01d3651a913a3",
+        "raw_equal": true,
+        "normalized_sha256": "2bb177f3362d63d9047c99b6b9caea33a2de5a8019eb292a9ec6cef252673ac2"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-brands-400-D_cYUPeE.woff2",
+        "sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68",
+        "batch16_sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68",
+        "raw_equal": true,
+        "normalized_sha256": "b7e793213eb539ff5e8ad5c78e0b16b52b473cdb3f225c6c59e9217264e45788"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-solid-900-CTAAxXor.woff2",
+        "sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e",
+        "batch16_sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e",
+        "raw_equal": true,
+        "normalized_sha256": "8d2340a4776c44fba3450fa1af7b4ba512815c8f2b71e9c2ff980e76845d27ee"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-brands-400-D1LuMI3I.ttf",
+        "sha256": "808443ae6c8204395add8543da8a90a60b9376fb0f87ed8e8ea37d109596d805",
+        "batch16_sha256": "808443ae6c8204395add8543da8a90a60b9376fb0f87ed8e8ea37d109596d805",
+        "raw_equal": true,
+        "normalized_sha256": "40aeacd98d7bc974c3f31f27e850ba9a80726b945f5db3a135ba7519f350301d"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-solid-900-D0aA9rwL.ttf",
+        "sha256": "d2f0593540b0e33ba6de255a54f272d466e31144806956bea8cfdbf7edffc9bd",
+        "batch16_sha256": "d2f0593540b0e33ba6de255a54f272d466e31144806956bea8cfdbf7edffc9bd",
+        "raw_equal": true,
+        "normalized_sha256": "4996b6e757c532abbcd302829cdd0bfd8de00454c1b67a11d121b5c5d72badd4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertRuleForm-prpVlulN.css",
+        "sha256": "ffbd2782bb532c77da2c998ed0544b4d44a067435b130ccd8b57b8be7cf79d9e",
+        "batch16_sha256": "1eb7f8fad26e3bc9f5c472608a98ad410a5dc8e4399852410fc75d3e3cd82c51",
+        "raw_equal": false,
+        "normalized_sha256": "1eb7f8fad26e3bc9f5c472608a98ad410a5dc8e4399852410fc75d3e3cd82c51"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/SqlWorkspace-DEx2r19T.css",
+        "sha256": "776e972e5ae15071621b692a3bdc404e9e2bbb2c5e8f73718d58b348fe6bb5fc",
+        "batch16_sha256": "2363460cfd584ffd5f3d88604b445f2b2deed98141c2aac4c419c2cd246dd8e1",
+        "raw_equal": false,
+        "normalized_sha256": "2363460cfd584ffd5f3d88604b445f2b2deed98141c2aac4c419c2cd246dd8e1"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace-CWvOz8K0.css",
+        "sha256": "b599a422bf414abe21f7ceb97752af6f7c98764e3f5b876624af12029b3ec837",
+        "batch16_sha256": "efcf4d865d1e1fa4585c3efef98ff7e9f57e7e0add2fc785aed1ff98baae65de",
+        "raw_equal": false,
+        "normalized_sha256": "efcf4d865d1e1fa4585c3efef98ff7e9f57e7e0add2fc785aed1ff98baae65de"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/writeback-D-mTChmA.css",
+        "sha256": "3e55994b2b19541183e85ffda1ec3354f6134919b20adbfb94441f75cfebfa73",
+        "batch16_sha256": "e3178f30b1f0587c803a23e94d9d253de91f5ea2252c293bf3bd6466846da5c7",
+        "raw_equal": false,
+        "normalized_sha256": "e3178f30b1f0587c803a23e94d9d253de91f5ea2252c293bf3bd6466846da5c7"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel-eXlKoHba.css",
+        "sha256": "9b235af534cb3e74d13bac7845b46860938419870e6fb62a4546bcf82f3612f9",
+        "batch16_sha256": "1853f1d5ddad5f0e0eeaff346007772eaf42a9b8ccb6ff58bf00061a43932282",
+        "raw_equal": false,
+        "normalized_sha256": "1853f1d5ddad5f0e0eeaff346007772eaf42a9b8ccb6ff58bf00061a43932282"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowReportMarkdown-DaN-2Kpa.css",
+        "sha256": "42ad40310b08efb54f8e8933de4fd3d8a1122e5b6bbf77e928d89d096f83bdfc",
+        "batch16_sha256": "26bc5d6e7e4329f6fe801549b674840a2435830b9652db698d6fdb254bec64fb",
+        "raw_equal": false,
+        "normalized_sha256": "26bc5d6e7e4329f6fe801549b674840a2435830b9652db698d6fdb254bec64fb"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkspace-Cfz3SOrJ.css",
+        "sha256": "81590f366593cea9e87f20e7aeb3342e6d2fdcfac1c2aba4bafdccdbf39fdb14",
+        "batch16_sha256": "ecf34aa4bb892ed85a879a8544ab0f05f4aa9aefb1fdb4db1a33b88a04c1baff",
+        "raw_equal": false,
+        "normalized_sha256": "ecf34aa4bb892ed85a879a8544ab0f05f4aa9aefb1fdb4db1a33b88a04c1baff"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessProcessGuide-C79jE53H.css",
+        "sha256": "b8923545716d633effeb3504dfc70c1dae214f3813a0005526ff302ca06a2abc",
+        "batch16_sha256": "ec5f28392409695e3cb5319f7a56b376cd31971f15ff1084f9c1eaed3b06af6a",
+        "raw_equal": false,
+        "normalized_sha256": "ec5f28392409695e3cb5319f7a56b376cd31971f15ff1084f9c1eaed3b06af6a"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowSubgraphEditor-rGJPOSAB.css",
+        "sha256": "034f4b47f2e0a2bbc316973590685e65fadc361f59ba480528c2e1a77297c0fe",
+        "batch16_sha256": "f8c4c78f2495fe23fdc8fe04a9220d013c75c7d6db1049eb4c6322ffe09d745e",
+        "raw_equal": false,
+        "normalized_sha256": "f8c4c78f2495fe23fdc8fe04a9220d013c75c7d6db1049eb4c6322ffe09d745e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportViewer-Dvy0dbAi.css",
+        "sha256": "14c21ddff28fd186f25bccfa79bc01736bec6b2861b19f2e5f8dbc74df3eb375",
+        "batch16_sha256": "750b394177b6c8034c74b6c1714adbb93a6002888f63543e66824a006cd1e432",
+        "raw_equal": false,
+        "normalized_sha256": "750b394177b6c8034c74b6c1714adbb93a6002888f63543e66824a006cd1e432"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/http-collection-D92LS8d4.css",
+        "sha256": "40886956505f9e5902cf48133e35e7f387e0da50048153f9abeb9ad8bf6bb277",
+        "batch16_sha256": "359cff86703fe3b79419125aa6aa83fd0a61fe989f067a0c3f7f7290a00b6b11",
+        "raw_equal": false,
+        "normalized_sha256": "359cff86703fe3b79419125aa6aa83fd0a61fe989f067a0c3f7f7290a00b6b11"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/TemplateCenter-D6IHbFTd.css",
+        "sha256": "325851c5044c063bd0f0b32b38a4080f04a2de7a2c37369c81f54ff3aad518a5",
+        "batch16_sha256": "b706758dd22181ea3e4175be8087c99d44c9a821a95bc7e33bc7f20ae7f2aac4",
+        "raw_equal": false,
+        "normalized_sha256": "b706758dd22181ea3e4175be8087c99d44c9a821a95bc7e33bc7f20ae7f2aac4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-devices-Ca7R04UD.css",
+        "sha256": "9c400c1620f1dfcc948caf8ac9fafa45760cd0fa68718b65444d0cfc62b2849a",
+        "batch16_sha256": "a7c3bc962f5fbcd3faa22e38841525108c76acae816bd2b80562fc2138c52ced",
+        "raw_equal": false,
+        "normalized_sha256": "a7c3bc962f5fbcd3faa22e38841525108c76acae816bd2b80562fc2138c52ced"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-catalog-CUDkTnh9.css",
+        "sha256": "e140833fe9c5bcac98978c106b49f3bf5df89bc00b72f32b36dcc3b82b3c405b",
+        "batch16_sha256": "746a620c0925f73f0ba897f492ecbf65ae8ac9d9f81d99d2a4b8cc63605b7676",
+        "raw_equal": false,
+        "normalized_sha256": "746a620c0925f73f0ba897f492ecbf65ae8ac9d9f81d99d2a4b8cc63605b7676"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench-BZ6dZ9iG.css",
+        "sha256": "f16d11cd95901a346ab5782b55349518cd1cebb90f099cf4611fccd3c6a6627e",
+        "batch16_sha256": "314b0e92723deb31552d7551a8c0452f17043133606074d14b1b2c5ee1c86ec4",
+        "raw_equal": false,
+        "normalized_sha256": "314b0e92723deb31552d7551a8c0452f17043133606074d14b1b2c5ee1c86ec4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/IntelligentQuery-BG6p3l_0.css",
+        "sha256": "0e6d656bdae937dc9b6b634528748d1785c88322b1e2e80a9791475eb1d0788c",
+        "batch16_sha256": "a08dfc18ff8f20176232f5a0fc91adf546d36e45d20a80e2e9b9ce22c7334413",
+        "raw_equal": false,
+        "normalized_sha256": "a08dfc18ff8f20176232f5a0fc91adf546d36e45d20a80e2e9b9ce22c7334413"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryResultPanel-CpgA30Tl.css",
+        "sha256": "68f78e64e04a63247c4b2e649df514e8036f22381d0ce2ddfde96870fa308c86",
+        "batch16_sha256": "533fe76f88bc4efe89f7a30d263d8767948972b13cc69fc930eed8450d63a6fd",
+        "raw_equal": false,
+        "normalized_sha256": "533fe76f88bc4efe89f7a30d263d8767948972b13cc69fc930eed8450d63a6fd"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityInspectionWorkspace-UpeTqVez.css",
+        "sha256": "174e383216e7b55b364a76ec3f64c376e9bba04b6584996e385853a119e65078",
+        "batch16_sha256": "e7ace1829ddce97b6a7e488ecc1f04812f9ab54df0bfb694f9e2a66fb3951c11",
+        "raw_equal": false,
+        "normalized_sha256": "e7ace1829ddce97b6a7e488ecc1f04812f9ab54df0bfb694f9e2a66fb3951c11"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench-DtTs8fOD.css",
+        "sha256": "3fe6881a3a0f402fbfff06cf9735026b6e98f942ac215ef6e034177f2a9ee343",
+        "batch16_sha256": "99a7a7ebc185f9b8f64f5eea9dc91cb3a49c9ce3ced3bc07dc732e7cb1dd6768",
+        "raw_equal": false,
+        "normalized_sha256": "99a7a7ebc185f9b8f64f5eea9dc91cb3a49c9ce3ced3bc07dc732e7cb1dd6768"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportDesigner-DZHsUYEm.css",
+        "sha256": "60e764ed75fce59f9d54aa3077b07c4c9447846072e17adbca5f052908ed574d",
+        "batch16_sha256": "7f64911867450df4b493f1b637cdba8ca5e2d0e60fca22a36602b4b55a6185b7",
+        "raw_equal": false,
+        "normalized_sha256": "7f64911867450df4b493f1b637cdba8ca5e2d0e60fca22a36602b4b55a6185b7"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DataSourcesWorkspace-B2lEt_qR.css",
+        "sha256": "0f3a307df220a6250116fe4a12312b05709b33cca0b130886e8959caf3786e4b",
+        "batch16_sha256": "4903cfa0d64c4f3755c89bbe8a0e5cda1516bd1fa9246927d0d60789ab39d8f7",
+        "raw_equal": false,
+        "normalized_sha256": "4903cfa0d64c4f3755c89bbe8a0e5cda1516bd1fa9246927d0d60789ab39d8f7"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportManage-CJP__Gqv.css",
+        "sha256": "a44eafbb104268679bab55c4478896f496262a9e4c9df896abc8b4643aa9cc8d",
+        "batch16_sha256": "b3d5e20f10277f6d792fffd52731fe6fff940a7743e4b81722b26fcfcf9855c8",
+        "raw_equal": false,
+        "normalized_sha256": "b3d5e20f10277f6d792fffd52731fe6fff940a7743e4b81722b26fcfcf9855c8"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkbench-B43LwFDg.css",
+        "sha256": "6fc48268a9c0a44a21081611d45f747378bb793cc8fe40b2bc0627bb67e82c59",
+        "batch16_sha256": "a16c68c9c256af97d1b39600f89be28385c736e13f1a90a0ad7ad467bc8bbdc0",
+        "raw_equal": false,
+        "normalized_sha256": "a16c68c9c256af97d1b39600f89be28385c736e13f1a90a0ad7ad467bc8bbdc0"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuBigScreenReplica-CvvfG8qq.css",
+        "sha256": "94913847d32374a34620a0145bee162631a2c580bab3b268892ce66ac53317eb",
+        "batch16_sha256": "03292c3e7747575355a66e47e51fa1b3384bdb59907fac98d099671029305049",
+        "raw_equal": false,
+        "normalized_sha256": "03292c3e7747575355a66e47e51fa1b3384bdb59907fac98d099671029305049"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/workflows-BVkoMHtS.css",
+        "sha256": "f3c89500bddff5d551353ae6f65774eb0383d9d537e751519260029b15142d8a",
+        "batch16_sha256": "d852c980cf71034c4623d5c4ffdf113939d886447cd269d1b9ddd764b84de1c4",
+        "raw_equal": false,
+        "normalized_sha256": "d852c980cf71034c4623d5c4ffdf113939d886447cd269d1b9ddd764b84de1c4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuDrilldownPanel-BaFO6SBJ.css",
+        "sha256": "b49a56b98794d5eb4eef8c71796082587915ead4e622fb23c6c63830d3ca124a",
+        "batch16_sha256": "b84e16ecdbfb8b60f2c0e468d26ea035e66b20a4eef328c8b000bb72a468e3d9",
+        "raw_equal": false,
+        "normalized_sha256": "b84e16ecdbfb8b60f2c0e468d26ea035e66b20a4eef328c8b000bb72a468e3d9"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-R-IMtGv9.css",
+        "sha256": "9490b8629de48a9a506298a4eb680a0ded41d4ec9f755e0abf44026ce4d60ca6",
+        "batch16_sha256": "01d16f4f874dd1e50154cd658f8de7125f4505298ef6b45198e0647eff1d35e2",
+        "raw_equal": false,
+        "normalized_sha256": "01d16f4f874dd1e50154cd658f8de7125f4505298ef6b45198e0647eff1d35e2"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/_plugin-vue_export-helper-DlAUqK2U.js",
+        "sha256": "172d3d34d6eb28d0d72c8505273b304330c7684bb6f50919c41e0737277e38e5",
+        "batch16_sha256": "cb85b0f263dbe24e857338301c0627076592e9f1f1a5662929f86d2c126444aa",
+        "raw_equal": false,
+        "normalized_sha256": "cb85b0f263dbe24e857338301c0627076592e9f1f1a5662929f86d2c126444aa"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/topLevelNavigation-CUIN3mhN.js",
+        "sha256": "342399a9d254a92960c081ba2d61b8eefba6ceaa2d1db061064fa698d45be4f0",
+        "batch16_sha256": "eb504d10e1de3e30d5f41efe0795180d1d29a0447d9790d147c971118619179e",
+        "raw_equal": false,
+        "normalized_sha256": "eb504d10e1de3e30d5f41efe0795180d1d29a0447d9790d147c971118619179e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-devices-Bhwz7sl9.js",
+        "sha256": "65094ff2fb9225fe2b71b37a3efc3274a8523315f532b16434de3614da80bb13",
+        "batch16_sha256": "e789ba031f3b9574507d495f0c4225549f865a67d8d3f41087dfa7745dd9b035",
+        "raw_equal": false,
+        "normalized_sha256": "e789ba031f3b9574507d495f0c4225549f865a67d8d3f41087dfa7745dd9b035"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/dateTime-wQs5xyYL.js",
+        "sha256": "4fd1e73c3a88802603ca4df1f35be05b669b3e45ce5883025da364c6ce6a8836",
+        "batch16_sha256": "e45c53dcf58857ac0eee7b1ae9ebe1c08e77d91fc6206e5c8453fddf1483a650",
+        "raw_equal": false,
+        "normalized_sha256": "e45c53dcf58857ac0eee7b1ae9ebe1c08e77d91fc6206e5c8453fddf1483a650"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/UnavailablePage-CF_DimOD.js",
+        "sha256": "982a834ca729db3b2ec0b7b5a6c47d894d81bf206191ab7f70906f5e5458bb45",
+        "batch16_sha256": "bbd8918dc9f252d583f2f00edadd821d0be35bd78ccaf3c63e458088236dba95",
+        "raw_equal": false,
+        "normalized_sha256": "bbd8918dc9f252d583f2f00edadd821d0be35bd78ccaf3c63e458088236dba95"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench-DK6L62pL.js",
+        "sha256": "08c9a2b07538e8c6ccdd525816e0740f94f8bb4b1d22a34dd0ccd332353e50d7",
+        "batch16_sha256": "97540fa1646fb0ac049d3576ca72a94e8b102ca1efca01da723f28404917aa9d",
+        "raw_equal": false,
+        "normalized_sha256": "97540fa1646fb0ac049d3576ca72a94e8b102ca1efca01da723f28404917aa9d"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench-B5_j4Zcr.js",
+        "sha256": "9e4d004ca15bb3f3927d53d7e0aee9ffd8a4ddbf13233ea448e55eb1d84f4248",
+        "batch16_sha256": "8e1ca0b257b0ee934b2cdab014841cbf271b0b016d4f0984c247161cdf69c7aa",
+        "raw_equal": false,
+        "normalized_sha256": "8e1ca0b257b0ee934b2cdab014841cbf271b0b016d4f0984c247161cdf69c7aa"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/writeback-DckqziV5.js",
+        "sha256": "c991a1ddf3fc7579af4fc5feeb2bc6a9ebd9a59376f73139585182d81e219d23",
+        "batch16_sha256": "b99f792c715bd58f5c9e5ad97db746e906d63a2abcac4b93eba36184301e02b6",
+        "raw_equal": false,
+        "normalized_sha256": "b99f792c715bd58f5c9e5ad97db746e906d63a2abcac4b93eba36184301e02b6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/randomId-DxwT-9FK.js",
+        "sha256": "66cfb94cf27b001ca1a8c2ff287aa4de387ac28e2115f81017b02b58c273856b",
+        "batch16_sha256": "86ef6ad8fb840e5bcd0e90faa4338aecc885c83e6f3e8e1f962f4fabe62619c9",
+        "raw_equal": false,
+        "normalized_sha256": "86ef6ad8fb840e5bcd0e90faa4338aecc885c83e6f3e8e1f962f4fabe62619c9"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AnalysisLayout-Bvb-j7Z7.js",
+        "sha256": "67f1ca798759b193ba37596c5e5f63d77982e5a9ecd4514a79db927f974caecd",
+        "batch16_sha256": "d8bc2bc77b469ca54393c734a9dc84d5c088cb5e19a72e803b5b626f4e0b0f35",
+        "raw_equal": false,
+        "normalized_sha256": "d8bc2bc77b469ca54393c734a9dc84d5c088cb5e19a72e803b5b626f4e0b0f35"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel-BheDagbg.js",
+        "sha256": "1d370313fe1fd4d37e9ee83fd24db4230c5da48d55fc917cad2cd065ea9a839f",
+        "batch16_sha256": "b0ceba53025bb6ef101561b926dccb7437f27fe78fe700d715dc29cf9fc15a96",
+        "raw_equal": false,
+        "normalized_sha256": "b0ceba53025bb6ef101561b926dccb7437f27fe78fe700d715dc29cf9fc15a96"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/useSources-D9cXTdPT.js",
+        "sha256": "2a11aba792e0dfbda342b7f702fc997c0f2e840f550e9930fb88c813871a4403",
+        "batch16_sha256": "088a908daeebf5e71e26ab96455fbaa863612f7fc6d70e03cdf85af83ea1a434",
+        "raw_equal": false,
+        "normalized_sha256": "088a908daeebf5e71e26ab96455fbaa863612f7fc6d70e03cdf85af83ea1a434"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/collection-BV4V3o_1.js",
+        "sha256": "925febe884c4452fbcc420246b8237242173fed52deedc94f2d03847ddb5f4fc",
+        "batch16_sha256": "8b56d6780afd3b710386d87739f88d915039f75294f3bef3ad96720b5d66e33f",
+        "raw_equal": false,
+        "normalized_sha256": "8b56d6780afd3b710386d87739f88d915039f75294f3bef3ad96720b5d66e33f"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessProcessGuide-CpVx1ZzB.js",
+        "sha256": "113639e0a2cb498bf82d6b8437e42bb496d30189a36bf9bba4a779164f76d9ee",
+        "batch16_sha256": "2438a2d40e7ab7dacd43f488d13df94e74bdde7185d69a450a1b22c9c83f8412",
+        "raw_equal": false,
+        "normalized_sha256": "2438a2d40e7ab7dacd43f488d13df94e74bdde7185d69a450a1b22c9c83f8412"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace-nv7T3XGn.js",
+        "sha256": "6387828506ccc399075e8b8e6799a140c8f81f49a6e5d1bd452a1ab270ab4359",
+        "batch16_sha256": "5cf5ac6fb492d161e5e77ec3b71e35a9e2c7f3a2ad5908b14b4add563e100765",
+        "raw_equal": false,
+        "normalized_sha256": "5cf5ac6fb492d161e5e77ec3b71e35a9e2c7f3a2ad5908b14b4add563e100765"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkspace-DEoNzjhK.js",
+        "sha256": "4999fbe505d7cefe45fd4d44ca30c77936b7135e69b97d4c397b817bebf1dc80",
+        "batch16_sha256": "00beca3273901ddb7852fc2472e1772e57a61706519e2c25ae3aa0fbc5e4c289",
+        "raw_equal": false,
+        "normalized_sha256": "00beca3273901ddb7852fc2472e1772e57a61706519e2c25ae3aa0fbc5e4c289"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkspace-C5DbD6vL.js",
+        "sha256": "b05d368b726d7064cf118956a77bd0a23d479c44a7044c1914d524521f8827cd",
+        "batch16_sha256": "b5dece9268cca9636ae4f3c9ca0a07ce0dfe737b7673c9662682a76737979bce",
+        "raw_equal": false,
+        "normalized_sha256": "b5dece9268cca9636ae4f3c9ca0a07ce0dfe737b7673c9662682a76737979bce"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/queryContext-BaM90QuA.js",
+        "sha256": "e482c69c4ad0104157eb83067064cff2f9292b39202f6efaf20b4c461163e3dc",
+        "batch16_sha256": "7ffc6e0686c81202c51f851c5fe9f53c1fdbd4d74fda57e2bf8dd40c44887673",
+        "raw_equal": false,
+        "normalized_sha256": "7ffc6e0686c81202c51f851c5fe9f53c1fdbd4d74fda57e2bf8dd40c44887673"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/report-oiA6OaIj.js",
+        "sha256": "2176f3e8b2a210bb285a062ab2537689f196055d5a1f658ed07df05a06dbac91",
+        "batch16_sha256": "45a304459dd496f9eddda6cd7a70a8d9e1229b6e20636e2f5a51471c9d60191f",
+        "raw_equal": false,
+        "normalized_sha256": "45a304459dd496f9eddda6cd7a70a8d9e1229b6e20636e2f5a51471c9d60191f"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DeviceWorkflowWorkspace-Nb7KXpp5.js",
+        "sha256": "aa99bc3acc7ded2e26b40f83291c3eefb09f15cfabd0ec35afc455229fb1cb1c",
+        "batch16_sha256": "c52e0d22e7638d63cadd1b3db09f270ab2ed073230f6fd29c5573d232f7d3fc6",
+        "raw_equal": false,
+        "normalized_sha256": "c52e0d22e7638d63cadd1b3db09f270ab2ed073230f6fd29c5573d232f7d3fc6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/quality-CWx-Jr8B.js",
+        "sha256": "db17f63e41618c0de0313dd5befda3fbe42105f903d156fd98b82a8ad54931b0",
+        "batch16_sha256": "1934293e5022ac19da5f269f654843de421b72f2841f7efcd5644211ac3896e3",
+        "raw_equal": false,
+        "normalized_sha256": "1934293e5022ac19da5f269f654843de421b72f2841f7efcd5644211ac3896e3"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryHistory-ClzqApcg.js",
+        "sha256": "3708b0c60ab8959013c3bc71051e7ee09a6a0be9a52f392452090bac454718f2",
+        "batch16_sha256": "c694988ddfdea48157a374c8c90fba1866a28f08dad696d8b7f565fba3de89d9",
+        "raw_equal": false,
+        "normalized_sha256": "c694988ddfdea48157a374c8c90fba1866a28f08dad696d8b7f565fba3de89d9"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/useQuality-DuEcDYAG.js",
+        "sha256": "26e510e6a3f1df129664981f3fe4e4f28128d4b9892e3901d92ccc4ddf39d391",
+        "batch16_sha256": "9e68ab3515c194fa78fd233b8c7ec35155d5a7739a2200ff0f50103c0152d871",
+        "raw_equal": false,
+        "normalized_sha256": "9e68ab3515c194fa78fd233b8c7ec35155d5a7739a2200ff0f50103c0152d871"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkspace-HTmRktci.js",
+        "sha256": "e31e9ac018c85a0296f392d586e5a115eaf5360fc00ec0ddf4c485dd6557b594",
+        "batch16_sha256": "88ba3e99139093012819a0f40a2663f74e28bd9c705ecea77c27bce9085010b5",
+        "raw_equal": false,
+        "normalized_sha256": "88ba3e99139093012819a0f40a2663f74e28bd9c705ecea77c27bce9085010b5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel.vue_vue_type_script_setup_true_lang-cKbUsZeb.js",
+        "sha256": "1d6101e7a11c35e0aa8fb01db783b1df0e353089e257c30811435cd20416955d",
+        "batch16_sha256": "897eab794c5500ecf9484a9cc0621c6bfdff08cdb8ae36dc9c24db4b1942ec45",
+        "raw_equal": false,
+        "normalized_sha256": "897eab794c5500ecf9484a9cc0621c6bfdff08cdb8ae36dc9c24db4b1942ec45"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowSubgraphEditor-B5P5uKKs.js",
+        "sha256": "0e2eaa72ee2c096929a859057355e63e405f7189a5230a72f6b782ad64c42f84",
+        "batch16_sha256": "38acf6d8dc6f9e80bd6c6c953cfd79de0d06bba797bb78754be180b34100a988",
+        "raw_equal": false,
+        "normalized_sha256": "38acf6d8dc6f9e80bd6c6c953cfd79de0d06bba797bb78754be180b34100a988"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/chartPrecision-hq5qt5-I.js",
+        "sha256": "3910c8d994d483da459ceae6cebf983cc6eef3c63d8530df4ccdc2c836920926",
+        "batch16_sha256": "e6f0479c00b26371b1455a390b69bc3e6914070d5bb922fdde63bcdf78fbf27e",
+        "raw_equal": false,
+        "normalized_sha256": "e6f0479c00b26371b1455a390b69bc3e6914070d5bb922fdde63bcdf78fbf27e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-catalog-Cqt-1FeF.js",
+        "sha256": "3d66d5d052882c934a3f739a9f25f40b022cae729e1744d5991955a40bbb87c2",
+        "batch16_sha256": "6858d3dcb5872dbdd4546e5d35a46b87afc0d4c1a55d5364d2ac23cf382eb5ee",
+        "raw_equal": false,
+        "normalized_sha256": "6858d3dcb5872dbdd4546e5d35a46b87afc0d4c1a55d5364d2ac23cf382eb5ee"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityTemplateForm.vue_vue_type_script_setup_true_lang-KzsuFkYL.js",
+        "sha256": "b2442d7ae09ba01de06a0d19a5e8d2998cfb136e6765488c1f63994517c29df7",
+        "batch16_sha256": "002d8da901b5d3c592d82c1ad4b294a9ac65481373e1f27bb6b474957ee7daa6",
+        "raw_equal": false,
+        "normalized_sha256": "002d8da901b5d3c592d82c1ad4b294a9ac65481373e1f27bb6b474957ee7daa6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportViewer-CNuCFuIq.js",
+        "sha256": "447e1506f13c7b358437d6d9727fd412d26ef396e15744a70204c5870452cb9b",
+        "batch16_sha256": "fc04bd451fb1b1fcfad84568ab507ee2da03428f5a045619f95dfe99debc75a6",
+        "raw_equal": false,
+        "normalized_sha256": "fc04bd451fb1b1fcfad84568ab507ee2da03428f5a045619f95dfe99debc75a6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/PromptCenter-CNADrHL_.js",
+        "sha256": "49ade487433ae044dfbdf5b86c23300ecde3cc9b6c592774033b882d8cb9a16c",
+        "batch16_sha256": "8e0b79858316ad6aa8f9239157462e65c402ed1e1f2bae14b0eff092afbdb473",
+        "raw_equal": false,
+        "normalized_sha256": "8e0b79858316ad6aa8f9239157462e65c402ed1e1f2bae14b0eff092afbdb473"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/SqlWorkspace-DE43L4dz.js",
+        "sha256": "279543f4e6d92dc86f246d3c602f70ba1dfed3e774b07a5e81432f955a0d9a41",
+        "batch16_sha256": "1bc393ce8328f004793e6421531b947828936ab6fa5a30224c3424ee27add6e4",
+        "raw_equal": false,
+        "normalized_sha256": "1bc393ce8328f004793e6421531b947828936ab6fa5a30224c3424ee27add6e4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WriteReceipts.vue_vue_type_script_setup_true_lang-BkANVp1j.js",
+        "sha256": "9b418b397a645945f3fabf94349527ee71b13c8f8ee686e7caeb8586aa92c170",
+        "batch16_sha256": "06a40eb5dec28292514299270127efd6124a5cbf04080bb110516b82f282fbd4",
+        "raw_equal": false,
+        "normalized_sha256": "06a40eb5dec28292514299270127efd6124a5cbf04080bb110516b82f282fbd4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace.vue_vue_type_script_setup_true_lang-BzhdvrCQ.js",
+        "sha256": "0d84b4e89e59790d3c3e6dd62fe0740c4884c89be196f5a89dbe81256fd74b33",
+        "batch16_sha256": "be474c6c2ef316e9e976d0966f01c673c1787d98f9e13c0f1e8cea0bf1fb3871",
+        "raw_equal": false,
+        "normalized_sha256": "be474c6c2ef316e9e976d0966f01c673c1787d98f9e13c0f1e8cea0bf1fb3871"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertRuleForm.vue_vue_type_script_setup_true_lang-jpMEAhWt.js",
+        "sha256": "48a8a65c3d04cce292145585a01a288587ea61e87a37b56f36ddf0a5c99ca1ee",
+        "batch16_sha256": "eb5702b94c383ce99e867674759fb39d286cc999111ae630c17f920ff9e5d6ef",
+        "raw_equal": false,
+        "normalized_sha256": "eb5702b94c383ce99e867674759fb39d286cc999111ae630c17f920ff9e5d6ef"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/http-collection-9qP5AEct.js",
+        "sha256": "1baa2f263ff4fa4d95076ad0a5980c25652edf192f9fa2b7d957b957a92ce35a",
+        "batch16_sha256": "b8d91d839c455d6954142b41aca1861577c1522cbc0892604f98efd754fec7d3",
+        "raw_equal": false,
+        "normalized_sha256": "b8d91d839c455d6954142b41aca1861577c1522cbc0892604f98efd754fec7d3"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportManage-R5Gefq6J.js",
+        "sha256": "9c4c271251e5c51b48328caef64e022b01dcab582b43bf9b95ea738c27e58930",
+        "batch16_sha256": "f9a6ad1ef887289552b304c4d58eae590f24c48baf8a07981a778029a7842205",
+        "raw_equal": false,
+        "normalized_sha256": "f9a6ad1ef887289552b304c4d58eae590f24c48baf8a07981a778029a7842205"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/TemplateCenter-C-dI6JZ2.js",
+        "sha256": "3a6dd392efe01ea1306b5cd8668c44fa956c89267ce70b53a71420c9fc290406",
+        "batch16_sha256": "77788998059a67fe633fccd08c93a671e24f72828ca6d1cf33a8740d421f076a",
+        "raw_equal": false,
+        "normalized_sha256": "77788998059a67fe633fccd08c93a671e24f72828ca6d1cf33a8740d421f076a"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/IntelligentQuery-ROw3KybS.js",
+        "sha256": "fd2d03a70fff83c989843a90c515ebed6e5f8cf7728dd4ca08d2861dc6cb096d",
+        "batch16_sha256": "e61e42d3652f3bcdc5d8e912af48b418d338eb3198978d793248715fea373e92",
+        "raw_equal": false,
+        "normalized_sha256": "e61e42d3652f3bcdc5d8e912af48b418d338eb3198978d793248715fea373e92"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportDesigner-BYXYt0bt.js",
+        "sha256": "f165a5f8d5c3f12695e9eccea6bc1746be245aff1d17de9dc1ce35d1b423fe4e",
+        "batch16_sha256": "fc6f4d576dad9ccbb5d8d058f726aa514da0efe64145e53b49b077120d859595",
+        "raw_equal": false,
+        "normalized_sha256": "fc6f4d576dad9ccbb5d8d058f726aa514da0efe64145e53b49b077120d859595"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryResultPanel-1Mz0Bi6G.js",
+        "sha256": "7014fa25edc7c80127c7971112fa5660c30ad1508f54837a2fb04f1369f17740",
+        "batch16_sha256": "d6e5c5d6a0e226b53b5b0a14fd663f05d32799bb985d238622dd540a03d48c83",
+        "raw_equal": false,
+        "normalized_sha256": "d6e5c5d6a0e226b53b5b0a14fd663f05d32799bb985d238622dd540a03d48c83"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/purify.es-Cdnc6Rlq.js",
+        "sha256": "d8dbde4e964d22d106eec055ea285a2345eff01452091c93a0b4775addb7f616",
+        "batch16_sha256": "1ae24acbb07aae823ed83928e8317b36948c960fba90d8f4ea80e24ba8f2d7ba",
+        "raw_equal": false,
+        "normalized_sha256": "1ae24acbb07aae823ed83928e8317b36948c960fba90d8f4ea80e24ba8f2d7ba"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityInspectionWorkspace-yHGgeQxP.js",
+        "sha256": "89fc8fe421d9a5864b9f3ec5da390dc8da63c96b2ab823a11d8b4bd4dbe6f8a0",
+        "batch16_sha256": "f800663449fe5a7304b1db4bc5872df4807f48cf94590413312498354fa2a680",
+        "raw_equal": false,
+        "normalized_sha256": "f800663449fe5a7304b1db4bc5872df4807f48cf94590413312498354fa2a680"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowReportMarkdown-BZDh5RBz.js",
+        "sha256": "c7e3cd6e1e36d28de97f5e2d0e22d40def29b893b2df54ac198ddaf058610ee1",
+        "batch16_sha256": "36287cabd3281d9532dd103e7056b87c2e24dbdb57870b6e987da9f47590f776",
+        "raw_equal": false,
+        "normalized_sha256": "36287cabd3281d9532dd103e7056b87c2e24dbdb57870b6e987da9f47590f776"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench.vue_vue_type_script_setup_true_lang-CaQnKRdt.js",
+        "sha256": "c3bb124e3087277120ceeca75a57df2e3f5818fcbf0a336a515e3b1211b2dc3c",
+        "batch16_sha256": "fee31a0049fa59cb5fd649ea857e430d682987b11d1a1fa3e772b190be04bda0",
+        "raw_equal": false,
+        "normalized_sha256": "fee31a0049fa59cb5fd649ea857e430d682987b11d1a1fa3e772b190be04bda0"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DataSourcesWorkspace-KAMeUIe9.js",
+        "sha256": "c962182b4c13ff1e1b4203ea8a796353791b79ad0c8585fccdbbb68d928406ee",
+        "batch16_sha256": "34293f7ca32e2bf19712aae5f97749ae803b866a9e3f666ed2f43fc3addfc3b5",
+        "raw_equal": false,
+        "normalized_sha256": "34293f7ca32e2bf19712aae5f97749ae803b866a9e3f666ed2f43fc3addfc3b5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench.vue_vue_type_script_setup_true_lang-CvZe1z-0.js",
+        "sha256": "b80ae0f60ec94a5638a5b7596ef002cce46f75ef5ec7afbd9299e8e5d5857a44",
+        "batch16_sha256": "eeb64ece1fd8f4786b02c01b861ab57691f6ac06b30f57e9e4d48ae471534532",
+        "raw_equal": false,
+        "normalized_sha256": "eeb64ece1fd8f4786b02c01b861ab57691f6ac06b30f57e9e4d48ae471534532"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuDrilldownPanel-bOdp2oeV.js",
+        "sha256": "2cc3e65ade290db0b976cd035cb5a8b7b5bd051fc4d483eb0090f78cb150c6bc",
+        "batch16_sha256": "13a7094ea0be2dfb30b9bdbc3f5284b318b2a9b4c6461c2c631d754da0bdbd23",
+        "raw_equal": false,
+        "normalized_sha256": "13a7094ea0be2dfb30b9bdbc3f5284b318b2a9b4c6461c2c631d754da0bdbd23"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuBigScreenReplica-Bx9nYP4N.js",
+        "sha256": "6a9b2552bdf4ee9d4188729361a617658488cd74fcbfb064357d0c189dc0b458",
+        "batch16_sha256": "b66e63f92ebe14b7178b467eeaae11e83e17cdc9596144409426ee95b217c4a5",
+        "raw_equal": false,
+        "normalized_sha256": "b66e63f92ebe14b7178b467eeaae11e83e17cdc9596144409426ee95b217c4a5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkbench.vue_vue_type_script_setup_true_lang-bHFcR9tP.js",
+        "sha256": "e6ec51785a8f66c8ceacdb48ba37a71c380a646c78aa90b4b684aae3b731e25d",
+        "batch16_sha256": "d31a674d68a44a4e8b7f9c7178ba3b596cee83ad7628f386d5e955a0c7adeb03",
+        "raw_equal": false,
+        "normalized_sha256": "d31a674d68a44a4e8b7f9c7178ba3b596cee83ad7628f386d5e955a0c7adeb03"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-ByUA0W9c.js",
+        "sha256": "f321a098f073b6afb5d708c60c9bbdc98471ab04a6fe486c1e60f86919ed90a9",
+        "batch16_sha256": "bc0176b7a24d5a20d9d39f38057cb7b88656aa51c15526951bdf57ba40e1b0fc",
+        "raw_equal": false,
+        "normalized_sha256": "bc0176b7a24d5a20d9d39f38057cb7b88656aa51c15526951bdf57ba40e1b0fc"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-CkMAeOxi.js",
+        "sha256": "7392bc2717b3bdba213d6b35c8f1ec48739bb9567b3bc1b6fd0ebb9e08347786",
+        "batch16_sha256": "c3fd1e0db7e836ab0a77a3871b31bb0a42703a11a2b94326c4c59837c4382b0e",
+        "raw_equal": false,
+        "normalized_sha256": "c3fd1e0db7e836ab0a77a3871b31bb0a42703a11a2b94326c4c59837c4382b0e"
+      }
+    ]
+  },
+  "native_worker_result": {
+    "path": ".implementation/quality-gates/chat-delivery/20261004-060121-74cf61e6/native-worker.json",
+    "sha256": "c43f5aaafa667f23fd0f86fdf1ea24ea168fd56013aacb99948d6a8e5f2d3849"
+  },
+  "counts_policy": "此前专项、重叠回归及本轮重复结果不累加为独立用例。",
+  "goal_complete": false,
+  "service_8011_loaded": "unconfirmed-not-restarted",
+  "limitations": [
+    "真实szh_new和外部模型未参与本批验证",
+    "MySQL并发、服务端SQL终止与分布式原子授权未验证",
+    "逐份交付修订与知识硬中断恢复仍待实施；丢ACK修复在独立工作树开发",
+    "不代表全部功能100轮或24小时目标完成"
+  ]
+}

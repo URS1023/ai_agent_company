@@ -1,0 +1,405 @@
+{
+  "batch": "2026-10-04-major-16",
+  "scope": "开发期AI文档单套八轮；非固定提交九域验收，非真实模型/业务库",
+  "development_rounds": [
+    {
+      "round": 1,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-115802-aa99e47e/manifest.json",
+      "sha256": "66448b207e9791f654f8b826b02659f2d0cec109c3df73fedf9e449b876a3bda",
+      "started_at": "2026-10-04T03:58:02.411406+00:00",
+      "finished_at": "2026-10-04T03:59:59.197485+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T03:58:02.555299+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:55560",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 0,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 158,
+          "blocked_requests": 40,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 40
+        },
+        "finished_at": "2026-10-04T03:59:59.197485+00:00",
+        "seconds": 116.64
+      }
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-120118-83b5c70e/manifest.json",
+      "sha256": "e3517f1aa6d85713fee1b6ce9e2e64e88b8396cdff0917892e6b902e9717dc59",
+      "started_at": "2026-10-04T04:01:18.832593+00:00",
+      "finished_at": "2026-10-04T04:01:56.715209+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:01:18.964815+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:57900",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 1,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 156,
+          "blocked_requests": 35,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 35
+        },
+        "finished_at": "2026-10-04T04:01:56.715209+00:00",
+        "seconds": 37.734
+      }
+    },
+    {
+      "round": 3,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-120305-40d679d9/manifest.json",
+      "sha256": "f9a065ac06c995f933c6024826875c3bc3f095054f187010ed0b37ea05f5a903",
+      "started_at": "2026-10-04T04:03:05.699137+00:00",
+      "finished_at": "2026-10-04T04:05:12.792839+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:03:05.820557+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:52756",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 0,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 300,
+          "blocked_requests": 88,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 88
+        },
+        "finished_at": "2026-10-04T04:05:12.792839+00:00",
+        "seconds": 126.969
+      }
+    },
+    {
+      "round": 4,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-121312-dc873d60/manifest.json",
+      "sha256": "50f23ecf332fbac071772b66f6c92d29abe72f21d7d41bd8054e9976ddaa4c24",
+      "started_at": "2026-10-04T04:13:12.773408+00:00",
+      "finished_at": "2026-10-04T04:15:22.923315+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:13:12.893143+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:54317",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 1,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 350,
+          "blocked_requests": 90,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 90
+        },
+        "finished_at": "2026-10-04T04:15:22.922316+00:00",
+        "seconds": 130.016
+      }
+    },
+    {
+      "round": 5,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-121711-e1254670/manifest.json",
+      "sha256": "8db8c5b2c19d7e0b37bcb066ac450d8bd9d5a3c75892172c5500e751d9a03a23",
+      "started_at": "2026-10-04T04:17:11.154547+00:00",
+      "finished_at": "2026-10-04T04:20:52.488830+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:17:11.275533+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:59280",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 1,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 387,
+          "blocked_requests": 99,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 99
+        },
+        "finished_at": "2026-10-04T04:20:52.488830+00:00",
+        "seconds": 221.219
+      }
+    },
+    {
+      "round": 6,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-122344-f3683872/manifest.json",
+      "sha256": "8e7f476318b71f770a1831b2d5b22ad6c4675f5c62234bea6b3ff1f95586289e",
+      "started_at": "2026-10-04T04:23:44.289247+00:00",
+      "finished_at": "2026-10-04T04:26:30.662030+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:23:44.412465+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:53573",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 1,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 405,
+          "blocked_requests": 105,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 105
+        },
+        "finished_at": "2026-10-04T04:26:30.662030+00:00",
+        "seconds": 166.25
+      }
+    },
+    {
+      "round": 7,
+      "status": "failed",
+      "path": ".implementation/full-business-browser/20261004-123244-d6cf9af9/manifest.json",
+      "sha256": "376358628f82c239b549ec2d8a4de60608bb0b9908fde83b0eecc6edc6c5a970",
+      "started_at": "2026-10-04T04:32:44.520631+00:00",
+      "finished_at": "2026-10-04T04:35:05.771558+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:32:44.644702+00:00",
+        "status": "failed",
+        "base_url": "http://127.0.0.1:56335",
+        "process_boundary": "windows_job",
+        "exit_code": 1,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 1,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 464,
+          "blocked_requests": 122,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 122
+        },
+        "finished_at": "2026-10-04T04:35:05.771558+00:00",
+        "seconds": 141.125
+      }
+    },
+    {
+      "round": 8,
+      "status": "passed",
+      "path": ".implementation/full-business-browser/20261004-123925-4b77640e/manifest.json",
+      "sha256": "fe499cb3cfce467cb9ce0d25c5c40524b007201df49f4834d76ff3b32c5a40f9",
+      "started_at": "2026-10-04T04:39:25.841171+00:00",
+      "finished_at": "2026-10-04T04:41:50.252332+00:00",
+      "check": {
+        "iteration": 1,
+        "suite": "ai_documents",
+        "started_at": "2026-10-04T04:39:25.965816+00:00",
+        "status": "passed",
+        "base_url": "http://127.0.0.1:58441",
+        "process_boundary": "windows_job",
+        "exit_code": 0,
+        "process_cleanup": {
+          "method": "windows_job",
+          "active_before": 1,
+          "active_after": 0
+        },
+        "network": {
+          "allowed_requests": 469,
+          "blocked_requests": 121,
+          "unexpected_requests": 0,
+          "application_blocked_requests": 0,
+          "background_candidate_requests": 121
+        },
+        "finished_at": "2026-10-04T04:41:50.250240+00:00",
+        "seconds": 144.281
+      }
+    }
+  ],
+  "counts_policy": "原始失败均保留；不拼接失败轮次成功项，不以重复执行累加独立功能。",
+  "source_freeze": {
+    "head": "7c7174f96a283c54da659d719b1632ff7e73eb7f",
+    "created_at": "2026-10-04T04:39:15.281455+00:00",
+    "scope": "大版本十六：第八开发浏览器；修复大屏回执卡片两处小字颜色，取证等待有限入场动画；其余源码不变。",
+    "files": [
+      {
+        "path": "apps/analytics/src/components/SmartChart.vue",
+        "sha256": "d60e1e45a3f75c4be9fcbdd4507955aca14a6c8a81860c866e1682e60aa33883"
+      },
+      {
+        "path": "apps/analytics/src/components/jimu-screen/JimuChart.vue",
+        "sha256": "172fd63aefcbdf92e28237ad6fc1a497d6dc7e6b21b07003873125331274ea8f"
+      },
+      {
+        "path": "apps/analytics/src/utils/aiChartOption.js",
+        "sha256": "e5a9bbbb28a187d9157717418b5dfcd0b7f181d2d45b0d8661272a93e5deb0dc"
+      },
+      {
+        "path": "apps/analytics/src/utils/chartPrecision.js",
+        "sha256": "715af71dfa9a4e3455939663030b8c763cda2cee6fcf86bac28fb7e59939be50"
+      },
+      {
+        "path": "apps/analytics/src/utils/dashboardData.js",
+        "sha256": "035c0a4829f27e4995194747f0601fd3a8bda8f8733fcfb75b846574c67ecc0a"
+      },
+      {
+        "path": "apps/analytics/src/utils/snapshotChartOption.js",
+        "sha256": "5984bdb7bc961d7ec42811270ef1699eeaee76e6593ff57842e07980e8ef44b8"
+      },
+      {
+        "path": "apps/web/assets/platform/ai-workbench.css",
+        "sha256": "0681b23186dba7fb3c5bb9bd246f256e8ece0dfba18eaff62537f537ec59e777"
+      },
+      {
+        "path": "backend/app/business_worker/delivery_contract.py",
+        "sha256": "ef95db92e30637c44f66dae84b9b4ec1760ed6645f6fd539055b2e3c3703d1eb"
+      },
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "sha256": "fed7f1636fe9f654145f67e91873d95884d26050746313cfad35868d9026c1ae"
+      },
+      {
+        "path": "backend/app/business_worker/replay_guard.py",
+        "sha256": "b2fd558b88b61c47aba8356c2d5bcfd9e6c7fa1b1b21f73663d24c6c5aef00eb"
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "sha256": "b17a0959f9fa1c815976653cfa3d040522f5427900c3df58b13deb9391c518fa"
+      },
+      {
+        "path": "backend/app/modules/analytics/dsh_query_execution.py",
+        "sha256": "3f3e4ec4d37f5f2c9829b6ab288a05bfc8bfb6b299f25e93bed8dda9b1f35a11"
+      },
+      {
+        "path": "backend/app/modules/analytics/execution.py",
+        "sha256": "19c6dc358895337d9d4219a86dce6a2f3afd3de8a0be986afd603b1510363706"
+      },
+      {
+        "path": "backend/app/modules/analytics/exports.py",
+        "sha256": "9c9956b40aad3186c6302468286dd388f176ad1ee1d3507c1c5b13c4447b06b0"
+      },
+      {
+        "path": "backend/app/modules/analytics/queries.py",
+        "sha256": "3f60bebade0e1c7439e57de045c981dc2e57c6eb697eba5b6fee035c88cacadf"
+      },
+      {
+        "path": "backend/app/modules/analytics/query_authority.py",
+        "sha256": "433d32c95c6f0a3f0172a1b9459101be83e51048ca611f642f24082992ba8a4f"
+      },
+      {
+        "path": "backend/app/providers/tool/database_provider.py",
+        "sha256": "3f497c290902f2dfcffd8d2023ce8b9d47ed6d39e2b4ca0e7fbcf9de104c949d"
+      },
+      {
+        "path": "backend/app/providers/tool/gateway.py",
+        "sha256": "25f71461ae224895ae1dc28cf028cf2df78ef707e38d36d236c2490b7433ee8a"
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "sha256": "5fc6aa043fd2b7f3d0d9480db49bdd70ab41514d650efbd1f36a31515b947241"
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "sha256": "df2d80bcde9873bcb03ddafb63f80b5cc934b3a6453100506182718d169328ca"
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "sha256": "96dbf789793e26d7abd1914e89b78f5304616bdbbf975845a2ece748c38d1839"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "sha256": "c7ae19f340d87401edff0b5f9dc318cfe8c3c30ea43ca752fd08e4a7b2f86830"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_operation_guard.py",
+        "sha256": "4d7ff25a1d8db45bb1cfe085c7dffe310dbc5bec034466e62a25f510c0fded76"
+      },
+      {
+        "path": "tests/backend/test_http_query_export_contract.py",
+        "sha256": "84fa05028047db5c61cfde3121c2fbd7d1587296df3073f0b9aacd2b5bfee907"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation.py",
+        "sha256": "fa77beb827c491fddcb418747f83e396ee499068db786efcbf20d6cb2869baaa"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_boundaries.py",
+        "sha256": "1263b65f0afe3566c321c39775a89ddbe60ad036cd4ed75eef470ed5d5bce06e"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_dsh.py",
+        "sha256": "a5e79660bde848a5c7eca0a8feddd45cdde98a3cf862ad310bb366765c6e6529"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_replay.py",
+        "sha256": "66344fe61572fda9d8bedb55e51179edd7fc28e1cc8c2610a6a0c3af17b3505e"
+      },
+      {
+        "path": "tests/offline/test_compound_file_inspector.py",
+        "sha256": "1c97de1e4b817a767785a5b04269d69ebffe2ae61fee09c5183bbe7605f7f532"
+      },
+      {
+        "path": "tests/ui/chart_precision.test.cjs",
+        "sha256": "54bb4ac377e33a0fe8f7e919327600de2bfa06dc8c2c22464803670c42f1b3c3"
+      },
+      {
+        "path": "tests/ui/chart_precision_browser.cjs",
+        "sha256": "97022a666806a08933dfcd7c4628f875be7c51f3be665e030c7de26d0c102a8a"
+      },
+      {
+        "path": "tests/ui/compound_browser_contract.test.cjs",
+        "sha256": "751a45d009289c3b4a5f456592a5b5b5d753b618ea37e59404b3b7b331f877a7"
+      },
+      {
+        "path": "tests/ui/compound_file_inspector.py",
+        "sha256": "c20e7256971cf999f460ee26a030f3597d28ddd3aebccdbcd065295686de4f67"
+      },
+      {
+        "path": "tests/ui/full_browser_ai_documents_acceptance.js",
+        "sha256": "5c4852dc00c13b65509dd4e49b2c16ae4554d53fc808942b51e9be01b15e49b5"
+      }
+    ],
+    "previous_freeze": ".implementation/batch16-frozen-files-before-oracle7.json",
+    "oracle_changes": [
+      "tests/ui/full_browser_ai_documents_acceptance.js"
+    ]
+  },
+  "final_round_business_groups": 14,
+  "final_round_axe_findings": 0,
+  "goal_complete": false
+}

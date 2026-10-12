@@ -1,0 +1,50 @@
+/* 沿用现有聊天外壳；以下规则仅作用于有真实数据的 DSH 过程组件。 */
+.dsh-session-region[hidden] { display: none; }
+.dsh-session-region { min-width: 0; }
+#dsh-session-controls { max-height: 240px; overflow: auto; margin-bottom: 8px; }
+#dsh-session-deliveries { margin: 12px 0 20px; width: 100%; }
+.dsh-reasoning { margin: 0 0 12px; color: #687386; font-size: 12px; }
+.dsh-reasoning summary { cursor: pointer; }
+.dsh-reasoning-text { max-height: 240px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 10px 0; line-height: 1.7; }
+.dsh-process { margin: 0 0 18px; font-size: 12px; color: #687386; }
+.dsh-process > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; width: fit-content; max-width: 100%; cursor: pointer; list-style: none; padding: 5px 0; }
+.dsh-process > summary::-webkit-details-marker { display: none; }
+.dsh-process > summary::before { content: ""; width: 5px; height: 5px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); margin-right: 2px; }
+.dsh-process[open] > summary::before { transform: rotate(45deg); }
+.dsh-process-title { color: #465366; font-weight: 500; }
+.dsh-process-time { font-variant-numeric: tabular-nums; }
+.dsh-process-failure { color: #ad522b; }
+.dsh-process-body { border-left: 2px solid #e7ebf0; padding: 4px 0 0 14px; margin: 8px 0 0 3px; max-height: 420px; overflow: auto; }
+.dsh-process-group { padding: 7px 0; }
+.dsh-process-group > summary { cursor: pointer; color: #465366; }
+.dsh-process-count { margin-left: 12px; color: #687386; font-variant-numeric: tabular-nums; }
+.dsh-process-receipt { margin: 10px 0 0 14px; }
+.dsh-process-receipt > summary { cursor: pointer; }
+.dsh-process-receipt pre { margin: 6px 0; padding: 10px; border-radius: 6px; background: #f6f8fa; font: inherit; }
+.dsh-process-body .dsh-reasoning { margin-top: 10px; }
+.dsh-process summary:focus-visible { outline: 2px solid #3478e5; outline-offset: 3px; border-radius: 3px; }
+.md-delivery-list { margin: 12px 0 20px; }
+.markdown-body .md-delivery-list .artifact-card { margin: 0; }
+.artifact-description { margin-top: 5px; font-size: 12px; line-height: 1.5; color: #687386; overflow-wrap: anywhere; }
+.dsh-queue, .dsh-question { padding: 10px 12px; border: 1px solid #dce4ef; border-radius: 10px; background: #f7f9fc; font-size: 12px; }
+.dsh-queue-item { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.dsh-queue-item > span, .dsh-queue-editor { flex: 1 1 140px; min-width: 0; overflow-wrap: anywhere; }
+.dsh-queue-editor { padding: 6px; font: inherit; }
+.dsh-delivery-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.dsh-delivery-name > span { display: block; margin-top: 4px; color: #687386; font-size: 11px; }
+.dsh-question fieldset { border: 0; margin: 8px 0; padding: 0; }
+.dsh-question label { display: block; margin: 6px 0; }
+.dsh-question input[type="text"] { display: block; box-sizing: border-box; width: 100%; padding: 6px; border: 1px solid #dce4ef; border-radius: 6px; }
+.dsh-question pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.msg-body > .dsh-question { margin: 12px 0; }
+.dsh-question small { display: block; margin: 3px 0 0 20px; color: #687386; }
+.dsh-question [data-question-status] { margin-left: 8px; }
+.dsh-todos li { margin: 6px 0; line-height: 1.6; }
+.dsh-todos [data-todo-status="completed"] { color: #56806a; }
+.dsh-todos [data-todo-status="in_progress"] { color: #465366; font-weight: 500; }
+.dsh-capability-menu { max-height: 420px; overflow: auto; padding: 8px; }
+.dsh-skill-choice { display: flex; gap: 8px; padding: 10px 0; }
+.dsh-skill-choice small, .dsh-capability-item small { display: block; margin-top: 4px; color: #687386; line-height: 1.5; }
+.dsh-capability-item { padding: 10px 0; border-top: 1px solid #edf0f4; }
+.dsh-unavailable { opacity: .55; }
+@media (max-width: 560px) { #dsh-session-controls { max-height: 200px; } .dsh-queue-item .btn-sm { padding: 4px 7px; } }

@@ -1,0 +1,5 @@
+{
+  "scope": "in-memory HTTPResponse; no network/database",
+  "current_read_65536": "data: first\n\ndata: second\n\n",
+  "read1_65536": "data: first\n\n"
+}

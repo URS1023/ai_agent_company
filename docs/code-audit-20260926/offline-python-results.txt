@@ -1,0 +1,169 @@
+................F....................................................... [ 14%]
+........................................F............................... [ 29%]
+........................................................................ [ 43%]
+........................................................................ [ 58%]
+......FF................................................................ [ 72%]
+........................................................................ [ 87%]
+...............................................................          [100%]
+================================== FAILURES ===================================
+_______ test_query_model_receives_business_question_and_existing_schema _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000282EB6F9F10>
+
+    def test_query_model_receives_business_question_and_existing_schema(monkeypatch):
+        import json
+        source = SimpleNamespace(id="source", provider="mysql", connection_config={"database": "local_fixture"})
+        ctx = SimpleNamespace(workspace_id="workspace")
+        payload = QueryInput(datasourceId="source", query="查看财务和订单数据", mode="natural_language")
+        tables = [{"tableName": "orders", "columns": [{"columnName": "amount"}]}]
+        model = MagicMock(return_value={"content": '{"sql":"SELECT amount FROM orders LIMIT 10","explanation":"订单明细，未限定时间"}'})
+        monkeypatch.setattr(queries.model, "chat_for_run", model)
+        sql, _ = queries.natural_language_sql(ctx, source, payload, tables)
+        messages = model.call_args.args[1]
+        context = json.loads(messages[1]["content"])
+>       assert context["schema"] == tables
+E       AssertionError: assert [{'tableName'...hema': False}] == [{'tableName'...: 'amount'}]}]
+E         
+E         At index 0 diff: {'tableName': 'orders', 'columns': [{'columnName': 'amount'}], 'truncatedSchema': False} != {'tableName': 'orders', 'columns': [{'columnName': 'amount'}]}
+E         Use -v to get more diff
+
+tests\offline\test_business_catalog.py:50: AssertionError
+_____________________ test_active_lease_is_not_recovered ______________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000282EB919D90>
+tmp_path = WindowsPath('C:/Users/urdcbk/AppData/Local/Temp/pytest-of-urdcbk/pytest-703/test_active_lease_is_not_recov0')
+
+    def test_active_lease_is_not_recovered(monkeypatch, tmp_path):
+        path=tmp_path/'run.lock'
+        owner=SchedulerLease(path)
+        assert owner.acquire()
+        monkeypatch.setattr(live, 'chat_lease', lambda _: SchedulerLease(path))
+        db=MagicMock()
+        db.execute.return_value.rowcount = 1
+        try:
+            assert not live.recover_abandoned_chat(db, run())
+            db.commit.assert_not_called()
+        finally:
+            owner.release()
+        abandoned=run()
+        assert live.recover_abandoned_chat(db, abandoned)
+        assert abandoned.status=='failed'
+        assert abandoned.error_code=='chat_interrupted'
+>       assert db.execute.call_count==3
+E       AssertionError: assert 4 == 3
+E        +  where 4 = <MagicMock name='mock.execute' id='2761321187760'>.call_count
+E        +    where <MagicMock name='mock.execute' id='2761321187760'> = <MagicMock id='2761321191600'>.execute
+
+tests\offline\test_chat_liveness.py:38: AssertionError
+------------------------------ Captured log call ------------------------------
+ERROR    app.modules.runtime.chat_liveness:chat_liveness.py:163 harness dangling model-call ledger settle failed
+Traceback (most recent call last):
+  File "E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\chat_liveness.py", line 152, in _settle_dangling_model_calls
+    profile_name = run.model_profile or "reasoning"
+                   ^^^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'model_profile'
+______ test_incomplete_planning_is_repaired_without_sql_execution[True] _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000282EBD1BD40>
+repair = True
+
+    @pytest.mark.parametrize('repair', [True, False])
+    def test_incomplete_planning_is_repaired_without_sql_execution(monkeypatch, repair):
+        from app.errors import ModelResponseIncompleteError
+        incomplete = ModelResponseIncompleteError('模型输出不完整', reason='truncated_response', retryable=True)
+        model, run = generate(monkeypatch, [incomplete, response('SELECT name FROM inventory') if repair else incomplete])
+        if repair:
+            assert run()[0] == 'SELECT name FROM inventory'
+        else:
+            with pytest.raises(ModelResponseIncompleteError):
+                run()
+        assert model.call_count == 2
+>       assert all(c.kwargs['request_timeout'] is None for c in model.call_args_list)
+E       assert False
+E        +  where False = all(<generator object test_incomplete_planning_is_repaired_without_sql_execution.<locals>.<genexpr> at 0x00000282EBC0D560>)
+
+tests\offline\test_natural_sql_field_repair.py:134: AssertionError
+______ test_incomplete_planning_is_repaired_without_sql_execution[False] ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000282EBAF5250>
+repair = False
+
+    @pytest.mark.parametrize('repair', [True, False])
+    def test_incomplete_planning_is_repaired_without_sql_execution(monkeypatch, repair):
+        from app.errors import ModelResponseIncompleteError
+        incomplete = ModelResponseIncompleteError('模型输出不完整', reason='truncated_response', retryable=True)
+        model, run = generate(monkeypatch, [incomplete, response('SELECT name FROM inventory') if repair else incomplete])
+        if repair:
+            assert run()[0] == 'SELECT name FROM inventory'
+        else:
+            with pytest.raises(ModelResponseIncompleteError):
+                run()
+        assert model.call_count == 2
+>       assert all(c.kwargs['request_timeout'] is None for c in model.call_args_list)
+E       assert False
+E        +  where False = all(<generator object test_incomplete_planning_is_repaired_without_sql_execution.<locals>.<genexpr> at 0x00000282EBC1E190>)
+
+tests\offline\test_natural_sql_field_repair.py:134: AssertionError
+------------------------------ Captured log call ------------------------------
+ERROR    app.execution:observability.py:88 自然语言生成并校验 SQL：失败
+============================== warnings summary ===============================
+tests/offline/test_business_query_stop.py: 10 warnings
+tests/offline/test_chat_review_regressions.py: 2 warnings
+tests/offline/test_workflow_report_conversation.py: 7 warnings
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\agent.py:1133: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    run.started_at = datetime.utcnow()
+
+tests/offline/test_business_query_stop.py: 10 warnings
+tests/offline/test_chat_review_regressions.py: 3 warnings
+tests/offline/test_workflow_report_conversation.py: 18 warnings
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\agent.py:1342: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    _mc_start = datetime.utcnow()
+
+tests/offline/test_chat_followups.py::test_followups_use_finished_answer_and_track_usage
+tests/offline/test_chat_followups.py::test_failed_suggestions_do_not_raise_or_invent_templates
+tests/offline/test_chat_followups.py::test_invalid_suggestion_payload_is_isolated
+tests/offline/test_chat_review_regressions.py::test_followups_drop_admin_requests_and_use_bounded_model_call
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\agent.py:2127: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    started = datetime.utcnow()
+
+tests/offline/test_chat_liveness.py::test_active_lease_is_not_recovered
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\chat_liveness.py:92: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    completed_at = datetime.utcnow()
+
+tests/offline/test_chat_liveness.py::test_active_lease_is_not_recovered
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\chat_liveness.py:148: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    completed_at = datetime.utcnow()
+
+tests/offline/test_model_call_recording.py::test_model_trace_records_use_real_orm_schema[completed]
+tests/offline/test_model_call_recording.py::test_model_trace_records_use_real_orm_schema[failed]
+  E:\code\Yun_tian\the_company_agent\test5\tests\offline\test_model_call_recording.py:25: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    started = datetime.utcnow()
+
+tests/offline/test_model_call_recording.py::test_model_trace_records_use_real_orm_schema[completed]
+tests/offline/test_model_call_recording.py::test_model_trace_records_use_real_orm_schema[failed]
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\runtime\agent.py:2298: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    started_at=started_at, completed_at=datetime.utcnow(),
+
+tests/offline/test_model_call_recording.py::test_trace_failure_is_visible_without_exposing_provider_error
+  E:\code\Yun_tian\the_company_agent\test5\tests\offline\test_model_call_recording.py:52: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    agent._record_model_call(db, run, datetime.utcnow(), "failed", None)
+
+tests/offline/test_platform_behaviors.py::test_expired_notice_creates_no_recipient_messages
+  E:\code\Yun_tian\the_company_agent\test5\tests\offline\test_platform_behaviors.py:26: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    row = SimpleNamespace(id="notice", status="draft", expires_at=datetime.utcnow() - timedelta(seconds=1))
+
+tests/offline/test_platform_behaviors.py::test_expired_notice_creates_no_recipient_messages
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\system_tools\notifications.py:244: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/offline/test_platform_behaviors.py::test_whole_database_backup_requires_all_organization_and_workspace_admin
+  E:\code\Yun_tian\the_company_agent\test5\backend\app\modules\system_tools\monitoring.py:46: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    _STARTED_AT = datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/offline/test_business_catalog.py::test_query_model_receives_business_question_and_existing_schema
+FAILED tests/offline/test_chat_liveness.py::test_active_lease_is_not_recovered
+FAILED tests/offline/test_natural_sql_field_repair.py::test_incomplete_planning_is_repaired_without_sql_execution[True]
+FAILED tests/offline/test_natural_sql_field_repair.py::test_incomplete_planning_is_repaired_without_sql_execution[False]
+4 failed, 491 passed, 64 warnings in 8.05s

@@ -1,0 +1,367 @@
+{
+  "started_at": "2026-10-04T04:42:14.849945+00:00",
+  "status": "failed",
+  "scope": "合成数据、临时SQLite、本机模型桩；不连接业务库或真实模型",
+  "evidence_directory": "E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-delivery-acceptance\\.implementation\\quality-gates\\chat-delivery\\20261004-044214-4a0297e4",
+  "phases": [
+    {
+      "name": "python-syntax",
+      "exit_code": 0,
+      "seconds": 1.06,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "backend/compile_check.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/python-syntax.log",
+      "log_sha256": "ffaef988d5ea300fc4f357287f516943195c256ecfea01739f283e184cb12b38"
+    },
+    {
+      "name": "backend-deliveries",
+      "exit_code": 0,
+      "seconds": 205.78,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_task_clarification_delivery.py",
+        "tests/backend/test_business_worker.py",
+        "tests/backend/test_dsh_query_execution.py",
+        "tests/backend/test_dsh_dashboard_delivery.py",
+        "tests/backend/test_template_query_snapshot.py",
+        "tests/backend/test_template_snapshot_matrix.py",
+        "tests/backend/test_openwebui_query_dashboard.py",
+        "tests/backend/test_query_delivery.py",
+        "tests/backend/test_query_presentation.py",
+        "tests/backend/test_query_presentation_report.py",
+        "tests/backend/test_dsh_query_delivery_resume.py",
+        "tests/backend/test_dsh_multiple_presentation_drafts.py",
+        "tests/backend/test_presentation_request_pages.py",
+        "tests/backend/test_presentation_partial_batches.py",
+        "tests/backend/test_presentation_intent_integrity.py",
+        "tests/backend/test_dsh_compound_contract.py",
+        "tests/backend/test_dsh_compound_boundaries.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/backend-deliveries.log",
+      "log_sha256": "53e5ca15b7aedf8c5029d4a9fe80a2eb5f12711ba871b6048f9c8d37f9184b2d"
+    },
+    {
+      "name": "backend-platform-contracts",
+      "exit_code": 0,
+      "seconds": 354.02,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_tool_schema_contract.py",
+        "tests/backend/test_runtime_tool_registration.py",
+        "tests/backend/test_connector_derivation_contract.py",
+        "tests/backend/test_model_and_workspace_permission_edges.py",
+        "tests/backend/test_auth_token_logout.py",
+        "tests/backend/test_knowledge_search_authority.py",
+        "tests/backend/test_file_template_font_units.py",
+        "tests/backend/test_analytics_snapshot_authorization.py",
+        "tests/backend/test_analytics_chart_snapshot_scope.py",
+        "tests/backend/test_analytics_dsh_and_export_contract.py",
+        "tests/backend/test_analytics_numeric_precision.py",
+        "tests/backend/test_bot_runtime_authorization.py",
+        "tests/backend/test_knowledge_tool_scope.py",
+        "tests/backend/test_business_numeric_wire.py",
+        "tests/backend/test_analytics_config_lifecycle.py",
+        "tests/backend/test_dsh_completion_contract.py",
+        "tests/backend/test_dsh_task_operation_guard.py",
+        "tests/backend/test_dsh_task_datasource_halt.py",
+        "tests/backend/test_runtime_recovery.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/backend-platform-contracts.log",
+      "log_sha256": "afa0ac41830249b204794ad4fdc3faf2b16765492c243cb19eafdda46ac2fc27"
+    },
+    {
+      "name": "backend-data-contracts",
+      "exit_code": 0,
+      "seconds": 404.45,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_query_lifecycle_control.py",
+        "tests/backend/test_query_lifecycle_governance.py",
+        "tests/backend/test_dsh_query_cancellation.py",
+        "tests/backend/test_database_provider.py",
+        "tests/backend/test_datasource_governance.py",
+        "tests/backend/test_analytics_task_control.py",
+        "tests/backend/test_analytics.py",
+        "tests/backend/test_semantic_relation_contract.py",
+        "tests/backend/test_data_profile.py",
+        "tests/backend/test_read_connection_pool.py",
+        "tests/backend/test_graph_property_contracts.py",
+        "tests/backend/test_knowledge_graph.py",
+        "tests/backend/test_graph_explore_contract.py",
+        "tests/backend/test_extraction_source_authority.py",
+        "tests/backend/test_extraction_materialization_contract.py",
+        "tests/backend/test_extraction_review_contract.py",
+        "tests/backend/test_query_source_revalidation.py",
+        "tests/backend/test_query_source_revalidation_boundaries.py",
+        "tests/backend/test_query_source_revalidation_dsh.py",
+        "tests/backend/test_query_source_revalidation_replay.py",
+        "tests/backend/test_http_query_export_contract.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/backend-data-contracts.log",
+      "log_sha256": "7fcb733e2415e480baee91d3a93753b8d2b0a0eee25c06f4b31134ca947d6a43"
+    },
+    {
+      "name": "python-socketpair-guard",
+      "exit_code": 0,
+      "seconds": 0.81,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/test_python_socketpair_guard.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/python-socketpair-guard.log",
+      "log_sha256": "94802fd4ac25dc17d3df40ce26f8d3a089c8dbf2908a82a80974460b6ca8a00e"
+    },
+    {
+      "name": "browser-port-allocation",
+      "exit_code": 0,
+      "seconds": 0.53,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/test_browser_port_allocation.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/browser-port-allocation.log",
+      "log_sha256": "cd0f217d615c8f295e481fa4bad633f4bbfa341160e276cdf7d56052091a59e4"
+    },
+    {
+      "name": "host-recovery",
+      "exit_code": 0,
+      "seconds": 0.38,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "services/dsh_host/tests/recovery-request-window.test.mjs",
+        "services/dsh_host/tests/lifecycle-recovery.test.mjs",
+        "services/dsh_host/tests/event-order.test.mjs",
+        "services/dsh_host/tests/projection.test.mjs",
+        "services/dsh_host/tests/business-tool-receipt.test.mjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/host-recovery.log",
+      "log_sha256": "179fdb0281e8120b13c2e67ce44dbd688c1d389a8d79d812e7441866548c22f4"
+    },
+    {
+      "name": "host-completion",
+      "exit_code": 0,
+      "seconds": 40.47,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_dsh_completion_host.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/host-completion.log",
+      "log_sha256": "36abf44a4cf759f1522af9511a4276e7f3b5c1c1632551ffad7fb317221b0265"
+    },
+    {
+      "name": "chart-units",
+      "exit_code": 0,
+      "seconds": 0.8,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/snapshot_chart_option.test.js",
+        "tests/ui/saved_dashboard_series.test.js",
+        "tests/ui/chat_dashboard_snapshot.test.js",
+        "tests/ui/chart_precision.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/chart-units.log",
+      "log_sha256": "491fa3b0887dd77c90aa2a47eb60504b9d5c6f8af04bb92e7345fee6213c9225"
+    },
+    {
+      "name": "compound-file-inspector",
+      "exit_code": 0,
+      "seconds": 1.97,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/offline/test_compound_file_inspector.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/compound-file-inspector.log",
+      "log_sha256": "6e8990ef04bd4869857641c081ca6dde6bb9e4b02c40d87867a1040afd18a39c"
+    },
+    {
+      "name": "compound-browser-contract",
+      "exit_code": 0,
+      "seconds": 1.08,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/compound_browser_contract.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/compound-browser-contract.log",
+      "log_sha256": "55bb6d72e0a400ceed2c8d12c92bf1d3cbe91bea0d8a4b3ef571169e7e075d1f"
+    },
+    {
+      "name": "chart-precision-browser",
+      "exit_code": 1,
+      "seconds": 5.42,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chart_precision_browser.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/chart-precision-browser.log",
+      "log_sha256": "7b38c6596e985223ca10e65436c5d73756761b63a7289cc756d3f5b3dc8ffbe3"
+    }
+  ],
+  "batch": "2026-10-04-major-16",
+  "source_commit": "7ed8f58b9fd81a151bc0d078216e822f9670aa15",
+  "source_freeze": {
+    "head": "7c7174f96a283c54da659d719b1632ff7e73eb7f",
+    "created_at": "2026-10-04T04:39:15.281455+00:00",
+    "scope": "大版本十六：第八开发浏览器；修复大屏回执卡片两处小字颜色，取证等待有限入场动画；其余源码不变。",
+    "files": [
+      {
+        "path": "apps/analytics/src/components/SmartChart.vue",
+        "sha256": "d60e1e45a3f75c4be9fcbdd4507955aca14a6c8a81860c866e1682e60aa33883"
+      },
+      {
+        "path": "apps/analytics/src/components/jimu-screen/JimuChart.vue",
+        "sha256": "172fd63aefcbdf92e28237ad6fc1a497d6dc7e6b21b07003873125331274ea8f"
+      },
+      {
+        "path": "apps/analytics/src/utils/aiChartOption.js",
+        "sha256": "e5a9bbbb28a187d9157717418b5dfcd0b7f181d2d45b0d8661272a93e5deb0dc"
+      },
+      {
+        "path": "apps/analytics/src/utils/chartPrecision.js",
+        "sha256": "715af71dfa9a4e3455939663030b8c763cda2cee6fcf86bac28fb7e59939be50"
+      },
+      {
+        "path": "apps/analytics/src/utils/dashboardData.js",
+        "sha256": "035c0a4829f27e4995194747f0601fd3a8bda8f8733fcfb75b846574c67ecc0a"
+      },
+      {
+        "path": "apps/analytics/src/utils/snapshotChartOption.js",
+        "sha256": "5984bdb7bc961d7ec42811270ef1699eeaee76e6593ff57842e07980e8ef44b8"
+      },
+      {
+        "path": "apps/web/assets/platform/ai-workbench.css",
+        "sha256": "0681b23186dba7fb3c5bb9bd246f256e8ece0dfba18eaff62537f537ec59e777"
+      },
+      {
+        "path": "backend/app/business_worker/delivery_contract.py",
+        "sha256": "ef95db92e30637c44f66dae84b9b4ec1760ed6645f6fd539055b2e3c3703d1eb"
+      },
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "sha256": "fed7f1636fe9f654145f67e91873d95884d26050746313cfad35868d9026c1ae"
+      },
+      {
+        "path": "backend/app/business_worker/replay_guard.py",
+        "sha256": "b2fd558b88b61c47aba8356c2d5bcfd9e6c7fa1b1b21f73663d24c6c5aef00eb"
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "sha256": "b17a0959f9fa1c815976653cfa3d040522f5427900c3df58b13deb9391c518fa"
+      },
+      {
+        "path": "backend/app/modules/analytics/dsh_query_execution.py",
+        "sha256": "3f3e4ec4d37f5f2c9829b6ab288a05bfc8bfb6b299f25e93bed8dda9b1f35a11"
+      },
+      {
+        "path": "backend/app/modules/analytics/execution.py",
+        "sha256": "19c6dc358895337d9d4219a86dce6a2f3afd3de8a0be986afd603b1510363706"
+      },
+      {
+        "path": "backend/app/modules/analytics/exports.py",
+        "sha256": "9c9956b40aad3186c6302468286dd388f176ad1ee1d3507c1c5b13c4447b06b0"
+      },
+      {
+        "path": "backend/app/modules/analytics/queries.py",
+        "sha256": "3f60bebade0e1c7439e57de045c981dc2e57c6eb697eba5b6fee035c88cacadf"
+      },
+      {
+        "path": "backend/app/modules/analytics/query_authority.py",
+        "sha256": "433d32c95c6f0a3f0172a1b9459101be83e51048ca611f642f24082992ba8a4f"
+      },
+      {
+        "path": "backend/app/providers/tool/database_provider.py",
+        "sha256": "3f497c290902f2dfcffd8d2023ce8b9d47ed6d39e2b4ca0e7fbcf9de104c949d"
+      },
+      {
+        "path": "backend/app/providers/tool/gateway.py",
+        "sha256": "25f71461ae224895ae1dc28cf028cf2df78ef707e38d36d236c2490b7433ee8a"
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "sha256": "5fc6aa043fd2b7f3d0d9480db49bdd70ab41514d650efbd1f36a31515b947241"
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "sha256": "df2d80bcde9873bcb03ddafb63f80b5cc934b3a6453100506182718d169328ca"
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "sha256": "96dbf789793e26d7abd1914e89b78f5304616bdbbf975845a2ece748c38d1839"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "sha256": "c7ae19f340d87401edff0b5f9dc318cfe8c3c30ea43ca752fd08e4a7b2f86830"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_operation_guard.py",
+        "sha256": "4d7ff25a1d8db45bb1cfe085c7dffe310dbc5bec034466e62a25f510c0fded76"
+      },
+      {
+        "path": "tests/backend/test_http_query_export_contract.py",
+        "sha256": "84fa05028047db5c61cfde3121c2fbd7d1587296df3073f0b9aacd2b5bfee907"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation.py",
+        "sha256": "fa77beb827c491fddcb418747f83e396ee499068db786efcbf20d6cb2869baaa"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_boundaries.py",
+        "sha256": "1263b65f0afe3566c321c39775a89ddbe60ad036cd4ed75eef470ed5d5bce06e"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_dsh.py",
+        "sha256": "a5e79660bde848a5c7eca0a8feddd45cdde98a3cf862ad310bb366765c6e6529"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_replay.py",
+        "sha256": "66344fe61572fda9d8bedb55e51179edd7fc28e1cc8c2610a6a0c3af17b3505e"
+      },
+      {
+        "path": "tests/offline/test_compound_file_inspector.py",
+        "sha256": "1c97de1e4b817a767785a5b04269d69ebffe2ae61fee09c5183bbe7605f7f532"
+      },
+      {
+        "path": "tests/ui/chart_precision.test.cjs",
+        "sha256": "54bb4ac377e33a0fe8f7e919327600de2bfa06dc8c2c22464803670c42f1b3c3"
+      },
+      {
+        "path": "tests/ui/chart_precision_browser.cjs",
+        "sha256": "97022a666806a08933dfcd7c4628f875be7c51f3be665e030c7de26d0c102a8a"
+      },
+      {
+        "path": "tests/ui/compound_browser_contract.test.cjs",
+        "sha256": "751a45d009289c3b4a5f456592a5b5b5d753b618ea37e59404b3b7b331f877a7"
+      },
+      {
+        "path": "tests/ui/compound_file_inspector.py",
+        "sha256": "c20e7256971cf999f460ee26a030f3597d28ddd3aebccdbcd065295686de4f67"
+      },
+      {
+        "path": "tests/ui/full_browser_ai_documents_acceptance.js",
+        "sha256": "5c4852dc00c13b65509dd4e49b2c16ae4554d53fc808942b51e9be01b15e49b5"
+      }
+    ],
+    "previous_freeze": ".implementation/batch16-frozen-files-before-oracle7.json",
+    "oracle_changes": [
+      "tests/ui/full_browser_ai_documents_acceptance.js"
+    ]
+  },
+  "original_manifest": ".implementation/quality-gates/chat-delivery/20261004-044214-4a0297e4/manifest.json",
+  "original_manifest_sha256": "6a05693c451adf9ec7a4f82cf7afd89b3626da8e48884ba277e7d15dc3fc011f",
+  "goal_complete": false,
+  "notes": "第十二阶段图例点击等待失败，后六阶段未执行；本份保留失败，不拼接为整轮通过。"
+}

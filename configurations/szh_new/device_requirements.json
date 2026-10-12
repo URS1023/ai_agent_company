@@ -1,0 +1,2898 @@
+{
+  "source": "szh_new",
+  "asOf": "2026-09-02 13:53:59",
+  "devices": [
+    {
+      "deviceKey": "0001567-0d546da083404d689ccb5270254f4986",
+      "deviceName": "2#炉环形加料机",
+      "plans": [
+        {
+          "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+          "planName": "电石炉五楼设备润滑保养",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+              "itemId": "0001627-1e4258f6312f45d69307f7b4941a1217",
+              "point": "环加摆线针轮减速机",
+              "code": "HXJLJ01",
+              "days": 0,
+              "lubricant": "CKC-220齿轮油",
+              "amount": "根据实际情况",
+              "method": "专用油壶注入",
+              "oilChangeCycle": "365天",
+              "oilChangeAmount": "3KG"
+            },
+            {
+              "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+              "itemId": "0001627-de8b590d732d43299e5550a09cebcaa3",
+              "point": "环加主动轮",
+              "code": "HXJLJ02",
+              "days": 15,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.05KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+              "itemId": "0001627-e5108994b97d49e590e55293716b9d10",
+              "point": "环加辅助轮",
+              "code": "HXJLJ03",
+              "days": 15,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.05KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-0d8b8beb96a7437185ee4ec2b307b133",
+      "deviceName": "1#炉出炉机器人B",
+      "plans": [
+        {
+          "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+          "planName": "电石炉区域出炉机器人",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-003daa5db6c84e3fa0f20edc475c0dd0",
+              "point": "大臂和小臂连接轴承",
+              "code": "CLJQR04",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-286aa4f2f1594eb4a0d316fca82c109e",
+              "point": "机器人链条",
+              "code": "CLJQR02",
+              "days": 7,
+              "lubricant": "废旧机械油",
+              "amount": "0.01-0.02KG",
+              "method": "专用毛刷涂抹润滑",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-b931c42727e6457d8a81388fbb911509",
+              "point": "大车行走轮",
+              "code": "CLJQR05",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-d947f1f3acb1488d97c853d3ea0cd750",
+              "point": "拉杆和小臂连接轴承",
+              "code": "CLJQR03",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-e99a97af779242ab87b8ba6a141ae2ae",
+              "point": "机器人轴承",
+              "code": "CLJQR01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": true
+    },
+    {
+      "deviceKey": "0001567-1080e120bada4139bac3a9e29443b539",
+      "deviceName": "4#皮带机B",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-18f3f1c5f2874e8db3434b02c61055a4",
+      "deviceName": "3#皮带机",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-1de1cce66ae84554929bbedcba548b3d",
+      "deviceName": "减速机",
+      "plans": [
+        {
+          "planId": "0001571-00ef3b7ecd914477811515391322a3d2",
+          "planName": "原料区域减速机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "17",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-00ef3b7ecd914477811515391322a3d2",
+              "itemId": "0001627-1fe23794a4f943eabf965a2a7af71f65",
+              "point": "原料区域减速机",
+              "code": "",
+              "days": 365,
+              "lubricant": " L-CKD320齿轮油",
+              "amount": "以实际为准",
+              "method": "标线以下补加",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-2227c1d8e09749c99557f251ac93afe1",
+      "deviceName": "1-2出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-2838347eb276479bbb75018e98bac4b7",
+      "deviceName": "2#炉出炉机器人B",
+      "plans": [
+        {
+          "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+          "planName": "电石炉区域出炉机器人",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-003daa5db6c84e3fa0f20edc475c0dd0",
+              "point": "大臂和小臂连接轴承",
+              "code": "CLJQR04",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-286aa4f2f1594eb4a0d316fca82c109e",
+              "point": "机器人链条",
+              "code": "CLJQR02",
+              "days": 7,
+              "lubricant": "废旧机械油",
+              "amount": "0.01-0.02KG",
+              "method": "专用毛刷涂抹润滑",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-b931c42727e6457d8a81388fbb911509",
+              "point": "大车行走轮",
+              "code": "CLJQR05",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-d947f1f3acb1488d97c853d3ea0cd750",
+              "point": "拉杆和小臂连接轴承",
+              "code": "CLJQR03",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-e99a97af779242ab87b8ba6a141ae2ae",
+              "point": "机器人轴承",
+              "code": "CLJQR01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-2adce1a7bb454828a312185d4f07d344",
+      "deviceName": "5#皮带机B",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-2b3b6be1388d46c9b2ba75378a421fba",
+      "deviceName": "1#炉出炉机器人C",
+      "plans": [
+        {
+          "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+          "planName": "电石炉区域出炉机器人",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-003daa5db6c84e3fa0f20edc475c0dd0",
+              "point": "大臂和小臂连接轴承",
+              "code": "CLJQR04",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-286aa4f2f1594eb4a0d316fca82c109e",
+              "point": "机器人链条",
+              "code": "CLJQR02",
+              "days": 7,
+              "lubricant": "废旧机械油",
+              "amount": "0.01-0.02KG",
+              "method": "专用毛刷涂抹润滑",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-b931c42727e6457d8a81388fbb911509",
+              "point": "大车行走轮",
+              "code": "CLJQR05",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-d947f1f3acb1488d97c853d3ea0cd750",
+              "point": "拉杆和小臂连接轴承",
+              "code": "CLJQR03",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-e99a97af779242ab87b8ba6a141ae2ae",
+              "point": "机器人轴承",
+              "code": "CLJQR01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-3b3ebc4911774f069b65a08ffabf03b5",
+      "deviceName": "8#皮带机",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-4bd2a5151fc44e89bc5cb2781d87c7cb",
+      "deviceName": "1-3出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-5780ab52fc0746c6ad97ae8db6695776",
+      "deviceName": "1#炉出炉机器人A",
+      "plans": [
+        {
+          "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+          "planName": "电石炉区域出炉机器人",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-003daa5db6c84e3fa0f20edc475c0dd0",
+              "point": "大臂和小臂连接轴承",
+              "code": "CLJQR04",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-286aa4f2f1594eb4a0d316fca82c109e",
+              "point": "机器人链条",
+              "code": "CLJQR02",
+              "days": 7,
+              "lubricant": "废旧机械油",
+              "amount": "0.01-0.02KG",
+              "method": "专用毛刷涂抹润滑",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-b931c42727e6457d8a81388fbb911509",
+              "point": "大车行走轮",
+              "code": "CLJQR05",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-d947f1f3acb1488d97c853d3ea0cd750",
+              "point": "拉杆和小臂连接轴承",
+              "code": "CLJQR03",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-e99a97af779242ab87b8ba6a141ae2ae",
+              "point": "机器人轴承",
+              "code": "CLJQR01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-5e088c31b145431980ac690cee3981dd",
+      "deviceName": "2#皮带机",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-6cb6cc0f56974639af022cabcdddaccc",
+      "deviceName": "2#炉出炉机器人C",
+      "plans": [
+        {
+          "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+          "planName": "电石炉区域出炉机器人",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-003daa5db6c84e3fa0f20edc475c0dd0",
+              "point": "大臂和小臂连接轴承",
+              "code": "CLJQR04",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-286aa4f2f1594eb4a0d316fca82c109e",
+              "point": "机器人链条",
+              "code": "CLJQR02",
+              "days": 7,
+              "lubricant": "废旧机械油",
+              "amount": "0.01-0.02KG",
+              "method": "专用毛刷涂抹润滑",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-b931c42727e6457d8a81388fbb911509",
+              "point": "大车行走轮",
+              "code": "CLJQR05",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-d947f1f3acb1488d97c853d3ea0cd750",
+              "point": "拉杆和小臂连接轴承",
+              "code": "CLJQR03",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-e99a97af779242ab87b8ba6a141ae2ae",
+              "point": "机器人轴承",
+              "code": "CLJQR01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-7e836097cfda42818c0d58315e8473af",
+      "deviceName": "1#主变",
+      "plans": [
+        {
+          "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+          "planName": "110kV变电站1#主变巡检",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-0dc1fc90bbea4adc9c393ee87febd300",
+              "name": "瓦斯继电器有无气体",
+              "indicators": "无",
+              "content": "",
+              "requirementText": "无"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-3d2ecd0045b8447e8722013e61472ae4",
+              "name": "1#主变低压侧A相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-3f24b69a234a463f9e5a61346aecdf0a",
+              "name": "1#主变高压侧C相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-460928ccd33747be8defb9646a37139e",
+              "name": "冷却系统是否正常",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-47a030290c814109898c4bf767a37bf9",
+              "name": "1#主变低压侧C相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-4e0c16d0b29f455289443cc988ccee46",
+              "name": "接地是否良好",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-5a808fd9d42e41c1ba213319036c986c",
+              "name": "主体油位、油色",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-5c7828ce57f24740b16ffff108c008bd",
+              "name": "1#主变高压侧一次电流",
+              "indicators": "实时电流",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-5dfc6bea4247459687376bca8838c172",
+              "name": "硅胶是否变色",
+              "indicators": "无",
+              "content": "",
+              "requirementText": "无"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-61559f91d39146a08c3537fc93932bd8",
+              "name": "1#主变低压侧一次电流",
+              "indicators": "实时电流",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-6747bf07f5bb4787989f46d89c99fc29",
+              "name": "是否漏、渗油",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-83b02d4f74ec48faa84da7a26c8f1550",
+              "name": "1#主变低压侧B相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-8f92787269bc4251b6fda05175e69d8f",
+              "name": "分接开关油位、油色",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-9161566fb80a418795661181f2435dd5",
+              "name": "1#主变运行温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-924a72dc70744fcb8a6c5edb970e733d",
+              "name": "1#主变高压侧B相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-c97c81fe4d8b452abbd9d732675d8f12",
+              "name": "1#主变高压侧A相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c0e53361dfc547a4977775ee84c96e20",
+              "itemId": "0001572-db0b91418fbf43b68aca0e150af2c2cd",
+              "name": "有无异常声响",
+              "indicators": "无",
+              "content": "",
+              "requirementText": "无"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-84bce3b6a55c4caab52aaf1ce2230c2d",
+      "deviceName": "配料站配电室",
+      "plans": [
+        {
+          "planId": "0001571-e16ecba9aee24e87bbd21044329a2f64",
+          "planName": "配料站配电室",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-e16ecba9aee24e87bbd21044329a2f64",
+              "itemId": "0001572-59c15c8f120848ef81b3079e8c855019",
+              "name": "照明是否正常",
+              "indicators": "是/否",
+              "content": "",
+              "requirementText": "是/否"
+            },
+            {
+              "planId": "0001571-e16ecba9aee24e87bbd21044329a2f64",
+              "itemId": "0001572-8fc89320e91d4ad7b61cfcc37ea5fd90",
+              "name": "各配电柜有无异味",
+              "indicators": "有/无",
+              "content": "",
+              "requirementText": "有/无"
+            },
+            {
+              "planId": "0001571-e16ecba9aee24e87bbd21044329a2f64",
+              "itemId": "0001572-de63d83cb69f4fb19eb0628ae2758ec3",
+              "name": "各配电柜有无异响",
+              "indicators": "有/无",
+              "content": "",
+              "requirementText": "有/无"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-86cc8ee2e79b479aa1fcd1142df991b8",
+      "deviceName": "2#炉出炉机器人A",
+      "plans": [
+        {
+          "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+          "planName": "电石炉区域出炉机器人",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-003daa5db6c84e3fa0f20edc475c0dd0",
+              "point": "大臂和小臂连接轴承",
+              "code": "CLJQR04",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-286aa4f2f1594eb4a0d316fca82c109e",
+              "point": "机器人链条",
+              "code": "CLJQR02",
+              "days": 7,
+              "lubricant": "废旧机械油",
+              "amount": "0.01-0.02KG",
+              "method": "专用毛刷涂抹润滑",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-b931c42727e6457d8a81388fbb911509",
+              "point": "大车行走轮",
+              "code": "CLJQR05",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-d947f1f3acb1488d97c853d3ea0cd750",
+              "point": "拉杆和小臂连接轴承",
+              "code": "CLJQR03",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7782349e818548f2a2c55a4ecad26bcf",
+              "itemId": "0001627-e99a97af779242ab87b8ba6a141ae2ae",
+              "point": "机器人轴承",
+              "code": "CLJQR01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.01-0.02KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-8f825b609c124b66a2ae9b6328bd3e64",
+      "deviceName": "2-1西出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-91ae2dcf786c41889e5f3069cbe15ff1",
+      "deviceName": "1#皮带机",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-92fc6ba2e8324c728d683bf0e27626ef",
+      "deviceName": "5#皮带机A",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-97204e30725d4d46b93b016a7795a779",
+      "deviceName": "2-3出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-a87fb0db4f864eb4a996da0ab49761c9",
+      "deviceName": "2#主变",
+      "plans": [
+        {
+          "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+          "planName": "110kV变电站2#主变巡检",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-0395cdecf4db485d89326be85251357f",
+              "name": "2#主变高压侧C相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-17a406bbb1754c61ac114a3b087d0135",
+              "name": "2#主变低压侧C相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-1996325b62f74b5ca91e878aa123ac63",
+              "name": " 有无异常声响",
+              "indicators": "无",
+              "content": "",
+              "requirementText": "无"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-39d260c0122647749bdcb5ecee7e38a9",
+              "name": "2#主变高压侧一次电流",
+              "indicators": "实时电流",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-3e13161e7d914a07b7596481484f695b",
+              "name": "接地是否良好",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-41eebf1a9de9411db26bef88a675b262",
+              "name": "冷却系统是否正常",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-71002ce15bc34f68a39fb8e4e1fbb0b0",
+              "name": "2#主变低压侧A相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-7457b5e58ded4a109a419636d81a1f49",
+              "name": "2#主变低压侧一次电流",
+              "indicators": "实时电流",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-7a33bbc790934f97a7cde7209a7c7fec",
+              "name": "2#主变高压侧B相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-7c815d5c67064333bd1dc4fef6014cd0",
+              "name": "主体油位、油色",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-88640e5ad86f4959b9ea99950eb68b18",
+              "name": "硅胶是否变色",
+              "indicators": "无变色",
+              "content": "",
+              "requirementText": "无变色"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-a86f639db2e646f08f6a71a815dbb297",
+              "name": "分接开关油位、油色",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-b7aeadca35854ab5a2b0e0474feb7a9a",
+              "name": "瓦斯继电器有无气体",
+              "indicators": "无",
+              "content": "",
+              "requirementText": "无"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-bccec7b8db7a4d1cbd0a56c7c754f357",
+              "name": "2#主变运行温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-c81f27249a7b48ac961fceaa0ccc9d1c",
+              "name": " 是否漏、渗油",
+              "indicators": "正常",
+              "content": "",
+              "requirementText": "正常"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-eef87e1a41af45429fbb7c813e35e8cc",
+              "name": "2#主变低压侧B相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-cd2d584b481d480a80b93fbb4dece7c3",
+              "itemId": "0001572-ff060e78322b4ee9a83f9382c2df30f5",
+              "name": "2#主变高压侧A相接线温度",
+              "indicators": "实时温度",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-ad510b1cab1b46e3a947104af63642e4",
+      "deviceName": "2-1东出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-bdb5b8d174ef404abfb1bbfc4537b782",
+      "deviceName": "4#皮带机A",
+      "plans": [
+        {
+          "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+          "planName": "皮带机",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "14",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-0834f9c94ab84d3cb4381fb7a36eb302",
+              "point": "配重上方从动滚筒2左",
+              "code": "SSPD06",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-2495532feda242579f427c7d54e737a7",
+              "point": "配重上方从动滚筒2右",
+              "code": "SSPD07",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-386f5d3b8a4445bba7ba4ecec7ce28fc",
+              "point": "机尾从动滚筒右",
+              "code": "SSPD11",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5724323eedad4acbbbbe82273526edba",
+              "point": "机头从动滚筒轴承座右",
+              "code": "SSPD03",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-5b7acccf41ea4ec49a58a82ae1076d30",
+              "point": "配重下方从动滚筒左",
+              "code": "SSPD08",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-62de010c6f434110bf111da7144e86fe",
+              "point": "配重上方从动滚筒1右",
+              "code": "SSPD05",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-8d4b0150d590405a9f46c613715acb8b",
+              "point": "压带滚轮左",
+              "code": "SSPD12",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a255b7bc865a4cb1804c69e4e3b0f904",
+              "point": "机头从动滚筒轴承座左",
+              "code": "SSPD02",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "--",
+              "oilChangeAmount": "--"
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-a7287ec17f274d8095b79bd6dde14b34",
+              "point": "压带滚轮右",
+              "code": "SSPD13",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-ac845620339647ac8ea7dade46c19491",
+              "point": "机尾从动滚筒左",
+              "code": "SSPD10",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-d835e269162f483ca02af5f5da8b9a76",
+              "point": "配重上方从动滚筒1左",
+              "code": "SSPD04",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-7aa4d9b9216b41e09f9295027507b1bc",
+              "itemId": "0001627-efdbd1f184f24eec8be8bfb87ba782e2",
+              "point": "配重下方从动滚筒右",
+              "code": "SSPD09",
+              "days": 30,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.04Kg",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-ca64d6ba125445b8bd72e0a735f1afc4",
+      "deviceName": "柴油发电机",
+      "plans": [
+        {
+          "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+          "planName": "柴油发电机巡检",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-0bd0d570c4864c4db9880d017c911005",
+              "name": "柴油发电机",
+              "indicators": "柴油油温",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-166909d420d1410c81b1bb8952f61aee",
+              "name": "柴油发电机",
+              "indicators": "蓄电池充电机电压",
+              "content": "21V以上",
+              "requirementText": "21V以上",
+              "numericRule": {
+                "min": 21,
+                "unit": "V"
+              }
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-1c0944a566ce4a45b32ffd0cd825bf1b",
+              "name": "柴油发电机",
+              "indicators": "进油阀门",
+              "content": "在打开状态",
+              "requirementText": "在打开状态"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-1cb5c1e9f1c04469b01d05532665810f",
+              "name": "柴油发电机",
+              "indicators": "机油油位",
+              "content": "在2/3以上",
+              "requirementText": "在2/3以上",
+              "manualReason": "包含数值或多项联合要求；缺少分别可核对的实际值，需逐项人工核实"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-48cf8d680d9d48df9609509828050468",
+              "name": "柴油发电机",
+              "indicators": "柴油发电机房温度",
+              "content": "在10°C以上",
+              "requirementText": "在10°C以上",
+              "numericRule": {
+                "min": 10,
+                "unit": "°C"
+              }
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-520beddec91545d085617eac67385bf7",
+              "name": "柴油发电机",
+              "indicators": "油箱",
+              "content": "油位在50%以上、无渗漏",
+              "requirementText": "油位在50%以上、无渗漏",
+              "manualReason": "包含数值或多项联合要求；缺少分别可核对的实际值，需逐项人工核实"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-59194754de234efc966c41f8a60ba9a5",
+              "name": "柴油发电机",
+              "indicators": "检查手动、自动转换开关",
+              "content": "自动位置",
+              "requirementText": "自动位置"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-6ab9070cc7a24de49ba1dcf26376f1e5",
+              "name": "柴油发电机",
+              "indicators": "发电机面板",
+              "content": "在手动状态，断路器全分、转速为0",
+              "requirementText": "在手动状态，断路器全分、转速为0",
+              "manualReason": "包含数值或多项联合要求；缺少分别可核对的实际值，需逐项人工核实"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-919362fe9a154cf38951f496310e1b8b",
+              "name": "柴油发电机",
+              "indicators": "柴油发电机蓄电池组输出开关",
+              "content": "在“ON”位置",
+              "requirementText": "在“ON”位置"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-9281c4ee51a0485e805a54ec443bea73",
+              "name": "柴油发电机",
+              "indicators": "发电机组周围",
+              "content": "无杂物",
+              "requirementText": "无杂物"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-92b85e339d404c74bcd2bab87bbd211c",
+              "name": "柴油发电机",
+              "indicators": "柴油发电机本体",
+              "content": "无漏油、漏水、漏机油现象",
+              "requirementText": "无漏油、漏水、漏机油现象"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-b2555e6847cb4df0896aae7d9fb13791",
+              "name": "柴油发电机",
+              "indicators": "润滑油尺",
+              "content": "在两格以上",
+              "requirementText": "在两格以上",
+              "manualReason": "包含数值或多项联合要求；缺少分别可核对的实际值，需逐项人工核实"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-c5b4bf3a631945cf9fffaf342eaf0b99",
+              "name": "柴油发电机",
+              "indicators": "回油阀门",
+              "content": "在打开状态",
+              "requirementText": "在打开状态"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-ccf2e32276b74643873b151924a8d232",
+              "name": "柴油发电机",
+              "indicators": "柴油发电机水箱水位",
+              "content": "水位刻度在距顶部7-8m处",
+              "requirementText": "水位刻度在距顶部7-8m处",
+              "manualReason": "源要求写为距顶部7-8m，单位和测量位置需业务确认，不擅自改成厘米"
+            },
+            {
+              "planId": "0001571-83ac57e648fd4cb6b6c8b6d9f669008d",
+              "itemId": "0001572-e8517f144acb4d9e9ea08fab3c0797e6",
+              "name": "柴油发电机",
+              "indicators": "水套加热器在运行状态",
+              "content": "自动加热水温工作正常",
+              "requirementText": "自动加热水温工作正常"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-ce6009b3fbfe430897987101421486b6",
+      "deviceName": "2-2出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-d6bf0ac1428141aa889243c859387f84",
+      "deviceName": "1-1西出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-dbd388c5196d4bcaa5a10b11bc12f90f",
+      "deviceName": "1#炉环形加料机",
+      "plans": [
+        {
+          "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+          "planName": "电石炉五楼设备润滑保养",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+              "itemId": "0001627-1e4258f6312f45d69307f7b4941a1217",
+              "point": "环加摆线针轮减速机",
+              "code": "HXJLJ01",
+              "days": 0,
+              "lubricant": "CKC-220齿轮油",
+              "amount": "根据实际情况",
+              "method": "专用油壶注入",
+              "oilChangeCycle": "365天",
+              "oilChangeAmount": "3KG"
+            },
+            {
+              "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+              "itemId": "0001627-de8b590d732d43299e5550a09cebcaa3",
+              "point": "环加主动轮",
+              "code": "HXJLJ02",
+              "days": 15,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.05KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            },
+            {
+              "planId": "0001571-4a00fe1f740e4a238061f0fa6d4dd0d0",
+              "itemId": "0001627-e5108994b97d49e590e55293716b9d10",
+              "point": "环加辅助轮",
+              "code": "HXJLJ03",
+              "days": 15,
+              "lubricant": "3#锂基脂",
+              "amount": "0.02-0.05KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-e0cef5e6c4354433a20d92297b45d2a4",
+      "deviceName": "1-1东出炉小车",
+      "plans": [
+        {
+          "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+          "planName": "电石区域出炉小车润滑",
+          "scene": "maintenance",
+          "cycleCode": null,
+          "cycleLabel": "未填",
+          "planCycle": "13",
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-81247eb052464f448d544b06a382f6f1",
+              "itemId": "0001627-361cd6eacf734fc69a70f2f274031aab",
+              "point": "小车瓦加轴承",
+              "code": "CLXC01",
+              "days": 7,
+              "lubricant": "3#锂基脂",
+              "amount": "0.1-0.2KG",
+              "method": "加油枪注入",
+              "oilChangeCycle": "",
+              "oilChangeAmount": ""
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-efaa56c92bef43edb1f5637df367ec3b",
+      "deviceName": "直流充电屏",
+      "plans": [
+        {
+          "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+          "planName": "直流屏巡检",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-20618fc750e146a2920a31b3ac0360a2",
+              "name": "直流充电屏",
+              "indicators": "直流系统接地情况",
+              "content": "无接地",
+              "requirementText": "无接地"
+            },
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-251799cf86ef484cbf7e58ef649bb2f1",
+              "name": "直流充电屏",
+              "indicators": "屏柜及地面卫生",
+              "content": "有无积灰",
+              "requirementText": "有无积灰"
+            },
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-943e8ab8b5bb4ed59fbe0ca062d3b95d",
+              "name": "直流充电屏",
+              "indicators": "告警",
+              "content": "是否有告警",
+              "requirementText": "是否有告警"
+            },
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-b2c0e09ad21b41ce8dc10b0e0453afd4",
+              "name": "直流充电屏",
+              "indicators": "直流母线电压",
+              "content": "数值",
+              "requirementText": "数值",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-ca83b6883c8545698170da004d1e3654",
+              "name": "直流充电屏",
+              "indicators": "交流电压",
+              "content": "数值",
+              "requirementText": "数值",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-ce11ac1919d74e3bab8783ddedf42cb2",
+              "name": "直流充电屏",
+              "indicators": "电池充电模块",
+              "content": "是否正常",
+              "requirementText": "是否正常"
+            },
+            {
+              "planId": "0001571-c49a58a4e83b4de8917daf0718c15b6f",
+              "itemId": "0001572-e6a311ae0b6b4cf1a379599a48f0957e",
+              "name": "直流充电屏",
+              "indicators": "电池电压",
+              "content": "是否正常",
+              "requirementText": "是否正常"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-eff59d873a7a47a195572814fa49ae97",
+      "deviceName": "原料配电室",
+      "plans": [
+        {
+          "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+          "planName": "原料配电室",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-236746ece4ec48e2b92fa302f9c3f9fa",
+              "name": "各配电柜有无异响",
+              "indicators": "有/无",
+              "content": "",
+              "requirementText": "有/无"
+            },
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-571d050fcb0149a5ab3b886ab37897bf",
+              "name": "低压工作进线电流",
+              "indicators": "实时",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-774d5fcb7acb4374bbf781882c56588f",
+              "name": "各配电柜有无异味",
+              "indicators": "有/无",
+              "content": "",
+              "requirementText": "有/无"
+            },
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-98bc8ec1134a41eb9b8796da608bcfc5",
+              "name": "照明是否正常",
+              "indicators": "是/否",
+              "content": "",
+              "requirementText": "是/否"
+            },
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-a2a52642978b4049890c1e04d676b1b4",
+              "name": "低压工作进线电压",
+              "indicators": "实时",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-b97fd439541e4f2b8734445dfa001e0d",
+              "name": "变压器温度",
+              "indicators": "实时",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-f3c4172fa35f47c5a81bbed74afc4b44",
+              "itemId": "0001572-cf8697fee41e43318cda5151a8c0357a",
+              "name": "空调是否正常运行",
+              "indicators": "是/否",
+              "content": "",
+              "requirementText": "是/否"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    },
+    {
+      "deviceKey": "0001567-f75482aac9b14e4489a9c82841c6cb41",
+      "deviceName": "石灰窑配电室",
+      "plans": [
+        {
+          "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+          "planName": "石灰窑配电室",
+          "scene": "inspection",
+          "cycleCode": 2,
+          "cycleLabel": "4小时",
+          "planCycle": null,
+          "ambiguousName": false,
+          "items": [
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-25a0afcd5f654747823edc4d844e7ff5",
+              "name": "各配电室有无异响",
+              "indicators": "有/无",
+              "content": "",
+              "requirementText": "有/无"
+            },
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-52d45a6f20bd4bbf8772b04d889e2797",
+              "name": "低压工作进线电流",
+              "indicators": "实时",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-6ff96cca667d4edfb741f9ff7ab9a371",
+              "name": "低压工作进线电压",
+              "indicators": "实时",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-9320bdbd73fb48e5916156b156117e09",
+              "name": "变压器温度",
+              "indicators": "实时",
+              "content": "",
+              "requirementText": "",
+              "manualReason": "源计划只要求记录实时数值，未提供合格上下限，不能自行设置报警阈值"
+            },
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-97b2696a102343e2a0d9e0181813a542",
+              "name": "各配电柜有无异味",
+              "indicators": "有/无",
+              "content": "",
+              "requirementText": "有/无"
+            },
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-a1d899fd55d6408e824b113c7c5e5eb1",
+              "name": "照明是否正常",
+              "indicators": "是/否",
+              "content": "",
+              "requirementText": "是/否"
+            },
+            {
+              "planId": "0001571-33234483659d4c9e8871a41d8500eb19",
+              "itemId": "0001572-ca13c1167f484571a0df3695373366c2",
+              "name": "空调是否正常",
+              "indicators": "是/否",
+              "content": "",
+              "requirementText": "是/否"
+            }
+          ]
+        }
+      ],
+      "repairEnabled": false
+    }
+  ]
+}

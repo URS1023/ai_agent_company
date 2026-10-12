@@ -1,0 +1,634 @@
+{
+  "date": "2026-09-10T17:21:59",
+  "source": {
+    "id": "01M259A7KTHDCWNW2T7P6REKP4",
+    "name": "银皓数据库副本",
+    "host": "192.168.1.224",
+    "port": 3308,
+    "databaseName": "yinhao_database_copy",
+    "version": 2,
+    "maxRows": 10000,
+    "timeoutSeconds": 60
+  },
+  "previousSourceId": "01M24QETPHHHEHA9ZJ6FBYVZ6D",
+  "schemaComparison": {
+    "tablesChecked": 20,
+    "onlyOld": [],
+    "onlyNew": []
+  },
+  "matchedTableCounts": 20,
+  "workflows": 50,
+  "devices": 32,
+  "datasets": 12,
+  "preservedDrafts": [
+    "01M257SX8WKAA10FBWR9F8V1CF",
+    "01M24QTJRZGV40QRWRKKKA9JPQ",
+    "01M24QF99MPR288FQZRZ16NK24"
+  ],
+  "workflowRevisions": [
+    {
+      "id": "01M257SX8WKAA10FBWR9F8V1CF",
+      "name": "来料质检 · 石灰 · 石 灰  质检报告",
+      "version": 17,
+      "publishedRevision": 16
+    },
+    {
+      "id": "01M24QTJRZGV40QRWRKKKA9JPQ",
+      "name": "1#炉环形加料机 · 设备预警",
+      "version": 26,
+      "publishedRevision": 25
+    },
+    {
+      "id": "01M257SYHC710EY87NSAPCPDCT",
+      "name": "过程质检 · 待确认归属 · 未关联产品与模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SYPSEJZHPA8D08SC2JZF",
+      "name": "成品质检 · 待确认归属 · 未关联产品与模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SXMXMXV6CNTZ6D3869CC",
+      "name": "成品质检 · 电石 · 出厂成品电石质检模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SXV1XCJ437HAC3KGYM8H",
+      "name": "成品质检 · 电石 · 炉前电石质检模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SY0HFW8JDBFCXDG1CN3X",
+      "name": "过程质检 · 石灰 · 石灰窑模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SY65BBYV9ERGKY0J253G",
+      "name": "过程质检 · 焦炭 · 筛分楼焦炭",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SYBN76REMJZAP4FFPQNW",
+      "name": "过程质检 · 石灰 · 筛分楼石灰模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SWK4QT2PGZ6KWTR9183H",
+      "name": "来料质检 · 兰炭 · 兰炭质检模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SWSHCGP8TMA3YYPPA6MG",
+      "name": "来料质检 · 焦炭 · 焦 炭  质检报告",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SX11Z1M5ET63PXT6YEST",
+      "name": "来料质检 · 电极糊 · 电极糊质检报告",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SXF2VJHYH6F2X8SWRK8V",
+      "name": "来料质检 · 石灰石 · 石灰石质检报告",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M24QF99MPR288FQZRZ16NK24",
+      "name": "银皓数据库副本 · 来料质检",
+      "version": 14,
+      "publishedRevision": 13
+    },
+    {
+      "id": "01M24QF9HDTXTXC3YA55BHXVVQ",
+      "name": "银皓数据库副本 · 成品质检",
+      "version": 12,
+      "publishedRevision": 12
+    },
+    {
+      "id": "01M24QF9EGFHG51NK8DDGWQD0J",
+      "name": "银皓数据库副本 · 过程质检",
+      "version": 12,
+      "publishedRevision": 12
+    },
+    {
+      "id": "01M24QTKWGSZXRR3806PAVZHKS",
+      "name": "石灰窑配电室 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTKM0ZQA4WPC66GB1193Y",
+      "name": "原料配电室 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTK2SRP8WTSNJ05JV7W45",
+      "name": "1-1东出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTKBCXR8GKD2HM1QY6J4E",
+      "name": "直流充电屏 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTJG8Q3M5YT2FB1DNZ3AD",
+      "name": "1-1西出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTJ7BM6P8ND1ZG7GQPMYB",
+      "name": "2-2出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTHYA7BQW8XSESDNRNFEE",
+      "name": "柴油发电机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTH900BB4NT387P2KZYRD",
+      "name": "2-1东出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTHN6TYQ34AX0XPXD5H5W",
+      "name": "4#皮带机A · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTGSVXKSFHNDN20GWVQCM",
+      "name": "2#主变 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTGCE58MX4Y8HPTXTP71S",
+      "name": "2-3出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTFZY0FZW8ZDRTAW1MD9D",
+      "name": "5#皮带机A · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTFM20TPNYQHS86CTVRVC",
+      "name": "1#皮带机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTF8172ZXP5608FCKGEZB",
+      "name": "2-1西出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTEW0B2CKN39AAE354N56",
+      "name": "2#炉出炉机器人A · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTEFTWVRWWBE7C95YJT7Y",
+      "name": "配料站配电室 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTE4E73W5E01978ARRX00",
+      "name": "1#主变 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTDRNPMBWNPXEVXTG38T9",
+      "name": "2#炉出炉机器人C · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTDBZ75X6ZJEMYQ822AV3",
+      "name": "2#皮带机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTCMZ9CEAVYKJJGR66JVX",
+      "name": "1-3出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTD08K2VAFVBYDXRX0DFT",
+      "name": "1#炉出炉机器人A · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTC9JKJ1N0A8R36EEJ1Q7",
+      "name": "8#皮带机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTBXVGVMRCMX96JWQ7ZJH",
+      "name": "1#炉出炉机器人C · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTBJ09BAV8HXQVV7P442K",
+      "name": "5#皮带机B · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTATZ4AWK5JT4VA4DGQ67",
+      "name": "1-2出炉小车 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTB6WQB3X5CZS5WSQXSRD",
+      "name": "2#炉出炉机器人B · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTAFHZMYNYZN3F856F178",
+      "name": "减速机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTA3PQ6MTFFHXKMZTN9TM",
+      "name": "3#皮带机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QT9QC66X6RMCMNMVPVPP8",
+      "name": "4#皮带机B · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QT9BD3GB6Z94N6768ZCRZ",
+      "name": "1#炉出炉机器人B · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QT8ZF8QRWA3662JP71E80",
+      "name": "2#炉环形加料机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QF9TGSDMSTWW5906SVFMF",
+      "name": "银皓数据库副本 · 维修预警",
+      "version": 20,
+      "publishedRevision": 20
+    },
+    {
+      "id": "01M24QF9MTR6JVEGJESTQCW507",
+      "name": "银皓数据库副本 · 巡检预警",
+      "version": 20,
+      "publishedRevision": 20
+    },
+    {
+      "id": "01M24QF9QNRW8FTMX1KYJNA359",
+      "name": "银皓数据库副本 · 保养预警",
+      "version": 20,
+      "publishedRevision": 20
+    }
+  ],
+  "currentWorkflowRevisions": [
+    {
+      "id": "01M24QTJRZGV40QRWRKKKA9JPQ",
+      "name": "1#炉环形加料机 · 设备预警",
+      "version": 32,
+      "publishedRevision": 31
+    },
+    {
+      "id": "01M24QTEW0B2CKN39AAE354N56",
+      "name": "2#炉出炉机器人A · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTD08K2VAFVBYDXRX0DFT",
+      "name": "1#炉出炉机器人A · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTDRNPMBWNPXEVXTG38T9",
+      "name": "2#炉出炉机器人C · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTB6WQB3X5CZS5WSQXSRD",
+      "name": "2#炉出炉机器人B · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTBXVGVMRCMX96JWQ7ZJH",
+      "name": "1#炉出炉机器人C · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QT8ZF8QRWA3662JP71E80",
+      "name": "2#炉环形加料机 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QT9BD3GB6Z94N6768ZCRZ",
+      "name": "1#炉出炉机器人B · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTK2SRP8WTSNJ05JV7W45",
+      "name": "1-1东出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTJG8Q3M5YT2FB1DNZ3AD",
+      "name": "1-1西出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTHN6TYQ34AX0XPXD5H5W",
+      "name": "4#皮带机A · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTJ7BM6P8ND1ZG7GQPMYB",
+      "name": "2-2出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTH900BB4NT387P2KZYRD",
+      "name": "2-1东出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTGCE58MX4Y8HPTXTP71S",
+      "name": "2-3出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTFM20TPNYQHS86CTVRVC",
+      "name": "1#皮带机 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTFZY0FZW8ZDRTAW1MD9D",
+      "name": "5#皮带机A · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTF8172ZXP5608FCKGEZB",
+      "name": "2-1西出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTCMZ9CEAVYKJJGR66JVX",
+      "name": "1-3出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTDBZ75X6ZJEMYQ822AV3",
+      "name": "2#皮带机 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTC9JKJ1N0A8R36EEJ1Q7",
+      "name": "8#皮带机 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTBJ09BAV8HXQVV7P442K",
+      "name": "5#皮带机B · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTATZ4AWK5JT4VA4DGQ67",
+      "name": "1-2出炉小车 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTAFHZMYNYZN3F856F178",
+      "name": "减速机 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QT9QC66X6RMCMNMVPVPP8",
+      "name": "4#皮带机B · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M24QTA3PQ6MTFFHXKMZTN9TM",
+      "name": "3#皮带机 · 设备预警",
+      "version": 21,
+      "publishedRevision": 21
+    },
+    {
+      "id": "01M257SX8WKAA10FBWR9F8V1CF",
+      "name": "来料质检 · 石灰 · 石 灰  质检报告",
+      "version": 19,
+      "publishedRevision": 16
+    },
+    {
+      "id": "01M24QF9QNRW8FTMX1KYJNA359",
+      "name": "银皓数据库副本 · 保养预警",
+      "version": 20,
+      "publishedRevision": 20
+    },
+    {
+      "id": "01M24QF9MTR6JVEGJESTQCW507",
+      "name": "银皓数据库副本 · 巡检预警",
+      "version": 20,
+      "publishedRevision": 20
+    },
+    {
+      "id": "01M24QF9TGSDMSTWW5906SVFMF",
+      "name": "银皓数据库副本 · 维修预警",
+      "version": 20,
+      "publishedRevision": 20
+    },
+    {
+      "id": "01M24QTE4E73W5E01978ARRX00",
+      "name": "1#主变 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTEFTWVRWWBE7C95YJT7Y",
+      "name": "配料站配电室 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTGSVXKSFHNDN20GWVQCM",
+      "name": "2#主变 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTHYA7BQW8XSESDNRNFEE",
+      "name": "柴油发电机 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTKBCXR8GKD2HM1QY6J4E",
+      "name": "直流充电屏 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QTKM0ZQA4WPC66GB1193Y",
+      "name": "原料配电室 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QF9EGFHG51NK8DDGWQD0J",
+      "name": "银皓数据库副本 · 过程质检",
+      "version": 12,
+      "publishedRevision": 12
+    },
+    {
+      "id": "01M24QF9HDTXTXC3YA55BHXVVQ",
+      "name": "银皓数据库副本 · 成品质检",
+      "version": 12,
+      "publishedRevision": 12
+    },
+    {
+      "id": "01M24QTKWGSZXRR3806PAVZHKS",
+      "name": "石灰窑配电室 · 设备预警",
+      "version": 17,
+      "publishedRevision": 17
+    },
+    {
+      "id": "01M24QF99MPR288FQZRZ16NK24",
+      "name": "银皓数据库副本 · 来料质检",
+      "version": 14,
+      "publishedRevision": 13
+    },
+    {
+      "id": "01M257SWSHCGP8TMA3YYPPA6MG",
+      "name": "来料质检 · 焦炭 · 焦 炭  质检报告",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SX11Z1M5ET63PXT6YEST",
+      "name": "来料质检 · 电极糊 · 电极糊质检报告",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SXF2VJHYH6F2X8SWRK8V",
+      "name": "来料质检 · 石灰石 · 石灰石质检报告",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SWK4QT2PGZ6KWTR9183H",
+      "name": "来料质检 · 兰炭 · 兰炭质检模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SYBN76REMJZAP4FFPQNW",
+      "name": "过程质检 · 石灰 · 筛分楼石灰模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SXV1XCJ437HAC3KGYM8H",
+      "name": "成品质检 · 电石 · 炉前电石质检模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SY0HFW8JDBFCXDG1CN3X",
+      "name": "过程质检 · 石灰 · 石灰窑模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SY65BBYV9ERGKY0J253G",
+      "name": "过程质检 · 焦炭 · 筛分楼焦炭",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SXMXMXV6CNTZ6D3869CC",
+      "name": "成品质检 · 电石 · 出厂成品电石质检模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SYPSEJZHPA8D08SC2JZF",
+      "name": "成品质检 · 待确认归属 · 未关联产品与模板",
+      "version": 4,
+      "publishedRevision": 4
+    },
+    {
+      "id": "01M257SYHC710EY87NSAPCPDCT",
+      "name": "过程质检 · 待确认归属 · 未关联产品与模板",
+      "version": 4,
+      "publishedRevision": 4
+    }
+  ],
+  "additionalDatasetsAfterSwitch": 1,
+  "actualInspectionEnabledDevices": 8
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="">
+  <defs>
+    <linearGradient id="cloudBrainGradient" x1="5" y1="5" x2="43" y2="43" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#56d8ff"/>
+      <stop offset="0.48" stop-color="#2d7bff"/>
+      <stop offset="1" stop-color="#7457ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="13" fill="#071f3a"/>
+  <path d="M13.5 31.5h21.2a7.3 7.3 0 0 0 .7-14.6 11.8 11.8 0 0 0-22.2 3.3 5.7 5.7 0 0 0 .3 11.3Z" fill="none" stroke="url(#cloudBrainGradient)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19 18.5v12m5-15v19m5-16v12" fill="none" stroke="#dff8ff" stroke-width="2.1" stroke-linecap="round"/>
+  <circle cx="19" cy="22.5" r="2.2" fill="#56d8ff"/>
+  <circle cx="24" cy="20" r="2.2" fill="#8ab8ff"/>
+  <circle cx="29" cy="25" r="2.2" fill="#9f8cff"/>
+</svg>

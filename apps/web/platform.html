@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <!--
+    企业业务平台外壳（新版界面，与旧版 app.js 无关）：只提供空根 #platform-root，
+    全部界面由 /assets/platform/main.js（ES Module）挂载，样式来自 platform/enterprise/governance 系列。
+    依赖后端 /api/v1/**；不要在此引入 app.js，两套外壳同时加载会互相覆盖全局变量与容器。
+    本页没有业务逻辑，改路由或权限应修改 assets/platform 下的对应模块。
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>智慧云脑 Cloud Brain</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/platform/platform.css?v=20261008-login-background">
+  <link rel="stylesheet" href="/assets/platform/enterprise.css?v=20260903-2">
+  <link rel="stylesheet" href="/assets/platform/governance.css">
+  <link rel="stylesheet" href="/assets/platform/content-governance.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳转到主要内容</a>
+  <div id="platform-root"><div class="initial-loading" role="status">正在加载业务平台…</div></div>
+  <div id="platform-toast" class="platform-toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="platform-dialog" aria-labelledby="dialog-title"></dialog>
+  <script type="module" src="/assets/platform/main.js?v=20260908-execution"></script>
+</body>
+</html>

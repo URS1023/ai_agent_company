@@ -1,0 +1,144 @@
+{
+  "sourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+  "sourceDatabase": "yinhao_database_copy",
+  "sourceDeviceKey": "0001567-1080e120bada4139bac3a9e29443b539",
+  "requirements": [
+    {
+      "planName": "皮带机",
+      "point": "压带滚轮右",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "压带滚轮左",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "机尾从动滚筒右",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "机尾从动滚筒左",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "配重下方从动滚筒右",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "配重下方从动滚筒左",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "配重上方从动滚筒2右",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "配重上方从动滚筒2左",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "配重上方从动滚筒1右",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "配重上方从动滚筒1左",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "",
+      "changeAmount": ""
+    },
+    {
+      "planName": "皮带机",
+      "point": "机头从动滚筒轴承座右",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "--",
+      "changeAmount": "--"
+    },
+    {
+      "planName": "皮带机",
+      "point": "机头从动滚筒轴承座左",
+      "cycle": 30,
+      "oil": "3#锂基脂",
+      "amount": "0.02-0.04Kg",
+      "method": "加油枪注入",
+      "changeCycle": "--",
+      "changeAmount": "--"
+    }
+  ],
+  "allDateDeviceMaintenanceRecords": 0,
+  "allDateLinkedPointMaintenanceRecords": 0,
+  "workflowId": "01M24QT9QC66X6RMCMNMVPVPP8",
+  "revision": 62,
+  "draftBrowserRun": "01M25FSKAJ9HA68KJA4WK1KJKE",
+  "readRows": 12,
+  "checkRows": 48,
+  "checks": {
+    "保养超期": 12,
+    "润滑油品": 12,
+    "保养方式": 12,
+    "润滑用量": 12
+  },
+  "result": "全部待确认：源库本设备实际保养任务和关联点位记录均为0，不把计划要求当成实际完成记录。",
+  "publishedBrowserRun": "01M25FYR2WZ9X5Z6B5D5S8VRTB",
+  "verifiedAt": "2026-09-10",
+  "sourceDatabaseWrites": 0
+}

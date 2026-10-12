@@ -1,0 +1,14 @@
+{
+  "proxy_read": {
+    "read_65536": "data: A\n\ndata: B\n\n",
+    "read1_65536": "data: A\n\n"
+  },
+  "recovery_commit": {
+    "statuses_at_commit": [
+      "started"
+    ],
+    "status_after_last_commit": "failed",
+    "ledger_rows": 1,
+    "would_survive_close": "started"
+  }
+}

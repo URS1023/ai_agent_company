@@ -1,0 +1,9 @@
+{
+  "version": "0.1.7-alpha.2",
+  "archive": "deepseek-harness-0.1.7-alpha.2.tar.gz",
+  "sha256": "1986f8760b8f168bbe6429ad1f2b5b09c9bf0ca5bb851df082b5b9420b2d6ee5",
+  "file_count": 13244,
+  "source_bytes": 109895456,
+  "archive_bytes": 26790501,
+  "manifest": "services/deepseek_harness/UPSTREAM.json"
+}

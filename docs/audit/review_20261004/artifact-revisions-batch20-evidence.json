@@ -1,0 +1,340 @@
+{
+  "head": "faaa6de447c9af7811ec6fc8a69d56e2de5224e5",
+  "branch": "codex/major-artifact-revisions",
+  "files": {
+    "backend/app/business_worker/tasks.py": "c18f0ed22ef5d2461d3a65a42e14cf721b1d2ac650427aaf05efb4c1cf8c96a4",
+    "backend/app/business_worker/delivery_contract.py": "30a927b1729b81605fa839437d571c8dcd175a58a5a3ee9913d1bdacb936fe4a",
+    "backend/app/business_worker/delivery_evidence.py": "577562460a891159e04f864201e60b9d4ff87af74f6ef8bd2b780ee7e0556d11",
+    "backend/app/business_worker/native_deliveries.py": "8ad140d8d42046178a93ec54929ce9c817dbaf08a7c347d92074fde948142b10",
+    "tests/backend/test_dsh_artifact_revisions.py": "9b458fd7bb21881c3e93239370a651fd909b3171e0afb3a43de112da68e1023a"
+  },
+  "evidence": {
+    "adjacent-compound.log": {
+      "sha256": "75cf8eaafe319a652a3397d1476d93561f88d6e47c5b9ae469c9f6eacf1e44eb"
+    },
+    "adjacent-compound.xml": {
+      "sha256": "6f93b21fd4c8d98dfa5f6d216d4dfd50cdd9d3f9dae2de3596968fbc90922de5",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "67",
+        "time": "113.432",
+        "timestamp": "2026-10-04T14:57:15.129130+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 0,
+      "all_source_model_counts_zero": true
+    },
+    "adjacent-native-continuation.log": {
+      "sha256": "c59f83ff9e902fe3392f770d6aebcdcb9a9c59ea428dd8e78fcf0525d27fa615"
+    },
+    "adjacent-native-continuation.xml": {
+      "sha256": "9fbbbaaab0ad72d6f769931786dd90f59dc773d503adcd0c97736676e778b7cf",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "85",
+        "time": "105.710",
+        "timestamp": "2026-10-04T14:59:30.043863+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 0,
+      "all_source_model_counts_zero": true
+    },
+    "baseline-protection-focused.log": {
+      "sha256": "e61b2ceb5c0f790539fa1050144937488eec7eb05efef31fc8134e042c39680b"
+    },
+    "baseline-protection-focused.xml": {
+      "sha256": "96ecaece0d1e6ed9bbf68dc1870093fd25f2b765a88fc0209628d3e25c8395b8",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "3",
+        "time": "7.652",
+        "timestamp": "2026-10-04T15:04:54.537205+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 3,
+      "all_source_model_counts_zero": true
+    },
+    "boundaries-expanded.log": {
+      "sha256": "7aeeb05a5224daab2af93425d8245566aaacc9f45a47cf399cd1d98207c66c27"
+    },
+    "boundaries-expanded.xml": {
+      "sha256": "758c4d836a063be9f2e8b6175aab401b7575dd38752da2016616c6066173cb55",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "20",
+        "time": "44.307",
+        "timestamp": "2026-10-04T14:55:12.899219+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 20,
+      "all_source_model_counts_zero": true
+    },
+    "boundaries-first.log": {
+      "sha256": "bab50095daa96584ea257a3cfcc6a630aac24c8927cdb15b96b8938322a8e0f8"
+    },
+    "boundaries-first.xml": {
+      "sha256": "de04207acd93ace53c318645bbd896834121d3a093d50f398dbc723e468375e0",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "11",
+        "time": "21.755",
+        "timestamp": "2026-10-04T14:50:48.995211+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 11,
+      "all_source_model_counts_zero": true
+    },
+    "dashboard-boundaries.log": {
+      "sha256": "d810d0f8fa14b2f5f15f0277b7c483ed3f04a97f2afeed5ba7162bb49dfe41d1"
+    },
+    "dashboard-boundaries.xml": {
+      "sha256": "8da08f630cb2e493631f48d15c50e9c19c44da423d531244da975b5191e7558d",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "3",
+        "time": "5.378",
+        "timestamp": "2026-10-04T14:56:45.821810+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 3,
+      "all_source_model_counts_zero": true
+    },
+    "final-revision-and-adjacent.log": {
+      "sha256": "882debc073feaa74e7f9c75a2cb5d597250877b690d61a6e3f826d664492a2ab"
+    },
+    "final-revision-and-adjacent.xml": {
+      "sha256": "12d20fb0a3e4cf5bb03a92db063213d12cec499aead733f629548285c3aa18e8",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "40",
+        "time": "55.449",
+        "timestamp": "2026-10-04T15:17:47.584403+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 35,
+      "all_source_model_counts_zero": true
+    },
+    "final-specialist.log": {
+      "sha256": "373b412752c778f158f266a0ef199e1d7a5676c19e4ed84a591a8d705dad2998"
+    },
+    "final-specialist.xml": {
+      "sha256": "6da2deefc11ad4e842720de0a36f29efd8d66e9578204fce2216929e5b6b0569",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "24",
+        "time": "49.367",
+        "timestamp": "2026-10-04T15:02:56.971740+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 24,
+      "all_source_model_counts_zero": true
+    },
+    "green-initial.log": {
+      "sha256": "36276ae3e657f7dcbc813eb9ba807717336c4ee483d99befd8f58d8e52d32af2"
+    },
+    "green-initial.xml": {
+      "sha256": "08b0d88d6627c7f194a416c30f30ab57bf0901a1582b8d1f182732e78ad9effe",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2",
+        "time": "5.423",
+        "timestamp": "2026-10-04T14:48:19.423291+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 2,
+      "all_source_model_counts_zero": true
+    },
+    "red-baseline-scope.log": {
+      "sha256": "c608a8e8990b2c7d45fb1c92f6dc13776a3fcadce7c7e03904dd4b8da9d8be16"
+    },
+    "red-baseline-scope.xml": {
+      "sha256": "0b1d65b112a789be4b7629e1982401abed56d7e0f0b98b2c6be4505f48f98e5f",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "3.287",
+        "timestamp": "2026-10-04T15:01:51.845557+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 1,
+      "all_source_model_counts_zero": true
+    },
+    "red-cumulative-title.log": {
+      "sha256": "ddcad4ded7600345d12ff0e074a51a0bd110c76c6c34a01a49367c2efec21ee8"
+    },
+    "red-cumulative-title.xml": {
+      "sha256": "7d6ea97f5bd334bccadf51be530c96e7218dc2d106bbe595b5165ee3d2d10c93",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "3.264",
+        "timestamp": "2026-10-04T15:08:48.702470+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 1,
+      "all_source_model_counts_zero": true
+    },
+    "red-multiple-title.log": {
+      "sha256": "564b8699975fa256368a550ae0d7b7705466a39ba1eebbebf9e8ca610aaec9c6"
+    },
+    "red-multiple-title.xml": {
+      "sha256": "fa3b1026bcf129df05575a40b0c52bb3f9e605d9f6f24214a69eb27cc8a2012e",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "3.747",
+        "timestamp": "2026-10-04T15:07:43.141953+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 1,
+      "all_source_model_counts_zero": true
+    },
+    "red-orphan-word.log": {
+      "sha256": "06100801e906d6572ac0562fc985c8772660bc820954eb65e536319ade784244"
+    },
+    "red-orphan-word.xml": {
+      "sha256": "cfb5cc1d6d7751cf38631c3b52e2320dda08bc0ceaeb99c3e6edaf25c0cef869",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "4.380",
+        "timestamp": "2026-10-04T15:09:27.181584+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 1,
+      "all_source_model_counts_zero": true
+    },
+    "red-r1.log": {
+      "sha256": "c0f52829afed237d79cef38be87f77f261adeae8ed413ce1b7f0f4f4084c44c7"
+    },
+    "red-r1.xml": {
+      "sha256": "0804d963a495d174979c963094095f8b9b9c74d07b2c99c030f4952b8dd76c25",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "4.269",
+        "timestamp": "2026-10-04T14:42:22.412439+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 1,
+      "all_source_model_counts_zero": true
+    },
+    "red-r2.log": {
+      "sha256": "f02806735292ace33505ab6272056b310c2dc5014322d51c7afd9bb87fa2b477"
+    },
+    "red-r2.xml": {
+      "sha256": "b9d275262ef903ebec223c34b674dce897083fd5e0405c19d22a684b3ac57efc",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "3.778",
+        "timestamp": "2026-10-04T14:42:45.989319+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 1,
+      "all_source_model_counts_zero": true
+    },
+    "remaining-protection-focused.log": {
+      "sha256": "83a2f77862a1996c89b261a9286348d81af22ed979b490dbec65dc7ee906bab2"
+    },
+    "remaining-protection-focused.xml": {
+      "sha256": "421f089bc549c75781fdf243d335a8e4799dd393604b20ceef0b91023eaaca6d",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2",
+        "time": "4.033",
+        "timestamp": "2026-10-04T15:06:19.786977+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 2,
+      "all_source_model_counts_zero": true
+    },
+    "review-extra-boundaries.log": {
+      "sha256": "48b45f159555fee073b980eb57b8756134a9a2c094b80ab0bd4439bbd96b06f0"
+    },
+    "review-extra-boundaries.xml": {
+      "sha256": "afa0f713c0812d1d6155e7d25d25b1ccc9e00286ea7d810ff4917bfdb5f4c16e",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2",
+        "time": "3.412",
+        "timestamp": "2026-10-04T15:15:02.670274+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 2,
+      "all_source_model_counts_zero": true
+    },
+    "review-fixes-focused.log": {
+      "sha256": "37a4a844c91f2d46c7a4770d9d5287292f9862e89830bda51d48e11f13b9e75f"
+    },
+    "review-fixes-focused.xml": {
+      "sha256": "ad790fac00812d51c59cf1b5599739633312f81d96ae610698c3f0b256d89953",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "6",
+        "time": "8.493",
+        "timestamp": "2026-10-04T15:13:05.579566+08:00",
+        "hostname": "DESKTOP-0B4ASE3"
+      },
+      "source_model_counter_rows": 6,
+      "all_source_model_counts_zero": true
+    },
+    "static-fixture-error.log": {
+      "sha256": "4971a77907560f6e6c6ff1a19923fb51d8da4b884abe4720e7d830f144cefa36"
+    }
+  }
+}

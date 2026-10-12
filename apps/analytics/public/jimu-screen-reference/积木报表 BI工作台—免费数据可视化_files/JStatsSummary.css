@@ -1,0 +1,26 @@
+
+.stats-summary[data-v-23ca87cb] {
+    width: 100%;
+}
+.stats-summary-item[data-v-23ca87cb] {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.stats-summary-item.isClick[data-v-23ca87cb] {
+    cursor: pointer;
+}
+.stats-summary-value[data-v-23ca87cb] {
+    display: flex;
+}
+.stats-summary-number[data-v-23ca87cb] {
+    display: inline-block;
+}
+.stats-summary-unit[data-v-23ca87cb] {
+    display: inline-block;
+}
+.stats-summary-compare[data-v-23ca87cb] {
+    display: flex;
+}
+.stats-summary-label[data-v-23ca87cb] {
+    white-space: nowrap;
+}
+

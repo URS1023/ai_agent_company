@@ -1,0 +1,211 @@
+{
+  "scope": "真实Edge、当前DSH宿主/Python Worker，临时SQLite、合成文件、回环设备与模型桩；不连接业务数据库或外部模型",
+  "product_source_commit": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+  "status": "passed-listed-suites",
+  "business_groups": 114,
+  "iterations_per_suite": 1,
+  "analytics_fixture_repaired_after_first_failure": true,
+  "original_runs": [
+    {
+      "path": ".implementation/full-business-browser/20261004-091620-c7f1e387/manifest.json",
+      "status": "failed",
+      "sha256": "9ee7f97fb2dd6714c1661fa7cc53ad06c3debd144129d5aba444d8b6de48eda9"
+    },
+    {
+      "path": ".implementation/full-business-browser/20261004-092315-d6567805/manifest.json",
+      "status": "passed",
+      "sha256": "17d82f68dd6e41358ddfef4bc4f8a892f2bf374cc5605640afd79a9a994d183e"
+    },
+    {
+      "path": ".implementation/full-business-browser/20261004-092710-04464f88/manifest.json",
+      "status": "passed",
+      "sha256": "71177e4edc3e0e8baa981c756634eb4180d9f1f9b1f8d378df0ea5f1d58263a0"
+    }
+  ],
+  "checks": [
+    {
+      "suite": "system",
+      "business_groups": 14,
+      "status": "passed",
+      "seconds": 43.359,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-091620-c7f1e387/manifest.json",
+      "network": {
+        "allowed_requests": 210,
+        "blocked_requests": 102,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 102
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "content",
+      "business_groups": 14,
+      "status": "passed",
+      "seconds": 67.407,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-091620-c7f1e387/manifest.json",
+      "network": {
+        "allowed_requests": 283,
+        "blocked_requests": 134,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 134
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "capability",
+      "business_groups": 13,
+      "status": "passed",
+      "seconds": 60.781,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-091620-c7f1e387/manifest.json",
+      "network": {
+        "allowed_requests": 270,
+        "blocked_requests": 143,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 143
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "graph",
+      "business_groups": 9,
+      "status": "passed",
+      "seconds": 35.453,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-091620-c7f1e387/manifest.json",
+      "network": {
+        "allowed_requests": 202,
+        "blocked_requests": 83,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 83
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "alert",
+      "business_groups": 16,
+      "status": "passed",
+      "seconds": 41.656,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-092315-d6567805/manifest.json",
+      "network": {
+        "allowed_requests": 314,
+        "blocked_requests": 111,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 111
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "quality",
+      "business_groups": 11,
+      "status": "passed",
+      "seconds": 41.938,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-092315-d6567805/manifest.json",
+      "network": {
+        "allowed_requests": 282,
+        "blocked_requests": 117,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 117
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "workflow",
+      "business_groups": 11,
+      "status": "passed",
+      "seconds": 47.453,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-092315-d6567805/manifest.json",
+      "network": {
+        "allowed_requests": 274,
+        "blocked_requests": 137,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 137
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "ai_documents",
+      "business_groups": 12,
+      "status": "passed",
+      "seconds": 126.171,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-092315-d6567805/manifest.json",
+      "network": {
+        "allowed_requests": 286,
+        "blocked_requests": 83,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 83
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      }
+    },
+    {
+      "suite": "analytics",
+      "business_groups": 14,
+      "status": "passed",
+      "seconds": 37.125,
+      "source_head": "077e6e7f2f10f32e08ecb64a7c0b885db6b8ced7",
+      "manifest": ".implementation/full-business-browser/20261004-092710-04464f88/manifest.json",
+      "network": {
+        "allowed_requests": 199,
+        "blocked_requests": 71,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 71
+      },
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      }
+    }
+  ],
+  "limitations": [
+    "不同manifest分别保留，首个九域运行仍为failed；不能改写为一次全绿",
+    "只证明已列九域单轮，不代表全功能100轮或24小时，也不包括下一批静态待修项"
+  ]
+}

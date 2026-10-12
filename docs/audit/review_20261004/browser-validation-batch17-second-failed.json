@@ -1,0 +1,128 @@
+{
+  "started_at": "2026-10-04T05:42:32.696746+00:00",
+  "status": "failed",
+  "mode": "isolated-full-business-browser",
+  "scope": "真实Edge+当前DSH宿主/Python Worker；临时SQLite/合成文件/回环设备和模型桩；不连接szh_new或外部模型",
+  "iterations": 1,
+  "suites": [
+    "system",
+    "content",
+    "capability",
+    "graph",
+    "analytics",
+    "alert",
+    "quality",
+    "workflow",
+    "ai_documents"
+  ],
+  "checks": [
+    {
+      "iteration": 1,
+      "suite": "system",
+      "started_at": "2026-10-04T05:42:32.820170+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:51790",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 210,
+        "blocked_requests": 108,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 108
+      },
+      "finished_at": "2026-10-04T05:43:20.104865+00:00",
+      "seconds": 47.282,
+      "saved_evidence": {
+        "browser.log": {
+          "path": ".implementation/full-business-browser/20261004-134232-0cad7d05/001-system/browser.log",
+          "sha256": "13d7ef81538e2617bb2ff7529543864b97d8238ef9b77a981ea13a7eeb0f167c"
+        },
+        "network.json": {
+          "path": ".implementation/full-business-browser/20261004-134232-0cad7d05/001-system/network.json",
+          "sha256": "3e7510e4679c42a23b8a3695279416389a606918a9b7fafa3d9168cf802f0b09"
+        }
+      }
+    },
+    {
+      "iteration": 1,
+      "suite": "content",
+      "started_at": "2026-10-04T05:43:20.112199+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:49644",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 285,
+        "blocked_requests": 138,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 138
+      },
+      "finished_at": "2026-10-04T05:44:33.890534+00:00",
+      "seconds": 73.766,
+      "saved_evidence": {
+        "browser.log": {
+          "path": ".implementation/full-business-browser/20261004-134232-0cad7d05/001-content/browser.log",
+          "sha256": "e87e215f71422667f36d25686c58aef64982a228767539dd8323f164cab3890d"
+        },
+        "network.json": {
+          "path": ".implementation/full-business-browser/20261004-134232-0cad7d05/001-content/network.json",
+          "sha256": "828ed7d3b73691115d01745609b0e209be4b2de3c83dcf2ec04cf2c38a4b64d6"
+        }
+      }
+    },
+    {
+      "iteration": 1,
+      "suite": "capability",
+      "started_at": "2026-10-04T05:44:33.892968+00:00",
+      "status": "failed",
+      "base_url": "http://127.0.0.1:53547",
+      "process_boundary": "windows_job",
+      "exit_code": 1,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 0,
+        "blocked_requests": 5,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 5
+      },
+      "finished_at": "2026-10-04T05:44:47.104361+00:00",
+      "seconds": 13.204,
+      "saved_evidence": {
+        "browser.log": {
+          "path": ".implementation/full-business-browser/20261004-134232-0cad7d05/001-capability/browser.log",
+          "sha256": "66d0619bb8be16ebe7b9380452f3ee557c0fc9477c4d5ba5dbb781b9119a4378"
+        },
+        "network.json": {
+          "path": ".implementation/full-business-browser/20261004-134232-0cad7d05/001-capability/network.json",
+          "sha256": "e8229b2afb547b7c3ab13f9516ab1cb6559dac95fc28ce0eb4f16fdc00537b43"
+        }
+      }
+    }
+  ],
+  "git_head": "4f47d51eb2deb1de7e39dccd21310c9133e1da8e",
+  "worktree_status": "",
+  "finished_at": "2026-10-04T05:44:47.104361+00:00",
+  "original_manifest": ".implementation/full-business-browser/20261004-134232-0cad7d05/manifest.json",
+  "original_manifest_sha256": "c2dd34daad64b9088be03c2d408491ffeddcbf4e5809d3f689780a85a2958b42",
+  "batch": "2026-10-04-major-17",
+  "diagnosis": "网络守卫记录blocked CONNECT时，同步rename network.json.tmp至network.json收到Windows EPERM；发生在上游转发前，根因的外部占用者未证明。",
+  "network_evidence_limit": "落盘本身曾失败；保留失败后存在的证据文件与哈希，不将当前统计认作完整成功网络审计。",
+  "goal_complete": false
+}

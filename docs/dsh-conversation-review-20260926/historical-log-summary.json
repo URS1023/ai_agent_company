@@ -1,0 +1,716 @@
+[
+  {
+    "file": "ai-chat-31008.jsonl",
+    "events": {
+      "model.chat.started": 3,
+      "model.request.ready": 3,
+      "model.chat.completed": 2,
+      "http.request.started": 4,
+      "chat.admission.started": 1,
+      "run.created": 3,
+      "chat.worker.started": 1,
+      "chat.queued": 1,
+      "chat.admission.completed": 1,
+      "http.response.started": 4,
+      "log": 5,
+      "chat.run.created": 1,
+      "chat.run.started": 1,
+      "chat.task.progress": 1,
+      "chat.task.phase": 3,
+      "chat.message.replace": 32,
+      "chat.output.started": 1,
+      "step.started": 33,
+      "chat.tool.started": 31,
+      "tool.execute.started": 31,
+      "tool.dispatch": 31,
+      "tool.execute.completed": 28,
+      "step.completed": 29,
+      "chat.tool.completed": 31,
+      "analytics.query.started": 2,
+      "analytics.sql.generate.started": 2,
+      "model.connection.retry": 1,
+      "analytics.sql.generate.completed": 1,
+      "analytics.sql.authorized": 1,
+      "analytics.sql.started": 1,
+      "analytics.sql.completed": 1,
+      "run.finalized": 3,
+      "analytics.query.completed": 1,
+      "tool.execute.failed": 3,
+      "step.failed": 4,
+      "model.chat.failed": 1,
+      "analytics.sql.generate.failed": 1,
+      "analytics.query.failed": 1,
+      "artifact.create.started": 6,
+      "artifact.saved": 6,
+      "artifact.create.completed": 6,
+      "chat.task.deliverable": 6,
+      "chat.delivery.audit": 1,
+      "chat.run.completed": 1,
+      "chat.done": 1,
+      "chat.worker.completed": 1,
+      "http.client.disconnected": 1,
+      "http.request.finished": 4
+    },
+    "warnings_and_errors": [
+      {
+        "time": "2026-09-24T15:58:46.968+08:00",
+        "event": "model.connection.retry",
+        "tool_name": "query_business_data"
+      },
+      {
+        "time": "2026-09-24T16:01:49.243+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "collect_device_monitoring_snapshot",
+        "error_code": "validation_error",
+        "duration_ms": 44.08
+      },
+      {
+        "time": "2026-09-24T16:01:49.246+08:00",
+        "event": "step.failed",
+        "error_code": "validation_error",
+        "duration_ms": 56
+      },
+      {
+        "time": "2026-09-24T16:04:19.459+08:00",
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 150025.55,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T16:04:19.464+08:00",
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 150034.61,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T16:04:19.471+08:00",
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 150468
+      },
+      {
+        "time": "2026-09-24T16:04:19.502+08:00",
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 150166.37,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T16:04:19.505+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 150207.98
+      },
+      {
+        "time": "2026-09-24T16:04:19.513+08:00",
+        "event": "step.failed",
+        "error_code": "model_unavailable",
+        "duration_ms": 150511
+      },
+      {
+        "time": "2026-09-24T16:05:28.425+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "render_chart_image",
+        "error_code": "validation_error",
+        "duration_ms": 72.95
+      },
+      {
+        "time": "2026-09-24T16:05:28.427+08:00",
+        "event": "step.failed",
+        "error_code": "validation_error",
+        "duration_ms": 88
+      }
+    ],
+    "slow_operations": [
+      {
+        "event": "model.chat.completed",
+        "tool_name": "query_business_data",
+        "duration_ms": 216065.96,
+        "finish_reason": "stop"
+      },
+      {
+        "event": "analytics.sql.generate.completed",
+        "tool_name": "query_business_data",
+        "duration_ms": 216091.76
+      },
+      {
+        "event": "step.completed",
+        "tool_name": "query_business_data",
+        "duration_ms": 216401
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "query_business_data",
+        "duration_ms": 216411,
+        "status": "completed"
+      },
+      {
+        "event": "analytics.query.completed",
+        "tool_name": "query_business_data",
+        "duration_ms": 216471.1
+      },
+      {
+        "event": "tool.execute.completed",
+        "tool_name": "query_business_data",
+        "duration_ms": 216523.76,
+        "status": "success"
+      },
+      {
+        "event": "step.completed",
+        "duration_ms": 216539
+      },
+      {
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 150025.55
+      },
+      {
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 150034.61
+      },
+      {
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 150468
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "query_business_data",
+        "duration_ms": 150473,
+        "status": "failed"
+      },
+      {
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 150166.37
+      },
+      {
+        "event": "tool.execute.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 150207.98,
+        "status": "failed"
+      },
+      {
+        "event": "step.failed",
+        "duration_ms": 150511
+      },
+      {
+        "event": "run.finalized",
+        "duration_ms": 755585,
+        "status": "completed"
+      },
+      {
+        "event": "chat.worker.completed",
+        "duration_ms": 755261.29
+      },
+      {
+        "event": "http.request.finished",
+        "duration_ms": 755360.66,
+        "status": 200
+      }
+    ]
+  },
+  {
+    "file": "ai-chat-31180.jsonl",
+    "events": {
+      "run.created": 12,
+      "model.chat.started": 8,
+      "model.request.ready": 8,
+      "model.chat.completed": 3,
+      "run.finalized": 12,
+      "http.request.started": 3,
+      "chat.admission.started": 1,
+      "chat.worker.started": 1,
+      "chat.queued": 1,
+      "chat.admission.completed": 1,
+      "http.response.started": 3,
+      "chat.run.created": 1,
+      "log": 5,
+      "chat.run.started": 1,
+      "chat.task.progress": 7,
+      "chat.task.phase": 3,
+      "chat.message.replace": 24,
+      "chat.output.started": 1,
+      "step.started": 25,
+      "chat.tool.started": 21,
+      "tool.execute.started": 21,
+      "tool.dispatch": 21,
+      "tool.execute.completed": 14,
+      "step.completed": 14,
+      "chat.tool.completed": 21,
+      "analytics.query.started": 4,
+      "analytics.sql.generate.started": 4,
+      "model.connection.retry": 1,
+      "model.chat.failed": 5,
+      "analytics.sql.generate.failed": 4,
+      "step.failed": 11,
+      "analytics.query.failed": 4,
+      "tool.execute.failed": 7,
+      "artifact.create.started": 6,
+      "artifact.saved": 6,
+      "artifact.create.completed": 6,
+      "chat.task.deliverable": 5,
+      "chat.delivery.audit": 1,
+      "chat.run.completed": 1,
+      "chat.done": 1,
+      "chat.worker.completed": 1,
+      "http.client.disconnected": 1,
+      "http.request.finished": 3
+    },
+    "warnings_and_errors": [
+      {
+        "time": "2026-09-24T14:05:24.571+08:00",
+        "event": "model.connection.retry",
+        "tool_name": "query_business_data"
+      },
+      {
+        "time": "2026-09-24T14:06:54.600+08:00",
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 180048.95,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:06:54.604+08:00",
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 180060.25,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:06:54.614+08:00",
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 179609
+      },
+      {
+        "time": "2026-09-24T14:06:54.644+08:00",
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 180171.15,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:06:54.648+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 180217.86
+      },
+      {
+        "time": "2026-09-24T14:06:54.653+08:00",
+        "event": "step.failed",
+        "error_code": "model_unavailable",
+        "duration_ms": 180652
+      },
+      {
+        "time": "2026-09-24T14:08:24.825+08:00",
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90019.55,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:08:24.827+08:00",
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90026.83,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:08:24.833+08:00",
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 89830
+      },
+      {
+        "time": "2026-09-24T14:08:24.859+08:00",
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90127.71,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:08:24.861+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 90172.15
+      },
+      {
+        "time": "2026-09-24T14:08:24.868+08:00",
+        "event": "step.failed",
+        "error_code": "model_unavailable",
+        "duration_ms": 89867
+      },
+      {
+        "time": "2026-09-24T14:09:59.993+08:00",
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90034.79,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:09:59.996+08:00",
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90044.03,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:10:00.001+08:00",
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 89999
+      },
+      {
+        "time": "2026-09-24T14:10:00.026+08:00",
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90158.44,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:10:00.029+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 90215.95
+      },
+      {
+        "time": "2026-09-24T14:10:00.036+08:00",
+        "event": "step.failed",
+        "error_code": "model_unavailable",
+        "duration_ms": 90035
+      },
+      {
+        "time": "2026-09-24T14:11:30.203+08:00",
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90019.29,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:11:30.206+08:00",
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90027.47,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:11:30.214+08:00",
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 90210
+      },
+      {
+        "time": "2026-09-24T14:11:30.245+08:00",
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 90131.31,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:11:30.248+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "query_business_data",
+        "error_code": "model_unavailable",
+        "duration_ms": 90174.24
+      },
+      {
+        "time": "2026-09-24T14:11:30.258+08:00",
+        "event": "step.failed",
+        "error_code": "model_unavailable",
+        "duration_ms": 90257
+      },
+      {
+        "time": "2026-09-24T14:13:11.083+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "collect_device_monitoring_snapshot",
+        "error_code": "validation_error",
+        "duration_ms": 38.2
+      },
+      {
+        "time": "2026-09-24T14:13:11.085+08:00",
+        "event": "step.failed",
+        "error_code": "validation_error",
+        "duration_ms": 49
+      },
+      {
+        "time": "2026-09-24T14:15:00.387+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "render_dashboard_image",
+        "error_code": "validation_error",
+        "duration_ms": 53.65
+      },
+      {
+        "time": "2026-09-24T14:15:00.389+08:00",
+        "event": "step.failed",
+        "error_code": "validation_error",
+        "duration_ms": 65
+      },
+      {
+        "time": "2026-09-24T14:21:16.691+08:00",
+        "event": "model.chat.failed",
+        "tool_name": "create_business_dashboard",
+        "error_code": "model_unavailable",
+        "error_type": "ModelUnavailableError",
+        "duration_ms": 300500.04,
+        "provider_status": 503
+      },
+      {
+        "time": "2026-09-24T14:21:16.710+08:00",
+        "event": "tool.execute.failed",
+        "status": "failed",
+        "tool_name": "create_business_dashboard",
+        "error_code": "model_unavailable",
+        "duration_ms": 308033.33
+      },
+      {
+        "time": "2026-09-24T14:21:16.712+08:00",
+        "event": "step.failed",
+        "error_code": "model_unavailable",
+        "duration_ms": 308045
+      }
+    ],
+    "slow_operations": [
+      {
+        "event": "model.chat.completed",
+        "duration_ms": 61186.56,
+        "finish_reason": "stop"
+      },
+      {
+        "event": "run.finalized",
+        "duration_ms": 61347,
+        "status": "completed"
+      },
+      {
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 180048.95
+      },
+      {
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 180060.25
+      },
+      {
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 179609
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "query_business_data",
+        "duration_ms": 179616,
+        "status": "failed"
+      },
+      {
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 180171.15
+      },
+      {
+        "event": "tool.execute.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 180217.86,
+        "status": "failed"
+      },
+      {
+        "event": "step.failed",
+        "duration_ms": 180652
+      },
+      {
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90019.55
+      },
+      {
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90026.83
+      },
+      {
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 89830
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "query_business_data",
+        "duration_ms": 89836,
+        "status": "failed"
+      },
+      {
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90127.71
+      },
+      {
+        "event": "tool.execute.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90172.15,
+        "status": "failed"
+      },
+      {
+        "event": "step.failed",
+        "duration_ms": 89867
+      },
+      {
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90034.79
+      },
+      {
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90044.03
+      },
+      {
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 89999
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "query_business_data",
+        "duration_ms": 90004,
+        "status": "failed"
+      },
+      {
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90158.44
+      },
+      {
+        "event": "tool.execute.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90215.95,
+        "status": "failed"
+      },
+      {
+        "event": "step.failed",
+        "duration_ms": 90035
+      },
+      {
+        "event": "model.chat.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90019.29
+      },
+      {
+        "event": "analytics.sql.generate.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90027.47
+      },
+      {
+        "event": "step.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90210
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "query_business_data",
+        "duration_ms": 90216,
+        "status": "failed"
+      },
+      {
+        "event": "analytics.query.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90131.31
+      },
+      {
+        "event": "tool.execute.failed",
+        "tool_name": "query_business_data",
+        "duration_ms": 90174.24,
+        "status": "failed"
+      },
+      {
+        "event": "step.failed",
+        "duration_ms": 90257
+      },
+      {
+        "event": "model.chat.failed",
+        "tool_name": "create_business_dashboard",
+        "duration_ms": 300500.04
+      },
+      {
+        "event": "run.finalized",
+        "tool_name": "create_business_dashboard",
+        "duration_ms": 307323,
+        "status": "failed"
+      },
+      {
+        "event": "tool.execute.failed",
+        "tool_name": "create_business_dashboard",
+        "duration_ms": 308033.33,
+        "status": "failed"
+      },
+      {
+        "event": "step.failed",
+        "duration_ms": 308045
+      },
+      {
+        "event": "run.finalized",
+        "duration_ms": 1208928,
+        "status": "completed"
+      },
+      {
+        "event": "chat.worker.completed",
+        "duration_ms": 1208760.5
+      },
+      {
+        "event": "http.request.finished",
+        "duration_ms": 1208843.08,
+        "status": 200
+      }
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+function e(i,a=!1){const o=new URL(i,location.origin);if(o.origin!==location.origin||!o.pathname.startsWith("/"))return;const n=o.pathname+o.search+o.hash,t=window.top||window;a?t.location.replace(n):t.location.assign(n)}export{e as o};

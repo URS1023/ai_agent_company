@@ -1,0 +1,374 @@
+{
+  "description": "从已保存的授权 schema 工具结果提取的最小回归元数据；仅保留表、列与声明关系，无业务行、连接配置、账号或会话标识。",
+  "tables": [
+    {
+      "tableName": "t_custbaseinfo",
+      "tableComment": "客户信息表",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "custBaseInfoId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custName",
+          "comment": "客户名称",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "sourceTable": "t_custbaseinfo",
+          "sourceField": "c_custName",
+          "targetTable": "t_salecontract",
+          "targetField": "c_custBaseID",
+          "relationDirection": "reverse",
+          "relationType": "reference",
+          "fieldLabel": "客户ID"
+        }
+      ]
+    },
+    {
+      "tableName": "t_salecontract",
+      "tableComment": "销售合同管理",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "saleContractId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custBaseID",
+          "comment": "客户ID",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractNo",
+          "comment": "合同号",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractAmt",
+          "comment": "合同销售金额",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_remainingamountofthecontract",
+          "comment": "合同剩余金额",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_hetongqiandingriqi",
+          "comment": "合同签订日期",
+          "dataType": "DATE",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "sourceTable": "t_salecontract",
+          "sourceField": "",
+          "targetTable": "t_saleproductinfo",
+          "targetField": "",
+          "relationType": "main_detail",
+          "fieldLabel": "",
+          "targetNameField": ""
+        },
+        {
+          "sourceTable": "t_salecontract",
+          "sourceField": "",
+          "targetTable": "t_salecost",
+          "targetField": "",
+          "relationType": "main_detail",
+          "fieldLabel": "",
+          "targetNameField": ""
+        },
+        {
+          "sourceTable": "t_salecontract",
+          "sourceField": "c_contractNo",
+          "targetTable": "t_saleproductinfo",
+          "targetField": "mdSaleContractId",
+          "relationDirection": "reverse",
+          "relationType": "reference",
+          "fieldLabel": "主从关联Id"
+        },
+        {
+          "sourceTable": "t_salecontract",
+          "sourceField": "c_contractNo",
+          "targetTable": "t_salecost",
+          "targetField": "mdSaleContractId",
+          "relationDirection": "reverse",
+          "relationType": "reference",
+          "fieldLabel": "主从关联Id"
+        }
+      ]
+    },
+    {
+      "tableName": "t_salecost",
+      "tableComment": "销售费用管理",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "saleCostId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "mdSaleContractId",
+          "comment": "主从关联Id",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "sourceTable": "t_salecost",
+          "sourceField": "",
+          "targetTable": "t_salecontract",
+          "targetField": "",
+          "relationDirection": "reverse",
+          "relationType": "main_detail",
+          "fieldLabel": "",
+          "targetNameField": ""
+        }
+      ]
+    },
+    {
+      "tableName": "t_saleproductinfo",
+      "tableComment": "销售产品表",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "saleProductInfoId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "mdSaleContractId",
+          "comment": "主从关联Id",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_productName",
+          "comment": "产品名称",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "sourceTable": "t_saleproductinfo",
+          "sourceField": "",
+          "targetTable": "t_salecontract",
+          "targetField": "",
+          "relationDirection": "reverse",
+          "relationType": "main_detail",
+          "fieldLabel": "",
+          "targetNameField": ""
+        }
+      ]
+    },
+    {
+      "tableName": "t_fundpaymentplan",
+      "tableComment": "资金支付计划",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "fundPaymentPlanId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "isDeleted",
+          "comment": "",
+          "dataType": "TINYINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_plandDate",
+          "comment": "日期",
+          "dataType": "DATE",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_count",
+          "comment": "合计",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "sourceTable": "t_fundpaymentplan",
+          "sourceField": "",
+          "targetTable": "t_fundpaymentapprovalform",
+          "targetField": "",
+          "relationType": "main_detail",
+          "fieldLabel": "",
+          "targetNameField": ""
+        }
+      ]
+    },
+    {
+      "tableName": "t_fundpaymentapprovalform",
+      "tableComment": "资金支付审批表",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "fundPaymentApprovalFormId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "isDeleted",
+          "comment": "",
+          "dataType": "TINYINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "mdFundPaymentPlanId",
+          "comment": "主从关联Id",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractNo",
+          "comment": "合同号",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractName",
+          "comment": "合同名称/款项名称",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_payee",
+          "comment": "收款单位",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractAmount",
+          "comment": "合同金额（元）",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_pamented",
+          "comment": "已付金额（元）",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_unpayment",
+          "comment": "未付金额（元）",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_requestPament",
+          "comment": "本次申请支付金额",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "sourceTable": "t_fundpaymentapprovalform",
+          "sourceField": "",
+          "targetTable": "t_fundpaymentplan",
+          "targetField": "",
+          "relationDirection": "reverse",
+          "relationType": "main_detail",
+          "fieldLabel": "",
+          "targetNameField": ""
+        }
+      ]
+    }
+  ]
+}

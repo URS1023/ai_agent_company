@@ -1,0 +1,122 @@
+{
+  "started_at": "2026-10-04T05:28:28.444882+00:00",
+  "status": "failed",
+  "scope": "合成数据、临时SQLite、本机模型桩；不连接业务库或真实模型",
+  "evidence_directory": "E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-recovery-continuation\\.implementation\\quality-gates\\chat-delivery\\20261004-052828-5da3f5ed",
+  "phases": [
+    {
+      "name": "python-syntax",
+      "exit_code": 0,
+      "seconds": 1.03,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "backend/compile_check.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-052828-5da3f5ed/python-syntax.log",
+      "log_sha256": "7ac33879db6ab906186ac9fe992b803e832a85b66db36bbc3414b746d00cb9c7"
+    },
+    {
+      "name": "backend-deliveries",
+      "exit_code": 1,
+      "seconds": 224.48,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_task_clarification_delivery.py",
+        "tests/backend/test_business_worker.py",
+        "tests/backend/test_dsh_query_execution.py",
+        "tests/backend/test_dsh_dashboard_delivery.py",
+        "tests/backend/test_template_query_snapshot.py",
+        "tests/backend/test_template_snapshot_matrix.py",
+        "tests/backend/test_openwebui_query_dashboard.py",
+        "tests/backend/test_query_delivery.py",
+        "tests/backend/test_query_presentation.py",
+        "tests/backend/test_query_presentation_report.py",
+        "tests/backend/test_dsh_query_delivery_resume.py",
+        "tests/backend/test_dsh_multiple_presentation_drafts.py",
+        "tests/backend/test_presentation_request_pages.py",
+        "tests/backend/test_presentation_partial_batches.py",
+        "tests/backend/test_presentation_intent_integrity.py",
+        "tests/backend/test_dsh_compound_contract.py",
+        "tests/backend/test_dsh_compound_boundaries.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-052828-5da3f5ed/backend-deliveries.log",
+      "log_sha256": "e472c2be1cdfd55f77138278f0f08173915062a87d5354b7197eb9df7685011e"
+    }
+  ],
+  "original_manifest": ".implementation/quality-gates/chat-delivery/20261004-052828-5da3f5ed/manifest.json",
+  "original_manifest_sha256": "d5b3342588e6ca9d327f5ba2f0494f70eb134cce93843ab83e2309ab5459ca71",
+  "batch": "2026-10-04-major-17",
+  "original_source_freeze": {
+    "baseline": "d94c8b61fd184285ff84e4d420175f14b1a17124",
+    "created_at": "2026-10-04T05:19:29.542095+00:00",
+    "scope": "十七批源码及门禁冻结；前端仅继承十六批最终资产，独立保存实际检出字节。",
+    "files": [
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "sha256": "b3823d07ec5cd4ba3645347e91c21f85ea9a84f5199952b35f7efc53e0e140a6"
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "sha256": "cc7a86de750e9b915187878686dec6eebecb7c32323eb4dcfd5d2ec894f5b08e"
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory.py",
+        "sha256": "0496a5f4440b56f67d878326ff662699d63823b1fda639aa2aa675b17c3bf74e"
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory_identity.py",
+        "sha256": "cdad8d40f23e060cefec0279890ce77f9792a52113c11e39ce4f33f178267259"
+      },
+      {
+        "path": "backend/app/modules/business_ai/inventory_evidence.py",
+        "sha256": "5f5ff9f776c6fc9e63c12f61b9f9922c9130a90289e96cbb640511f2639ea41d"
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "sha256": "57f677e65a23ed05ef336a62c54fc65590ee0c9b7f5db00e3c579524875deb82"
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "sha256": "b18a4f34d9ba0d68929f5fdfcc4e929c30df5e846b274d0f402bd48518c63e78"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "sha256": "1f9ae008fd5b5c7fde93baae49fccddf536e4563de49b39acdb77642f22a17ea"
+      },
+      {
+        "path": "tests/backend/test_dsh_halted_task_saved_deliveries.py",
+        "sha256": "1c0f37a3e8b84686c2a3599b2eae7d697b0a3970f74cfb3fec526122d040dbab"
+      },
+      {
+        "path": "tests/backend/test_inventory_semantic_counts.py",
+        "sha256": "25bfc7d26b8c85c77eb5c1d59d4e01d6de496f4eb1335a929c5082f465fe4dd5"
+      },
+      {
+        "path": "tests/backend/test_inventory_query.py",
+        "sha256": "71010119641475f9f544521805324026c78b82f71b655253cc4e9a85163a6df3"
+      },
+      {
+        "path": "tests/backend/test_inventory_evidence.py",
+        "sha256": "6c1514bdb4aa5ecb860a5fa074ae3d820921a2b64606e1fa666b4140a9a0411f"
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "sha256": "8112dc5ef45e3b3f9b4340411fbd99d6f4fc955bdc7129ab4dd7ceb704d14694"
+      }
+    ]
+  },
+  "source_commit_with_same_frozen_bytes": "b7241b663101e8931ffa0a4d514a7cb4984fcdbd",
+  "failed_phase_summary": {
+    "passed": 568,
+    "failed": 2,
+    "pytest_seconds": 216.6,
+    "unrun_phases": 17
+  },
+  "diagnosis": [
+    "既有Worker夹具把view_device_alerts当新取数；本批该可信DSH工具只读已保存预警，新的真实分支专项已验证。",
+    "旧OpenWebUI AST兼容性测试读取ignored upstream源码目录；新工作树未挂载，尚需修复可复跑的源码读取夹具。"
+  ],
+  "goal_complete": false
+}

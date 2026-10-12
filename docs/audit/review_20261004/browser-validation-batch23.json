@@ -1,0 +1,3234 @@
+{
+  "batch": "2026-10-04-major-23",
+  "attempt": "first-full-ten-suite-run",
+  "status": "passed-listed-suites",
+  "scope": "真实Edge+当前DSH宿主/Python Worker；临时SQLite/合成文件/回环设备和模型桩；不连接szh_new或外部模型",
+  "source_commit": "cda7d082ce641b7a630908da3e0059811cd9a318",
+  "source_worktree_was_clean_at_start": true,
+  "started_at": "2026-10-04T09:30:51.996465+00:00",
+  "completed_at": "2026-10-04T09:46:42.274264+00:00",
+  "elapsed_seconds": 950.277799,
+  "original_manifest": {
+    "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/manifest.json",
+    "bytes": 7572,
+    "sha256": "1f0681ad835e5f180fb1207f768cbb38f6c4b0d7ded9fec222a8838be1faeab9"
+  },
+  "iterations_per_suite": 1,
+  "suites_planned": [
+    "system",
+    "content",
+    "capability",
+    "graph",
+    "analytics",
+    "alert",
+    "quality",
+    "workflow",
+    "ai_documents",
+    "permissions"
+  ],
+  "suites_executed": [
+    "system",
+    "content",
+    "capability",
+    "graph",
+    "analytics",
+    "alert",
+    "quality",
+    "workflow",
+    "ai_documents",
+    "permissions"
+  ],
+  "suites_passed": [
+    "system",
+    "content",
+    "capability",
+    "graph",
+    "analytics",
+    "alert",
+    "quality",
+    "workflow",
+    "ai_documents",
+    "permissions"
+  ],
+  "suites_failed": [],
+  "suites_not_run": [],
+  "business_groups": 122,
+  "business_groups_in_passed_suites": 122,
+  "browser_source_freeze": {
+    "at": "2026-10-04T09:05:57.813136+00:00",
+    "base_commit": "fce5bb129e0bf23845c014ba9d2e0e37e1b113c4",
+    "source_is_committed": false,
+    "inherited_changes": [
+      {
+        "path": "backend/app/business_worker/delivery_contract.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "backend/app/business_worker/delivery_evidence.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "backend/app/business_worker/receipt_platform_migration.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "backend/app/business_worker/server.py",
+        "kind": "batch23-change"
+      },
+      {
+        "path": "backend/app/business_worker/tasks.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "backend/app/common/owned_records.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "backend/app/schema.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "kind": "batch23-change"
+      },
+      {
+        "path": "tests/backend/test_dsh_artifact_revisions.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "tests/backend/test_receipt_platform_migration.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "tests/dsh/business_browser_acceptance.py",
+        "kind": "checkout-line-endings"
+      },
+      {
+        "path": "tests/ui/full_browser_permissions_acceptance.js",
+        "kind": "checkout-line-endings"
+      }
+    ],
+    "files": [
+      {
+        "path": "backend/app/business_worker/chat.py",
+        "sha256": "c8264b5e7bd63c28dd8e44202001c2e42218c099875d93a28c4cc3eaff8f1ca8",
+        "observed_sha256": "c8264b5e7bd63c28dd8e44202001c2e42218c099875d93a28c4cc3eaff8f1ca8",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/delivery_contract.py",
+        "sha256": "47f8467a67fe860d9bd7bdf538e9ada69f23a59e492444d845cdb9307c60095f",
+        "observed_sha256": "47f8467a67fe860d9bd7bdf538e9ada69f23a59e492444d845cdb9307c60095f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/delivery_evidence.py",
+        "sha256": "9f2a1f0ab213d8d6e7899eecb4d9c5a186b94ca0448adb86b5b0d16b9dda8397",
+        "observed_sha256": "9f2a1f0ab213d8d6e7899eecb4d9c5a186b94ca0448adb86b5b0d16b9dda8397",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "sha256": "f2aff32d0f1d1f3ef72acd57bb59f17f8700000d32dcb45f10610c1bbb3f959e",
+        "observed_sha256": "f2aff32d0f1d1f3ef72acd57bb59f17f8700000d32dcb45f10610c1bbb3f959e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/native_deliveries.py",
+        "sha256": "8ad140d8d42046178a93ec54929ce9c817dbaf08a7c347d92074fde948142b10",
+        "observed_sha256": "8ad140d8d42046178a93ec54929ce9c817dbaf08a7c347d92074fde948142b10",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/protocol.py",
+        "sha256": "07726803c387f4ac01482e052937a1729b85d0d948370eb19cf85239f8a4d199",
+        "observed_sha256": "07726803c387f4ac01482e052937a1729b85d0d948370eb19cf85239f8a4d199",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/receipt_migration.py",
+        "sha256": "1ca4fa59e1d1fa3f043b8d75a861de89e10e1b99712b43def11073cf2fd63d42",
+        "observed_sha256": "1ca4fa59e1d1fa3f043b8d75a861de89e10e1b99712b43def11073cf2fd63d42",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/receipt_platform_migration.py",
+        "sha256": "9ef447549d4f30a2935c96c0a0d767a8c06cacad8618b550f5d1e12658ecc4d9",
+        "observed_sha256": "9ef447549d4f30a2935c96c0a0d767a8c06cacad8618b550f5d1e12658ecc4d9",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/receipts.py",
+        "sha256": "0f3646ae12c76f909878cebbd8d8a4fba268e9086f942c91b2046e2ee597630c",
+        "observed_sha256": "0f3646ae12c76f909878cebbd8d8a4fba268e9086f942c91b2046e2ee597630c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/server.py",
+        "sha256": "3faf2454cc3b72a4012b10b92fb1332c73fe4bddac061cc0832733bcd85a2dec",
+        "observed_sha256": "3faf2454cc3b72a4012b10b92fb1332c73fe4bddac061cc0832733bcd85a2dec",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/tasks.py",
+        "sha256": "9b9602a0e98ab2da55de9e6b619676597a455ef943f2394aa06967431c64674e",
+        "observed_sha256": "9b9602a0e98ab2da55de9e6b619676597a455ef943f2394aa06967431c64674e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "sha256": "3c611030578762d022aaf811f3df6b86854813cdc0e06d059305f09bac958818",
+        "observed_sha256": "3c611030578762d022aaf811f3df6b86854813cdc0e06d059305f09bac958818",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/common/owned_records.py",
+        "sha256": "8b003c01b191dae46bb2df070ba95a4756cb1accc253cfdec74a84597c9286ef",
+        "observed_sha256": "8b003c01b191dae46bb2df070ba95a4756cb1accc253cfdec74a84597c9286ef",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/models.py",
+        "sha256": "74c9b2f2c1116dc13de076f14cdd0d7246bb36a25a57267e3df44c9f1404790d",
+        "observed_sha256": "74c9b2f2c1116dc13de076f14cdd0d7246bb36a25a57267e3df44c9f1404790d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory.py",
+        "sha256": "491683f8265dfd848857df75ae4e9c15fb6ee44507133e49b7ab5aee575dec6c",
+        "observed_sha256": "491683f8265dfd848857df75ae4e9c15fb6ee44507133e49b7ab5aee575dec6c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/modules/analytics/inventory_identity.py",
+        "sha256": "c2cdfec06a6a05d143796eee9e26c2e88ff68579fc1bb19ad738d7c9b4e2ec3c",
+        "observed_sha256": "c2cdfec06a6a05d143796eee9e26c2e88ff68579fc1bb19ad738d7c9b4e2ec3c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/modules/business_ai/inventory_evidence.py",
+        "sha256": "b6e3c428ffea2d8b3b7a1c8d476d4f7e72d1e3e0b9aa4b79d73e8bc55a96c9ff",
+        "observed_sha256": "b6e3c428ffea2d8b3b7a1c8d476d4f7e72d1e3e0b9aa4b79d73e8bc55a96c9ff",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/modules/knowledge_graph/extraction.py",
+        "sha256": "6c13cd1ca678537acb3d295ee3330e07bce246790146b2493c8399c08c283a93",
+        "observed_sha256": "6c13cd1ca678537acb3d295ee3330e07bce246790146b2493c8399c08c283a93",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/modules/knowledge_graph/extraction_recovery.py",
+        "sha256": "bf611bcf49a3b49b6b0aededd774b5823392957d746a631cc4321a429f7d1225",
+        "observed_sha256": "bf611bcf49a3b49b6b0aededd774b5823392957d746a631cc4321a429f7d1225",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/app/schema.py",
+        "sha256": "60e7441ef5182e32b554e6aba3e12e055c9d752f8ec8bf47aaa41394ed2bb500",
+        "observed_sha256": "60e7441ef5182e32b554e6aba3e12e055c9d752f8ec8bf47aaa41394ed2bb500",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "backend/compile_check.py",
+        "sha256": "62b8a76c84e2c5764989bba8a60ec2305cb14a3e945adc1814ba91c5699d9a15",
+        "observed_sha256": "62b8a76c84e2c5764989bba8a60ec2305cb14a3e945adc1814ba91c5699d9a15",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "sha256": "0bc3c483e906b4e80f89cafdfbce437863306d267a2fe04594657f451d426898",
+        "observed_sha256": "0bc3c483e906b4e80f89cafdfbce437863306d267a2fe04594657f451d426898",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "sha256": "371079da98c341c5facebcc0a062139c089db70df107b595ca9d610c939f590a",
+        "observed_sha256": "371079da98c341c5facebcc0a062139c089db70df107b595ca9d610c939f590a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "sha256": "dfc9a226fef85c7ca01777f42ed883353a50fd6b7720cc1e9ef30f96612afe00",
+        "observed_sha256": "dfc9a226fef85c7ca01777f42ed883353a50fd6b7720cc1e9ef30f96612afe00",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/durable-receipt.test.mjs",
+        "sha256": "6c8bd1cde7d88598f845f151638044594399d16cf73973fa9518879a0dae441c",
+        "observed_sha256": "6c8bd1cde7d88598f845f151638044594399d16cf73973fa9518879a0dae441c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/event-order.test.mjs",
+        "sha256": "adb79767e3dd0300ff41642b0cfd3e49fe7925a9bb7b724b24d99e6347312bf3",
+        "observed_sha256": "adb79767e3dd0300ff41642b0cfd3e49fe7925a9bb7b724b24d99e6347312bf3",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/lifecycle-recovery.test.mjs",
+        "sha256": "1984534a29b2330300dfa393a02d12d7809febc16ae10337172ea6e0c71aa38a",
+        "observed_sha256": "1984534a29b2330300dfa393a02d12d7809febc16ae10337172ea6e0c71aa38a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/projection.test.mjs",
+        "sha256": "d850709cc3ff4026f76c4fccb284b70f9752b700448c6f41b725d4295233497e",
+        "observed_sha256": "d850709cc3ff4026f76c4fccb284b70f9752b700448c6f41b725d4295233497e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/recovery-request-window.test.mjs",
+        "sha256": "6f687c918798a30b81b039b992ff1b28e25838dd4d202a098a75ac694937cd9a",
+        "observed_sha256": "6f687c918798a30b81b039b992ff1b28e25838dd4d202a098a75ac694937cd9a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/tests/worker.test.mjs",
+        "sha256": "3e8ddb4f2d5409424a209ca900c399cf313ef62794a61130420eab04504455a1",
+        "observed_sha256": "3e8ddb4f2d5409424a209ca900c399cf313ef62794a61130420eab04504455a1",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "services/dsh_host/worker.mjs",
+        "sha256": "526b97307b3968bfc7593748dc712a047d1dab7746c4a63f5482a9dcb78f5131",
+        "observed_sha256": "526b97307b3968bfc7593748dc712a047d1dab7746c4a63f5482a9dcb78f5131",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics.py",
+        "sha256": "2fc052c4026bd9cb20c20d04e69cfcd3d1d8723759ad187a8d97dd6b4c13a01c",
+        "observed_sha256": "2fc052c4026bd9cb20c20d04e69cfcd3d1d8723759ad187a8d97dd6b4c13a01c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics_chart_snapshot_scope.py",
+        "sha256": "9809dedfdd808e463b9abe5340b3dc3dc9c1aa0cf61695a83ce28f8b387f2275",
+        "observed_sha256": "9809dedfdd808e463b9abe5340b3dc3dc9c1aa0cf61695a83ce28f8b387f2275",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics_config_lifecycle.py",
+        "sha256": "1458e7b1fbd1d331d8f4aead54055320d762b45df4c1e8b064ea052bcac4d452",
+        "observed_sha256": "1458e7b1fbd1d331d8f4aead54055320d762b45df4c1e8b064ea052bcac4d452",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics_dsh_and_export_contract.py",
+        "sha256": "1e869db41a0bf44c88b7818ebce0b7563e5eb50ee037f452cc0bf9deecfb2e52",
+        "observed_sha256": "1e869db41a0bf44c88b7818ebce0b7563e5eb50ee037f452cc0bf9deecfb2e52",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics_numeric_precision.py",
+        "sha256": "3956ef0b6676f7d7124b492b4e12370bef75f05b34318a9e98ca981e32f3def6",
+        "observed_sha256": "3956ef0b6676f7d7124b492b4e12370bef75f05b34318a9e98ca981e32f3def6",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics_snapshot_authorization.py",
+        "sha256": "7ad69509c59868b70aab9281a7d9ef3bec38ffc80a707d19cb1e9275690e5f30",
+        "observed_sha256": "7ad69509c59868b70aab9281a7d9ef3bec38ffc80a707d19cb1e9275690e5f30",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_analytics_task_control.py",
+        "sha256": "c7c4e58563e248ae82a8e43d65e26035072f22c9ac09f6de0f664b7aaf7e8123",
+        "observed_sha256": "c7c4e58563e248ae82a8e43d65e26035072f22c9ac09f6de0f664b7aaf7e8123",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_auth_token_logout.py",
+        "sha256": "24f18caf2d8cf0e4239f87e0e6aee855abed36883ec9c98230295deee931d467",
+        "observed_sha256": "24f18caf2d8cf0e4239f87e0e6aee855abed36883ec9c98230295deee931d467",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_bot_runtime_authorization.py",
+        "sha256": "3dbd60fdfc21366121593bad04ea71f6313358c132c7b853db587676e577197a",
+        "observed_sha256": "3dbd60fdfc21366121593bad04ea71f6313358c132c7b853db587676e577197a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_business_data_regression_0928.py",
+        "sha256": "7dc1f136ff09f0cc2ce4cff7a6e685e468b0f476a24c66c8ffdf0a27c1a567fb",
+        "observed_sha256": "7dc1f136ff09f0cc2ce4cff7a6e685e468b0f476a24c66c8ffdf0a27c1a567fb",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_business_numeric_wire.py",
+        "sha256": "985f9345a8d301def160552dec329510d8d714aa69d30caa5e8adbb6489b1e4a",
+        "observed_sha256": "985f9345a8d301def160552dec329510d8d714aa69d30caa5e8adbb6489b1e4a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_business_worker.py",
+        "sha256": "5bdf7e84a8993e8c99433bfa0902bb047e8752b7c260abb08954e68590652877",
+        "observed_sha256": "5bdf7e84a8993e8c99433bfa0902bb047e8752b7c260abb08954e68590652877",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_connector_derivation_contract.py",
+        "sha256": "e5b344389fe6e420f6af3a818d0b3e1076508e83086d2abec8666b3eea754ee5",
+        "observed_sha256": "e5b344389fe6e420f6af3a818d0b3e1076508e83086d2abec8666b3eea754ee5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_data_profile.py",
+        "sha256": "cdd51a7713904c963e797c6a914124c1ff203f4d08d5af0b518816d6173abe8e",
+        "observed_sha256": "cdd51a7713904c963e797c6a914124c1ff203f4d08d5af0b518816d6173abe8e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_database_provider.py",
+        "sha256": "581392d0f512a758c7619114a9c89c03c000d8ec3a10c197980d1c5513032585",
+        "observed_sha256": "581392d0f512a758c7619114a9c89c03c000d8ec3a10c197980d1c5513032585",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_datasource_governance.py",
+        "sha256": "971d0b83ba8a895b9915616376998c81c31780550ed8e6a98e7a678798196697",
+        "observed_sha256": "971d0b83ba8a895b9915616376998c81c31780550ed8e6a98e7a678798196697",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_artifact_revisions.py",
+        "sha256": "3f98be6683907526060fa04bfb91cf556cb04f552e713dcf9959542f30bbab7a",
+        "observed_sha256": "3f98be6683907526060fa04bfb91cf556cb04f552e713dcf9959542f30bbab7a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_completion_contract.py",
+        "sha256": "33e4c663d52cc596051c9af51ecea6b1006a4bb0767fe692770ba209adc48742",
+        "observed_sha256": "33e4c663d52cc596051c9af51ecea6b1006a4bb0767fe692770ba209adc48742",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_completion_host.py",
+        "sha256": "e9c3a6ff34b8a22fa2957cba18ef837c6de595bc12475a27b64d3574c131192d",
+        "observed_sha256": "e9c3a6ff34b8a22fa2957cba18ef837c6de595bc12475a27b64d3574c131192d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_compound_boundaries.py",
+        "sha256": "66c125a5f9f045fe4c9fa3dec0950124c45d85b1f9b09df27fe42c3e312fec9c",
+        "observed_sha256": "66c125a5f9f045fe4c9fa3dec0950124c45d85b1f9b09df27fe42c3e312fec9c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_compound_contract.py",
+        "sha256": "42e3138a1ceb8dc9d1995d28fe546fa3d2e6f695800c2f8a94885077a01fe1fc",
+        "observed_sha256": "42e3138a1ceb8dc9d1995d28fe546fa3d2e6f695800c2f8a94885077a01fe1fc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_dashboard_delivery.py",
+        "sha256": "87f11b638f125aa0e6d9ded4403d9e41aad9d5b250a80e834e45557393d17993",
+        "observed_sha256": "87f11b638f125aa0e6d9ded4403d9e41aad9d5b250a80e834e45557393d17993",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_halted_task_saved_deliveries.py",
+        "sha256": "79f23ada303fdf2066d13b93bbb42e916d07e4734765fc58f0380639d184e102",
+        "observed_sha256": "79f23ada303fdf2066d13b93bbb42e916d07e4734765fc58f0380639d184e102",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_multiple_presentation_drafts.py",
+        "sha256": "28217d5df1bd00e9001f821e6fd19f210f455b6d9bd9a4db9a9a5e4335380eb6",
+        "observed_sha256": "28217d5df1bd00e9001f821e6fd19f210f455b6d9bd9a4db9a9a5e4335380eb6",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_natural_continuation.py",
+        "sha256": "a6167035c6a195d4d9de6f3e1f9f1acbb26fd03de2b8def7e41b5d13bf4c6693",
+        "observed_sha256": "a6167035c6a195d4d9de6f3e1f9f1acbb26fd03de2b8def7e41b5d13bf4c6693",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_presentation_schema.py",
+        "sha256": "d224d823ab9a6e59efc8b14a3f487075ee2eb75e295740c5a98b539037adec38",
+        "observed_sha256": "d224d823ab9a6e59efc8b14a3f487075ee2eb75e295740c5a98b539037adec38",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_query_cancellation.py",
+        "sha256": "5d2cddc5950c8f32781c9cf250b5ff7b2ab2dcd146ecc64a44b4b000dbcc302d",
+        "observed_sha256": "5d2cddc5950c8f32781c9cf250b5ff7b2ab2dcd146ecc64a44b4b000dbcc302d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_query_delivery_resume.py",
+        "sha256": "6569bf9bd705679a1344bb0a30170146e4fd8cf26eb4c8ffe274498ecce7376b",
+        "observed_sha256": "6569bf9bd705679a1344bb0a30170146e4fd8cf26eb4c8ffe274498ecce7376b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_query_execution.py",
+        "sha256": "41a78a34e5ccb4cc17b721f9cf103d55fa1896b1883334f9c614f2561ec200b0",
+        "observed_sha256": "41a78a34e5ccb4cc17b721f9cf103d55fa1896b1883334f9c614f2561ec200b0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "sha256": "e1e59652d77dda33a20895eb8e7978e76aecf73cb54162e787ee2917d878209d",
+        "observed_sha256": "e1e59652d77dda33a20895eb8e7978e76aecf73cb54162e787ee2917d878209d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_dsh_task_operation_guard.py",
+        "sha256": "dfece20d66853bc972390c1974d7a892f1df299ec975ad9475190037cab2618e",
+        "observed_sha256": "dfece20d66853bc972390c1974d7a892f1df299ec975ad9475190037cab2618e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_durable_receipt_host.py",
+        "sha256": "5de1aa77bef68e1a4270b1effbce5ccaa53080d40b4c5bf744917b1e23102830",
+        "observed_sha256": "5de1aa77bef68e1a4270b1effbce5ccaa53080d40b4c5bf744917b1e23102830",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_durable_tool_receipts.py",
+        "sha256": "c8d9da60a736c68c5a86f44fca6323a3391c5785ad6d3ff21e1a053dd131f3e7",
+        "observed_sha256": "c8d9da60a736c68c5a86f44fca6323a3391c5785ad6d3ff21e1a053dd131f3e7",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_extraction_materialization_contract.py",
+        "sha256": "0f09c353ab2b7abbc0ec864c6882aa1485f444d2861d8c63dee5377a94aa8c9f",
+        "observed_sha256": "0f09c353ab2b7abbc0ec864c6882aa1485f444d2861d8c63dee5377a94aa8c9f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_extraction_recovery.py",
+        "sha256": "c5d029a2f8e36780a60a87386d9a505b68de7bab8f4e6a7e918bf14373855685",
+        "observed_sha256": "c5d029a2f8e36780a60a87386d9a505b68de7bab8f4e6a7e918bf14373855685",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_extraction_recovery_process.py",
+        "sha256": "a70c91cfc4105ac53218db92119c15c75e1f2b12347da4ffe470b2bcf5bca5ea",
+        "observed_sha256": "a70c91cfc4105ac53218db92119c15c75e1f2b12347da4ffe470b2bcf5bca5ea",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_extraction_review_contract.py",
+        "sha256": "8bfb7bb06c8a103beceb134797fe6c8d8a67672d8bc8a511e64ada888073f699",
+        "observed_sha256": "8bfb7bb06c8a103beceb134797fe6c8d8a67672d8bc8a511e64ada888073f699",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_extraction_source_authority.py",
+        "sha256": "7cb5f2f50e5e3623d7fd1914fe241be8ab7d56bc8e2ca3f1e66d9a77f28d15f7",
+        "observed_sha256": "7cb5f2f50e5e3623d7fd1914fe241be8ab7d56bc8e2ca3f1e66d9a77f28d15f7",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_file_template_font_units.py",
+        "sha256": "78e54fce9f0f5296d926acad896de434fd1511b0cd60b60b521f233038bc9f12",
+        "observed_sha256": "78e54fce9f0f5296d926acad896de434fd1511b0cd60b60b521f233038bc9f12",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_graph_explore_contract.py",
+        "sha256": "30ff1545fefc14cc2fa3379931742a3c77464ba3d8e9532b096a6246820acd6e",
+        "observed_sha256": "30ff1545fefc14cc2fa3379931742a3c77464ba3d8e9532b096a6246820acd6e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_graph_property_contracts.py",
+        "sha256": "5dbf8beec38aa725cb6316804fccf9c1252d6ae2167cc45c21723c9ebb102a92",
+        "observed_sha256": "5dbf8beec38aa725cb6316804fccf9c1252d6ae2167cc45c21723c9ebb102a92",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_http_query_export_contract.py",
+        "sha256": "889a4775f225e87e45af1761fef23d450de2d209b56209c0313e38c17dcbdabe",
+        "observed_sha256": "889a4775f225e87e45af1761fef23d450de2d209b56209c0313e38c17dcbdabe",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_inventory_evidence.py",
+        "sha256": "e8b4383a4abc2d2442d671f8a4edee4b36d688ad190e20bcdffbcaf7089685f1",
+        "observed_sha256": "e8b4383a4abc2d2442d671f8a4edee4b36d688ad190e20bcdffbcaf7089685f1",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_inventory_plugin_contract.py",
+        "sha256": "e7d75018ca653bf88d96f929b9adda9cfd5cbd483ce3c34e6d24b3cf07cc3d0e",
+        "observed_sha256": "e7d75018ca653bf88d96f929b9adda9cfd5cbd483ce3c34e6d24b3cf07cc3d0e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_inventory_query.py",
+        "sha256": "b87a756a2e7c69e8dc8d3648fd728afd32eb31ffcc56b670af3b2064fb3bf702",
+        "observed_sha256": "b87a756a2e7c69e8dc8d3648fd728afd32eb31ffcc56b670af3b2064fb3bf702",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_inventory_semantic_counts.py",
+        "sha256": "4456777f5bf6e3bc7ee1be989abe5f3e1f126d455da75d951008bf6d80283a0b",
+        "observed_sha256": "4456777f5bf6e3bc7ee1be989abe5f3e1f126d455da75d951008bf6d80283a0b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_knowledge_graph.py",
+        "sha256": "d0204dd32ff8a3d44f441cc3d729e488728901326ede08c2b5a461297345d324",
+        "observed_sha256": "d0204dd32ff8a3d44f441cc3d729e488728901326ede08c2b5a461297345d324",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_knowledge_search_authority.py",
+        "sha256": "287e1f7ea200558e9a4c16f77d1b995a26b94cd7470af11147f126605485920e",
+        "observed_sha256": "287e1f7ea200558e9a4c16f77d1b995a26b94cd7470af11147f126605485920e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_knowledge_tool_scope.py",
+        "sha256": "2e58837660f002553236e309d0f8c2a88facb37e51b8e4c868341913ab2fa90d",
+        "observed_sha256": "2e58837660f002553236e309d0f8c2a88facb37e51b8e4c868341913ab2fa90d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_model_and_workspace_permission_edges.py",
+        "sha256": "1336aaf6df74b03e6768f7114042edbf345146d73e32ad48fcdb542be9e4066a",
+        "observed_sha256": "1336aaf6df74b03e6768f7114042edbf345146d73e32ad48fcdb542be9e4066a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_openwebui_query_dashboard.py",
+        "sha256": "acac6768cf21f694f5b6d78ddc599eb4b35dfe4f239ee9b1d17a997870995021",
+        "observed_sha256": "acac6768cf21f694f5b6d78ddc599eb4b35dfe4f239ee9b1d17a997870995021",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_presentation_intent_integrity.py",
+        "sha256": "1cb7e166a3a02f5a052f961fc18d645d0c18ea46ceed68d8e9627fa4d64612fe",
+        "observed_sha256": "1cb7e166a3a02f5a052f961fc18d645d0c18ea46ceed68d8e9627fa4d64612fe",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_presentation_partial_batches.py",
+        "sha256": "85a1630be846b43c7d1c1d7a3999bd56523751c198831ae665fdbaa6d864566d",
+        "observed_sha256": "85a1630be846b43c7d1c1d7a3999bd56523751c198831ae665fdbaa6d864566d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_presentation_request_pages.py",
+        "sha256": "78c60b25b568284c73d4ad4ca17975a5819e83a62c99cb40c56ba687f01c0cb9",
+        "observed_sha256": "78c60b25b568284c73d4ad4ca17975a5819e83a62c99cb40c56ba687f01c0cb9",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_delivery.py",
+        "sha256": "488f65c6471d6fa7beb7e7bf0e05b3fef8f750abab47aaa69c72909fbe3402de",
+        "observed_sha256": "488f65c6471d6fa7beb7e7bf0e05b3fef8f750abab47aaa69c72909fbe3402de",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_lifecycle_control.py",
+        "sha256": "39ea7bac6d3ce453459b4ded26fa81407b746e2868ef50dee86be64f6ed060b1",
+        "observed_sha256": "39ea7bac6d3ce453459b4ded26fa81407b746e2868ef50dee86be64f6ed060b1",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_lifecycle_governance.py",
+        "sha256": "ff4120366c24239f4b19048bb10dc8d96ba2f3b1acef20c30ad9a253387939c4",
+        "observed_sha256": "ff4120366c24239f4b19048bb10dc8d96ba2f3b1acef20c30ad9a253387939c4",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_presentation.py",
+        "sha256": "c52242215d2836193428c29ece40d9452f7f9b3096ac704409756911c8bad93f",
+        "observed_sha256": "c52242215d2836193428c29ece40d9452f7f9b3096ac704409756911c8bad93f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_presentation_report.py",
+        "sha256": "40e581fc93f5b8208db9e4cd03a9a0cfdc304016c0ece26eb501a350bb3fadb1",
+        "observed_sha256": "40e581fc93f5b8208db9e4cd03a9a0cfdc304016c0ece26eb501a350bb3fadb1",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation.py",
+        "sha256": "942749e7fe75e8a374440c7249ca1a777799fbeb878c74f71e0542425e31b115",
+        "observed_sha256": "942749e7fe75e8a374440c7249ca1a777799fbeb878c74f71e0542425e31b115",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_boundaries.py",
+        "sha256": "99345ec48303acc688a953901ca5a1c528f8e898e25470283b12c0a45382523d",
+        "observed_sha256": "99345ec48303acc688a953901ca5a1c528f8e898e25470283b12c0a45382523d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_dsh.py",
+        "sha256": "83f0bc7add1114e3fa12e831dd5e609c1b6b6e0bfd2caae334792b6c0701ba0f",
+        "observed_sha256": "83f0bc7add1114e3fa12e831dd5e609c1b6b6e0bfd2caae334792b6c0701ba0f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_replay.py",
+        "sha256": "93e3cb9c8710bed00718e01818684a97d2cfd6ed74c466f72026e96b54ed1161",
+        "observed_sha256": "93e3cb9c8710bed00718e01818684a97d2cfd6ed74c466f72026e96b54ed1161",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_read_connection_pool.py",
+        "sha256": "9aca388c393db5a80502853cf0fd1dcad56a7ce60459b9c48ba6d95e72cd8378",
+        "observed_sha256": "9aca388c393db5a80502853cf0fd1dcad56a7ce60459b9c48ba6d95e72cd8378",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_receipt_migration.py",
+        "sha256": "b8e26d07dbcdb1a7d775ec7309a1a99410eb9f18a7678edb34c044f688f09256",
+        "observed_sha256": "b8e26d07dbcdb1a7d775ec7309a1a99410eb9f18a7678edb34c044f688f09256",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_receipt_platform_migration.py",
+        "sha256": "454c327857646d9747ac7808cacbc13424e58565fdb0b6d2d1e0978dc1cd65bb",
+        "observed_sha256": "454c327857646d9747ac7808cacbc13424e58565fdb0b6d2d1e0978dc1cd65bb",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_receipt_schema_contract.py",
+        "sha256": "d445f31e2e4b247bdcff5ed2a9f557459efdcbc9c00948c53ddb3c325e6f8318",
+        "observed_sha256": "d445f31e2e4b247bdcff5ed2a9f557459efdcbc9c00948c53ddb3c325e6f8318",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_runtime_recovery.py",
+        "sha256": "2ac50b1a34b48988294a8947389e93c9fa4d223125b6bf1f0de487cd23495b23",
+        "observed_sha256": "2ac50b1a34b48988294a8947389e93c9fa4d223125b6bf1f0de487cd23495b23",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_runtime_tool_registration.py",
+        "sha256": "07cf8f6f627dd2d7bd68a854b578ae6b24d2b92816cb52a6ae1b74ec0409aede",
+        "observed_sha256": "07cf8f6f627dd2d7bd68a854b578ae6b24d2b92816cb52a6ae1b74ec0409aede",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_semantic_relation_contract.py",
+        "sha256": "b7e4e8108ea776ef484347eaeaca483761d7548b7a9a301e41a00710c5402cd7",
+        "observed_sha256": "b7e4e8108ea776ef484347eaeaca483761d7548b7a9a301e41a00710c5402cd7",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_task_clarification_delivery.py",
+        "sha256": "67b16cf8dec5ee1fc77c7328da9dddb7882d8b9057a45c9e695f2bb2d53879cb",
+        "observed_sha256": "67b16cf8dec5ee1fc77c7328da9dddb7882d8b9057a45c9e695f2bb2d53879cb",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_template_query_snapshot.py",
+        "sha256": "20c5b3d746ac52d1e48cc8f95fd900bbced088f5275e1565964a9c736b7928a5",
+        "observed_sha256": "20c5b3d746ac52d1e48cc8f95fd900bbced088f5275e1565964a9c736b7928a5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_template_snapshot_matrix.py",
+        "sha256": "db49820b539fe6f9fad804e7e9977746c9fd864c4efff0bc64ade955d108611d",
+        "observed_sha256": "db49820b539fe6f9fad804e7e9977746c9fd864c4efff0bc64ade955d108611d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/backend/test_tool_schema_contract.py",
+        "sha256": "4dbe958e5e538b1330c6deab22e233edd40ab8e04079556f532d16414b3bb827",
+        "observed_sha256": "4dbe958e5e538b1330c6deab22e233edd40ab8e04079556f532d16414b3bb827",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/business_browser_acceptance.py",
+        "sha256": "6d133211c66146c358df90c6828809ac207f1150dca0d44a79f761ec3cf2edad",
+        "observed_sha256": "6d133211c66146c358df90c6828809ac207f1150dca0d44a79f761ec3cf2edad",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/durable_receipt_probe.mjs",
+        "sha256": "47e79b47fb76ea0589504ce0b7d8d53f5d9a75a5a7c905de946a80b389ea0a75",
+        "observed_sha256": "47e79b47fb76ea0589504ce0b7d8d53f5d9a75a5a7c905de946a80b389ea0a75",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/extraction_recovery_probe.py",
+        "sha256": "61642f4833612f05c2ffa689f81c18d7588b6c673e444a59507700ba42bdf41c",
+        "observed_sha256": "61642f4833612f05c2ffa689f81c18d7588b6c673e444a59507700ba42bdf41c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/presentation_schema_probe.mjs",
+        "sha256": "8f43898fd450213a83c54979d3d1a1306269f19445bc19508606d02eb2bb64e0",
+        "observed_sha256": "8f43898fd450213a83c54979d3d1a1306269f19445bc19508606d02eb2bb64e0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/real_platform_smoke.py",
+        "sha256": "22b02809d505fa3301e768587a72c411395f2a6afc3059f913135825f3c0b318",
+        "observed_sha256": "22b02809d505fa3301e768587a72c411395f2a6afc3059f913135825f3c0b318",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/receipt_worker_fixture.py",
+        "sha256": "18deb8acd80fde307937e4a5408c00bc7e24235558bf7e0e2d2d34df23f0add5",
+        "observed_sha256": "18deb8acd80fde307937e4a5408c00bc7e24235558bf7e0e2d2d34df23f0add5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/test_browser_port_allocation.py",
+        "sha256": "3b20979e5f295d7821b2324daf88f21af8843220b9de9e489ec6f2123d9b3e7d",
+        "observed_sha256": "3b20979e5f295d7821b2324daf88f21af8843220b9de9e489ec6f2123d9b3e7d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/dsh/test_python_socketpair_guard.py",
+        "sha256": "780472587f5c5b79175a1459b90049ee66a3e8e58eaee1d1517d55a6936e62e5",
+        "observed_sha256": "780472587f5c5b79175a1459b90049ee66a3e8e58eaee1d1517d55a6936e62e5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/.gitattributes",
+        "sha256": "3ab23552d113ec0f8c90329f197309bf5dd4a95ecf0061375a7f09f490c02ce2",
+        "observed_sha256": "3ab23552d113ec0f8c90329f197309bf5dd4a95ecf0061375a7f09f490c02ce2",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE",
+        "sha256": "5f1bd74c48bf13ab0f82e177ad9e637313b92533d20ead2593d49347a47fc232",
+        "observed_sha256": "5f1bd74c48bf13ab0f82e177ad9e637313b92533d20ead2593d49347a47fc232",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE_HISTORY",
+        "sha256": "b1567cc9763241a41569e01f08272a167dac57273f717b95b31ba7b5ec935e17",
+        "observed_sha256": "b1567cc9763241a41569e01f08272a167dac57273f717b95b31ba7b5ec935e17",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/LICENSE_NOTICE",
+        "sha256": "9de72254becbb9a317410a459447be7e8f042b911a846c58307319c77e50df00",
+        "observed_sha256": "9de72254becbb9a317410a459447be7e8f042b911a846c58307319c77e50df00",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/README.md",
+        "sha256": "961821f812d33a73a78748910d520f180cde59de8b89db97968436ad39e083cc",
+        "observed_sha256": "961821f812d33a73a78748910d520f180cde59de8b89db97968436ad39e083cc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/fixtures/openwebui-0.11.4/tools.py.txt",
+        "sha256": "ae4fc82448f914863a770bb105591f5c161a372b16bcbf40014f22b28c8bc9b9",
+        "observed_sha256": "ae4fc82448f914863a770bb105591f5c161a372b16bcbf40014f22b28c8bc9b9",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/offline/test_compound_file_inspector.py",
+        "sha256": "7a7b874d438acd52a9c78a1414b36acf9baeb71a7026c5adc8439c2b71ef478a",
+        "observed_sha256": "7a7b874d438acd52a9c78a1414b36acf9baeb71a7026c5adc8439c2b71ef478a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/run_isolated_backend.py",
+        "sha256": "ce3f744fc0c948e973c1d4ce367c6fb207fd962f52f70d36ee2c32ad6f268dbb",
+        "observed_sha256": "ce3f744fc0c948e973c1d4ce367c6fb207fd962f52f70d36ee2c32ad6f268dbb",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/chart_precision.test.cjs",
+        "sha256": "71742db033e7ec738ac716242126ed6e4faa6831863858102cb2959baaae64ab",
+        "observed_sha256": "71742db033e7ec738ac716242126ed6e4faa6831863858102cb2959baaae64ab",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/chart_precision_browser.cjs",
+        "sha256": "0dec83d413337bce43d4202ec9df6cf516a1e73c6333410bf8fc15410fb8c90d",
+        "observed_sha256": "0dec83d413337bce43d4202ec9df6cf516a1e73c6333410bf8fc15410fb8c90d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/chat_dashboard_snapshot.test.js",
+        "sha256": "1d7809bbc62293a7b64af5448bb9f223d926a8aec76094fabee5244f1757bb4f",
+        "observed_sha256": "1d7809bbc62293a7b64af5448bb9f223d926a8aec76094fabee5244f1757bb4f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/chat_stream_recovery.test.js",
+        "sha256": "42aa224c141e19fd0cbac17f734262a8ca05afe6893049a5d3bc2fd10296b26c",
+        "observed_sha256": "42aa224c141e19fd0cbac17f734262a8ca05afe6893049a5d3bc2fd10296b26c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/chat_stream_scroll.js",
+        "sha256": "40bc5f3b82c5dc5dfbff810f7a4ced954d3c604ed52128d380e86d233c18d41b",
+        "observed_sha256": "40bc5f3b82c5dc5dfbff810f7a4ced954d3c604ed52128d380e86d233c18d41b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/compound_browser_contract.test.cjs",
+        "sha256": "e3a0d2c1a2a604138829eba60a8780a99286e7249cdcb512e4631e698e4f0074",
+        "observed_sha256": "e3a0d2c1a2a604138829eba60a8780a99286e7249cdcb512e4631e698e4f0074",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/dashboard_delivery_matrix.js",
+        "sha256": "4d195c60f7ba2cda95e91eb9c2374a877322f9153d73f51708bf33e7c030e5fe",
+        "observed_sha256": "4d195c60f7ba2cda95e91eb9c2374a877322f9153d73f51708bf33e7c030e5fe",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/dsh_chat_session.test.js",
+        "sha256": "940afa9f7ca324710a88a1df72fec76df19348d75afe1de76d5048b87cfd5f4d",
+        "observed_sha256": "940afa9f7ca324710a88a1df72fec76df19348d75afe1de76d5048b87cfd5f4d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_ai_documents_acceptance.js",
+        "sha256": "5c3b312f0ca1217a209ee2ab3906d6cf6671f32749ab02d9b08ca2c75c47b206",
+        "observed_sha256": "5c3b312f0ca1217a209ee2ab3906d6cf6671f32749ab02d9b08ca2c75c47b206",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_alert_acceptance.js",
+        "sha256": "04c5268fe76ab3711b7f9ef761b08c3833bd9d945f14404212d5c991cec913e3",
+        "observed_sha256": "04c5268fe76ab3711b7f9ef761b08c3833bd9d945f14404212d5c991cec913e3",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_analytics_acceptance.js",
+        "sha256": "9d8fda29b1ddfec99d24023474a73ba9de202a3c4eed12dd480ba3de42e320f8",
+        "observed_sha256": "9d8fda29b1ddfec99d24023474a73ba9de202a3c4eed12dd480ba3de42e320f8",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_capability_acceptance.js",
+        "sha256": "6c978f2c1a6103f3936084d89b6694cb9ae0c7545cfc6092d4d3d73250d886ae",
+        "observed_sha256": "6c978f2c1a6103f3936084d89b6694cb9ae0c7545cfc6092d4d3d73250d886ae",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_content_acceptance.js",
+        "sha256": "d28a9d28c2040a80fa3b3742f94575e58c2e9220caf22b291f9d2f130e772e16",
+        "observed_sha256": "d28a9d28c2040a80fa3b3742f94575e58c2e9220caf22b291f9d2f130e772e16",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_graph_acceptance.js",
+        "sha256": "a18e77fdd94af3042c9aceafeaa369b94f352e5f7314fb67b6e98f2da40d6cfe",
+        "observed_sha256": "a18e77fdd94af3042c9aceafeaa369b94f352e5f7314fb67b6e98f2da40d6cfe",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_permissions_acceptance.js",
+        "sha256": "2eb488949ade46867010e5d740e481b0a1461cfcbc1d376344e114e5efafd2a9",
+        "observed_sha256": "2eb488949ade46867010e5d740e481b0a1461cfcbc1d376344e114e5efafd2a9",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_quality_acceptance.js",
+        "sha256": "e71ba367d2f98f9d0b6f07d87fb0e5c23cb134a3f65e1088d02872b4d227aa5f",
+        "observed_sha256": "e71ba367d2f98f9d0b6f07d87fb0e5c23cb134a3f65e1088d02872b4d227aa5f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_system_acceptance.js",
+        "sha256": "f6d14e559b367e98994ac6b87892cbf2f9862d3510f5839fd91dffa6555f3aa4",
+        "observed_sha256": "f6d14e559b367e98994ac6b87892cbf2f9862d3510f5839fd91dffa6555f3aa4",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/full_browser_workflow_acceptance.js",
+        "sha256": "3ed53cc1dd02186c4fcccab64c18bc1381f0c14e37987f442dba73a44e88c383",
+        "observed_sha256": "3ed53cc1dd02186c4fcccab64c18bc1381f0c14e37987f442dba73a44e88c383",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/isolated_browser_guard.cjs",
+        "sha256": "0dbbf67e08274ea48e722dd5b2a62cc9abf4c926ec4e0aa245d46246ee78fb2b",
+        "observed_sha256": "0dbbf67e08274ea48e722dd5b2a62cc9abf4c926ec4e0aa245d46246ee78fb2b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/network_report_writer.cjs",
+        "sha256": "f4d2a6cbb9cd430bceac6df281d7cbaf3c13cf1645765285b6f58b24392900c0",
+        "observed_sha256": "f4d2a6cbb9cd430bceac6df281d7cbaf3c13cf1645765285b6f58b24392900c0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/network_report_writer.test.cjs",
+        "sha256": "dddb4543754b03f93d738652dc84f2a5126dc54dcccf630d66c9e77d9f0d5926",
+        "observed_sha256": "dddb4543754b03f93d738652dc84f2a5126dc54dcccf630d66c9e77d9f0d5926",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/numeric_statistics_display.test.cjs",
+        "sha256": "48c21f8209a396e97e702c52b48396c0cec06eaffb3b7c64626f7c67bd0c11ab",
+        "observed_sha256": "48c21f8209a396e97e702c52b48396c0cec06eaffb3b7c64626f7c67bd0c11ab",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/saved_dashboard_series.test.js",
+        "sha256": "f6075118789bae0b592402f32475d51abbd7171273e7a1faf39c81ed9b79e3cd",
+        "observed_sha256": "f6075118789bae0b592402f32475d51abbd7171273e7a1faf39c81ed9b79e3cd",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "tests/ui/snapshot_chart_option.test.js",
+        "sha256": "5d91ee0c31eadcdd6e11a152bdad5e8e636fd0acb5bfb26cc351ee7dfe448d10",
+        "observed_sha256": "5d91ee0c31eadcdd6e11a152bdad5e8e636fd0acb5bfb26cc351ee7dfe448d10",
+        "raw_bytes_match": true
+      }
+    ],
+    "freeze_artifact": {
+      "path": ".implementation/batch23-browser-start.json",
+      "bytes": 54796,
+      "sha256": "3d7bfaf7e62d836532ce8a50b79146afcedae1004811bd54e3fa90422ddc9752"
+    },
+    "file_count": 145,
+    "all_raw_bytes_match": true,
+    "verified_at": "2026-10-04T09:47:10.927342+00:00",
+    "browser_commit": "cda7d082ce641b7a630908da3e0059811cd9a318",
+    "scope_note": "继承门禁145份原始字节；source_freeze中的基线状态属于门禁启动，浏览器由干净cda7d08启动。"
+  },
+  "inherited_frontend_assets": {
+    "source_batch": "20-22",
+    "files": [
+      {
+        "path": "apps/web/assets/analytics/index.html",
+        "sha256": "fd21c926af9a7b036af03e5899f8863d1bfcfd96a46414936dd7f84657864e85",
+        "batch20_22_sha256": "fd21c926af9a7b036af03e5899f8863d1bfcfd96a46414936dd7f84657864e85",
+        "raw_equal": true,
+        "observed_sha256": "fd21c926af9a7b036af03e5899f8863d1bfcfd96a46414936dd7f84657864e85",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-v4compatibility-C9RhG_FT.woff2",
+        "sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd",
+        "batch20_22_sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd",
+        "raw_equal": true,
+        "observed_sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-v4compatibility-CCth-dXg.ttf",
+        "sha256": "30f6abf6baa425825828793d6dfad1fb63765d0e5abaa7af6feafb9bfcece5a0",
+        "batch20_22_sha256": "30f6abf6baa425825828793d6dfad1fb63765d0e5abaa7af6feafb9bfcece5a0",
+        "raw_equal": true,
+        "observed_sha256": "30f6abf6baa425825828793d6dfad1fb63765d0e5abaa7af6feafb9bfcece5a0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-regular-400-BjRzuEpd.woff2",
+        "sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5",
+        "batch20_22_sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5",
+        "raw_equal": true,
+        "observed_sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-regular-400-DZaxPHgR.ttf",
+        "sha256": "54cf6086f7bb21f9d072ad494a19b4681fa516dd0a14cee52da01d3651a913a3",
+        "batch20_22_sha256": "54cf6086f7bb21f9d072ad494a19b4681fa516dd0a14cee52da01d3651a913a3",
+        "raw_equal": true,
+        "observed_sha256": "54cf6086f7bb21f9d072ad494a19b4681fa516dd0a14cee52da01d3651a913a3",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-brands-400-D_cYUPeE.woff2",
+        "sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68",
+        "batch20_22_sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68",
+        "raw_equal": true,
+        "observed_sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-solid-900-CTAAxXor.woff2",
+        "sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e",
+        "batch20_22_sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e",
+        "raw_equal": true,
+        "observed_sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-brands-400-D1LuMI3I.ttf",
+        "sha256": "808443ae6c8204395add8543da8a90a60b9376fb0f87ed8e8ea37d109596d805",
+        "batch20_22_sha256": "808443ae6c8204395add8543da8a90a60b9376fb0f87ed8e8ea37d109596d805",
+        "raw_equal": true,
+        "observed_sha256": "808443ae6c8204395add8543da8a90a60b9376fb0f87ed8e8ea37d109596d805",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-solid-900-D0aA9rwL.ttf",
+        "sha256": "d2f0593540b0e33ba6de255a54f272d466e31144806956bea8cfdbf7edffc9bd",
+        "batch20_22_sha256": "d2f0593540b0e33ba6de255a54f272d466e31144806956bea8cfdbf7edffc9bd",
+        "raw_equal": true,
+        "observed_sha256": "d2f0593540b0e33ba6de255a54f272d466e31144806956bea8cfdbf7edffc9bd",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertRuleForm-prpVlulN.css",
+        "sha256": "ffbd2782bb532c77da2c998ed0544b4d44a067435b130ccd8b57b8be7cf79d9e",
+        "batch20_22_sha256": "ffbd2782bb532c77da2c998ed0544b4d44a067435b130ccd8b57b8be7cf79d9e",
+        "raw_equal": true,
+        "observed_sha256": "ffbd2782bb532c77da2c998ed0544b4d44a067435b130ccd8b57b8be7cf79d9e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/SqlWorkspace-DEx2r19T.css",
+        "sha256": "776e972e5ae15071621b692a3bdc404e9e2bbb2c5e8f73718d58b348fe6bb5fc",
+        "batch20_22_sha256": "776e972e5ae15071621b692a3bdc404e9e2bbb2c5e8f73718d58b348fe6bb5fc",
+        "raw_equal": true,
+        "observed_sha256": "776e972e5ae15071621b692a3bdc404e9e2bbb2c5e8f73718d58b348fe6bb5fc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace-CWvOz8K0.css",
+        "sha256": "b599a422bf414abe21f7ceb97752af6f7c98764e3f5b876624af12029b3ec837",
+        "batch20_22_sha256": "b599a422bf414abe21f7ceb97752af6f7c98764e3f5b876624af12029b3ec837",
+        "raw_equal": true,
+        "observed_sha256": "b599a422bf414abe21f7ceb97752af6f7c98764e3f5b876624af12029b3ec837",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/writeback-D-mTChmA.css",
+        "sha256": "3e55994b2b19541183e85ffda1ec3354f6134919b20adbfb94441f75cfebfa73",
+        "batch20_22_sha256": "3e55994b2b19541183e85ffda1ec3354f6134919b20adbfb94441f75cfebfa73",
+        "raw_equal": true,
+        "observed_sha256": "3e55994b2b19541183e85ffda1ec3354f6134919b20adbfb94441f75cfebfa73",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel-eXlKoHba.css",
+        "sha256": "9b235af534cb3e74d13bac7845b46860938419870e6fb62a4546bcf82f3612f9",
+        "batch20_22_sha256": "9b235af534cb3e74d13bac7845b46860938419870e6fb62a4546bcf82f3612f9",
+        "raw_equal": true,
+        "observed_sha256": "9b235af534cb3e74d13bac7845b46860938419870e6fb62a4546bcf82f3612f9",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowReportMarkdown-DaN-2Kpa.css",
+        "sha256": "42ad40310b08efb54f8e8933de4fd3d8a1122e5b6bbf77e928d89d096f83bdfc",
+        "batch20_22_sha256": "42ad40310b08efb54f8e8933de4fd3d8a1122e5b6bbf77e928d89d096f83bdfc",
+        "raw_equal": true,
+        "observed_sha256": "42ad40310b08efb54f8e8933de4fd3d8a1122e5b6bbf77e928d89d096f83bdfc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkspace-Cfz3SOrJ.css",
+        "sha256": "81590f366593cea9e87f20e7aeb3342e6d2fdcfac1c2aba4bafdccdbf39fdb14",
+        "batch20_22_sha256": "81590f366593cea9e87f20e7aeb3342e6d2fdcfac1c2aba4bafdccdbf39fdb14",
+        "raw_equal": true,
+        "observed_sha256": "81590f366593cea9e87f20e7aeb3342e6d2fdcfac1c2aba4bafdccdbf39fdb14",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessProcessGuide-C79jE53H.css",
+        "sha256": "b8923545716d633effeb3504dfc70c1dae214f3813a0005526ff302ca06a2abc",
+        "batch20_22_sha256": "b8923545716d633effeb3504dfc70c1dae214f3813a0005526ff302ca06a2abc",
+        "raw_equal": true,
+        "observed_sha256": "b8923545716d633effeb3504dfc70c1dae214f3813a0005526ff302ca06a2abc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowSubgraphEditor-rGJPOSAB.css",
+        "sha256": "034f4b47f2e0a2bbc316973590685e65fadc361f59ba480528c2e1a77297c0fe",
+        "batch20_22_sha256": "034f4b47f2e0a2bbc316973590685e65fadc361f59ba480528c2e1a77297c0fe",
+        "raw_equal": true,
+        "observed_sha256": "034f4b47f2e0a2bbc316973590685e65fadc361f59ba480528c2e1a77297c0fe",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportViewer-Dvy0dbAi.css",
+        "sha256": "14c21ddff28fd186f25bccfa79bc01736bec6b2861b19f2e5f8dbc74df3eb375",
+        "batch20_22_sha256": "14c21ddff28fd186f25bccfa79bc01736bec6b2861b19f2e5f8dbc74df3eb375",
+        "raw_equal": true,
+        "observed_sha256": "14c21ddff28fd186f25bccfa79bc01736bec6b2861b19f2e5f8dbc74df3eb375",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/http-collection-D92LS8d4.css",
+        "sha256": "40886956505f9e5902cf48133e35e7f387e0da50048153f9abeb9ad8bf6bb277",
+        "batch20_22_sha256": "40886956505f9e5902cf48133e35e7f387e0da50048153f9abeb9ad8bf6bb277",
+        "raw_equal": true,
+        "observed_sha256": "40886956505f9e5902cf48133e35e7f387e0da50048153f9abeb9ad8bf6bb277",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/TemplateCenter-D6IHbFTd.css",
+        "sha256": "325851c5044c063bd0f0b32b38a4080f04a2de7a2c37369c81f54ff3aad518a5",
+        "batch20_22_sha256": "325851c5044c063bd0f0b32b38a4080f04a2de7a2c37369c81f54ff3aad518a5",
+        "raw_equal": true,
+        "observed_sha256": "325851c5044c063bd0f0b32b38a4080f04a2de7a2c37369c81f54ff3aad518a5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-devices-Ca7R04UD.css",
+        "sha256": "9c400c1620f1dfcc948caf8ac9fafa45760cd0fa68718b65444d0cfc62b2849a",
+        "batch20_22_sha256": "9c400c1620f1dfcc948caf8ac9fafa45760cd0fa68718b65444d0cfc62b2849a",
+        "raw_equal": true,
+        "observed_sha256": "9c400c1620f1dfcc948caf8ac9fafa45760cd0fa68718b65444d0cfc62b2849a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-catalog-CUDkTnh9.css",
+        "sha256": "e140833fe9c5bcac98978c106b49f3bf5df89bc00b72f32b36dcc3b82b3c405b",
+        "batch20_22_sha256": "e140833fe9c5bcac98978c106b49f3bf5df89bc00b72f32b36dcc3b82b3c405b",
+        "raw_equal": true,
+        "observed_sha256": "e140833fe9c5bcac98978c106b49f3bf5df89bc00b72f32b36dcc3b82b3c405b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench-BZ6dZ9iG.css",
+        "sha256": "f16d11cd95901a346ab5782b55349518cd1cebb90f099cf4611fccd3c6a6627e",
+        "batch20_22_sha256": "f16d11cd95901a346ab5782b55349518cd1cebb90f099cf4611fccd3c6a6627e",
+        "raw_equal": true,
+        "observed_sha256": "f16d11cd95901a346ab5782b55349518cd1cebb90f099cf4611fccd3c6a6627e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/IntelligentQuery-BG6p3l_0.css",
+        "sha256": "0e6d656bdae937dc9b6b634528748d1785c88322b1e2e80a9791475eb1d0788c",
+        "batch20_22_sha256": "0e6d656bdae937dc9b6b634528748d1785c88322b1e2e80a9791475eb1d0788c",
+        "raw_equal": true,
+        "observed_sha256": "0e6d656bdae937dc9b6b634528748d1785c88322b1e2e80a9791475eb1d0788c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryResultPanel-CpgA30Tl.css",
+        "sha256": "68f78e64e04a63247c4b2e649df514e8036f22381d0ce2ddfde96870fa308c86",
+        "batch20_22_sha256": "68f78e64e04a63247c4b2e649df514e8036f22381d0ce2ddfde96870fa308c86",
+        "raw_equal": true,
+        "observed_sha256": "68f78e64e04a63247c4b2e649df514e8036f22381d0ce2ddfde96870fa308c86",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityInspectionWorkspace-UpeTqVez.css",
+        "sha256": "174e383216e7b55b364a76ec3f64c376e9bba04b6584996e385853a119e65078",
+        "batch20_22_sha256": "174e383216e7b55b364a76ec3f64c376e9bba04b6584996e385853a119e65078",
+        "raw_equal": true,
+        "observed_sha256": "174e383216e7b55b364a76ec3f64c376e9bba04b6584996e385853a119e65078",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench-DtTs8fOD.css",
+        "sha256": "3fe6881a3a0f402fbfff06cf9735026b6e98f942ac215ef6e034177f2a9ee343",
+        "batch20_22_sha256": "3fe6881a3a0f402fbfff06cf9735026b6e98f942ac215ef6e034177f2a9ee343",
+        "raw_equal": true,
+        "observed_sha256": "3fe6881a3a0f402fbfff06cf9735026b6e98f942ac215ef6e034177f2a9ee343",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportDesigner-DZHsUYEm.css",
+        "sha256": "60e764ed75fce59f9d54aa3077b07c4c9447846072e17adbca5f052908ed574d",
+        "batch20_22_sha256": "60e764ed75fce59f9d54aa3077b07c4c9447846072e17adbca5f052908ed574d",
+        "raw_equal": true,
+        "observed_sha256": "60e764ed75fce59f9d54aa3077b07c4c9447846072e17adbca5f052908ed574d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DataSourcesWorkspace-B2lEt_qR.css",
+        "sha256": "0f3a307df220a6250116fe4a12312b05709b33cca0b130886e8959caf3786e4b",
+        "batch20_22_sha256": "0f3a307df220a6250116fe4a12312b05709b33cca0b130886e8959caf3786e4b",
+        "raw_equal": true,
+        "observed_sha256": "0f3a307df220a6250116fe4a12312b05709b33cca0b130886e8959caf3786e4b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportManage-CJP__Gqv.css",
+        "sha256": "a44eafbb104268679bab55c4478896f496262a9e4c9df896abc8b4643aa9cc8d",
+        "batch20_22_sha256": "a44eafbb104268679bab55c4478896f496262a9e4c9df896abc8b4643aa9cc8d",
+        "raw_equal": true,
+        "observed_sha256": "a44eafbb104268679bab55c4478896f496262a9e4c9df896abc8b4643aa9cc8d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkbench-B43LwFDg.css",
+        "sha256": "6fc48268a9c0a44a21081611d45f747378bb793cc8fe40b2bc0627bb67e82c59",
+        "batch20_22_sha256": "6fc48268a9c0a44a21081611d45f747378bb793cc8fe40b2bc0627bb67e82c59",
+        "raw_equal": true,
+        "observed_sha256": "6fc48268a9c0a44a21081611d45f747378bb793cc8fe40b2bc0627bb67e82c59",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuBigScreenReplica-CvvfG8qq.css",
+        "sha256": "94913847d32374a34620a0145bee162631a2c580bab3b268892ce66ac53317eb",
+        "batch20_22_sha256": "94913847d32374a34620a0145bee162631a2c580bab3b268892ce66ac53317eb",
+        "raw_equal": true,
+        "observed_sha256": "94913847d32374a34620a0145bee162631a2c580bab3b268892ce66ac53317eb",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/workflows-BVkoMHtS.css",
+        "sha256": "f3c89500bddff5d551353ae6f65774eb0383d9d537e751519260029b15142d8a",
+        "batch20_22_sha256": "f3c89500bddff5d551353ae6f65774eb0383d9d537e751519260029b15142d8a",
+        "raw_equal": true,
+        "observed_sha256": "f3c89500bddff5d551353ae6f65774eb0383d9d537e751519260029b15142d8a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuDrilldownPanel-BaFO6SBJ.css",
+        "sha256": "b49a56b98794d5eb4eef8c71796082587915ead4e622fb23c6c63830d3ca124a",
+        "batch20_22_sha256": "b49a56b98794d5eb4eef8c71796082587915ead4e622fb23c6c63830d3ca124a",
+        "raw_equal": true,
+        "observed_sha256": "b49a56b98794d5eb4eef8c71796082587915ead4e622fb23c6c63830d3ca124a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-R-IMtGv9.css",
+        "sha256": "9490b8629de48a9a506298a4eb680a0ded41d4ec9f755e0abf44026ce4d60ca6",
+        "batch20_22_sha256": "9490b8629de48a9a506298a4eb680a0ded41d4ec9f755e0abf44026ce4d60ca6",
+        "raw_equal": true,
+        "observed_sha256": "9490b8629de48a9a506298a4eb680a0ded41d4ec9f755e0abf44026ce4d60ca6",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/_plugin-vue_export-helper-DlAUqK2U.js",
+        "sha256": "172d3d34d6eb28d0d72c8505273b304330c7684bb6f50919c41e0737277e38e5",
+        "batch20_22_sha256": "172d3d34d6eb28d0d72c8505273b304330c7684bb6f50919c41e0737277e38e5",
+        "raw_equal": true,
+        "observed_sha256": "172d3d34d6eb28d0d72c8505273b304330c7684bb6f50919c41e0737277e38e5",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/topLevelNavigation-CUIN3mhN.js",
+        "sha256": "342399a9d254a92960c081ba2d61b8eefba6ceaa2d1db061064fa698d45be4f0",
+        "batch20_22_sha256": "342399a9d254a92960c081ba2d61b8eefba6ceaa2d1db061064fa698d45be4f0",
+        "raw_equal": true,
+        "observed_sha256": "342399a9d254a92960c081ba2d61b8eefba6ceaa2d1db061064fa698d45be4f0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-devices-Bhwz7sl9.js",
+        "sha256": "65094ff2fb9225fe2b71b37a3efc3274a8523315f532b16434de3614da80bb13",
+        "batch20_22_sha256": "65094ff2fb9225fe2b71b37a3efc3274a8523315f532b16434de3614da80bb13",
+        "raw_equal": true,
+        "observed_sha256": "65094ff2fb9225fe2b71b37a3efc3274a8523315f532b16434de3614da80bb13",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/dateTime-wQs5xyYL.js",
+        "sha256": "4fd1e73c3a88802603ca4df1f35be05b669b3e45ce5883025da364c6ce6a8836",
+        "batch20_22_sha256": "4fd1e73c3a88802603ca4df1f35be05b669b3e45ce5883025da364c6ce6a8836",
+        "raw_equal": true,
+        "observed_sha256": "4fd1e73c3a88802603ca4df1f35be05b669b3e45ce5883025da364c6ce6a8836",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/UnavailablePage-CF_DimOD.js",
+        "sha256": "982a834ca729db3b2ec0b7b5a6c47d894d81bf206191ab7f70906f5e5458bb45",
+        "batch20_22_sha256": "982a834ca729db3b2ec0b7b5a6c47d894d81bf206191ab7f70906f5e5458bb45",
+        "raw_equal": true,
+        "observed_sha256": "982a834ca729db3b2ec0b7b5a6c47d894d81bf206191ab7f70906f5e5458bb45",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench-DK6L62pL.js",
+        "sha256": "08c9a2b07538e8c6ccdd525816e0740f94f8bb4b1d22a34dd0ccd332353e50d7",
+        "batch20_22_sha256": "08c9a2b07538e8c6ccdd525816e0740f94f8bb4b1d22a34dd0ccd332353e50d7",
+        "raw_equal": true,
+        "observed_sha256": "08c9a2b07538e8c6ccdd525816e0740f94f8bb4b1d22a34dd0ccd332353e50d7",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench-B5_j4Zcr.js",
+        "sha256": "9e4d004ca15bb3f3927d53d7e0aee9ffd8a4ddbf13233ea448e55eb1d84f4248",
+        "batch20_22_sha256": "9e4d004ca15bb3f3927d53d7e0aee9ffd8a4ddbf13233ea448e55eb1d84f4248",
+        "raw_equal": true,
+        "observed_sha256": "9e4d004ca15bb3f3927d53d7e0aee9ffd8a4ddbf13233ea448e55eb1d84f4248",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/writeback-DckqziV5.js",
+        "sha256": "c991a1ddf3fc7579af4fc5feeb2bc6a9ebd9a59376f73139585182d81e219d23",
+        "batch20_22_sha256": "c991a1ddf3fc7579af4fc5feeb2bc6a9ebd9a59376f73139585182d81e219d23",
+        "raw_equal": true,
+        "observed_sha256": "c991a1ddf3fc7579af4fc5feeb2bc6a9ebd9a59376f73139585182d81e219d23",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/randomId-DxwT-9FK.js",
+        "sha256": "66cfb94cf27b001ca1a8c2ff287aa4de387ac28e2115f81017b02b58c273856b",
+        "batch20_22_sha256": "66cfb94cf27b001ca1a8c2ff287aa4de387ac28e2115f81017b02b58c273856b",
+        "raw_equal": true,
+        "observed_sha256": "66cfb94cf27b001ca1a8c2ff287aa4de387ac28e2115f81017b02b58c273856b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AnalysisLayout-Bvb-j7Z7.js",
+        "sha256": "67f1ca798759b193ba37596c5e5f63d77982e5a9ecd4514a79db927f974caecd",
+        "batch20_22_sha256": "67f1ca798759b193ba37596c5e5f63d77982e5a9ecd4514a79db927f974caecd",
+        "raw_equal": true,
+        "observed_sha256": "67f1ca798759b193ba37596c5e5f63d77982e5a9ecd4514a79db927f974caecd",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel-BheDagbg.js",
+        "sha256": "1d370313fe1fd4d37e9ee83fd24db4230c5da48d55fc917cad2cd065ea9a839f",
+        "batch20_22_sha256": "1d370313fe1fd4d37e9ee83fd24db4230c5da48d55fc917cad2cd065ea9a839f",
+        "raw_equal": true,
+        "observed_sha256": "1d370313fe1fd4d37e9ee83fd24db4230c5da48d55fc917cad2cd065ea9a839f",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/useSources-D9cXTdPT.js",
+        "sha256": "2a11aba792e0dfbda342b7f702fc997c0f2e840f550e9930fb88c813871a4403",
+        "batch20_22_sha256": "2a11aba792e0dfbda342b7f702fc997c0f2e840f550e9930fb88c813871a4403",
+        "raw_equal": true,
+        "observed_sha256": "2a11aba792e0dfbda342b7f702fc997c0f2e840f550e9930fb88c813871a4403",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/collection-BV4V3o_1.js",
+        "sha256": "925febe884c4452fbcc420246b8237242173fed52deedc94f2d03847ddb5f4fc",
+        "batch20_22_sha256": "925febe884c4452fbcc420246b8237242173fed52deedc94f2d03847ddb5f4fc",
+        "raw_equal": true,
+        "observed_sha256": "925febe884c4452fbcc420246b8237242173fed52deedc94f2d03847ddb5f4fc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessProcessGuide-CpVx1ZzB.js",
+        "sha256": "113639e0a2cb498bf82d6b8437e42bb496d30189a36bf9bba4a779164f76d9ee",
+        "batch20_22_sha256": "113639e0a2cb498bf82d6b8437e42bb496d30189a36bf9bba4a779164f76d9ee",
+        "raw_equal": true,
+        "observed_sha256": "113639e0a2cb498bf82d6b8437e42bb496d30189a36bf9bba4a779164f76d9ee",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace-nv7T3XGn.js",
+        "sha256": "6387828506ccc399075e8b8e6799a140c8f81f49a6e5d1bd452a1ab270ab4359",
+        "batch20_22_sha256": "6387828506ccc399075e8b8e6799a140c8f81f49a6e5d1bd452a1ab270ab4359",
+        "raw_equal": true,
+        "observed_sha256": "6387828506ccc399075e8b8e6799a140c8f81f49a6e5d1bd452a1ab270ab4359",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkspace-DEoNzjhK.js",
+        "sha256": "4999fbe505d7cefe45fd4d44ca30c77936b7135e69b97d4c397b817bebf1dc80",
+        "batch20_22_sha256": "4999fbe505d7cefe45fd4d44ca30c77936b7135e69b97d4c397b817bebf1dc80",
+        "raw_equal": true,
+        "observed_sha256": "4999fbe505d7cefe45fd4d44ca30c77936b7135e69b97d4c397b817bebf1dc80",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkspace-C5DbD6vL.js",
+        "sha256": "b05d368b726d7064cf118956a77bd0a23d479c44a7044c1914d524521f8827cd",
+        "batch20_22_sha256": "b05d368b726d7064cf118956a77bd0a23d479c44a7044c1914d524521f8827cd",
+        "raw_equal": true,
+        "observed_sha256": "b05d368b726d7064cf118956a77bd0a23d479c44a7044c1914d524521f8827cd",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/queryContext-BaM90QuA.js",
+        "sha256": "e482c69c4ad0104157eb83067064cff2f9292b39202f6efaf20b4c461163e3dc",
+        "batch20_22_sha256": "e482c69c4ad0104157eb83067064cff2f9292b39202f6efaf20b4c461163e3dc",
+        "raw_equal": true,
+        "observed_sha256": "e482c69c4ad0104157eb83067064cff2f9292b39202f6efaf20b4c461163e3dc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/report-oiA6OaIj.js",
+        "sha256": "2176f3e8b2a210bb285a062ab2537689f196055d5a1f658ed07df05a06dbac91",
+        "batch20_22_sha256": "2176f3e8b2a210bb285a062ab2537689f196055d5a1f658ed07df05a06dbac91",
+        "raw_equal": true,
+        "observed_sha256": "2176f3e8b2a210bb285a062ab2537689f196055d5a1f658ed07df05a06dbac91",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DeviceWorkflowWorkspace-Nb7KXpp5.js",
+        "sha256": "aa99bc3acc7ded2e26b40f83291c3eefb09f15cfabd0ec35afc455229fb1cb1c",
+        "batch20_22_sha256": "aa99bc3acc7ded2e26b40f83291c3eefb09f15cfabd0ec35afc455229fb1cb1c",
+        "raw_equal": true,
+        "observed_sha256": "aa99bc3acc7ded2e26b40f83291c3eefb09f15cfabd0ec35afc455229fb1cb1c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/quality-CWx-Jr8B.js",
+        "sha256": "db17f63e41618c0de0313dd5befda3fbe42105f903d156fd98b82a8ad54931b0",
+        "batch20_22_sha256": "db17f63e41618c0de0313dd5befda3fbe42105f903d156fd98b82a8ad54931b0",
+        "raw_equal": true,
+        "observed_sha256": "db17f63e41618c0de0313dd5befda3fbe42105f903d156fd98b82a8ad54931b0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryHistory-ClzqApcg.js",
+        "sha256": "3708b0c60ab8959013c3bc71051e7ee09a6a0be9a52f392452090bac454718f2",
+        "batch20_22_sha256": "3708b0c60ab8959013c3bc71051e7ee09a6a0be9a52f392452090bac454718f2",
+        "raw_equal": true,
+        "observed_sha256": "3708b0c60ab8959013c3bc71051e7ee09a6a0be9a52f392452090bac454718f2",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/useQuality-DuEcDYAG.js",
+        "sha256": "26e510e6a3f1df129664981f3fe4e4f28128d4b9892e3901d92ccc4ddf39d391",
+        "batch20_22_sha256": "26e510e6a3f1df129664981f3fe4e4f28128d4b9892e3901d92ccc4ddf39d391",
+        "raw_equal": true,
+        "observed_sha256": "26e510e6a3f1df129664981f3fe4e4f28128d4b9892e3901d92ccc4ddf39d391",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkspace-HTmRktci.js",
+        "sha256": "e31e9ac018c85a0296f392d586e5a115eaf5360fc00ec0ddf4c485dd6557b594",
+        "batch20_22_sha256": "e31e9ac018c85a0296f392d586e5a115eaf5360fc00ec0ddf4c485dd6557b594",
+        "raw_equal": true,
+        "observed_sha256": "e31e9ac018c85a0296f392d586e5a115eaf5360fc00ec0ddf4c485dd6557b594",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel.vue_vue_type_script_setup_true_lang-cKbUsZeb.js",
+        "sha256": "1d6101e7a11c35e0aa8fb01db783b1df0e353089e257c30811435cd20416955d",
+        "batch20_22_sha256": "1d6101e7a11c35e0aa8fb01db783b1df0e353089e257c30811435cd20416955d",
+        "raw_equal": true,
+        "observed_sha256": "1d6101e7a11c35e0aa8fb01db783b1df0e353089e257c30811435cd20416955d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowSubgraphEditor-B5P5uKKs.js",
+        "sha256": "0e2eaa72ee2c096929a859057355e63e405f7189a5230a72f6b782ad64c42f84",
+        "batch20_22_sha256": "0e2eaa72ee2c096929a859057355e63e405f7189a5230a72f6b782ad64c42f84",
+        "raw_equal": true,
+        "observed_sha256": "0e2eaa72ee2c096929a859057355e63e405f7189a5230a72f6b782ad64c42f84",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/chartPrecision-hq5qt5-I.js",
+        "sha256": "3910c8d994d483da459ceae6cebf983cc6eef3c63d8530df4ccdc2c836920926",
+        "batch20_22_sha256": "3910c8d994d483da459ceae6cebf983cc6eef3c63d8530df4ccdc2c836920926",
+        "raw_equal": true,
+        "observed_sha256": "3910c8d994d483da459ceae6cebf983cc6eef3c63d8530df4ccdc2c836920926",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-catalog-Cqt-1FeF.js",
+        "sha256": "3d66d5d052882c934a3f739a9f25f40b022cae729e1744d5991955a40bbb87c2",
+        "batch20_22_sha256": "3d66d5d052882c934a3f739a9f25f40b022cae729e1744d5991955a40bbb87c2",
+        "raw_equal": true,
+        "observed_sha256": "3d66d5d052882c934a3f739a9f25f40b022cae729e1744d5991955a40bbb87c2",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityTemplateForm.vue_vue_type_script_setup_true_lang-KzsuFkYL.js",
+        "sha256": "b2442d7ae09ba01de06a0d19a5e8d2998cfb136e6765488c1f63994517c29df7",
+        "batch20_22_sha256": "b2442d7ae09ba01de06a0d19a5e8d2998cfb136e6765488c1f63994517c29df7",
+        "raw_equal": true,
+        "observed_sha256": "b2442d7ae09ba01de06a0d19a5e8d2998cfb136e6765488c1f63994517c29df7",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportViewer-CNuCFuIq.js",
+        "sha256": "447e1506f13c7b358437d6d9727fd412d26ef396e15744a70204c5870452cb9b",
+        "batch20_22_sha256": "447e1506f13c7b358437d6d9727fd412d26ef396e15744a70204c5870452cb9b",
+        "raw_equal": true,
+        "observed_sha256": "447e1506f13c7b358437d6d9727fd412d26ef396e15744a70204c5870452cb9b",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/PromptCenter-CNADrHL_.js",
+        "sha256": "49ade487433ae044dfbdf5b86c23300ecde3cc9b6c592774033b882d8cb9a16c",
+        "batch20_22_sha256": "49ade487433ae044dfbdf5b86c23300ecde3cc9b6c592774033b882d8cb9a16c",
+        "raw_equal": true,
+        "observed_sha256": "49ade487433ae044dfbdf5b86c23300ecde3cc9b6c592774033b882d8cb9a16c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/SqlWorkspace-DE43L4dz.js",
+        "sha256": "279543f4e6d92dc86f246d3c602f70ba1dfed3e774b07a5e81432f955a0d9a41",
+        "batch20_22_sha256": "279543f4e6d92dc86f246d3c602f70ba1dfed3e774b07a5e81432f955a0d9a41",
+        "raw_equal": true,
+        "observed_sha256": "279543f4e6d92dc86f246d3c602f70ba1dfed3e774b07a5e81432f955a0d9a41",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WriteReceipts.vue_vue_type_script_setup_true_lang-BkANVp1j.js",
+        "sha256": "9b418b397a645945f3fabf94349527ee71b13c8f8ee686e7caeb8586aa92c170",
+        "batch20_22_sha256": "9b418b397a645945f3fabf94349527ee71b13c8f8ee686e7caeb8586aa92c170",
+        "raw_equal": true,
+        "observed_sha256": "9b418b397a645945f3fabf94349527ee71b13c8f8ee686e7caeb8586aa92c170",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace.vue_vue_type_script_setup_true_lang-BzhdvrCQ.js",
+        "sha256": "0d84b4e89e59790d3c3e6dd62fe0740c4884c89be196f5a89dbe81256fd74b33",
+        "batch20_22_sha256": "0d84b4e89e59790d3c3e6dd62fe0740c4884c89be196f5a89dbe81256fd74b33",
+        "raw_equal": true,
+        "observed_sha256": "0d84b4e89e59790d3c3e6dd62fe0740c4884c89be196f5a89dbe81256fd74b33",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertRuleForm.vue_vue_type_script_setup_true_lang-jpMEAhWt.js",
+        "sha256": "48a8a65c3d04cce292145585a01a288587ea61e87a37b56f36ddf0a5c99ca1ee",
+        "batch20_22_sha256": "48a8a65c3d04cce292145585a01a288587ea61e87a37b56f36ddf0a5c99ca1ee",
+        "raw_equal": true,
+        "observed_sha256": "48a8a65c3d04cce292145585a01a288587ea61e87a37b56f36ddf0a5c99ca1ee",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/http-collection-9qP5AEct.js",
+        "sha256": "1baa2f263ff4fa4d95076ad0a5980c25652edf192f9fa2b7d957b957a92ce35a",
+        "batch20_22_sha256": "1baa2f263ff4fa4d95076ad0a5980c25652edf192f9fa2b7d957b957a92ce35a",
+        "raw_equal": true,
+        "observed_sha256": "1baa2f263ff4fa4d95076ad0a5980c25652edf192f9fa2b7d957b957a92ce35a",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportManage-R5Gefq6J.js",
+        "sha256": "9c4c271251e5c51b48328caef64e022b01dcab582b43bf9b95ea738c27e58930",
+        "batch20_22_sha256": "9c4c271251e5c51b48328caef64e022b01dcab582b43bf9b95ea738c27e58930",
+        "raw_equal": true,
+        "observed_sha256": "9c4c271251e5c51b48328caef64e022b01dcab582b43bf9b95ea738c27e58930",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/TemplateCenter-C-dI6JZ2.js",
+        "sha256": "3a6dd392efe01ea1306b5cd8668c44fa956c89267ce70b53a71420c9fc290406",
+        "batch20_22_sha256": "3a6dd392efe01ea1306b5cd8668c44fa956c89267ce70b53a71420c9fc290406",
+        "raw_equal": true,
+        "observed_sha256": "3a6dd392efe01ea1306b5cd8668c44fa956c89267ce70b53a71420c9fc290406",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/IntelligentQuery-ROw3KybS.js",
+        "sha256": "fd2d03a70fff83c989843a90c515ebed6e5f8cf7728dd4ca08d2861dc6cb096d",
+        "batch20_22_sha256": "fd2d03a70fff83c989843a90c515ebed6e5f8cf7728dd4ca08d2861dc6cb096d",
+        "raw_equal": true,
+        "observed_sha256": "fd2d03a70fff83c989843a90c515ebed6e5f8cf7728dd4ca08d2861dc6cb096d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportDesigner-BYXYt0bt.js",
+        "sha256": "f165a5f8d5c3f12695e9eccea6bc1746be245aff1d17de9dc1ce35d1b423fe4e",
+        "batch20_22_sha256": "f165a5f8d5c3f12695e9eccea6bc1746be245aff1d17de9dc1ce35d1b423fe4e",
+        "raw_equal": true,
+        "observed_sha256": "f165a5f8d5c3f12695e9eccea6bc1746be245aff1d17de9dc1ce35d1b423fe4e",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryResultPanel-1Mz0Bi6G.js",
+        "sha256": "7014fa25edc7c80127c7971112fa5660c30ad1508f54837a2fb04f1369f17740",
+        "batch20_22_sha256": "7014fa25edc7c80127c7971112fa5660c30ad1508f54837a2fb04f1369f17740",
+        "raw_equal": true,
+        "observed_sha256": "7014fa25edc7c80127c7971112fa5660c30ad1508f54837a2fb04f1369f17740",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/purify.es-Cdnc6Rlq.js",
+        "sha256": "d8dbde4e964d22d106eec055ea285a2345eff01452091c93a0b4775addb7f616",
+        "batch20_22_sha256": "d8dbde4e964d22d106eec055ea285a2345eff01452091c93a0b4775addb7f616",
+        "raw_equal": true,
+        "observed_sha256": "d8dbde4e964d22d106eec055ea285a2345eff01452091c93a0b4775addb7f616",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityInspectionWorkspace-yHGgeQxP.js",
+        "sha256": "89fc8fe421d9a5864b9f3ec5da390dc8da63c96b2ab823a11d8b4bd4dbe6f8a0",
+        "batch20_22_sha256": "89fc8fe421d9a5864b9f3ec5da390dc8da63c96b2ab823a11d8b4bd4dbe6f8a0",
+        "raw_equal": true,
+        "observed_sha256": "89fc8fe421d9a5864b9f3ec5da390dc8da63c96b2ab823a11d8b4bd4dbe6f8a0",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowReportMarkdown-BZDh5RBz.js",
+        "sha256": "c7e3cd6e1e36d28de97f5e2d0e22d40def29b893b2df54ac198ddaf058610ee1",
+        "batch20_22_sha256": "c7e3cd6e1e36d28de97f5e2d0e22d40def29b893b2df54ac198ddaf058610ee1",
+        "raw_equal": true,
+        "observed_sha256": "c7e3cd6e1e36d28de97f5e2d0e22d40def29b893b2df54ac198ddaf058610ee1",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench.vue_vue_type_script_setup_true_lang-CaQnKRdt.js",
+        "sha256": "c3bb124e3087277120ceeca75a57df2e3f5818fcbf0a336a515e3b1211b2dc3c",
+        "batch20_22_sha256": "c3bb124e3087277120ceeca75a57df2e3f5818fcbf0a336a515e3b1211b2dc3c",
+        "raw_equal": true,
+        "observed_sha256": "c3bb124e3087277120ceeca75a57df2e3f5818fcbf0a336a515e3b1211b2dc3c",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DataSourcesWorkspace-KAMeUIe9.js",
+        "sha256": "c962182b4c13ff1e1b4203ea8a796353791b79ad0c8585fccdbbb68d928406ee",
+        "batch20_22_sha256": "c962182b4c13ff1e1b4203ea8a796353791b79ad0c8585fccdbbb68d928406ee",
+        "raw_equal": true,
+        "observed_sha256": "c962182b4c13ff1e1b4203ea8a796353791b79ad0c8585fccdbbb68d928406ee",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench.vue_vue_type_script_setup_true_lang-CvZe1z-0.js",
+        "sha256": "b80ae0f60ec94a5638a5b7596ef002cce46f75ef5ec7afbd9299e8e5d5857a44",
+        "batch20_22_sha256": "b80ae0f60ec94a5638a5b7596ef002cce46f75ef5ec7afbd9299e8e5d5857a44",
+        "raw_equal": true,
+        "observed_sha256": "b80ae0f60ec94a5638a5b7596ef002cce46f75ef5ec7afbd9299e8e5d5857a44",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuDrilldownPanel-bOdp2oeV.js",
+        "sha256": "2cc3e65ade290db0b976cd035cb5a8b7b5bd051fc4d483eb0090f78cb150c6bc",
+        "batch20_22_sha256": "2cc3e65ade290db0b976cd035cb5a8b7b5bd051fc4d483eb0090f78cb150c6bc",
+        "raw_equal": true,
+        "observed_sha256": "2cc3e65ade290db0b976cd035cb5a8b7b5bd051fc4d483eb0090f78cb150c6bc",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuBigScreenReplica-Bx9nYP4N.js",
+        "sha256": "6a9b2552bdf4ee9d4188729361a617658488cd74fcbfb064357d0c189dc0b458",
+        "batch20_22_sha256": "6a9b2552bdf4ee9d4188729361a617658488cd74fcbfb064357d0c189dc0b458",
+        "raw_equal": true,
+        "observed_sha256": "6a9b2552bdf4ee9d4188729361a617658488cd74fcbfb064357d0c189dc0b458",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkbench.vue_vue_type_script_setup_true_lang-bHFcR9tP.js",
+        "sha256": "e6ec51785a8f66c8ceacdb48ba37a71c380a646c78aa90b4b684aae3b731e25d",
+        "batch20_22_sha256": "e6ec51785a8f66c8ceacdb48ba37a71c380a646c78aa90b4b684aae3b731e25d",
+        "raw_equal": true,
+        "observed_sha256": "e6ec51785a8f66c8ceacdb48ba37a71c380a646c78aa90b4b684aae3b731e25d",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-ByUA0W9c.js",
+        "sha256": "f321a098f073b6afb5d708c60c9bbdc98471ab04a6fe486c1e60f86919ed90a9",
+        "batch20_22_sha256": "f321a098f073b6afb5d708c60c9bbdc98471ab04a6fe486c1e60f86919ed90a9",
+        "raw_equal": true,
+        "observed_sha256": "f321a098f073b6afb5d708c60c9bbdc98471ab04a6fe486c1e60f86919ed90a9",
+        "raw_bytes_match": true
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-CkMAeOxi.js",
+        "sha256": "7392bc2717b3bdba213d6b35c8f1ec48739bb9567b3bc1b6fd0ebb9e08347786",
+        "batch20_22_sha256": "7392bc2717b3bdba213d6b35c8f1ec48739bb9567b3bc1b6fd0ebb9e08347786",
+        "raw_equal": true,
+        "observed_sha256": "7392bc2717b3bdba213d6b35c8f1ec48739bb9567b3bc1b6fd0ebb9e08347786",
+        "raw_bytes_match": true
+      }
+    ],
+    "freeze_artifact": {
+      "path": ".implementation/batch23-browser-start.json",
+      "bytes": 54796,
+      "sha256": "3d7bfaf7e62d836532ce8a50b79146afcedae1004811bd54e3fa90422ddc9752"
+    },
+    "file_count": 88,
+    "all_raw_bytes_match": true,
+    "verified_at": "2026-10-04T09:47:11.117906+00:00",
+    "scope_note": "核验清单指定88份文件；目录另含旧bundle/reference等，未扩称整目录冻结。"
+  },
+  "checks": [
+    {
+      "iteration": 1,
+      "suite": "system",
+      "started_at": "2026-10-04T09:30:52.282322+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:54373",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 209,
+        "blocked_requests": 111,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 111
+      },
+      "finished_at": "2026-10-04T09:32:06.259193+00:00",
+      "seconds": 73.953,
+      "business_groups_recorded_pass": 14,
+      "browser_log_pass_count": 14,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": true,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-system/browser.log",
+        "bytes": 1357,
+        "sha256": "1ed69b39298c063a5379e83f0f0fb18b750914dcc44ea5d0a513cfd6c7cc28c5"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-system/host-diagnostics.log",
+        "bytes": 7483,
+        "sha256": "1307b4a0b19078c77b97a0f99935465935343a1d18dfff6c67cc333540057d0b"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-system/network.json",
+        "bytes": 1089,
+        "sha256": "7d2e508b74e439dd854ae4cc313f0fd20d7fbcabb2789e9e1966859ee5ca0d7f"
+      },
+      "network_details": {
+        "allowed_requests": 209,
+        "blocked_requests": 111,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 111,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-system-mutmfj98",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-system-mutmfj98/result.json",
+        "bytes": 2224,
+        "sha256": "71b936c1db98108388a66629cd61dabd015119a1619ee49cbf98a667698425b5"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-system-mutmfj98/system-final.png",
+          "bytes": 94103,
+          "sha256": "514531c6c03c3932c6a0d00a7098142ef7781f97e5378bef0bc6be6301859d12"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "content",
+      "started_at": "2026-10-04T09:32:06.266236+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:51930",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 281,
+        "blocked_requests": 144,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 144
+      },
+      "finished_at": "2026-10-04T09:33:54.476860+00:00",
+      "seconds": 108.204,
+      "business_groups_recorded_pass": 14,
+      "browser_log_pass_count": 14,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": true,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-content/browser.log",
+        "bytes": 1300,
+        "sha256": "f96845c2d12a5014ae298ed751d43ae84ccee12fb1c18faa0951d2298ec3d60c"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-content/host-diagnostics.log",
+        "bytes": 8332,
+        "sha256": "d05b0e3a1cc41ac749a24dfc1110971ec6664bae06d043e30fbd0cd16ab57e36"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-content/network.json",
+        "bytes": 1153,
+        "sha256": "0e86d1a4a7ce8f70e76e6ba121fc1054c54c56c8dac743196812b8372e0dd87f"
+      },
+      "network_details": {
+        "allowed_requests": 281,
+        "blocked_requests": 144,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 144,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-content-mutmh55y",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-content-mutmh55y/result.json",
+        "bytes": 2543,
+        "sha256": "ca9669f8e244a0999e3ff58758549403e8a5657da7387d40eb7ce201446a4ca4"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-content-mutmh55y/content-final.png",
+          "bytes": 95931,
+          "sha256": "f42a4cec01e6901fbdd85195404afb609c6bc4b9d906da4409a580f88cb5e26a"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-content-mutmh55y/knowledge-mobile.png",
+          "bytes": 76115,
+          "sha256": "b691774b1660476c2b55effb627476112b3694526dbb8b876cb1e6547e306855"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "capability",
+      "started_at": "2026-10-04T09:33:54.480847+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:55157",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 269,
+        "blocked_requests": 146,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 146
+      },
+      "finished_at": "2026-10-04T09:35:32.523389+00:00",
+      "seconds": 98.046,
+      "business_groups_recorded_pass": 13,
+      "browser_log_pass_count": 13,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": true,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-capability/browser.log",
+        "bytes": 1512,
+        "sha256": "9215c44fbc679513872dd796274a778e5dc206e0507fb76f8c495f6cee162601"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-capability/host-diagnostics.log",
+        "bytes": 7218,
+        "sha256": "e7c08ebe6bdd47b51bbec0237c10375c91657d817077c79681bf194f5db05a11"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-capability/network.json",
+        "bytes": 1153,
+        "sha256": "758cb706990d0f228afbe40483de21208be28d5ed414fd86d8b1a6c8de502db8"
+      },
+      "network_details": {
+        "allowed_requests": 269,
+        "blocked_requests": 146,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 146,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-capability-mutmjfuc",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-capability-mutmjfuc/result.json",
+        "bytes": 2223,
+        "sha256": "4b0941fac7f29f8f1983f24bfc09a3dd3c7e02e99eeee7c715b9b6c8a67137de"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-capability-mutmjfuc/application-published.png",
+          "bytes": 82274,
+          "sha256": "941d45a9827293214e594da66002f9d833fcb4c597fb6d7fe45af2e69fe4c383"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-capability-mutmjfuc/capability-mobile.png",
+          "bytes": 42619,
+          "sha256": "d8d9e048c2bc98ee9b2c73f3f781d4bd1e5765a5a63a205ec955c61ad33012e7"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-capability-mutmjfuc/connector-draft.png",
+          "bytes": 79074,
+          "sha256": "06ad84f561a6e1cbc27b41e747e46d3d8d8fc7b377b716381955203848d9f699"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-capability-mutmjfuc/connector-real-test.png",
+          "bytes": 144431,
+          "sha256": "050cb56d4a4c3182cc850695d30429d34320498c13f680fb3432ac3b45295943"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-capability-mutmjfuc/method-governance.png",
+          "bytes": 267593,
+          "sha256": "5f2095df4a36fd759cda5c27d5a68efd4a72849a666568a3a0855705c4e7ff58"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "graph",
+      "started_at": "2026-10-04T09:35:32.527189+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:63178",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 202,
+        "blocked_requests": 85,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 85
+      },
+      "finished_at": "2026-10-04T09:36:47.657753+00:00",
+      "seconds": 75.125,
+      "business_groups_recorded_pass": 9,
+      "browser_log_pass_count": 9,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": true,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-graph/browser.log",
+        "bytes": 964,
+        "sha256": "c7aaff1a357c1af61ef7707b6401ee19ea802e047303d82859661e830e5b1ff9"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-graph/host-diagnostics.log",
+        "bytes": 16092,
+        "sha256": "2ad02e91078d78adba74b190ec5002af48b1971eeafa20f5d6c390b7b00aa2c6"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-graph/network.json",
+        "bytes": 1045,
+        "sha256": "523429762030e80b501c0678bc4cbf9d7006cd03c5e9b0ce54916e3d36242870"
+      },
+      "network_details": {
+        "allowed_requests": 202,
+        "blocked_requests": 85,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 0,
+        "upstream_errors": 0,
+        "transport_error_codes": {},
+        "background_candidate_requests": 85,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-graph-mutmlkes",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-graph-mutmlkes/result.json",
+        "bytes": 2571,
+        "sha256": "4a246d03acf08a9d4c73a3aa1010200d66efa628b65c5b5e897dd09c640cea3d"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-graph-mutmlkes/bot-complete.png",
+          "bytes": 116963,
+          "sha256": "8a7632482679266b785cbb2bd9d144df54aead066b8a695b7ebc3eddd01c7466"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-graph-mutmlkes/bot-key-once.png",
+          "bytes": 179018,
+          "sha256": "fbd8f463abb2aa9de505c3a1c7737668068c0939acb96ff081067475deb0a3f1"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-graph-mutmlkes/extraction-review.png",
+          "bytes": 119148,
+          "sha256": "3207b80a4e448e5b049712d90052f8b8c0e511fcba93836306b0e2f340915b6c"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-graph-mutmlkes/graph-published.png",
+          "bytes": 96361,
+          "sha256": "db680cec08555cd896db8efc1fa5a4598b794a7653f94d58ebcc146bcfed1bc0"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-graph-mutmlkes/ontology-mobile-dialog.png",
+          "bytes": 38636,
+          "sha256": "2a7b2ff562c8aa12d12168b729d56ff97fded1ac0fc9f8cc87d84bf0764796a8"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-graph-mutmlkes/ontology-published.png",
+          "bytes": 102660,
+          "sha256": "8e331fa8ad56f956ed90c238d1df4ccaa600d976719ebf9d0a1d9b6866f45210"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "analytics",
+      "started_at": "2026-10-04T09:36:47.662270+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:55146",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 198,
+        "blocked_requests": 80,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 80
+      },
+      "finished_at": "2026-10-04T09:38:01.499369+00:00",
+      "seconds": 73.828,
+      "business_groups_recorded_pass": 14,
+      "browser_log_pass_count": 14,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": true,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-analytics/browser.log",
+        "bytes": 1518,
+        "sha256": "1a4465dc50cd5bffd7e426f204db7e84bc3603959cc0bc521d72d019d11c6599"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-analytics/host-diagnostics.log",
+        "bytes": 14019,
+        "sha256": "e8679e97739b23723d443ea1d1ed37014585528f0010c87ecbe018b545c5c3d0"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-analytics/network.json",
+        "bytes": 1087,
+        "sha256": "a958d020fe88d97b56f43c1905c99e5962872c4665afd1a3dbd009d8cf65bd65"
+      },
+      "network_details": {
+        "allowed_requests": 198,
+        "blocked_requests": 80,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 80,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-analytics-mutmn67e",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-analytics-mutmn67e/result.json",
+        "bytes": 4695,
+        "sha256": "b27ceecc6c6864196ecb49f176ecf1690e05e9665ef00a90f1b229d56bcdaacd"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-analytics-mutmn67e/bound-template-preview.png",
+          "bytes": 326270,
+          "sha256": "d35eefbb883bc69a2942c30e38e9420322c0324507d9585ae847f2b7c8fc9225"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-analytics-mutmn67e/designer-ai-template-picker.png",
+          "bytes": 518232,
+          "sha256": "47b1af1cd7afe713b3165cccbeb00734fc2816e461ed07b89505d4dfb0557e4d"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-analytics-mutmn67e/lynx-template-preview.png",
+          "bytes": 697330,
+          "sha256": "ecbaf1bed667368063fd3c5f64bb50301085d7d570f070e598752acc479ff16f"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-analytics-mutmn67e/real-query-result.png",
+          "bytes": 107580,
+          "sha256": "8fc0d979541716334ee85436f847d098bc3371ea3f25a43c41324c902efbed2c"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-analytics-mutmn67e/templates-mobile.png",
+          "bytes": 114041,
+          "sha256": "23112286213c60c2f5ff37752f212af09a58062c1a5f0130ac1ebd674c30fe80"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "alert",
+      "started_at": "2026-10-04T09:38:01.505533+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:54367",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 314,
+        "blocked_requests": 119,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 119
+      },
+      "finished_at": "2026-10-04T09:39:16.716285+00:00",
+      "seconds": 75.203,
+      "business_groups_recorded_pass": 16,
+      "browser_log_pass_count": 16,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": null,
+      "accessibility_findings": [],
+      "cleanup_observations": [
+        {
+          "kind": "rules",
+          "id": "01M434FF3W5Q2372169H51YWNP",
+          "name": "终验温度超限策略-mutmor31",
+          "searchStatus": 200,
+          "returnedIds": [
+            "01M434FF3W5Q2372169H51YWNP"
+          ],
+          "rendered": true,
+          "deleteStatus": 200
+        },
+        {
+          "kind": "advice",
+          "id": "01M434FCWPCTY7EE3XCNKQSM1S",
+          "name": "终验冷却预案-mutmor31",
+          "searchStatus": 200,
+          "returnedIds": [
+            "01M434FCWPCTY7EE3XCNKQSM1S"
+          ],
+          "rendered": true,
+          "deleteStatus": 200
+        },
+        {
+          "kind": "points",
+          "id": "01M434FB02A1APNARH64RF3QEY",
+          "name": "终验设备编号-mutmor31",
+          "searchStatus": 200,
+          "returnedIds": [
+            "01M434FB02A1APNARH64RF3QEY"
+          ],
+          "rendered": true,
+          "deleteStatus": 200
+        },
+        {
+          "kind": "points",
+          "id": "01M434FA5H082V8VQC4HYPENG6",
+          "name": "终验冷却温度-mutmor31",
+          "searchStatus": 200,
+          "returnedIds": [
+            "01M434FA5H082V8VQC4HYPENG6"
+          ],
+          "rendered": true,
+          "deleteStatus": 200
+        }
+      ],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-alert/browser.log",
+        "bytes": 1606,
+        "sha256": "aeb992fdb56d71106ae2cb0ce6d68b9ddf08c994e762971e93e813a741a0bd9f"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-alert/host-diagnostics.log",
+        "bytes": 20734,
+        "sha256": "708bc603c93c8f36428d6ca5a2647ad47d850e8ca963814292ac4191238a27fe"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-alert/network.json",
+        "bytes": 1089,
+        "sha256": "08eb97a93faac23e89b5f9b867a2a4e6ebb37d811b5a311ad2c22bad745aceed"
+      },
+      "network_details": {
+        "allowed_requests": 314,
+        "blocked_requests": 119,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 119,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-alert-mutmor31",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-alert-mutmor31/result.json",
+        "bytes": 4766,
+        "sha256": "b0f2f39d25c208502de6e839b345289d686d3e975a3076ee7c70a345e508e27b"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-alert-mutmor31/alert-guide.png",
+          "bytes": 173114,
+          "sha256": "fa5700834d67ee57c446c9aa4d7883922cdf25a0e54499c951093190a87dab3c"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-alert-mutmor31/alert-problem-history.png",
+          "bytes": 138259,
+          "sha256": "ee9901ef1eeb98c8f1189689d082aa99ca4b694253dc9a0ed370516537761b61"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-alert-mutmor31/alert-report-mobile.png",
+          "bytes": 33649,
+          "sha256": "1c77b772ef5004eaa5e23d66c2ab72462669bc1d57a0c96434d99cad067dcfb6"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-alert-mutmor31/alert-report.png",
+          "bytes": 108461,
+          "sha256": "656d5e7a452994a9cb1685939d6b3f74b289c33766157fc0c9a7e555c3a68a68"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-alert-mutmor31/alert-wizard-mobile.png",
+          "bytes": 36586,
+          "sha256": "07b6930e0986738df64aa232874cbe20aec21a0e3fe69a041d091331cb5c819a"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "quality",
+      "started_at": "2026-10-04T09:39:16.720283+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:62012",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 282,
+        "blocked_requests": 129,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 129
+      },
+      "finished_at": "2026-10-04T09:40:40.146981+00:00",
+      "seconds": 83.421,
+      "business_groups_recorded_pass": 11,
+      "browser_log_pass_count": 11,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": null,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-quality/browser.log",
+        "bytes": 1323,
+        "sha256": "0bd60e87245f647c069c6b7c03f607054da15c5dd34d5ef10aa4f5d86e54ded9"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-quality/host-diagnostics.log",
+        "bytes": 13327,
+        "sha256": "ec70e80f93c14a404aed92f16a762a4946e79d18ed9a9e1a1712e6379d7962be"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-quality/network.json",
+        "bytes": 1089,
+        "sha256": "96a5f492fdcb06aa3f55086483a8c386dc46bfdfa54523c1c40a51b4c503183b"
+      },
+      "network_details": {
+        "allowed_requests": 282,
+        "blocked_requests": 129,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 129,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-quality-mutmqdzg",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/result.json",
+        "bytes": 2503,
+        "sha256": "262fd0568c28e5933db270a666aa7e9139a5222d8f207deaef841b7367fc394d"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/automatic-quality-report.png",
+          "bytes": 120772,
+          "sha256": "3a347a0d4420e7e53565ce49ef4c55d45e08f64a8e2144e851891ea7bd337377"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/immutable-template-revision.png",
+          "bytes": 97377,
+          "sha256": "e12113f7df8a7b0c1a8220d3493e2b542a5d0155ca8df91b5e5852962740308a"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/manual-inspection-form.png",
+          "bytes": 100698,
+          "sha256": "db5fc4f5395d6758d14fec247c221f653a9b675bb271f47d989538f3a1c410a9"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/quality-guide.png",
+          "bytes": 192984,
+          "sha256": "c171f14cdaa546d15cd8151089cf45458efd8d5e6036e9551ce79fbb508f642c"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/quality-report-mobile.png",
+          "bytes": 40291,
+          "sha256": "b3d5e8850d694839543a02f19189dac0d80002fdffdd6b1ffb77cc8646e21d9d"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/quality-workflow-wizard-mobile.png",
+          "bytes": 36304,
+          "sha256": "ea4505e08cfc93f1904da1d3daab5972389be9d8f88bac8b77d21449517ea082"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-quality-mutmqdzg/终验质检原图-mutmqdzg.png",
+          "bytes": 6369,
+          "sha256": "c1f66035f20ab54c176538cc807d7fed8e36655546761dc87084fcd025d4e18d"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "workflow",
+      "started_at": "2026-10-04T09:40:40.154082+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:58194",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 276,
+        "blocked_requests": 192,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 192
+      },
+      "finished_at": "2026-10-04T09:42:16.076111+00:00",
+      "seconds": 95.906,
+      "business_groups_recorded_pass": 11,
+      "browser_log_pass_count": 11,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": null,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-workflow/browser.log",
+        "bytes": 3731,
+        "sha256": "c90acf5aa290488041cc865e2f315b2db810c80a178c637e7007d619f176d805"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-workflow/host-diagnostics.log",
+        "bytes": 10596,
+        "sha256": "f5acf64765405bd4cb8b8ed9c10f08452b833de977bc88176cd56ef5b25a281d"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-workflow/network.json",
+        "bytes": 1153,
+        "sha256": "800129ad8aa6f3e28f3f6f26a303ab2030dbc8e56ee4f76eb84d995329698d8c"
+      },
+      "network_details": {
+        "allowed_requests": 276,
+        "blocked_requests": 192,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 192,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-workflow-mutms5wz",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-workflow-mutms5wz/result.json",
+        "bytes": 3760,
+        "sha256": "bf51eaf5cc65105e3248753ae6b26b543a52c9212d106c1e3d3549f9b9848828"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-workflow-mutms5wz/ai-workflow-result.png",
+          "bytes": 166417,
+          "sha256": "bc99f12feb0dec8d6a8926862b88ffc18b98dd3d63c2b752507b3086218c7726"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-workflow-mutms5wz/all-workflow-nodes.png",
+          "bytes": 126491,
+          "sha256": "26de588c6a42b794aa2644b633dfafd6c84247b045deb7e845f46b2362a2297d"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-workflow-mutms5wz/workflow-editor.png",
+          "bytes": 159500,
+          "sha256": "cb275767b75284abe6bdfb27cda4d809ec251d06c5d311404457ea11856b5338"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-workflow-mutms5wz/workflow-nodes-mobile.png",
+          "bytes": 42869,
+          "sha256": "0f38797b0196c35368545f1e8297e61497254f46e77bd7ea28663e10b0e50fb1"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-workflow-mutms5wz/workflow-result.png",
+          "bytes": 191851,
+          "sha256": "0e89a383093541f5a5dc44a9cb71fa312c8013a707f30e63b94e2e4340f3b820"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "suite": "ai_documents",
+      "started_at": "2026-10-04T09:42:16.079903+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:62474",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 464,
+        "blocked_requests": 133,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 133
+      },
+      "finished_at": "2026-10-04T09:45:32.234013+00:00",
+      "seconds": 196.141,
+      "business_groups_recorded_pass": 14,
+      "browser_log_pass_count": 14,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": null,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-ai_documents/browser.log",
+        "bytes": 1528,
+        "sha256": "2f6feba3463e07b490435f9acdee479e2396b76ae3c2ec7d5d40d4ad02ae67d8"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-ai_documents/host-diagnostics.log",
+        "bytes": 5099,
+        "sha256": "b4ab9846470bf849f0734f0c075a9b4c9c9073b2a1fc6066ee98eb88427d54ac"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-ai_documents/network.json",
+        "bytes": 1257,
+        "sha256": "70ee92a2fcbafed3da59271e28e5a59b6e5abb97d16ec4075836239638435948"
+      },
+      "network_details": {
+        "allowed_requests": 464,
+        "blocked_requests": 133,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com",
+          "https://telem-edge.smartscreen.microsoft.com"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 133,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net",
+          "https://go.microsoft.com",
+          "https://telem-edge.smartscreen.microsoft.com"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez",
+      "ui_result": {
+        "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/result.json",
+        "bytes": 643378,
+        "sha256": "ce1e749cdba478aec848522b7387b2813995d9d486e5c8dadc39d8827e21f8a3"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/ai-markdown-result.png",
+          "bytes": 82181,
+          "sha256": "3c49539fb07587d9d5fe254e7a12e62a65399ba411174507cbec4b79bad2aa4c"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/ai-ppt-result.png",
+          "bytes": 96161,
+          "sha256": "8311f40a247e8bf1d98b38622c3a46bdfbcd53d3b4b8a92e7504b3c56f3a455f"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/compound-completed.png",
+          "bytes": 247546,
+          "sha256": "4546844de9a6425c5d4001a55d68f2b1b18a70067848b88ed919bbbf5556a21b"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/compound-dashboard.png",
+          "bytes": 360881,
+          "sha256": "6ecead4a4435a844b42820899c0b717ea8cb0b1c79a7e252d55c334e6b42c40c"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/compound-partial.png",
+          "bytes": 153996,
+          "sha256": "f9c446857cedadfae6fdc324fca2c1aae2e3420a1090fc49c55fe51beaad15a1"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/documents-mobile.png",
+          "bytes": 36665,
+          "sha256": "9ea9f30ba5a1fcbb03c77bb100e334bf5211d5342735b9e7b53f21cfbc060253"
+        },
+        {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/manual-ppt-completed.png",
+          "bytes": 95101,
+          "sha256": "bee4520f3fe9a022e3975e8ffc316b98835511d17505e8f2de7041da9818d305"
+        }
+      ],
+      "document_delivery_evidence": {
+        "downloads": [
+          {
+            "name": "ERP系统介绍-mutmu9ez.pptx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/8a7a4a81-b750-4211-abe7-447886603152",
+            "bytes": 38127,
+            "sha256": "76ac2f11c3829c4291acdb9635ca319ae5c03b0e55e39cd777d84c5b0d811447",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "终验 AI 设备经营简报-mutmu9ez.docx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/83b5eb17-975b-4720-8c6a-3bcf4a0623cf",
+            "bytes": 37017,
+            "sha256": "65aa02909d39a29a9601d08e17479be4eeb750db454e61aab6f5fb0747bfecfb",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "终验设备复核报告-mutmu9ez.pdf",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/d512a933-d40a-47a0-8e3f-cf20576e66b7",
+            "bytes": 30026,
+            "sha256": "569b465f856f934104296808e6468ab56b0a13d5fc14e9b1465f37c636861aee",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "终验财务设备数据-mutmu9ez.xlsx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/fc11a645-c322-472e-99d8-ec12ddb7b219",
+            "bytes": 5307,
+            "sha256": "80ccfb42b7bc1b0e7667a21efb89acccddbce69defad902a6708736890329b11",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "终验人工 ERP 汇报-mutmu9ez.pptx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/309e7256-a90c-41bf-82a7-7437bc2a5770",
+            "bytes": 37472,
+            "sha256": "359c7da1555be63e20ff60f510a2f7318f3be177093dafa0b395e2c2ee514950",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "合成巡检状态占比.png",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/30d337c8-ce62-424e-87e7-062f160bed20",
+            "bytes": 60659,
+            "sha256": "d8582e77b37f4562d7a3b9e3dd221193053f7b696c1af3d2cf5e46592faf0a00",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "巡检统计-mutmu9ez.xlsx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/b7103641-2e0a-41df-a97a-75120d90a458",
+            "bytes": 6388,
+            "sha256": "779d73e1173674722d5666fa415ea84ccf4b18ee080e442772a9ae00a545e0f9",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "巡检合成快照大屏-mutmu9ez-大屏数据快照.png",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/d5583f6a-3cb3-4a62-85b4-794261ed1725",
+            "bytes": 91242,
+            "sha256": "ac06f9ec642d60047d7049fcdbf899cc28bfa22aadb6feec3edb522a606bfad4",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "巡检分析-mutmu9ez.docx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/a38ead27-0f2e-495d-baec-535aff9b3e7f",
+            "bytes": 179514,
+            "sha256": "051d4ce6947f636b1bf7c3aad9ebdd08942f08d99bd33a7885292625e3fe8648",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "巡检十五页-mutmu9ez.pptx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/bb9e1cc6-268e-420f-9c10-0fb40e7f61dd",
+            "bytes": 65659,
+            "sha256": "974ad583fbfce26c1b8eca0f0abf58665145bfbf2c544f253913102860b2cec0",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "巡检分析-mutmu9ez.docx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/db44cf3e-6ffa-4c1a-a487-235aa7dae49e",
+            "bytes": 179514,
+            "sha256": "051d4ce6947f636b1bf7c3aad9ebdd08942f08d99bd33a7885292625e3fe8648",
+            "matches_browser_receipt": true
+          },
+          {
+            "name": "巡检统计-mutmu9ez.xlsx",
+            "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/downloads/734ffe87-1bf2-4768-8629-c2b902f7791a",
+            "bytes": 6388,
+            "sha256": "779d73e1173674722d5666fa415ea84ccf4b18ee080e442772a9ae00a545e0f9",
+            "matches_browser_receipt": true
+          }
+        ],
+        "download_count": 12,
+        "all_downloads_match_browser_receipts": true,
+        "file_inspection": {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/compound-file-inspection.json",
+          "bytes": 11238,
+          "sha256": "1b02f1b296c2b9b036cafc4505ff65dc6148b57ecc62b29b77e4c10fa5dd9592"
+        },
+        "fixture": {
+          "path": ".implementation/ui-results/full-browser-ai-documents-mutmu9ez/compound-fixture.json",
+          "bytes": 1373,
+          "sha256": "a77f1cafb06bb1dfac15c4b2ad25ced0e8c8763d23d3f71185c7587388971228"
+        },
+        "all_inspected_files_present_in_downloads": true,
+        "presentation_pages": 15,
+        "presentation_pie_series": [
+          {
+            "labels": [
+              "已巡检",
+              "未巡检"
+            ],
+            "values": [
+              "3.0",
+              "5.0"
+            ]
+          }
+        ],
+        "word_image_hashes": [
+          "d8582e77b37f4562d7a3b9e3dd221193053f7b696c1af3d2cf5e46592faf0a00",
+          "ac06f9ec642d60047d7049fcdbf899cc28bfa22aadb6feec3edb522a606bfad4"
+        ],
+        "word_images_match_chart_and_dashboard": true,
+        "spreadsheet_rows": [
+          [
+            "巡检状态",
+            "设备数量",
+            "单位",
+            "统计期间",
+            "数据性质"
+          ],
+          [
+            "已巡检",
+            3,
+            "台",
+            "2026-09-28至2026-10-04（北京时间）",
+            "合成验收非生产"
+          ],
+          [
+            "未巡检",
+            5,
+            "台",
+            "2026-09-28至2026-10-04（北京时间）",
+            "合成验收非生产"
+          ]
+        ],
+        "scope": "本轮合成巡检双轮任务及实际文件下载核验；不代表真实模型或生产巡检统计。"
+      }
+    },
+    {
+      "iteration": 1,
+      "suite": "permissions",
+      "started_at": "2026-10-04T09:45:32.241872+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:54328",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 221,
+        "blocked_requests": 92,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 92
+      },
+      "finished_at": "2026-10-04T09:46:42.268428+00:00",
+      "seconds": 70.031,
+      "business_groups_recorded_pass": 6,
+      "browser_log_pass_count": 6,
+      "suite_passed": true,
+      "ui_failures": [],
+      "ui_result_ok": true,
+      "accessibility_findings": [],
+      "cleanup_observations": [],
+      "browser_log": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/browser.log",
+        "bytes": 775,
+        "sha256": "2f95d4ceb5affcbc16fed4f93fff6b703862c548197a330d98980b7e7adff699"
+      },
+      "host_diagnostics": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/host-diagnostics.log",
+        "bytes": 2056,
+        "sha256": "4f46ad98be2da7f0e4c9dbbfc51abacb72c03b4e7799d8f3e017118bdb99f0a6"
+      },
+      "network_report": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/network.json",
+        "bytes": 1087,
+        "sha256": "04c3fdce72d4891ef5f493566454c3e035d1584c409cc8394db3059924cfd501"
+      },
+      "network_details": {
+        "allowed_requests": 221,
+        "blocked_requests": 92,
+        "blocked_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "application_blocked_origins": [],
+        "application_blocked_by_target_type": {},
+        "client_disconnects": 1,
+        "upstream_errors": 0,
+        "transport_error_codes": {
+          "client_disconnects:ECONNRESET": 1
+        },
+        "background_candidate_requests": 92,
+        "background_candidate_origins": [
+          "http://edge.microsoft.com",
+          "https://cn.bing.com",
+          "https://edge.microsoft.com",
+          "https://www.bing.com",
+          "https://arc.msn.com",
+          "https://edge-consumer-static.azureedge.net"
+        ],
+        "background_classification": "仅列已观测浏览器背景域；页面或Worker发起同域请求仍记为应用阻断，所有类别均禁止转发",
+        "boundary": "本轮隔离宿主及测试进程创建的回环桩；禁止在用8011/8012与外网"
+      },
+      "ui_evidence_directory": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/permissions",
+      "ui_result": {
+        "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/permissions/result.json",
+        "bytes": 10165,
+        "sha256": "89ad40e4ab424991f13efaf2b2a010c6d779efa2c67d6eb6ee43e875fa2b55b4"
+      },
+      "screenshots": [
+        {
+          "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/permissions/member-authorized-preview.png",
+          "bytes": 84508,
+          "sha256": "3e793ebf03be6e68a8604e91391f84079d57b939cfad4b749dbfe13b149e72f3"
+        },
+        {
+          "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/permissions/member-stale-page-denied.png",
+          "bytes": 66445,
+          "sha256": "18b39de405d74f4e5f68892062dc656cb03fcd8884d161e2aa8e85ee45b95e7b"
+        }
+      ],
+      "permission_consumption_evidence": {
+        "scope": "真实双身份文件消费及工作区隔离；浏览器直接请求单列。模型/设备各一次管理员正对照，成员拒绝阶段零请求；未覆盖知识召回、插件复用或所有资源类型。",
+        "negative_observations": [
+          {
+            "label": "授权前预览直达",
+            "mode": "browser_same_origin_request",
+            "url": "/api/files/01M434XG1ATDFNVQ6MD5QD38GR/text",
+            "method": "GET",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "授权前下载直达",
+            "mode": "browser_same_origin_request",
+            "url": "/api/files/01M434XG1ATDFNVQ6MD5QD38GR/download",
+            "method": "GET",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "成员模型调用拒绝",
+            "mode": "browser_same_origin_request",
+            "url": "/api/models/probe/permission_embedding",
+            "method": "POST",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 403,
+            "body": "{\"ok\":false,\"code\":\"forbidden\",\"message\":\"没有执行此操作的权限\",\"permission\":\"models.execute\"}"
+          },
+          {
+            "label": "成员设备调用拒绝",
+            "mode": "browser_same_origin_request",
+            "url": "/api/connectors/01M434WYTC012T2Q7Q7TCQA7F2/test-invoke",
+            "method": "POST",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 403,
+            "body": "{\"ok\":false,\"code\":\"forbidden\",\"message\":\"没有执行此操作的权限\",\"permission\":\"connectors.execute\"}"
+          },
+          {
+            "label": "只读成员不得修改已授权文件",
+            "mode": "browser_same_origin_request",
+            "url": "/api/files/01M434XG1ATDFNVQ6MD5QD38GR/metadata",
+            "method": "PATCH",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 403,
+            "body": "{\"ok\":false,\"code\":\"forbidden\",\"message\":\"没有执行此操作的权限\",\"permission\":\"files.edit\"}"
+          },
+          {
+            "label": "工作区二成员读取工作区一文件ID",
+            "mode": "browser_same_origin_request",
+            "url": "/api/files/01M434XG1ATDFNVQ6MD5QD38GR/text",
+            "method": "GET",
+            "workspace": "01M434XCX0WXZD47Y236V1VCTE",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "工作区二成员读取工作区一旧下载地址",
+            "mode": "browser_same_origin_request",
+            "url": "http://127.0.0.1:54328/api/files/01M434XG1ATDFNVQ6MD5QD38GR/download",
+            "method": "GET",
+            "workspace": "01M434XCX0WXZD47Y236V1VCTE",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "工作区二管理员也不可跨工作区下载",
+            "mode": "browser_same_origin_request",
+            "url": "http://127.0.0.1:54328/api/files/01M434XG1ATDFNVQ6MD5QD38GR/download",
+            "method": "GET",
+            "workspace": "01M434XCX0WXZD47Y236V1VCTE",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "撤权后已开页面预览拒绝",
+            "mode": "visible_stale_control",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "撤权后已开页面下载拒绝",
+            "mode": "visible_stale_control",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "撤权后原下载地址拒绝",
+            "mode": "browser_same_origin_request",
+            "url": "http://127.0.0.1:54328/api/files/01M434XG1ATDFNVQ6MD5QD38GR/download",
+            "method": "GET",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "撤权后内容Cookie旧链接拒绝",
+            "mode": "browser_same_origin_request",
+            "url": "http://127.0.0.1:54328/api/files/01M434XG1ATDFNVQ6MD5QD38GR/download?workspace_id=01M434WCCPVFQYCCD4C3QX942B",
+            "method": "GET",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 404,
+            "body": "{\"ok\":false,\"code\":\"not_found\",\"message\":\"文件不存在\"}"
+          },
+          {
+            "label": "撤权后模型调用仍拒绝",
+            "mode": "browser_same_origin_request",
+            "url": "/api/models/probe/permission_embedding",
+            "method": "POST",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 403,
+            "body": "{\"ok\":false,\"code\":\"forbidden\",\"message\":\"没有执行此操作的权限\",\"permission\":\"models.execute\"}"
+          },
+          {
+            "label": "撤权后设备调用仍拒绝",
+            "mode": "browser_same_origin_request",
+            "url": "/api/connectors/01M434WYTC012T2Q7Q7TCQA7F2/test-invoke",
+            "method": "POST",
+            "workspace": "01M434WCCPVFQYCCD4C3QX942B",
+            "status": 403,
+            "body": "{\"ok\":false,\"code\":\"forbidden\",\"message\":\"没有执行此操作的权限\",\"permission\":\"connectors.execute\"}"
+          }
+        ],
+        "negative_observation_count": 14,
+        "negative_modes": {
+          "browser_same_origin_request": 12,
+          "visible_stale_control": 2
+        },
+        "negative_status_counts": {
+          "403": 5,
+          "404": 9
+        },
+        "all_rejections_valid_without_content_leak": true,
+        "positive_control_and_total_request_counts": {
+          "model": 1,
+          "device": 1,
+          "unexpected": 0
+        },
+        "side_effect_evidence": "冻结脚本中每次拒绝断言模型/设备计数不变；本轮最终计数另核对为管理员模型和设备正对照各一次，观察行本身不重复存before/after计数。",
+        "upload_artifacts": [
+          {
+            "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/permissions/权限合成资料-mutmyfn1.txt",
+            "bytes": 99,
+            "sha256": "3ee016e3e27d16f8b494f4908a71143cda78288d3b73336b87ad9c6a7a50f88d"
+          }
+        ],
+        "download_artifacts": [
+          {
+            "path": ".implementation/full-business-browser/20261004-173051-bbc459b4/001-permissions/permissions/downloads/权限合成资料-mutmyfn1.txt",
+            "bytes": 99,
+            "sha256": "3ee016e3e27d16f8b494f4908a71143cda78288d3b73336b87ad9c6a7a50f88d"
+          }
+        ],
+        "reported_download_hashes": [
+          "3ee016e3e27d16f8b494f4908a71143cda78288d3b73336b87ad9c6a7a50f88d"
+        ],
+        "download_matches_original_bytes_and_reported_sha": true,
+        "source_sha256_reported": {
+          "tests\\ui\\full_browser_permissions_acceptance.js": "2eb488949ade46867010e5d740e481b0a1461cfcbc1d376344e114e5efafd2a9",
+          "tests\\dsh\\business_browser_acceptance.py": "6d133211c66146c358df90c6828809ac207f1150dca0d44a79f761ec3cf2edad"
+        },
+        "source_hashes_match": {
+          "tests\\ui\\full_browser_permissions_acceptance.js": true,
+          "tests\\dsh\\business_browser_acceptance.py": true
+        },
+        "checks_with_modes": [
+          {
+            "name": "管理员真实控件完成模型与设备回环正对照，各一次实际请求",
+            "mode": "visible_ui",
+            "counts": {
+              "model": 1,
+              "device": 1,
+              "unexpected": 0
+            }
+          },
+          {
+            "name": "独立浏览器成员完成强制改密和真实登录，仅有三个明确功能权限",
+            "mode": "visible_ui",
+            "permissions": [
+              "files.export",
+              "files.view",
+              "home.view"
+            ]
+          },
+          {
+            "name": "授权前列表隐藏、正文和下载拒绝，模型和设备实际新增请求均为零",
+            "mode": "visible_ui_and_browser_same_origin_request",
+            "counts": {
+              "model": 1,
+              "device": 1,
+              "unexpected": 0
+            }
+          },
+          {
+            "name": "单资源授权后真实预览和下载字节正确；修改控件隐藏且直达修改403",
+            "mode": "visible_ui_and_browser_same_origin_request",
+            "downloadSha256": "3ee016e3e27d16f8b494f4908a71143cda78288d3b73336b87ad9c6a7a50f88d"
+          },
+          {
+            "name": "授权有效期间跨工作区ID和旧链接404；同身份回到原工作区仍200",
+            "mode": "admin_visible_workspace_switch_and_member_explicit_header_request"
+          },
+          {
+            "name": "撤权后旧页面控件和旧URL拒绝，刷新隐藏；管理员原件不变且拒绝阶段模型/设备零请求",
+            "mode": "visible_ui_and_browser_same_origin_request",
+            "totalCountsIncludingPositiveControls": {
+              "model": 1,
+              "device": 1,
+              "unexpected": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_integrity_errors": [],
+  "network_totals": {
+    "allowed_requests": 2716,
+    "blocked_requests": 1231,
+    "unexpected_requests": 0,
+    "application_blocked_requests": 0,
+    "background_candidate_requests": 1231
+  },
+  "all_executed_windows_jobs_empty_after_cleanup": true,
+  "network_checks_clean": true,
+  "separate_quality_gate": {
+    "evidence": {
+      "path": "docs/audit/review_20261004/validation-batch23.json",
+      "bytes": 104046,
+      "sha256": "1bc052fe31acf65a117739ef8449579a28f70a3f37a4d745174eefadbd9171c8"
+    },
+    "counting_rule": "既有26阶段门禁1655pytest及13unittest由首轮5阶段加后续21阶段组成并单独记账；本轮仅计当前十域实际组数，不累加专项或此前浏览器运行。"
+  },
+  "evidence_recorder": {
+    "path": ".implementation/record-browser-validation-batch23.py",
+    "bytes": 16774,
+    "sha256": "3b73e10114a37d3edbda12ab6163e55fff50f5193fc8d8c145ac3f705d41db59"
+  },
+  "limitations": [
+    "仅本轮清单十域各一次；不是每功能100次或24小时验收。",
+    "所有组数来自本轮result及PASS日志，不与此前浏览器或其他批次专项拼接。",
+    "源码按本轮145份冻结清单核验，不代表所有第一方文件已完整审阅。",
+    "88份assets是指定冻结范围；背景候选阻断不等于零外网请求尝试，全部禁止转发。",
+    "本记录器只读既有终态文件并写本证据，不启动浏览器、服务、测试、数据库或模型。",
+    "权限套覆盖真实双身份文件消费，跨工作区成员负对照为显式请求头；未覆盖全部知识、插件、模型、设备授权组合。",
+    "未执行真实MySQL/PG平台迁移、外部模型或在用8011验证；B24正常关闭修复与B25队列补充未混入本轮。"
+  ],
+  "host_shutdown_scope": "Host completed-session normal-close fix属于B24且未纳入本树；本轮业务结果与清理证据按原有精确字段记录，不宣称graceful修复已集成。",
+  "goal_complete": false,
+  "service_8011_loaded": "unconfirmed-not-restarted"
+}

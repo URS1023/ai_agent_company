@@ -1,0 +1,246 @@
+{
+  "scopeChecks": [
+    {
+      "workflowId": "01M257SWK4QT2PGZ6KWTR9183H",
+      "category": "incoming",
+      "product": "兰炭",
+      "template": "兰炭质检模板",
+      "forms": 0,
+      "statuses": {},
+      "sampleNumber": "",
+      "datasetRows": {
+        "quality_items": 0,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SWSHCGP8TMA3YYPPA6MG",
+      "category": "incoming",
+      "product": "焦炭",
+      "template": "焦 炭  质检报告",
+      "forms": 152,
+      "statuses": {
+        "warning": 138,
+        "pending": 4,
+        "normal": 10
+      },
+      "sampleNumber": "YHHG-ZJZX-JT-2026-0001",
+      "datasetRows": {
+        "quality_items": 1064,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 152
+      }
+    },
+    {
+      "workflowId": "01M257SX11Z1M5ET63PXT6YEST",
+      "category": "incoming",
+      "product": "电极糊",
+      "template": "电极糊质检报告",
+      "forms": 26,
+      "statuses": {
+        "warning": 1,
+        "pending": 25
+      },
+      "sampleNumber": "YHHG-ZJZX-DJH-2026-0001",
+      "datasetRows": {
+        "quality_items": 144,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 26
+      }
+    },
+    {
+      "workflowId": "01M257SX8WKAA10FBWR9F8V1CF",
+      "category": "incoming",
+      "product": "石灰",
+      "template": "石 灰  质检报告",
+      "forms": 90,
+      "statuses": {
+        "warning": 83,
+        "normal": 7
+      },
+      "sampleNumber": "YHHG-ZJZX-SH-2026-0001",
+      "datasetRows": {
+        "quality_items": 630,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 90
+      }
+    },
+    {
+      "workflowId": "01M257SXF2VJHYH6F2X8SWRK8V",
+      "category": "incoming",
+      "product": "石灰石",
+      "template": "石灰石质检报告",
+      "forms": 394,
+      "statuses": {
+        "warning": 55,
+        "pending": 125,
+        "normal": 214
+      },
+      "sampleNumber": "YHHG-ZJZX-SHS-0001",
+      "datasetRows": {
+        "quality_items": 1970,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 270
+      }
+    },
+    {
+      "workflowId": "01M257SXMXMXV6CNTZ6D3869CC",
+      "category": "finished",
+      "product": "电石",
+      "template": "出厂成品电石质检模板",
+      "forms": 46,
+      "statuses": {
+        "pending": 46
+      },
+      "sampleNumber": "YHHG-ZJZX-0050",
+      "datasetRows": {
+        "quality_items": 138,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SXV1XCJ437HAC3KGYM8H",
+      "category": "finished",
+      "product": "电石",
+      "template": "炉前电石质检模板",
+      "forms": 1683,
+      "statuses": {
+        "pending": 1683
+      },
+      "sampleNumber": "4122001",
+      "datasetRows": {
+        "quality_items": 5049,
+        "quality_gas1": 944,
+        "quality_gas2": 739,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SY0HFW8JDBFCXDG1CN3X",
+      "category": "process",
+      "product": "石灰",
+      "template": "石灰窑模板",
+      "forms": 318,
+      "statuses": {
+        "warning": 209,
+        "pending": 109
+      },
+      "sampleNumber": null,
+      "datasetRows": {
+        "quality_items": 1908,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SY65BBYV9ERGKY0J253G",
+      "category": "process",
+      "product": "焦炭",
+      "template": "筛分楼焦炭",
+      "forms": 173,
+      "statuses": {
+        "warning": 6,
+        "pending": 167
+      },
+      "sampleNumber": "0001",
+      "datasetRows": {
+        "quality_items": 868,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SYBN76REMJZAP4FFPQNW",
+      "category": "process",
+      "product": "石灰",
+      "template": "筛分楼石灰模板",
+      "forms": 0,
+      "statuses": {},
+      "sampleNumber": "",
+      "datasetRows": {
+        "quality_items": 0,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SYHC710EY87NSAPCPDCT",
+      "category": "process",
+      "product": "待确认归属",
+      "template": "未关联产品与模板",
+      "forms": 11,
+      "statuses": {
+        "pending": 11
+      },
+      "sampleNumber": "0001",
+      "datasetRows": {
+        "quality_items": 11,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    },
+    {
+      "workflowId": "01M257SYPSEJZHPA8D08SC2JZF",
+      "category": "finished",
+      "product": "待确认归属",
+      "template": "未关联产品与模板",
+      "forms": 251,
+      "statuses": {
+        "pending": 251
+      },
+      "sampleNumber": "YHHG-ZJZX-DS-0001-0005",
+      "datasetRows": {
+        "quality_items": 251,
+        "quality_gas1": 0,
+        "quality_gas2": 0,
+        "quality_statistics": 0
+      }
+    }
+  ],
+  "totalDistinctForms": 3144,
+  "liveRuns": [
+    {
+      "workflowId": "01M257SWSHCGP8TMA3YYPPA6MG",
+      "executionId": "01M258AXVSY37BC6Y36WWFMX9F",
+      "status": "completed",
+      "rows": 2
+    },
+    {
+      "workflowId": "01M257SY0HFW8JDBFCXDG1CN3X",
+      "executionId": "01M258B0J6PC82QWA2EAMYJPAG",
+      "status": "completed",
+      "rows": 318
+    },
+    {
+      "workflowId": "01M257SXMXMXV6CNTZ6D3869CC",
+      "executionId": "01M258DF43W5MTTWGDFYJCWADE",
+      "status": "completed",
+      "rows": 1
+    },
+    {
+      "workflowId": "01M257SWK4QT2PGZ6KWTR9183H",
+      "executionId": "01M258DK7SQTD22T04SPKXAFDQ",
+      "status": "completed",
+      "rows": 0
+    },
+    {
+      "workflowId": "01M257SYBN76REMJZAP4FFPQNW",
+      "executionId": "01M258DQMPQMZQD7Z5GD79X9DS",
+      "status": "completed",
+      "rows": 0
+    }
+  ],
+  "httpsCatalogueVerified": true
+}

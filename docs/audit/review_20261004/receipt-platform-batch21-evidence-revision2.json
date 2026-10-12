@@ -1,0 +1,472 @@
+{
+  "revision": 2,
+  "baseline": "cfe11ac88fa56c714c8c75e4c36ce34dfcb214d9",
+  "branch": "codex/major-platform-migration",
+  "previous_evidence": {
+    "path": ".implementation/receipt-platform-batch21-evidence.json",
+    "sha256": "41351dc6e28d27a723c4bd26cbaae396774efb146b8235ea53e3800a952df828",
+    "bytes": 20598
+  },
+  "previous_report": {
+    "path": ".implementation/fix-receipt-platform-migration-batch21.md",
+    "sha256": "1b7cbf0c3dc02becf7455e0989389fb7ce5c0713e67d407b307c0c1e56b06e91",
+    "bytes": 11919
+  },
+  "independent_review": {
+    "path": ".implementation/review-platform-migration-batch21-independent.md",
+    "sha256": "80127eba98586e2e178b258caea998138d2e4654d96a22b2824828fabc3d5e18",
+    "bytes": 6437
+  },
+  "report": {
+    "path": ".implementation/fix-receipt-platform-migration-batch21-revision2.md",
+    "sha256": "af5c6f365edcb4327e5056ab7dd116d51cd29ab03fcc9ee94d562d835474eb38",
+    "bytes": 6041
+  },
+  "sources": [
+    {
+      "path": "backend/app/business_worker/receipt_platform_migration.py",
+      "sha256": "b5da74c6f1b834db64bc9f49e449cb6ee72ec52617edcea3fa23ccce08e99a39",
+      "bytes": 22361
+    },
+    {
+      "path": "backend/app/schema.py",
+      "sha256": "ebad2fa661b9587b6c4942a3e3d08fa125ab25fc7e072032ede08f1d2f3f300f",
+      "bytes": 9552
+    },
+    {
+      "path": "backend/app/common/owned_records.py",
+      "sha256": "5b639e604687e7c62d1e8bf7b40da4f95292cf3cb9da811caa46e889e4f873fe",
+      "bytes": 6865
+    },
+    {
+      "path": "tests/backend/test_receipt_platform_migration.py",
+      "sha256": "936ab302cca8c83bbe2834ac4b14564e6410410335701dd685385e40422f6c7d",
+      "bytes": 23968
+    }
+  ],
+  "changed_from_previous_freeze": [
+    {
+      "path": "backend/app/business_worker/receipt_platform_migration.py",
+      "before_sha256": "413864dd769d96f69e2da7e62fa8fbed32c31c600eba783fcc23df18a811a41d",
+      "after_sha256": "b5da74c6f1b834db64bc9f49e449cb6ee72ec52617edcea3fa23ccce08e99a39"
+    },
+    {
+      "path": "tests/backend/test_receipt_platform_migration.py",
+      "before_sha256": "ec5c3f18e8f06375a0b72c7630dec0dad0975abbf9cbea93edcfdd31ec6c83bb",
+      "after_sha256": "936ab302cca8c83bbe2834ac4b14564e6410410335701dd685385e40422f6c7d"
+    }
+  ],
+  "patch": {
+    "path": ".implementation/receipt-platform-batch21-revision2.patch",
+    "sha256": "a015a829bb037e5c8115da75d5f75c4c75700eca199b5c98f9acbe280e044c78",
+    "bytes": 6683
+  },
+  "rounds": [
+    {
+      "label": "revision2-red-interrupt-ddl",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "1",
+          "skipped": "0",
+          "tests": "1",
+          "time": "1.793",
+          "timestamp": "2026-10-04T15:12:32.840116+08:00",
+          "hostname": "DESKTOP-0B4ASE3"
+        }
+      ],
+      "cases": [
+        {
+          "name": "test_keyboard_interrupt_after_database_effect_is_unknown[interrupt_add_ack]",
+          "time": "0.812",
+          "failed": true
+        }
+      ],
+      "files": [
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-red-interrupt-ddl.log",
+          "sha256": "010a849a8bbb76ff4e576546569d4facf293ccfdf8f53774dc94c7b0ec1773ff",
+          "bytes": 2360
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-red-interrupt-ddl.xml",
+          "sha256": "f26b124ecb2b708ecb2e1e94905fbf8a36e62e6c8c68f9421a5fc7912675dd58",
+          "bytes": 1433
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-red-interrupt-ddl.json",
+          "sha256": "37b8bf4a8f9f9fc87358481b8141871c5ef6475b0e8abfcd5cb5973bd97b1dc0",
+          "bytes": 1630
+        }
+      ]
+    },
+    {
+      "label": "revision2-red-interrupt-commit",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "1",
+          "skipped": "0",
+          "tests": "1",
+          "time": "1.508",
+          "timestamp": "2026-10-04T15:12:40.937505+08:00",
+          "hostname": "DESKTOP-0B4ASE3"
+        }
+      ],
+      "cases": [
+        {
+          "name": "test_keyboard_interrupt_after_database_effect_is_unknown[interrupt_commit_ack]",
+          "time": "0.743",
+          "failed": true
+        }
+      ],
+      "files": [
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-red-interrupt-commit.log",
+          "sha256": "f5ca84376ac791e3349fb27ac4ac13ce637270bdb9ac0ae08c439c71fae88d8e",
+          "bytes": 4535
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-red-interrupt-commit.xml",
+          "sha256": "5a3afe3a4513b5bb6d93ea45ed22f712fff1b0de43ea73e02c0ec1dd547d133c",
+          "bytes": 1436
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-red-interrupt-commit.json",
+          "sha256": "0af91756b72b21a087db36f8176c48424539973541dc0ac4616ad86babb5aa70",
+          "bytes": 1636
+        }
+      ]
+    },
+    {
+      "label": "revision2-interrupt-green",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "3",
+          "time": "1.570",
+          "timestamp": "2026-10-04T15:13:25.360352+08:00",
+          "hostname": "DESKTOP-0B4ASE3"
+        }
+      ],
+      "cases": [
+        {
+          "name": "test_keyboard_interrupt_after_database_effect_is_unknown[interrupt_add_ack]",
+          "time": "0.825",
+          "failed": false
+        },
+        {
+          "name": "test_keyboard_interrupt_after_database_effect_is_unknown[interrupt_commit_ack]",
+          "time": "0.120",
+          "failed": false
+        },
+        {
+          "name": "test_keyboard_interrupt_before_write_keeps_original_interrupt",
+          "time": "0.067",
+          "failed": false
+        }
+      ],
+      "files": [
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-interrupt-green.log",
+          "sha256": "f99fecd722f47b83c2c2108976eb917b5a9993d0e9141ffa81cc5e899ca02c67",
+          "bytes": 5381
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-interrupt-green.xml",
+          "sha256": "c3175bc838baee4d9a6465bb33bdf8de68365fcae6e939f54e85972d91dc6548",
+          "bytes": 738
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-interrupt-green.json",
+          "sha256": "30f96c5a5ec9f06bc05d39231542e0fe3fdd820b9f4376b6dcf85defb5012e24",
+          "bytes": 1729
+        }
+      ]
+    },
+    {
+      "label": "revision2-migration-final",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "47",
+          "time": "29.430",
+          "timestamp": "2026-10-04T15:13:47.516069+08:00",
+          "hostname": "DESKTOP-0B4ASE3"
+        }
+      ],
+      "cases": [
+        {
+          "name": "test_receipt_migration_import_does_not_load_deployment_config",
+          "time": "1.526",
+          "failed": false
+        },
+        {
+          "name": "test_fixed_release_checksums_are_real_registered_model_contracts",
+          "time": "0.602",
+          "failed": false
+        },
+        {
+          "name": "test_offline_plan_recognizes_only_safe_recovery_states[legacy-steps0]",
+          "time": "0.105",
+          "failed": false
+        },
+        {
+          "name": "test_offline_plan_recognizes_only_safe_recovery_states[column-steps1]",
+          "time": "0.035",
+          "failed": false
+        },
+        {
+          "name": "test_offline_plan_recognizes_only_safe_recovery_states[index-steps2]",
+          "time": "0.035",
+          "failed": false
+        },
+        {
+          "name": "test_offline_plan_recognizes_only_safe_recovery_states[complete-steps3]",
+          "time": "0.033",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[old_checksum]",
+          "time": "0.055",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[target_checksum]",
+          "time": "0.055",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[newer]",
+          "time": "0.055",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[missing_old_table]",
+          "time": "0.055",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[wrong_server]",
+          "time": "0.035",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[wrong_database]",
+          "time": "0.035",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[mariadb]",
+          "time": "0.034",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[partitioned]",
+          "time": "0.057",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[wrong_column]",
+          "time": "0.056",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[column_default]",
+          "time": "0.054",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[prefix]",
+          "time": "0.056",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[non_unique]",
+          "time": "0.055",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[expression]",
+          "time": "0.054",
+          "failed": false
+        },
+        {
+          "name": "test_conflicts_are_rejected_before_first_ddl[registered_missing_index]",
+          "time": "0.058",
+          "failed": false
+        },
+        {
+          "name": "test_mysql_success_and_repeat_preserve_prior_versions_and_use_same_lock",
+          "time": "0.173",
+          "failed": false
+        },
+        {
+          "name": "test_mysql_index_failure_preserves_committed_column_and_allows_later_explicit_recovery",
+          "time": "0.094",
+          "failed": false
+        },
+        {
+          "name": "test_ack_loss_is_unknown_without_retry_or_followup_sql[lost_add_ack-confirmed0-False]",
+          "time": "0.074",
+          "failed": false
+        },
+        {
+          "name": "test_ack_loss_is_unknown_without_retry_or_followup_sql[lost_index_ack-confirmed1-False]",
+          "time": "0.075",
+          "failed": false
+        },
+        {
+          "name": "test_ack_loss_is_unknown_without_retry_or_followup_sql[lost_commit_ack-confirmed2-True]",
+          "time": "0.094",
+          "failed": false
+        },
+        {
+          "name": "test_ack_loss_is_unknown_without_retry_or_followup_sql[lost_read-confirmed3-False]",
+          "time": "0.123",
+          "failed": false
+        },
+        {
+          "name": "test_lock_refusal_does_not_attempt_ddl_or_unlock_another_owner",
+          "time": "0.036",
+          "failed": false
+        },
+        {
+          "name": "test_journal_failure_after_commit_is_not_reported_as_success",
+          "time": "0.093",
+          "failed": false
+        },
+        {
+          "name": "test_real_contract_ddl_compilation_quotes_database_and_preserves_null_uniqueness[dialect0]",
+          "time": "0.018",
+          "failed": false
+        },
+        {
+          "name": "test_real_contract_ddl_compilation_quotes_database_and_preserves_null_uniqueness[dialect1]",
+          "time": "0.019",
+          "failed": false
+        },
+        {
+          "name": "test_offline_cli_plan_never_constructs_an_engine",
+          "time": "0.051",
+          "failed": false
+        },
+        {
+          "name": "test_journal_is_exclusive_and_records_complete_json",
+          "time": "0.005",
+          "failed": false
+        },
+        {
+          "name": "test_read_catalog_adapter_only_reads_bounded_metadata_and_version_rows",
+          "time": "0.038",
+          "failed": false
+        },
+        {
+          "name": "test_unknown_commit_is_written_to_actual_journal_without_a_success_line",
+          "time": "0.104",
+          "failed": false
+        },
+        {
+          "name": "test_apply_cli_does_not_echo_password_or_driver_exception",
+          "time": "0.025",
+          "failed": false
+        },
+        {
+          "name": "test_keyboard_interrupt_after_database_effect_is_unknown[interrupt_add_ack]",
+          "time": "0.080",
+          "failed": false
+        },
+        {
+          "name": "test_keyboard_interrupt_after_database_effect_is_unknown[interrupt_commit_ack]",
+          "time": "0.103",
+          "failed": false
+        },
+        {
+          "name": "test_keyboard_interrupt_before_write_keeps_original_interrupt",
+          "time": "0.057",
+          "failed": false
+        },
+        {
+          "name": "test_file_migration_is_repeatable_and_preserves_legacy_rows",
+          "time": "2.035",
+          "failed": false
+        },
+        {
+          "name": "test_wrong_receipt_index_cannot_register_new_version[CREATE INDEX ix_run_events_receipt_key ON run_events (receipt_key)]",
+          "time": "2.209",
+          "failed": false
+        },
+        {
+          "name": "test_wrong_receipt_index_cannot_register_new_version[CREATE UNIQUE INDEX ix_run_events_receipt_key ON run_events (receipt_key,run_id)]",
+          "time": "1.880",
+          "failed": false
+        },
+        {
+          "name": "test_wrong_receipt_index_cannot_register_new_version[CREATE UNIQUE INDEX ix_run_events_receipt_key ON run_events (receipt_key) WHERE run_id='r']",
+          "time": "2.758",
+          "failed": false
+        },
+        {
+          "name": "test_partial_migration_adds_only_missing_index",
+          "time": "4.519",
+          "failed": false
+        },
+        {
+          "name": "test_normal_startup_does_not_migrate_existing_file",
+          "time": "2.082",
+          "failed": false
+        },
+        {
+          "name": "test_wrong_receipt_column_is_rejected_without_version[VARCHAR(32) NULL]",
+          "time": "2.035",
+          "failed": false
+        },
+        {
+          "name": "test_wrong_receipt_column_is_rejected_without_version[INTEGER NULL]",
+          "time": "4.498",
+          "failed": false
+        },
+        {
+          "name": "test_wrong_receipt_column_is_rejected_without_version[VARCHAR(64) NOT NULL DEFAULT '']",
+          "time": "2.593",
+          "failed": false
+        }
+      ],
+      "files": [
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-migration-final.log",
+          "sha256": "7b3593d3526381e45ece148d65a45aa3bc071a68e969f9d1dbdae14ded0daf4f",
+          "bytes": 7239
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-migration-final.xml",
+          "sha256": "309878aab43aa739ef7a49ba688c611c0bce5952367889487559429cc5241aa9",
+          "bytes": 7752
+        },
+        {
+          "path": ".implementation/receipt-platform-batch21-revision2-migration-final.json",
+          "sha256": "1f5f4c62c1f3a7d87b641b00371e3678b46e6190245babfd704550885b65fae1",
+          "bytes": 1601
+        }
+      ]
+    }
+  ],
+  "limits": {
+    "real_mysql_connections": 0,
+    "real_postgresql_connections": 0,
+    "business_source_queries": 0,
+    "model_requests": 0,
+    "actual_database_tests": "临时SQLite；MySQL为受控状态机/目录桩，PG仅编译",
+    "pg_full_migration_implemented": false,
+    "deployment_performed": false
+  },
+  "interrupt_boundary": "仅在sql_inflight窗口把进程中断记unknown并invalidate；窗口外重抛原中断；硬杀/断电/重复中断不保证完整终态"
+}

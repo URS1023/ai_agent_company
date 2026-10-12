@@ -1,0 +1,1197 @@
+{
+  "configuredAt": "2026-09-10",
+  "sourceDatabase": "szh_new",
+  "sourceKind": "production_import_copy",
+  "referenceTime": "2026-09-02 13:53:59",
+  "sourceId": "01M24QETPHHHEHA9ZJ6FBYVZ6D",
+  "workflows": {
+    "incoming": {
+      "id": "01M24QF99MPR288FQZRZ16NK24",
+      "version": 10,
+      "name": "szh_new · 来料质检",
+      "executionId": "01M255HR0G3GN29X6551YJJ4X2",
+      "status": "completed",
+      "resultRows": 662,
+      "outcomes": {
+        "warning": 277,
+        "pending": 154,
+        "normal": 231
+      },
+      "outputs": {
+        "gas1_end": 0,
+        "gas2_end": 0,
+        "statistics_end": 538,
+        "measurements_end": 3808,
+        "end": 662
+      },
+      "durationMs": 50203
+    },
+    "process": {
+      "id": "01M24QF9EGFHG51NK8DDGWQD0J",
+      "version": 10,
+      "name": "szh_new · 过程质检",
+      "executionId": "01M255M81FRY30CVKXTRWM6Z0X",
+      "status": "completed",
+      "resultRows": 502,
+      "outcomes": {
+        "warning": 215,
+        "pending": 287
+      },
+      "outputs": {
+        "gas1_end": 0,
+        "gas2_end": 0,
+        "statistics_end": 0,
+        "measurements_end": 2787,
+        "end": 502
+      },
+      "durationMs": 21530
+    },
+    "finished": {
+      "id": "01M24QF9HDTXTXC3YA55BHXVVQ",
+      "version": 10,
+      "name": "szh_new · 成品质检",
+      "executionId": "01M255N906MTQ4ZP6KKGSV1H0Q",
+      "status": "completed",
+      "resultRows": 1980,
+      "outcomes": {
+        "pending": 1980
+      },
+      "outputs": {
+        "gas1_end": 944,
+        "gas2_end": 739,
+        "statistics_end": 0,
+        "measurements_end": 5438,
+        "end": 1980
+      },
+      "durationMs": 103171
+    },
+    "inspection": {
+      "id": "01M24QF9MTR6JVEGJESTQCW507",
+      "version": 18,
+      "name": "szh_new · 巡检预警",
+      "executionId": "01M24ZGACJD91JDPNXZ1GTM4NQ",
+      "status": "completed",
+      "resultRows": 80,
+      "statuses": {
+        "warning": 7,
+        "pending": 73
+      },
+      "historicalLate": 0,
+      "outcomes": {
+        "warning": 7,
+        "pending": 73
+      },
+      "outputs": {
+        "end": 80
+      }
+    },
+    "maintenance": {
+      "id": "01M24QF9QNRW8FTMX1KYJNA359",
+      "version": 18,
+      "name": "szh_new · 保养预警",
+      "executionId": "01M24ZG568SXW3RF5GNF570CC2",
+      "status": "completed",
+      "resultRows": 141,
+      "statuses": {
+        "pending": 141
+      },
+      "historicalLate": 0,
+      "outcomes": {
+        "pending": 141
+      },
+      "outputs": {
+        "end": 141
+      }
+    },
+    "repair": {
+      "id": "01M24QF9TGSDMSTWW5906SVFMF",
+      "version": 18,
+      "name": "szh_new · 维修预警",
+      "executionId": "01M24ZGR2QPYTRYKFTAAJMWT6K",
+      "status": "completed",
+      "resultRows": 24,
+      "statuses": {
+        "pending": 24
+      },
+      "historicalLate": 22,
+      "outcomes": {
+        "pending": 24
+      },
+      "outputs": {
+        "end": 24
+      }
+    }
+  },
+  "configuredDeviceCount": 32,
+  "verifiedDeviceCount": 32,
+  "automaticScheduleEnabled": false,
+  "sourceDatabaseWrites": false,
+  "browserVerification": "blocked: installed browser runtime does not provide expected browser-service.mjs",
+  "lanApiVerification": [
+    {
+      "base": "http://192.168.6.16:8011",
+      "workflow": "incoming",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "http://192.168.6.16:8011",
+      "workflow": "process",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "http://192.168.6.16:8011",
+      "workflow": "finished",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "http://192.168.6.16:8011",
+      "workflow": "inspection",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "http://192.168.6.16:8011",
+      "workflow": "maintenance",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "http://192.168.6.16:8011",
+      "workflow": "repair",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "http://192.168.6.16:8011",
+      "reportId": "01M24X0CXCYP2PGPC6MGFQH99Q",
+      "reportDetail": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "workflow": "incoming",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "workflow": "process",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "workflow": "finished",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "workflow": "inspection",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "workflow": "maintenance",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "workflow": "repair",
+      "detail": 200,
+      "history": 200,
+      "monitor": 200
+    },
+    {
+      "base": "https://192.168.6.16:8443",
+      "reportId": "01M24X0CXCYP2PGPC6MGFQH99Q",
+      "reportDetail": 200
+    }
+  ],
+  "deviceReportCount": 32,
+  "deviceFindingCounts": {
+    "warning": 7,
+    "info": 215
+  },
+  "deviceSpecificConfiguration": {
+    "subflowNodeCount": 0,
+    "requirementsReadOnEveryRun": true,
+    "inspectionDeviceCount": 7,
+    "inspectionItemCount": 73,
+    "maintenanceDeviceCount": 25,
+    "maintenancePointCount": 141,
+    "devicesWithRepairBranch": 1,
+    "sourceRequirementsAreCurrentNotHistorical": true,
+    "deviceReports": [
+      {
+        "deviceId": "01M24QT72DST6R6BQTWJBYCYXT",
+        "name": "2#炉环形加料机",
+        "workflowId": "01M24QT8ZF8QRWA3662JP71E80",
+        "version": 15,
+        "executionId": "01M24ZGS19Y59EAXNVAZ5TSY5J",
+        "reportId": "01M24ZGSD2FJN3VQY7XJXGA0BN",
+        "resultRows": 3,
+        "statuses": {
+          "pending": 3
+        }
+      },
+      {
+        "deviceId": "01M24QT74QG1GKYNZGAXXY7P2E",
+        "name": "1#炉出炉机器人B",
+        "workflowId": "01M24QT9BD3GB6Z94N6768ZCRZ",
+        "version": 15,
+        "executionId": "01M24ZGST02F189G3T96XP0K63",
+        "reportId": "01M24ZGTFZ9N5VDB3M3JSP5G1H",
+        "resultRows": 6,
+        "statuses": {
+          "pending": 6
+        }
+      },
+      {
+        "deviceId": "01M24QT76ZJXWVTZ6NS8H51DZ8",
+        "name": "4#皮带机B",
+        "workflowId": "01M24QT9QC66X6RMCMNMVPVPP8",
+        "version": 15,
+        "executionId": "01M24ZGTVGPG5X294H9M687XEQ",
+        "reportId": "01M24ZGVEG8VZEX2NPS9711M8P",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT78TB6E3BPPK009D4RQZ",
+        "name": "3#皮带机",
+        "workflowId": "01M24QTA3PQ6MTFFHXKMZTN9TM",
+        "version": 15,
+        "executionId": "01M24ZGVTZG074P30KVX2GP13G",
+        "reportId": "01M24ZGWENHER8FWQKAN8B8F8Z",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7ANS34X2G3CD290VK27",
+        "name": "减速机",
+        "workflowId": "01M24QTAFHZMYNYZN3F856F178",
+        "version": 15,
+        "executionId": "01M24ZGWTT80BVV85MMWR6HF96",
+        "reportId": "01M24ZGX2TM8J4VNPK37PW7YT6",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT7CDQ68SF8ZYAV71NS4J",
+        "name": "1-2出炉小车",
+        "workflowId": "01M24QTATZ4AWK5JT4VA4DGQ67",
+        "version": 15,
+        "executionId": "01M24ZGXCYPQ09KA443264NHE6",
+        "reportId": "01M24ZGXP0Z3812GAW4TP7DFSG",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT7EA413MC98CHGTRZ59N",
+        "name": "2#炉出炉机器人B",
+        "workflowId": "01M24QTB6WQB3X5CZS5WSQXSRD",
+        "version": 15,
+        "executionId": "01M24ZGXZXXM8TJQGXFB1QRJ9R",
+        "reportId": "01M24ZGYB1C88DCFN8122CC6Y9",
+        "resultRows": 5,
+        "statuses": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7G4HQDR4ZP566N5HJ2V",
+        "name": "5#皮带机B",
+        "workflowId": "01M24QTBJ09BAV8HXQVV7P442K",
+        "version": 15,
+        "executionId": "01M24ZGYNXRQ9HCE7A02HEH23E",
+        "reportId": "01M24ZGZ83KVTAFFNGEY56HCMA",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7J803Z7AFM6T0ZWMYEM",
+        "name": "1#炉出炉机器人C",
+        "workflowId": "01M24QTBXVGVMRCMX96JWQ7ZJH",
+        "version": 15,
+        "executionId": "01M24ZGZKRHH4JKDWPWGK4AW80",
+        "reportId": "01M24ZGZZRQJ8M6A738JH0ES2Y",
+        "resultRows": 5,
+        "statuses": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7M22222PPR9SFHTR69S",
+        "name": "8#皮带机",
+        "workflowId": "01M24QTC9JKJ1N0A8R36EEJ1Q7",
+        "version": 15,
+        "executionId": "01M24ZH0AR4HBQ9D9H829WPA9D",
+        "reportId": "01M24ZH110S77MWQR7S5J6SG57",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7NRQGQ59ZHR2V4NCHMK",
+        "name": "1-3出炉小车",
+        "workflowId": "01M24QTCMZ9CEAVYKJJGR66JVX",
+        "version": 15,
+        "executionId": "01M24ZH1D9W0EQPAC5MQ20PP04",
+        "reportId": "01M24ZH1P008Q8B884TNVQTZ5T",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT7QFXQ461Q5KN7WKPTEH",
+        "name": "1#炉出炉机器人A",
+        "workflowId": "01M24QTD08K2VAFVBYDXRX0DFT",
+        "version": 15,
+        "executionId": "01M24ZH1ZV6JKAREFX0A6M66RY",
+        "reportId": "01M24ZH2CHPMXCZ9XTQ81R077R",
+        "resultRows": 5,
+        "statuses": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7SAFJ9R17ZJ681XP2XM",
+        "name": "2#皮带机",
+        "workflowId": "01M24QTDBZ75X6ZJEMYQ822AV3",
+        "version": 15,
+        "executionId": "01M24ZH2QJZPZ6MY9PBH5DPEYA",
+        "reportId": "01M24ZH3A7SBRCEJZCRYXM8THR",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7V2R2PDTHTXHX7QT89G",
+        "name": "2#炉出炉机器人C",
+        "workflowId": "01M24QTDRNPMBWNPXEVXTG38T9",
+        "version": 15,
+        "executionId": "01M24ZH3PWDMAFND2E77WXDB8R",
+        "reportId": "01M24ZH42FSG1ZTK6GT4E4B9GW",
+        "resultRows": 5,
+        "statuses": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7WSE0XT225HKBCA5B3H",
+        "name": "1#主变",
+        "workflowId": "01M24QTE4E73W5E01978ARRX00",
+        "version": 15,
+        "executionId": "01M24ZH4ENNJG8BCHNE90B7Y8V",
+        "reportId": "01M24ZH7Z79ZDQMZ98JVN9BW7S",
+        "resultRows": 18,
+        "statuses": {
+          "warning": 1,
+          "pending": 17
+        }
+      },
+      {
+        "deviceId": "01M24QT7YH7P0E5GHVA7X49F81",
+        "name": "配料站配电室",
+        "workflowId": "01M24QTEFTWVRWWBE7C95YJT7Y",
+        "version": 15,
+        "executionId": "01M24ZH8E0T7BQ7QDST4P9N4MW",
+        "reportId": "01M24ZH9HS39FSF3M7GT2T9ASH",
+        "resultRows": 4,
+        "statuses": {
+          "warning": 1,
+          "pending": 3
+        }
+      },
+      {
+        "deviceId": "01M24QT80F06AKWQMJJYT7JAGV",
+        "name": "2#炉出炉机器人A",
+        "workflowId": "01M24QTEW0B2CKN39AAE354N56",
+        "version": 15,
+        "executionId": "01M24ZH9WRPZA7HFTC67WYGZYZ",
+        "reportId": "01M24ZHA8ERZWE1QKX7QK907V5",
+        "resultRows": 5,
+        "statuses": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT8281W9573SBX48GSE95",
+        "name": "2-1西出炉小车",
+        "workflowId": "01M24QTF8172ZXP5608FCKGEZB",
+        "version": 15,
+        "executionId": "01M24ZHAJZQTF68PJ5PRGEPCPR",
+        "reportId": "01M24ZHATY9R3S89V8PMAMD50C",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT83YRV7FQHM3J9EH7C0E",
+        "name": "1#皮带机",
+        "workflowId": "01M24QTFM20TPNYQHS86CTVRVC",
+        "version": 15,
+        "executionId": "01M24ZHB4T5361X2B2HK6BF3WS",
+        "reportId": "01M24ZHBQS30PVM3JB1T3C9KBY",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT85QPPFRQZ8V85WJVJ09",
+        "name": "5#皮带机A",
+        "workflowId": "01M24QTFZY0FZW8ZDRTAW1MD9D",
+        "version": 15,
+        "executionId": "01M24ZHC3GKE8PG445559EF8R1",
+        "reportId": "01M24ZHCZ5SQCZ1YEG8XXGDQYG",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT87FQ5GDXTWG1BJMAV1S",
+        "name": "2-3出炉小车",
+        "workflowId": "01M24QTGCE58MX4Y8HPTXTP71S",
+        "version": 15,
+        "executionId": "01M24ZHDAEF1E1GMRN21Z2MJGC",
+        "reportId": "01M24ZHDKG56CX49YQASBX31CR",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT897VM0GM0FEWQBWXD8E",
+        "name": "2#主变",
+        "workflowId": "01M24QTGSVXKSFHNDN20GWVQCM",
+        "version": 15,
+        "executionId": "01M24ZHDZ2SXWQ067ASKJEK37D",
+        "reportId": "01M24ZHHFYP177BKRMS9W9BY6V",
+        "resultRows": 18,
+        "statuses": {
+          "warning": 1,
+          "pending": 17
+        }
+      },
+      {
+        "deviceId": "01M24QT8AYNV12AYS45VAE8TR8",
+        "name": "2-1东出炉小车",
+        "workflowId": "01M24QTH900BB4NT387P2KZYRD",
+        "version": 15,
+        "executionId": "01M24ZHHX1DH5KZN54CQH9DYQY",
+        "reportId": "01M24ZHJ52AB8WADF7DZ8QD4QA",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8CQMJ06P4D9Z6FE41Y3",
+        "name": "4#皮带机A",
+        "workflowId": "01M24QTHN6TYQ34AX0XPXD5H5W",
+        "version": 15,
+        "executionId": "01M24ZHJF2BQZV14NTA8D5ETRJ",
+        "reportId": "01M24ZHK1GXTAFATY4HQX4542Q",
+        "resultRows": 12,
+        "statuses": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT8EFD1M5EAV9DBHGND1Q",
+        "name": "柴油发电机",
+        "workflowId": "01M24QTHYA7BQW8XSESDNRNFEE",
+        "version": 15,
+        "executionId": "01M24ZHKGVSBQJRJFFHNT4WTEV",
+        "reportId": "01M24ZHPPRP1M8BKS3JD0Y505B",
+        "resultRows": 16,
+        "statuses": {
+          "warning": 1,
+          "pending": 15
+        }
+      },
+      {
+        "deviceId": "01M24QT8G97ZGPHFWN78N7PX8K",
+        "name": "2-2出炉小车",
+        "workflowId": "01M24QTJ7BM6P8ND1ZG7GQPMYB",
+        "version": 15,
+        "executionId": "01M24ZHQ4T3RA4Z8F2656EWB7E",
+        "reportId": "01M24ZHQCK17Y5Q0M8GBA8J4X8",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8J15E69X6QJTRQF7GHM",
+        "name": "1-1西出炉小车",
+        "workflowId": "01M24QTJG8Q3M5YT2FB1DNZ3AD",
+        "version": 15,
+        "executionId": "01M24ZHQPKXFKGMYXYR7NY113Y",
+        "reportId": "01M24ZHQYKS5DCXE90BFGFTA2M",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8KT2QGH95SY4PSV1VPH",
+        "name": "1#炉环形加料机",
+        "workflowId": "01M24QTJRZGV40QRWRKKKA9JPQ",
+        "version": 15,
+        "executionId": "01M24ZHR8K2ZTWTEW8BH5JRKS3",
+        "reportId": "01M24ZHRJK7SDNW7X07EFYZ797",
+        "resultRows": 3,
+        "statuses": {
+          "pending": 3
+        }
+      },
+      {
+        "deviceId": "01M24QT8NHGRHTZ25JJYVP14W3",
+        "name": "1-1东出炉小车",
+        "workflowId": "01M24QTK2SRP8WTSNJ05JV7W45",
+        "version": 15,
+        "executionId": "01M24ZHRWQQGFP5XPNY3KMA27Q",
+        "reportId": "01M24ZHS47FV7Q3C8AP3JV8SWG",
+        "resultRows": 1,
+        "statuses": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8QB8F2TPXH32ED0730F",
+        "name": "直流充电屏",
+        "workflowId": "01M24QTKBCXR8GKD2HM1QY6J4E",
+        "version": 15,
+        "executionId": "01M24ZHSFQN8ZC2AAF8J23E9SX",
+        "reportId": "01M24ZHV988D1VV43843EG08NH",
+        "resultRows": 8,
+        "statuses": {
+          "warning": 1,
+          "pending": 7
+        }
+      },
+      {
+        "deviceId": "01M24QT8S9K944X9YBW87BHG8P",
+        "name": "原料配电室",
+        "workflowId": "01M24QTKM0ZQA4WPC66GB1193Y",
+        "version": 15,
+        "executionId": "01M24ZHVPMDEPCDK9E7VMVQ43E",
+        "reportId": "01M24ZHXFPB7A7718PA148EXS3",
+        "resultRows": 8,
+        "statuses": {
+          "warning": 1,
+          "pending": 7
+        }
+      },
+      {
+        "deviceId": "01M24QT8V2XTSPEW0FXD4S2MFD",
+        "name": "石灰窑配电室",
+        "workflowId": "01M24QTKWGSZXRR3806PAVZHKS",
+        "version": 15,
+        "executionId": "01M24ZHXWJAKDPP8EDSM3TRJX6",
+        "reportId": "01M24ZHZQ6QVGDFNNFSS5VHTEA",
+        "resultRows": 8,
+        "statuses": {
+          "warning": 1,
+          "pending": 7
+        }
+      }
+    ],
+    "statuses": {
+      "pending": 215,
+      "warning": 7
+    },
+    "completedInspectionSample": {
+      "executionId": "01M24X7NFTGCJA25HGJQEXV8F0",
+      "asOf": "2026-08-12 07:00:00",
+      "statuses": {
+        "normal": 43,
+        "pending": 37
+      },
+      "missingVoltageMeasurement": "pending",
+      "manualQualitativeConfirmationVerified": true
+    },
+    "supersededValidationProblems": {
+      "count": 1162,
+      "status": "ignored",
+      "originalReportsRetained": true,
+      "onlyPreviouslyUntouchedOpenIssues": true,
+      "manualActionsOverwritten": false
+    },
+    "historyCompatibilityFix": {
+      "commit": "f22a465",
+      "regressionTestsPassed": 2,
+      "oldReportHttp": 200,
+      "oldReportHttps": 200,
+      "oldExecutionHttp": 200,
+      "oldExecutionHttps": 200,
+      "staleNewExecutionRejected": true,
+      "revokedHistoryAccessRejected": true
+    },
+    "latestOpenFindingCount": 222,
+    "historicalCodeNodeTestsPassed": 21,
+    "currentImplementation": "generic value nodes and visible conditions",
+    "currentValueTestsPassed": 23
+  },
+  "valueWorkflowConfiguration": {
+    "implementedAt": "2026-09-10",
+    "pattern": [
+      "read-values",
+      "calculate-values",
+      "condition",
+      "output-values",
+      "end"
+    ],
+    "datasetCount": 4,
+    "publicWorkflowCount": 3,
+    "deviceWorkflowCount": 32,
+    "hasCodeOrSqlNodes": false,
+    "actualDeviceResultRows": 222,
+    "actualDeviceOutcomes": {
+      "pending": 215,
+      "warning": 7
+    },
+    "actualReports": [
+      "01M24ZGSD2FJN3VQY7XJXGA0BN",
+      "01M24ZGTFZ9N5VDB3M3JSP5G1H",
+      "01M24ZGVEG8VZEX2NPS9711M8P",
+      "01M24ZGWENHER8FWQKAN8B8F8Z",
+      "01M24ZGX2TM8J4VNPK37PW7YT6",
+      "01M24ZGXP0Z3812GAW4TP7DFSG",
+      "01M24ZGYB1C88DCFN8122CC6Y9",
+      "01M24ZGZ83KVTAFFNGEY56HCMA",
+      "01M24ZGZZRQJ8M6A738JH0ES2Y",
+      "01M24ZH110S77MWQR7S5J6SG57",
+      "01M24ZH1P008Q8B884TNVQTZ5T",
+      "01M24ZH2CHPMXCZ9XTQ81R077R",
+      "01M24ZH3A7SBRCEJZCRYXM8THR",
+      "01M24ZH42FSG1ZTK6GT4E4B9GW",
+      "01M24ZH7Z79ZDQMZ98JVN9BW7S",
+      "01M24ZH9HS39FSF3M7GT2T9ASH",
+      "01M24ZHA8ERZWE1QKX7QK907V5",
+      "01M24ZHATY9R3S89V8PMAMD50C",
+      "01M24ZHBQS30PVM3JB1T3C9KBY",
+      "01M24ZHCZ5SQCZ1YEG8XXGDQYG",
+      "01M24ZHDKG56CX49YQASBX31CR",
+      "01M24ZHHFYP177BKRMS9W9BY6V",
+      "01M24ZHJ52AB8WADF7DZ8QD4QA",
+      "01M24ZHK1GXTAFATY4HQX4542Q",
+      "01M24ZHPPRP1M8BKS3JD0Y505B",
+      "01M24ZHQCK17Y5Q0M8GBA8J4X8",
+      "01M24ZHQYKS5DCXE90BFGFTA2M",
+      "01M24ZHRJK7SDNW7X07EFYZ797",
+      "01M24ZHS47FV7Q3C8AP3JV8SWG",
+      "01M24ZHV988D1VV43843EG08NH",
+      "01M24ZHXFPB7A7718PA148EXS3",
+      "01M24ZHZQ6QVGDFNNFSS5VHTEA"
+    ],
+    "public": {
+      "maintenance": {
+        "workflowId": "01M24QF9QNRW8FTMX1KYJNA359",
+        "version": 18,
+        "executionId": "01M24ZG568SXW3RF5GNF570CC2",
+        "rows": 141,
+        "status": {
+          "pending": 141
+        }
+      },
+      "inspection": {
+        "workflowId": "01M24QF9MTR6JVEGJESTQCW507",
+        "version": 18,
+        "executionId": "01M24ZGACJD91JDPNXZ1GTM4NQ",
+        "rows": 80,
+        "status": {
+          "warning": 7,
+          "pending": 73
+        }
+      },
+      "repair": {
+        "workflowId": "01M24QF9TGSDMSTWW5906SVFMF",
+        "version": 18,
+        "executionId": "01M24ZGR2QPYTRYKFTAAJMWT6K",
+        "rows": 24,
+        "status": {
+          "pending": 24
+        }
+      }
+    },
+    "deviceGraphs": [
+      {
+        "deviceId": "01M24QT72DST6R6BQTWJBYCYXT",
+        "workflowId": "01M24QT8ZF8QRWA3662JP71E80",
+        "version": 15,
+        "rows": 3,
+        "status": {
+          "pending": 3
+        }
+      },
+      {
+        "deviceId": "01M24QT74QG1GKYNZGAXXY7P2E",
+        "workflowId": "01M24QT9BD3GB6Z94N6768ZCRZ",
+        "version": 15,
+        "rows": 6,
+        "status": {
+          "pending": 6
+        }
+      },
+      {
+        "deviceId": "01M24QT76ZJXWVTZ6NS8H51DZ8",
+        "workflowId": "01M24QT9QC66X6RMCMNMVPVPP8",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT78TB6E3BPPK009D4RQZ",
+        "workflowId": "01M24QTA3PQ6MTFFHXKMZTN9TM",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7ANS34X2G3CD290VK27",
+        "workflowId": "01M24QTAFHZMYNYZN3F856F178",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT7CDQ68SF8ZYAV71NS4J",
+        "workflowId": "01M24QTATZ4AWK5JT4VA4DGQ67",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT7EA413MC98CHGTRZ59N",
+        "workflowId": "01M24QTB6WQB3X5CZS5WSQXSRD",
+        "version": 15,
+        "rows": 5,
+        "status": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7G4HQDR4ZP566N5HJ2V",
+        "workflowId": "01M24QTBJ09BAV8HXQVV7P442K",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7J803Z7AFM6T0ZWMYEM",
+        "workflowId": "01M24QTBXVGVMRCMX96JWQ7ZJH",
+        "version": 15,
+        "rows": 5,
+        "status": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7M22222PPR9SFHTR69S",
+        "workflowId": "01M24QTC9JKJ1N0A8R36EEJ1Q7",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7NRQGQ59ZHR2V4NCHMK",
+        "workflowId": "01M24QTCMZ9CEAVYKJJGR66JVX",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT7QFXQ461Q5KN7WKPTEH",
+        "workflowId": "01M24QTD08K2VAFVBYDXRX0DFT",
+        "version": 15,
+        "rows": 5,
+        "status": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7SAFJ9R17ZJ681XP2XM",
+        "workflowId": "01M24QTDBZ75X6ZJEMYQ822AV3",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT7V2R2PDTHTXHX7QT89G",
+        "workflowId": "01M24QTDRNPMBWNPXEVXTG38T9",
+        "version": 15,
+        "rows": 5,
+        "status": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT7WSE0XT225HKBCA5B3H",
+        "workflowId": "01M24QTE4E73W5E01978ARRX00",
+        "version": 15,
+        "rows": 18,
+        "status": {
+          "warning": 1,
+          "pending": 17
+        }
+      },
+      {
+        "deviceId": "01M24QT7YH7P0E5GHVA7X49F81",
+        "workflowId": "01M24QTEFTWVRWWBE7C95YJT7Y",
+        "version": 15,
+        "rows": 4,
+        "status": {
+          "warning": 1,
+          "pending": 3
+        }
+      },
+      {
+        "deviceId": "01M24QT80F06AKWQMJJYT7JAGV",
+        "workflowId": "01M24QTEW0B2CKN39AAE354N56",
+        "version": 15,
+        "rows": 5,
+        "status": {
+          "pending": 5
+        }
+      },
+      {
+        "deviceId": "01M24QT8281W9573SBX48GSE95",
+        "workflowId": "01M24QTF8172ZXP5608FCKGEZB",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT83YRV7FQHM3J9EH7C0E",
+        "workflowId": "01M24QTFM20TPNYQHS86CTVRVC",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT85QPPFRQZ8V85WJVJ09",
+        "workflowId": "01M24QTFZY0FZW8ZDRTAW1MD9D",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT87FQ5GDXTWG1BJMAV1S",
+        "workflowId": "01M24QTGCE58MX4Y8HPTXTP71S",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT897VM0GM0FEWQBWXD8E",
+        "workflowId": "01M24QTGSVXKSFHNDN20GWVQCM",
+        "version": 15,
+        "rows": 18,
+        "status": {
+          "warning": 1,
+          "pending": 17
+        }
+      },
+      {
+        "deviceId": "01M24QT8AYNV12AYS45VAE8TR8",
+        "workflowId": "01M24QTH900BB4NT387P2KZYRD",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8CQMJ06P4D9Z6FE41Y3",
+        "workflowId": "01M24QTHN6TYQ34AX0XPXD5H5W",
+        "version": 15,
+        "rows": 12,
+        "status": {
+          "pending": 12
+        }
+      },
+      {
+        "deviceId": "01M24QT8EFD1M5EAV9DBHGND1Q",
+        "workflowId": "01M24QTHYA7BQW8XSESDNRNFEE",
+        "version": 15,
+        "rows": 16,
+        "status": {
+          "warning": 1,
+          "pending": 15
+        }
+      },
+      {
+        "deviceId": "01M24QT8G97ZGPHFWN78N7PX8K",
+        "workflowId": "01M24QTJ7BM6P8ND1ZG7GQPMYB",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8J15E69X6QJTRQF7GHM",
+        "workflowId": "01M24QTJG8Q3M5YT2FB1DNZ3AD",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8KT2QGH95SY4PSV1VPH",
+        "workflowId": "01M24QTJRZGV40QRWRKKKA9JPQ",
+        "version": 15,
+        "rows": 3,
+        "status": {
+          "pending": 3
+        }
+      },
+      {
+        "deviceId": "01M24QT8NHGRHTZ25JJYVP14W3",
+        "workflowId": "01M24QTK2SRP8WTSNJ05JV7W45",
+        "version": 15,
+        "rows": 1,
+        "status": {
+          "pending": 1
+        }
+      },
+      {
+        "deviceId": "01M24QT8QB8F2TPXH32ED0730F",
+        "workflowId": "01M24QTKBCXR8GKD2HM1QY6J4E",
+        "version": 15,
+        "rows": 8,
+        "status": {
+          "warning": 1,
+          "pending": 7
+        }
+      },
+      {
+        "deviceId": "01M24QT8S9K944X9YBW87BHG8P",
+        "workflowId": "01M24QTKM0ZQA4WPC66GB1193Y",
+        "version": 15,
+        "rows": 8,
+        "status": {
+          "warning": 1,
+          "pending": 7
+        }
+      },
+      {
+        "deviceId": "01M24QT8V2XTSPEW0FXD4S2MFD",
+        "workflowId": "01M24QTKWGSZXRR3806PAVZHKS",
+        "version": 15,
+        "rows": 8,
+        "status": {
+          "warning": 1,
+          "pending": 7
+        }
+      }
+    ],
+    "lan": [
+      {
+        "base": "http://192.168.6.16:8011",
+        "httpsCertificateVerified": false,
+        "publicWorkflowDetailHistoryMonitor": 200,
+        "readValueDatasetOptions": 200,
+        "deviceReport": 200,
+        "pageAndCurrentAssets": 200
+      },
+      {
+        "base": "https://192.168.6.16:8443",
+        "httpsCertificateVerified": true,
+        "publicWorkflowDetailHistoryMonitor": 200,
+        "readValueDatasetOptions": 200,
+        "deviceReport": 200,
+        "pageAndCurrentAssets": 200
+      }
+    ],
+    "sourceWrites": false,
+    "browserVerified": false,
+    "browserBlocker": "Chrome runtime missing browser-service.mjs",
+    "limitations": [
+      "source is an imported copy",
+      "complex oil quantity/independent oil-change evidence remains pending",
+      "calendar month/year cycle calculation is not configured"
+    ],
+    "regressionTestsPassed": 62,
+    "frontendBuild": "vue-tsc and vite passed",
+    "oldValidationFindings": {
+      "count": 1162,
+      "status": "ignored",
+      "originalReportsRetained": true,
+      "onlyPreviouslyUntouchedOpenIssues": true,
+      "manualActionsOverwritten": false
+    }
+  },
+  "qualityValueWorkflowConfiguration": {
+    "implementedAt": "2026-09-10",
+    "publicWorkflowCount": 3,
+    "datasetCount": 4,
+    "hasCodeOrSqlOrSubflowNodes": false,
+    "sourceWrites": false,
+    "actual": {
+      "incoming": {
+        "workflowId": "01M24QF99MPR288FQZRZ16NK24",
+        "version": 10,
+        "executionId": "01M255HR0G3GN29X6551YJJ4X2",
+        "outputs": {
+          "gas1_end": 0,
+          "gas2_end": 0,
+          "statistics_end": 538,
+          "measurements_end": 3808,
+          "end": 662
+        },
+        "status": {
+          "warning": 277,
+          "pending": 154,
+          "normal": 231
+        },
+        "durationMs": 50203
+      },
+      "process": {
+        "workflowId": "01M24QF9EGFHG51NK8DDGWQD0J",
+        "version": 10,
+        "executionId": "01M255M81FRY30CVKXTRWM6Z0X",
+        "outputs": {
+          "gas1_end": 0,
+          "gas2_end": 0,
+          "statistics_end": 0,
+          "measurements_end": 2787,
+          "end": 502
+        },
+        "status": {
+          "warning": 215,
+          "pending": 287
+        },
+        "durationMs": 21530
+      },
+      "finished": {
+        "workflowId": "01M24QF9HDTXTXC3YA55BHXVVQ",
+        "version": 10,
+        "executionId": "01M255N906MTQ4ZP6KKGSV1H0Q",
+        "outputs": {
+          "gas1_end": 944,
+          "gas2_end": 739,
+          "statistics_end": 0,
+          "measurements_end": 5438,
+          "end": 1980
+        },
+        "status": {
+          "pending": 1980
+        },
+        "durationMs": 103171
+      }
+    },
+    "originalNumericMeasurementRows": {
+      "incoming": 3104,
+      "process": 775,
+      "finished": 0
+    },
+    "detailRowsIncludeMissingRequiredItems": true,
+    "lan": [
+      {
+        "base": "http://192.168.6.16:8011",
+        "sixFlowDetailHistoryMonitor": 200,
+        "datasetOptions": 8,
+        "qualityPagesAndCurrentAssets": 200,
+        "certificateVerified": false
+      },
+      {
+        "base": "https://192.168.6.16:8443",
+        "sixFlowDetailHistoryMonitor": 200,
+        "datasetOptions": 8,
+        "qualityPagesAndCurrentAssets": 200,
+        "certificateVerified": true
+      }
+    ],
+    "filterChecks": {
+      "incoming": {
+        "executionId": "01M2560926KP8KZ4JJHZBR80SG",
+        "rows": 1,
+        "matchesFullRun": true,
+        "unexpectedCategoryInputRejected": true
+      },
+      "process": {
+        "executionId": "01M2560BJSJ03AZE5P9PDCFM13",
+        "rows": 7,
+        "matchesFullRun": true,
+        "unexpectedCategoryInputRejected": true
+      },
+      "finished": {
+        "executionId": "01M2560EBBG4PW7K9CKR7K2HTF",
+        "rows": 1,
+        "matchesFullRun": true,
+        "unexpectedCategoryInputRejected": true
+      }
+    },
+    "tests": {
+      "passed": 95,
+      "frontendTypecheckAndBuild": true
+    },
+    "browserVerified": false,
+    "browserBlocker": "Chrome runtime missing browser-service.mjs",
+    "limitations": [
+      "source is an imported copy",
+      "concession tiers and approval requirements remain unconfirmed",
+      "finished gas measurement standards remain incomplete; no automatic release"
+    ]
+  }
+}

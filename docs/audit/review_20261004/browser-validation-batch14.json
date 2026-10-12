@@ -1,0 +1,269 @@
+{
+  "batch": "2026-10-04-major-14",
+  "scope": "真实Edge+当前DSH宿主/Python Worker；临时SQLite/合成文件/回环设备和模型桩；不连接szh_new或外部模型",
+  "product_source_commit": "e28b35b194a5ea84c8dbe26ed5eb68b07763aac2",
+  "source_worktree_was_clean": true,
+  "status": "passed-listed-suites",
+  "iterations_per_suite": 1,
+  "business_groups": 114,
+  "original_manifest": ".implementation/full-business-browser/20261004-112004-592cae07/manifest.json",
+  "original_manifest_sha256": "9bd57368f19383cd706406d4d4450195e50a588676c2d4fd12fef528935e23e4",
+  "started_at": "2026-10-04T03:20:04.051748+00:00",
+  "completed_at": "2026-10-04T03:28:45.505237+00:00",
+  "checks": [
+    {
+      "iteration": 1,
+      "suite": "system",
+      "started_at": "2026-10-04T03:20:04.180540+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:51174",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 210,
+        "blocked_requests": 103,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 103
+      },
+      "finished_at": "2026-10-04T03:20:47.440717+00:00",
+      "seconds": 43.265,
+      "business_groups": 14,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-system/browser.log",
+      "browser_log_sha256": "473b11b618c40927b447f4761c5995a59d361f0c3fc9caeb5b69cf35e7131495",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-system-mut96d6m",
+      "ui_result_sha256": "798495a428e2555d4c4b6da5ed4e5564b3518a187d2e19d7eb3a2b2895342e2b"
+    },
+    {
+      "iteration": 1,
+      "suite": "content",
+      "started_at": "2026-10-04T03:20:47.442315+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:49758",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 283,
+        "blocked_requests": 135,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 135
+      },
+      "finished_at": "2026-10-04T03:21:55.603264+00:00",
+      "seconds": 68.157,
+      "business_groups": 14,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-content/browser.log",
+      "browser_log_sha256": "b9c9ce1b94b72a45182287767aecea9bb0bd2ea1e29e4f6623f4ad8057484ba9",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-content-mut97af4",
+      "ui_result_sha256": "482ef54d2d37f66b7d45563aac371b3e260ffd2af496c280750712b713022ea2"
+    },
+    {
+      "iteration": 1,
+      "suite": "capability",
+      "started_at": "2026-10-04T03:21:55.605683+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:63858",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 270,
+        "blocked_requests": 144,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 144
+      },
+      "finished_at": "2026-10-04T03:22:56.962561+00:00",
+      "seconds": 61.359,
+      "business_groups": 13,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-capability/browser.log",
+      "browser_log_sha256": "b108dd3861f39045ca5ef800b6b987d6fe25ba68e41f3ef0bd2da3ac2943f380",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-capability-mut98rlr",
+      "ui_result_sha256": "46c48035a4297113f2b0b741da833683fa2c60a786ab936aff9a6f3c26d5ab4a"
+    },
+    {
+      "iteration": 1,
+      "suite": "graph",
+      "started_at": "2026-10-04T03:22:56.964572+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:58994",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 203,
+        "blocked_requests": 84,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 84
+      },
+      "finished_at": "2026-10-04T03:23:34.855809+00:00",
+      "seconds": 37.891,
+      "business_groups": 9,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-graph/browser.log",
+      "browser_log_sha256": "05ad5284cd84582f13772efcefa6f9abf5a7f6363d4a4c596204c9e2c8b625bf",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-graph-mut9a2w0",
+      "ui_result_sha256": "5dadb64070f8609aa9c9bf8dfdc0c1eb3c8734bc71083db0211eafbf654007b6"
+    },
+    {
+      "iteration": 1,
+      "suite": "analytics",
+      "started_at": "2026-10-04T03:23:34.857809+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:63766",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 199,
+        "blocked_requests": 75,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 75
+      },
+      "finished_at": "2026-10-04T03:24:14.172949+00:00",
+      "seconds": 39.328,
+      "business_groups": 14,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-analytics/browser.log",
+      "browser_log_sha256": "1286c2835b65fcb2cf7b5daf0ae8dc417683292261553eabfd4dcdd3810c613e",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-analytics-mut9aw81",
+      "ui_result_sha256": "cf93f95027f8561057ce14a6c3da6e04d184e0e50174d763cb782cbf90f219a6"
+    },
+    {
+      "iteration": 1,
+      "suite": "alert",
+      "started_at": "2026-10-04T03:24:14.174968+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:59455",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 314,
+        "blocked_requests": 115,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 115
+      },
+      "finished_at": "2026-10-04T03:24:57.725099+00:00",
+      "seconds": 43.547,
+      "business_groups": 16,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-alert/browser.log",
+      "browser_log_sha256": "21c4204727edc905d0089a65c891413bdff20f8f1958c3d9015ae7d6f7f65c1d",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-alert-mut9bqoy",
+      "ui_result_sha256": "1fac2cbba5fa3a72080007453c6afbaaaa20015d949fe64c2b390698b7d342c5"
+    },
+    {
+      "iteration": 1,
+      "suite": "quality",
+      "started_at": "2026-10-04T03:24:57.727099+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:60223",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 282,
+        "blocked_requests": 117,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 117
+      },
+      "finished_at": "2026-10-04T03:25:42.392648+00:00",
+      "seconds": 44.671,
+      "business_groups": 11,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-quality/browser.log",
+      "browser_log_sha256": "7a5425fefb00864493b1dd8f0e9a4319649f510d2c5b4995245d899345dee319",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-quality-mut9coh7",
+      "ui_result_sha256": "4fba0bc4360a2dc14cd6c3be3b39197723c9d8edbe1d1b8e4c476973f8cfe34b"
+    },
+    {
+      "iteration": 1,
+      "suite": "workflow",
+      "started_at": "2026-10-04T03:25:42.397648+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:53848",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 0,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 274,
+        "blocked_requests": 146,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 146
+      },
+      "finished_at": "2026-10-04T03:26:34.256774+00:00",
+      "seconds": 51.86,
+      "business_groups": 11,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-workflow/browser.log",
+      "browser_log_sha256": "4fe45c16a5186ff1a5a44b68333dbbf48051707784d0159458a9648586c37471",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-workflow-mut9dmt8",
+      "ui_result_sha256": "8f8561018b265017cd86c11a525ad1fa5e481c0c585247d810fdd297a886730b"
+    },
+    {
+      "iteration": 1,
+      "suite": "ai_documents",
+      "started_at": "2026-10-04T03:26:34.258774+00:00",
+      "status": "passed",
+      "base_url": "http://127.0.0.1:53232",
+      "process_boundary": "windows_job",
+      "exit_code": 0,
+      "process_cleanup": {
+        "method": "windows_job",
+        "active_before": 1,
+        "active_after": 0
+      },
+      "network": {
+        "allowed_requests": 286,
+        "blocked_requests": 84,
+        "unexpected_requests": 0,
+        "application_blocked_requests": 0,
+        "background_candidate_requests": 84
+      },
+      "finished_at": "2026-10-04T03:28:45.499029+00:00",
+      "seconds": 131.234,
+      "business_groups": 12,
+      "browser_log": ".implementation/full-business-browser/20261004-112004-592cae07/001-ai_documents/browser.log",
+      "browser_log_sha256": "c2352fefbc0d2560df657c7217af87afddf3cdf492e78ef983ab947a8da25118",
+      "ui_evidence_directory": ".implementation/ui-results/full-browser-ai-documents-mut9eqvr",
+      "ui_result_sha256": "1ea3c376824889cca0798cc088a83f88892cb407702279958a4cc65c8acbdd26"
+    }
+  ],
+  "goal_complete": false,
+  "service_8011_loaded": "unconfirmed-not-restarted"
+}

@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "started_at": "2026-10-04T03:19:14.361596+00:00",
+  "scope": "临时SQLite、本机模型桩；不连接业务库、外部模型或在用8011",
+  "guard_files_sha256": {
+    "tests/dsh/python_guard/sitecustomize.py": "d33816e7b5def19594207bca2a36819b44b0109e9faa955e2aa47f8f675f68a0",
+    "tests/dsh/test_python_socketpair_guard.py": "641c115a86c0e64e78b945eca5f881e6e0044730704d513de7937806fc562a48"
+  },
+  "checks": [
+    {
+      "name": "host-completion",
+      "exit_code": 0,
+      "seconds": 39.078,
+      "log": ".implementation/socketpair-followup/20261004-031914-7786595f/host-completion.log",
+      "log_sha256": "bc10e26422e76bc42e67be3a6452d4c01d0ba3849eb30c3bb21b3906050a3442"
+    },
+    {
+      "name": "native-worker",
+      "exit_code": 0,
+      "seconds": 54.985,
+      "log": ".implementation/socketpair-followup/20261004-031914-7786595f/native-worker.log",
+      "log_sha256": "f3e230a47f3871c0fb9fbec356566b3f3ba590c880a0a96d15ca6808205fb53b"
+    }
+  ],
+  "completed_at": "2026-10-04T03:20:48.439078+00:00",
+  "source_commit": "e28b35b194a5ea84c8dbe26ed5eb68b07763aac2",
+  "provenance": "取码时守卫两文件已冻结，运行期间按相同字节提交；以SHA复核。",
+  "host_completion_tests": 1,
+  "native_model_fixture_requests": 24,
+  "native_checks": [
+    "真实 DSH 宿主启动、静态页面、登录与业务插件目录",
+    "原上传/下载接口在私有Worker转发后字节一致",
+    "实际视觉探测经Worker反向RPC和DSH附件解析，图片内容到达模型请求",
+    "主对话附图：纯文本模型通过read_file识图，多模态模型通过原生图片内容直接接收",
+    "Skill辅助模型与Plugin试运行均反向调用同一DSH宿主",
+    "真实模型流→企业工具→JSON工件→下载；重复请求不重执行",
+    "原生write→present→平台工件卡片→认证下载，源文件与下载字节一致",
+    "业务工件URL误传原生present时确定性复用已授权附件，不搜索文件或创建重复工件",
+    "缺少真实交付物时业务状态为 partial，不能因正文宣称完成而成功",
+    "工具失败后同一会话仍可正常继续",
+    "队列受理、PPT改Word后模型任务约束同步、移除和串行执行闭环",
+    "正文流出后取消：实时终态与刷新历史一致，取消后能继续对话",
+    "重启后以末尾游标恢复旧运行，只返回该运行真实终态，不混入最新任务状态",
+    "宿主重启后恢复原生上下文、业务任务与交付记录"
+  ],
+  "evidence_sha256": {
+    ".implementation/socketpair-followup/20261004-031914-7786595f/manifest.json": "0e32753cc319dd08f001554d75f8ca00e000408cb5cddcb1692c75f1d6551a8b",
+    ".implementation/socketpair-followup/20261004-031914-7786595f/host-completion.xml": "7e43ad996facb069c62af2b45d1296bf3fe55d22019dddf80543923e49505c05",
+    ".implementation/socketpair-followup/20261004-031914-7786595f/native-worker.json": "f3e230a47f3871c0fb9fbec356566b3f3ba590c880a0a96d15ca6808205fb53b",
+    ".implementation/python-socketpair-before.log": "90b4380126e753792f3a66f133ba7cb1e5220687da30b802c55d034fa4076ca2",
+    ".implementation/python-socketpair-after.log": "aa0986bc03d975fa31d44293c9187fbf79f84505d2b11da783296e554fb0174f"
+  },
+  "relation_to_main_gate": "仅守卫随后变动；此前12阶段/909项Python合同证据保持，针对重验不累加独立用例数。",
+  "full_browser_validation": "另存browser-validation-batch14.json，不能由本文件推导九域已通过",
+  "service_8011_loaded": "unconfirmed-not-restarted",
+  "goal_complete": false
+}

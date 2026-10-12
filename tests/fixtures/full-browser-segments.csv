@@ -1,0 +1,3 @@
+segment_type,text,question,answer,enabled
+text,"泵站主轴承温度超过 85 摄氏度时，应停止设备并通知值班主管。",,,true
+qa,,"财务月结前需要核对哪些项目？","核对应收、应付、银行余额、库存与总账差异。",true

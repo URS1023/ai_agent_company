@@ -1,0 +1,914 @@
+{
+  "batch": "2026-10-04-major-16",
+  "status": "passed-listed-gates",
+  "scope": "合成数据、临时SQLite、本机模型桩；不连接业务库或真实模型",
+  "started_at": "2026-10-04T05:06:24.033448+00:00",
+  "completed_at": "2026-10-04T05:28:20.621028+00:00",
+  "source_branch": "codex/major-delivery-acceptance",
+  "source_freeze": {
+    "head": "7c7174f96a283c54da659d719b1632ff7e73eb7f",
+    "created_at": "2026-10-04T05:06:23.827663+00:00",
+    "scope": "大版本十六第二门禁：仅修真实图例每次点击的布局就绪与定位，产品及最终资产未变；保留首轮失败。",
+    "files": [
+      {
+        "path": "apps/analytics/src/components/SmartChart.vue",
+        "sha256": "d60e1e45a3f75c4be9fcbdd4507955aca14a6c8a81860c866e1682e60aa33883"
+      },
+      {
+        "path": "apps/analytics/src/components/jimu-screen/JimuChart.vue",
+        "sha256": "172fd63aefcbdf92e28237ad6fc1a497d6dc7e6b21b07003873125331274ea8f"
+      },
+      {
+        "path": "apps/analytics/src/utils/aiChartOption.js",
+        "sha256": "e5a9bbbb28a187d9157717418b5dfcd0b7f181d2d45b0d8661272a93e5deb0dc"
+      },
+      {
+        "path": "apps/analytics/src/utils/chartPrecision.js",
+        "sha256": "715af71dfa9a4e3455939663030b8c763cda2cee6fcf86bac28fb7e59939be50"
+      },
+      {
+        "path": "apps/analytics/src/utils/dashboardData.js",
+        "sha256": "035c0a4829f27e4995194747f0601fd3a8bda8f8733fcfb75b846574c67ecc0a"
+      },
+      {
+        "path": "apps/analytics/src/utils/snapshotChartOption.js",
+        "sha256": "5984bdb7bc961d7ec42811270ef1699eeaee76e6593ff57842e07980e8ef44b8"
+      },
+      {
+        "path": "apps/web/assets/platform/ai-workbench.css",
+        "sha256": "0681b23186dba7fb3c5bb9bd246f256e8ece0dfba18eaff62537f537ec59e777"
+      },
+      {
+        "path": "backend/app/business_worker/delivery_contract.py",
+        "sha256": "ef95db92e30637c44f66dae84b9b4ec1760ed6645f6fd539055b2e3c3703d1eb"
+      },
+      {
+        "path": "backend/app/business_worker/dispatch_state.py",
+        "sha256": "fed7f1636fe9f654145f67e91873d95884d26050746313cfad35868d9026c1ae"
+      },
+      {
+        "path": "backend/app/business_worker/replay_guard.py",
+        "sha256": "b2fd558b88b61c47aba8356c2d5bcfd9e6c7fa1b1b21f73663d24c6c5aef00eb"
+      },
+      {
+        "path": "backend/app/business_worker/tools.py",
+        "sha256": "b17a0959f9fa1c815976653cfa3d040522f5427900c3df58b13deb9391c518fa"
+      },
+      {
+        "path": "backend/app/modules/analytics/dsh_query_execution.py",
+        "sha256": "3f3e4ec4d37f5f2c9829b6ab288a05bfc8bfb6b299f25e93bed8dda9b1f35a11"
+      },
+      {
+        "path": "backend/app/modules/analytics/execution.py",
+        "sha256": "19c6dc358895337d9d4219a86dce6a2f3afd3de8a0be986afd603b1510363706"
+      },
+      {
+        "path": "backend/app/modules/analytics/exports.py",
+        "sha256": "9c9956b40aad3186c6302468286dd388f176ad1ee1d3507c1c5b13c4447b06b0"
+      },
+      {
+        "path": "backend/app/modules/analytics/queries.py",
+        "sha256": "3f60bebade0e1c7439e57de045c981dc2e57c6eb697eba5b6fee035c88cacadf"
+      },
+      {
+        "path": "backend/app/modules/analytics/query_authority.py",
+        "sha256": "433d32c95c6f0a3f0172a1b9459101be83e51048ca611f642f24082992ba8a4f"
+      },
+      {
+        "path": "backend/app/providers/tool/database_provider.py",
+        "sha256": "3f497c290902f2dfcffd8d2023ce8b9d47ed6d39e2b4ca0e7fbcf9de104c949d"
+      },
+      {
+        "path": "backend/app/providers/tool/gateway.py",
+        "sha256": "25f71461ae224895ae1dc28cf028cf2df78ef707e38d36d236c2490b7433ee8a"
+      },
+      {
+        "path": "scripts/verify_chat_delivery.py",
+        "sha256": "5fc6aa043fd2b7f3d0d9480db49bdd70ab41514d650efbd1f36a31515b947241"
+      },
+      {
+        "path": "services/dsh_host/sessions.mjs",
+        "sha256": "df2d80bcde9873bcb03ddafb63f80b5cc934b3a6453100506182718d169328ca"
+      },
+      {
+        "path": "services/dsh_host/tests/business-tool-receipt.test.mjs",
+        "sha256": "96dbf789793e26d7abd1914e89b78f5304616bdbbf975845a2ece748c38d1839"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_datasource_halt.py",
+        "sha256": "c7ae19f340d87401edff0b5f9dc318cfe8c3c30ea43ca752fd08e4a7b2f86830"
+      },
+      {
+        "path": "tests/backend/test_dsh_task_operation_guard.py",
+        "sha256": "4d7ff25a1d8db45bb1cfe085c7dffe310dbc5bec034466e62a25f510c0fded76"
+      },
+      {
+        "path": "tests/backend/test_http_query_export_contract.py",
+        "sha256": "84fa05028047db5c61cfde3121c2fbd7d1587296df3073f0b9aacd2b5bfee907"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation.py",
+        "sha256": "fa77beb827c491fddcb418747f83e396ee499068db786efcbf20d6cb2869baaa"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_boundaries.py",
+        "sha256": "1263b65f0afe3566c321c39775a89ddbe60ad036cd4ed75eef470ed5d5bce06e"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_dsh.py",
+        "sha256": "a5e79660bde848a5c7eca0a8feddd45cdde98a3cf862ad310bb366765c6e6529"
+      },
+      {
+        "path": "tests/backend/test_query_source_revalidation_replay.py",
+        "sha256": "66344fe61572fda9d8bedb55e51179edd7fc28e1cc8c2610a6a0c3af17b3505e"
+      },
+      {
+        "path": "tests/offline/test_compound_file_inspector.py",
+        "sha256": "1c97de1e4b817a767785a5b04269d69ebffe2ae61fee09c5183bbe7605f7f532"
+      },
+      {
+        "path": "tests/ui/chart_precision.test.cjs",
+        "sha256": "54bb4ac377e33a0fe8f7e919327600de2bfa06dc8c2c22464803670c42f1b3c3"
+      },
+      {
+        "path": "tests/ui/chart_precision_browser.cjs",
+        "sha256": "aee0ce3d92e43adb051898e8eaa2e7676ca9b258db49047812103d159f0e6df0"
+      },
+      {
+        "path": "tests/ui/compound_browser_contract.test.cjs",
+        "sha256": "751a45d009289c3b4a5f456592a5b5b5d753b618ea37e59404b3b7b331f877a7"
+      },
+      {
+        "path": "tests/ui/compound_file_inspector.py",
+        "sha256": "c20e7256971cf999f460ee26a030f3597d28ddd3aebccdbcd065295686de4f67"
+      },
+      {
+        "path": "tests/ui/full_browser_ai_documents_acceptance.js",
+        "sha256": "5c4852dc00c13b65509dd4e49b2c16ae4554d53fc808942b51e9be01b15e49b5"
+      }
+    ],
+    "previous_freeze": ".implementation/batch16-frozen-files-before-oracle7.json",
+    "oracle_changes": [
+      "tests/ui/full_browser_ai_documents_acceptance.js"
+    ]
+  },
+  "summary_head": "d94c8b61fd184285ff84e4d420175f14b1a17124",
+  "original_manifest": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/manifest.json",
+  "original_manifest_sha256": "56b051646e4b3e10c8d6c55c2482505f373186ca1cc6798330b66198e8813332",
+  "phases": [
+    {
+      "name": "python-syntax",
+      "exit_code": 0,
+      "seconds": 0.97,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "backend/compile_check.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/python-syntax.log",
+      "log_sha256": "ffaef988d5ea300fc4f357287f516943195c256ecfea01739f283e184cb12b38"
+    },
+    {
+      "name": "backend-deliveries",
+      "exit_code": 0,
+      "seconds": 231.67,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_task_clarification_delivery.py",
+        "tests/backend/test_business_worker.py",
+        "tests/backend/test_dsh_query_execution.py",
+        "tests/backend/test_dsh_dashboard_delivery.py",
+        "tests/backend/test_template_query_snapshot.py",
+        "tests/backend/test_template_snapshot_matrix.py",
+        "tests/backend/test_openwebui_query_dashboard.py",
+        "tests/backend/test_query_delivery.py",
+        "tests/backend/test_query_presentation.py",
+        "tests/backend/test_query_presentation_report.py",
+        "tests/backend/test_dsh_query_delivery_resume.py",
+        "tests/backend/test_dsh_multiple_presentation_drafts.py",
+        "tests/backend/test_presentation_request_pages.py",
+        "tests/backend/test_presentation_partial_batches.py",
+        "tests/backend/test_presentation_intent_integrity.py",
+        "tests/backend/test_dsh_compound_contract.py",
+        "tests/backend/test_dsh_compound_boundaries.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/backend-deliveries.log",
+      "log_sha256": "f51cd64c80070877720317fe89164754cf2a13f5d56a11cf6df824be6ea5ea30",
+      "pytest_passed": 570,
+      "pytest_seconds": 223.34
+    },
+    {
+      "name": "backend-platform-contracts",
+      "exit_code": 0,
+      "seconds": 439.39,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_tool_schema_contract.py",
+        "tests/backend/test_runtime_tool_registration.py",
+        "tests/backend/test_connector_derivation_contract.py",
+        "tests/backend/test_model_and_workspace_permission_edges.py",
+        "tests/backend/test_auth_token_logout.py",
+        "tests/backend/test_knowledge_search_authority.py",
+        "tests/backend/test_file_template_font_units.py",
+        "tests/backend/test_analytics_snapshot_authorization.py",
+        "tests/backend/test_analytics_chart_snapshot_scope.py",
+        "tests/backend/test_analytics_dsh_and_export_contract.py",
+        "tests/backend/test_analytics_numeric_precision.py",
+        "tests/backend/test_bot_runtime_authorization.py",
+        "tests/backend/test_knowledge_tool_scope.py",
+        "tests/backend/test_business_numeric_wire.py",
+        "tests/backend/test_analytics_config_lifecycle.py",
+        "tests/backend/test_dsh_completion_contract.py",
+        "tests/backend/test_dsh_task_operation_guard.py",
+        "tests/backend/test_dsh_task_datasource_halt.py",
+        "tests/backend/test_runtime_recovery.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/backend-platform-contracts.log",
+      "log_sha256": "543515d80fcf691e28ee81bb71f59b351d5fe9266f559e82ac874a4abdaf6699",
+      "pytest_passed": 391,
+      "pytest_seconds": 430.61
+    },
+    {
+      "name": "backend-data-contracts",
+      "exit_code": 0,
+      "seconds": 411.11,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_query_lifecycle_control.py",
+        "tests/backend/test_query_lifecycle_governance.py",
+        "tests/backend/test_dsh_query_cancellation.py",
+        "tests/backend/test_database_provider.py",
+        "tests/backend/test_datasource_governance.py",
+        "tests/backend/test_analytics_task_control.py",
+        "tests/backend/test_analytics.py",
+        "tests/backend/test_semantic_relation_contract.py",
+        "tests/backend/test_data_profile.py",
+        "tests/backend/test_read_connection_pool.py",
+        "tests/backend/test_graph_property_contracts.py",
+        "tests/backend/test_knowledge_graph.py",
+        "tests/backend/test_graph_explore_contract.py",
+        "tests/backend/test_extraction_source_authority.py",
+        "tests/backend/test_extraction_materialization_contract.py",
+        "tests/backend/test_extraction_review_contract.py",
+        "tests/backend/test_query_source_revalidation.py",
+        "tests/backend/test_query_source_revalidation_boundaries.py",
+        "tests/backend/test_query_source_revalidation_dsh.py",
+        "tests/backend/test_query_source_revalidation_replay.py",
+        "tests/backend/test_http_query_export_contract.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/backend-data-contracts.log",
+      "log_sha256": "f39da16fc09cad9701a862194358d81252358b1989bb106dc596f61beb96d6a9",
+      "pytest_passed": 375,
+      "pytest_seconds": 403.13
+    },
+    {
+      "name": "python-socketpair-guard",
+      "exit_code": 0,
+      "seconds": 0.81,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/test_python_socketpair_guard.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/python-socketpair-guard.log",
+      "log_sha256": "1fb0a6ed4475db8d03cdd1b8bf3763c17c6307a58555b81f8f91eedb5e9fb121",
+      "unittest_passed": 9
+    },
+    {
+      "name": "browser-port-allocation",
+      "exit_code": 0,
+      "seconds": 0.53,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/test_browser_port_allocation.py"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/browser-port-allocation.log",
+      "log_sha256": "cd0f217d615c8f295e481fa4bad633f4bbfa341160e276cdf7d56052091a59e4",
+      "unittest_passed": 4
+    },
+    {
+      "name": "host-recovery",
+      "exit_code": 0,
+      "seconds": 0.38,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "services/dsh_host/tests/recovery-request-window.test.mjs",
+        "services/dsh_host/tests/lifecycle-recovery.test.mjs",
+        "services/dsh_host/tests/event-order.test.mjs",
+        "services/dsh_host/tests/projection.test.mjs",
+        "services/dsh_host/tests/business-tool-receipt.test.mjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/host-recovery.log",
+      "log_sha256": "0bbdc55bc73373e5f11b9a517307624e19868399c247f969f11d87eeba949445"
+    },
+    {
+      "name": "host-completion",
+      "exit_code": 0,
+      "seconds": 39.42,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_dsh_completion_host.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/host-completion.log",
+      "log_sha256": "2a1d2affd1337061aa3d659bbbe43cf265725afc02dc1edacf94a79ec3dc977e",
+      "pytest_passed": 1,
+      "pytest_seconds": 33.55
+    },
+    {
+      "name": "chart-units",
+      "exit_code": 0,
+      "seconds": 0.75,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/snapshot_chart_option.test.js",
+        "tests/ui/saved_dashboard_series.test.js",
+        "tests/ui/chat_dashboard_snapshot.test.js",
+        "tests/ui/chart_precision.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/chart-units.log",
+      "log_sha256": "9164f8a8a7c0516f137e0a4fa4209ef1fa4b29bc665a10afd91b1978c81af25b"
+    },
+    {
+      "name": "compound-file-inspector",
+      "exit_code": 0,
+      "seconds": 1.88,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/offline/test_compound_file_inspector.py",
+        "--disable-warnings"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/compound-file-inspector.log",
+      "log_sha256": "1dcb1efa143af6e1991d523133c1688370437a562da691e3ef3aa26ce987e03c",
+      "pytest_passed": 19,
+      "pytest_seconds": 1.1
+    },
+    {
+      "name": "compound-browser-contract",
+      "exit_code": 0,
+      "seconds": 0.84,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/compound_browser_contract.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/compound-browser-contract.log",
+      "log_sha256": "ad74584dba8707beedf636ac00ee8daec89961c510cbbc94f32f742c2fd39bc5"
+    },
+    {
+      "name": "chart-precision-browser",
+      "exit_code": 0,
+      "seconds": 8.22,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chart_precision_browser.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/chart-precision-browser.log",
+      "log_sha256": "857cda6966256c3b8c9d022c5cf2180acb52442d116fba5cf74f5cce813e82b5"
+    },
+    {
+      "name": "numeric-display",
+      "exit_code": 0,
+      "seconds": 3.59,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "--test",
+        "tests/ui/numeric_statistics_display.test.cjs"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/numeric-display.log",
+      "log_sha256": "d33b0dc9a3debf702482c2a23aeaa458a3002afdda41299d0df8420afa2d7a98"
+    },
+    {
+      "name": "chat-state",
+      "exit_code": 0,
+      "seconds": 0.12,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/dsh_chat_session.test.js"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/chat-state.log",
+      "log_sha256": "0dc12d5a11391c207b2b05b8a678c0b2eda67e9899fbc6ec570b5e3fad128985"
+    },
+    {
+      "name": "stream-recovery",
+      "exit_code": 0,
+      "seconds": 0.12,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chat_stream_recovery.test.js"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/stream-recovery.log",
+      "log_sha256": "1a866a3ad3f6b841f86943dd87f301440a7c584005d432227f0da81c3688daac"
+    },
+    {
+      "name": "stream-scroll",
+      "exit_code": 0,
+      "seconds": 9.98,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/chat_stream_scroll.js"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/stream-scroll.log",
+      "log_sha256": "bcc3e88ff85e2051b05b56fa51e21a23df3e388a02901dfb304406f0df3dc66a"
+    },
+    {
+      "name": "dashboard-matrix",
+      "exit_code": 0,
+      "seconds": 111.27,
+      "command": [
+        "E:\\Environment_f\\nodejs_f\\node.EXE",
+        "tests/ui/dashboard_delivery_matrix.js",
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-delivery-acceptance\\.implementation\\quality-gates\\chat-delivery\\20261004-050624-061a8019\\dashboard-matrix"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/dashboard-matrix.log",
+      "log_sha256": "11cb856cec3d0839374e5dd065b3543363d261850106d118b7740c77285a86a2"
+    },
+    {
+      "name": "native-worker",
+      "exit_code": 0,
+      "seconds": 55.51,
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/dsh/real_platform_smoke.py",
+        "--output",
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-delivery-acceptance\\.implementation\\quality-gates\\chat-delivery\\20261004-050624-061a8019\\native-worker.json"
+      ],
+      "log": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/native-worker.log",
+      "log_sha256": "ba3c61a4e00de7a8b757607a990960920037b330513fcf671e503054ddc6852e"
+    }
+  ],
+  "pytest_passed": 1356,
+  "infrastructure_unittest_passed": 13,
+  "frontend_build": {
+    "entry": {
+      "path": "apps/web/assets/analytics/index.html",
+      "bytes": 506,
+      "sha256": "28459b26bc3fbeb966ad749865b8a8d1131b0fb4d8868b18db6f3d1729ec71d6"
+    },
+    "files": [
+      {
+        "path": "apps/web/assets/analytics/index.html",
+        "bytes": 506,
+        "sha256": "28459b26bc3fbeb966ad749865b8a8d1131b0fb4d8868b18db6f3d1729ec71d6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-v4compatibility-C9RhG_FT.woff2",
+        "bytes": 4796,
+        "sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-v4compatibility-CCth-dXg.ttf",
+        "bytes": 10836,
+        "sha256": "30f6abf6baa425825828793d6dfad1fb63765d0e5abaa7af6feafb9bfcece5a0"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-regular-400-BjRzuEpd.woff2",
+        "bytes": 25472,
+        "sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-regular-400-DZaxPHgR.ttf",
+        "bytes": 68064,
+        "sha256": "54cf6086f7bb21f9d072ad494a19b4681fa516dd0a14cee52da01d3651a913a3"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-brands-400-D_cYUPeE.woff2",
+        "bytes": 118684,
+        "sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-solid-900-CTAAxXor.woff2",
+        "bytes": 158220,
+        "sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-brands-400-D1LuMI3I.ttf",
+        "bytes": 210792,
+        "sha256": "808443ae6c8204395add8543da8a90a60b9376fb0f87ed8e8ea37d109596d805"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/fa-solid-900-D0aA9rwL.ttf",
+        "bytes": 426112,
+        "sha256": "d2f0593540b0e33ba6de255a54f272d466e31144806956bea8cfdbf7edffc9bd"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertRuleForm-prpVlulN.css",
+        "bytes": 256,
+        "sha256": "1eb7f8fad26e3bc9f5c472608a98ad410a5dc8e4399852410fc75d3e3cd82c51"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/SqlWorkspace-DEx2r19T.css",
+        "bytes": 351,
+        "sha256": "2363460cfd584ffd5f3d88604b445f2b2deed98141c2aac4c419c2cd246dd8e1"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace-CWvOz8K0.css",
+        "bytes": 550,
+        "sha256": "efcf4d865d1e1fa4585c3efef98ff7e9f57e7e0add2fc785aed1ff98baae65de"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/writeback-D-mTChmA.css",
+        "bytes": 1409,
+        "sha256": "e3178f30b1f0587c803a23e94d9d253de91f5ea2252c293bf3bd6466846da5c7"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel-eXlKoHba.css",
+        "bytes": 1580,
+        "sha256": "1853f1d5ddad5f0e0eeaff346007772eaf42a9b8ccb6ff58bf00061a43932282"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowReportMarkdown-DaN-2Kpa.css",
+        "bytes": 1618,
+        "sha256": "26bc5d6e7e4329f6fe801549b674840a2435830b9652db698d6fdb254bec64fb"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkspace-Cfz3SOrJ.css",
+        "bytes": 1646,
+        "sha256": "ecf34aa4bb892ed85a879a8544ab0f05f4aa9aefb1fdb4db1a33b88a04c1baff"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessProcessGuide-C79jE53H.css",
+        "bytes": 1928,
+        "sha256": "ec5f28392409695e3cb5319f7a56b376cd31971f15ff1084f9c1eaed3b06af6a"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowSubgraphEditor-rGJPOSAB.css",
+        "bytes": 3819,
+        "sha256": "f8c4c78f2495fe23fdc8fe04a9220d013c75c7d6db1049eb4c6322ffe09d745e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportViewer-Dvy0dbAi.css",
+        "bytes": 4377,
+        "sha256": "750b394177b6c8034c74b6c1714adbb93a6002888f63543e66824a006cd1e432"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/http-collection-D92LS8d4.css",
+        "bytes": 5320,
+        "sha256": "359cff86703fe3b79419125aa6aa83fd0a61fe989f067a0c3f7f7290a00b6b11"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/TemplateCenter-D6IHbFTd.css",
+        "bytes": 5717,
+        "sha256": "b706758dd22181ea3e4175be8087c99d44c9a821a95bc7e33bc7f20ae7f2aac4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-devices-Ca7R04UD.css",
+        "bytes": 6314,
+        "sha256": "a7c3bc962f5fbcd3faa22e38841525108c76acae816bd2b80562fc2138c52ced"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-catalog-CUDkTnh9.css",
+        "bytes": 6685,
+        "sha256": "746a620c0925f73f0ba897f492ecbf65ae8ac9d9f81d99d2a4b8cc63605b7676"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench-BZ6dZ9iG.css",
+        "bytes": 7165,
+        "sha256": "314b0e92723deb31552d7551a8c0452f17043133606074d14b1b2c5ee1c86ec4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/IntelligentQuery-BG6p3l_0.css",
+        "bytes": 8333,
+        "sha256": "a08dfc18ff8f20176232f5a0fc91adf546d36e45d20a80e2e9b9ce22c7334413"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryResultPanel-CpgA30Tl.css",
+        "bytes": 9718,
+        "sha256": "533fe76f88bc4efe89f7a30d263d8767948972b13cc69fc930eed8450d63a6fd"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityInspectionWorkspace-UpeTqVez.css",
+        "bytes": 9730,
+        "sha256": "e7ace1829ddce97b6a7e488ecc1f04812f9ab54df0bfb694f9e2a66fb3951c11"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench-DtTs8fOD.css",
+        "bytes": 12048,
+        "sha256": "99a7a7ebc185f9b8f64f5eea9dc91cb3a49c9ce3ced3bc07dc732e7cb1dd6768"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportDesigner-DZHsUYEm.css",
+        "bytes": 12643,
+        "sha256": "7f64911867450df4b493f1b637cdba8ca5e2d0e60fca22a36602b4b55a6185b7"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DataSourcesWorkspace-B2lEt_qR.css",
+        "bytes": 14204,
+        "sha256": "4903cfa0d64c4f3755c89bbe8a0e5cda1516bd1fa9246927d0d60789ab39d8f7"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportManage-CJP__Gqv.css",
+        "bytes": 15171,
+        "sha256": "b3d5e20f10277f6d792fffd52731fe6fff940a7743e4b81722b26fcfcf9855c8"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkbench-B43LwFDg.css",
+        "bytes": 28480,
+        "sha256": "a16c68c9c256af97d1b39600f89be28385c736e13f1a90a0ad7ad467bc8bbdc0"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuBigScreenReplica-CvvfG8qq.css",
+        "bytes": 70901,
+        "sha256": "03292c3e7747575355a66e47e51fa1b3384bdb59907fac98d099671029305049"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/workflows-BVkoMHtS.css",
+        "bytes": 87874,
+        "sha256": "d852c980cf71034c4623d5c4ffdf113939d886447cd269d1b9ddd764b84de1c4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuDrilldownPanel-BaFO6SBJ.css",
+        "bytes": 111334,
+        "sha256": "b84e16ecdbfb8b60f2c0e468d26ea035e66b20a4eef328c8b000bb72a468e3d9"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-R-IMtGv9.css",
+        "bytes": 445624,
+        "sha256": "01d16f4f874dd1e50154cd658f8de7125f4505298ef6b45198e0647eff1d35e2"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/_plugin-vue_export-helper-DlAUqK2U.js",
+        "bytes": 91,
+        "sha256": "cb85b0f263dbe24e857338301c0627076592e9f1f1a5662929f86d2c126444aa"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/topLevelNavigation-CUIN3mhN.js",
+        "bytes": 237,
+        "sha256": "eb504d10e1de3e30d5f41efe0795180d1d29a0447d9790d147c971118619179e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-devices-Bhwz7sl9.js",
+        "bytes": 239,
+        "sha256": "e789ba031f3b9574507d495f0c4225549f865a67d8d3f41087dfa7745dd9b035"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/dateTime-wQs5xyYL.js",
+        "bytes": 286,
+        "sha256": "e45c53dcf58857ac0eee7b1ae9ebe1c08e77d91fc6206e5c8453fddf1483a650"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/UnavailablePage-CF_DimOD.js",
+        "bytes": 439,
+        "sha256": "bbd8918dc9f252d583f2f00edadd821d0be35bd78ccaf3c63e458088236dba95"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench-DK6L62pL.js",
+        "bytes": 528,
+        "sha256": "97540fa1646fb0ac049d3576ca72a94e8b102ca1efca01da723f28404917aa9d"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench-B5_j4Zcr.js",
+        "bytes": 536,
+        "sha256": "8e1ca0b257b0ee934b2cdab014841cbf271b0b016d4f0984c247161cdf69c7aa"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/writeback-DckqziV5.js",
+        "bytes": 715,
+        "sha256": "b99f792c715bd58f5c9e5ad97db746e906d63a2abcac4b93eba36184301e02b6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/randomId-DxwT-9FK.js",
+        "bytes": 742,
+        "sha256": "86ef6ad8fb840e5bcd0e90faa4338aecc885c83e6f3e8e1f962f4fabe62619c9"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AnalysisLayout-Bvb-j7Z7.js",
+        "bytes": 983,
+        "sha256": "d8bc2bc77b469ca54393c734a9dc84d5c088cb5e19a72e803b5b626f4e0b0f35"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel-BheDagbg.js",
+        "bytes": 900,
+        "sha256": "b0ceba53025bb6ef101561b926dccb7437f27fe78fe700d715dc29cf9fc15a96"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/useSources-D9cXTdPT.js",
+        "bytes": 961,
+        "sha256": "088a908daeebf5e71e26ab96455fbaa863612f7fc6d70e03cdf85af83ea1a434"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/collection-BV4V3o_1.js",
+        "bytes": 948,
+        "sha256": "8b56d6780afd3b710386d87739f88d915039f75294f3bef3ad96720b5d66e33f"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessProcessGuide-CpVx1ZzB.js",
+        "bytes": 1121,
+        "sha256": "2438a2d40e7ab7dacd43f488d13df94e74bdde7185d69a450a1b22c9c83f8412"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace-nv7T3XGn.js",
+        "bytes": 1101,
+        "sha256": "5cf5ac6fb492d161e5e77ec3b71e35a9e2c7f3a2ad5908b14b4add563e100765"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkspace-DEoNzjhK.js",
+        "bytes": 1217,
+        "sha256": "00beca3273901ddb7852fc2472e1772e57a61706519e2c25ae3aa0fbc5e4c289"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkspace-C5DbD6vL.js",
+        "bytes": 1215,
+        "sha256": "b5dece9268cca9636ae4f3c9ca0a07ce0dfe737b7673c9662682a76737979bce"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/queryContext-BaM90QuA.js",
+        "bytes": 1454,
+        "sha256": "7ffc6e0686c81202c51f851c5fe9f53c1fdbd4d74fda57e2bf8dd40c44887673"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/report-oiA6OaIj.js",
+        "bytes": 1829,
+        "sha256": "45a304459dd496f9eddda6cd7a70a8d9e1229b6e20636e2f5a51471c9d60191f"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DeviceWorkflowWorkspace-Nb7KXpp5.js",
+        "bytes": 2869,
+        "sha256": "c52e0d22e7638d63cadd1b3db09f270ab2ed073230f6fd29c5573d232f7d3fc6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/quality-CWx-Jr8B.js",
+        "bytes": 3260,
+        "sha256": "1934293e5022ac19da5f269f654843de421b72f2841f7efcd5644211ac3896e3"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryHistory-ClzqApcg.js",
+        "bytes": 4124,
+        "sha256": "c694988ddfdea48157a374c8c90fba1866a28f08dad696d8b7f565fba3de89d9"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/useQuality-DuEcDYAG.js",
+        "bytes": 5508,
+        "sha256": "9e68ab3515c194fa78fd233b8c7ec35155d5a7739a2200ff0f50103c0152d871"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkspace-HTmRktci.js",
+        "bytes": 6331,
+        "sha256": "88ba3e99139093012819a0f40a2663f74e28bd9c705ecea77c27bce9085010b5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessResultsPanel.vue_vue_type_script_setup_true_lang-cKbUsZeb.js",
+        "bytes": 7356,
+        "sha256": "897eab794c5500ecf9484a9cc0621c6bfdff08cdb8ae36dc9c24db4b1942ec45"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowSubgraphEditor-B5P5uKKs.js",
+        "bytes": 7513,
+        "sha256": "38acf6d8dc6f9e80bd6c6c953cfd79de0d06bba797bb78754be180b34100a988"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/chartPrecision-hq5qt5-I.js",
+        "bytes": 7423,
+        "sha256": "e6f0479c00b26371b1455a390b69bc3e6914070d5bb922fdde63bcdf78fbf27e"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/business-catalog-Cqt-1FeF.js",
+        "bytes": 8380,
+        "sha256": "6858d3dcb5872dbdd4546e5d35a46b87afc0d4c1a55d5364d2ac23cf382eb5ee"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityTemplateForm.vue_vue_type_script_setup_true_lang-KzsuFkYL.js",
+        "bytes": 8794,
+        "sha256": "002d8da901b5d3c592d82c1ad4b294a9ac65481373e1f27bb6b474957ee7daa6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportViewer-CNuCFuIq.js",
+        "bytes": 9365,
+        "sha256": "fc04bd451fb1b1fcfad84568ab507ee2da03428f5a045619f95dfe99debc75a6"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/PromptCenter-CNADrHL_.js",
+        "bytes": 9441,
+        "sha256": "8e0b79858316ad6aa8f9239157462e65c402ed1e1f2bae14b0eff092afbdb473"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/SqlWorkspace-DE43L4dz.js",
+        "bytes": 11175,
+        "sha256": "1bc393ce8328f004793e6421531b947828936ab6fa5a30224c3424ee27add6e4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WriteReceipts.vue_vue_type_script_setup_true_lang-BkANVp1j.js",
+        "bytes": 13670,
+        "sha256": "06a40eb5dec28292514299270127efd6124a5cbf04080bb110516b82f282fbd4"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/BusinessDeviceWorkspace.vue_vue_type_script_setup_true_lang-BzhdvrCQ.js",
+        "bytes": 14212,
+        "sha256": "be474c6c2ef316e9e976d0966f01c673c1787d98f9e13c0f1e8cea0bf1fb3871"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertRuleForm.vue_vue_type_script_setup_true_lang-jpMEAhWt.js",
+        "bytes": 14779,
+        "sha256": "eb5702b94c383ce99e867674759fb39d286cc999111ae630c17f920ff9e5d6ef"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/http-collection-9qP5AEct.js",
+        "bytes": 20524,
+        "sha256": "b8d91d839c455d6954142b41aca1861577c1522cbc0892604f98efd754fec7d3"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportManage-R5Gefq6J.js",
+        "bytes": 20881,
+        "sha256": "f9a6ad1ef887289552b304c4d58eae590f24c48baf8a07981a778029a7842205"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/TemplateCenter-C-dI6JZ2.js",
+        "bytes": 22847,
+        "sha256": "77788998059a67fe633fccd08c93a671e24f72828ca6d1cf33a8740d421f076a"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/IntelligentQuery-ROw3KybS.js",
+        "bytes": 25358,
+        "sha256": "e61e42d3652f3bcdc5d8e912af48b418d338eb3198978d793248715fea373e92"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/ReportDesigner-BYXYt0bt.js",
+        "bytes": 27965,
+        "sha256": "fc6f4d576dad9ccbb5d8d058f726aa514da0efe64145e53b49b077120d859595"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QueryResultPanel-1Mz0Bi6G.js",
+        "bytes": 28351,
+        "sha256": "d6e5c5d6a0e226b53b5b0a14fd663f05d32799bb985d238622dd540a03d48c83"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/purify.es-Cdnc6Rlq.js",
+        "bytes": 28922,
+        "sha256": "1ae24acbb07aae823ed83928e8317b36948c960fba90d8f4ea80e24ba8f2d7ba"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityInspectionWorkspace-yHGgeQxP.js",
+        "bytes": 38204,
+        "sha256": "f800663449fe5a7304b1db4bc5872df4807f48cf94590413312498354fa2a680"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowReportMarkdown-BZDh5RBz.js",
+        "bytes": 43513,
+        "sha256": "36287cabd3281d9532dd103e7056b87c2e24dbdb57870b6e987da9f47590f776"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/AlertWorkbench.vue_vue_type_script_setup_true_lang-CaQnKRdt.js",
+        "bytes": 48988,
+        "sha256": "fee31a0049fa59cb5fd649ea857e430d682987b11d1a1fa3e772b190be04bda0"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/DataSourcesWorkspace-KAMeUIe9.js",
+        "bytes": 56284,
+        "sha256": "34293f7ca32e2bf19712aae5f97749ae803b866a9e3f666ed2f43fc3addfc3b5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/QualityWorkbench.vue_vue_type_script_setup_true_lang-CvZe1z-0.js",
+        "bytes": 72438,
+        "sha256": "eeb64ece1fd8f4786b02c01b861ab57691f6ac06b30f57e9e4d48ae471534532"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuDrilldownPanel-bOdp2oeV.js",
+        "bytes": 155215,
+        "sha256": "13a7094ea0be2dfb30b9bdbc3f5284b318b2a9b4c6461c2c631d754da0bdbd23"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/JimuBigScreenReplica-Bx9nYP4N.js",
+        "bytes": 302123,
+        "sha256": "b66e63f92ebe14b7178b467eeaae11e83e17cdc9596144409426ee95b217c4a5"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/WorkflowWorkbench.vue_vue_type_script_setup_true_lang-bHFcR9tP.js",
+        "bytes": 519178,
+        "sha256": "d31a674d68a44a4e8b7f9c7178ba3b596cee83ad7628f386d5e955a0c7adeb03"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-ByUA0W9c.js",
+        "bytes": 1035678,
+        "sha256": "bc0176b7a24d5a20d9d39f38057cb7b88656aa51c15526951bdf57ba40e1b0fc"
+      },
+      {
+        "path": "apps/web/assets/analytics/assets/index-CkMAeOxi.js",
+        "bytes": 1273397,
+        "sha256": "c3fd1e0db7e836ab0a77a3871b31bb0a42703a11a2b94326c4c59837c4382b0e"
+      }
+    ],
+    "source_manifest_sha256": "c0107617fd93b2bc00e41ca8aef01f6fa3c8668dfc80857260d25f613ee55df8",
+    "asset_audit_sha256": "0ec639468811dd297cd92a20beab7aa59b639709673eab8327b1cbc2cdd7412d"
+  },
+  "native_worker_result": {
+    "path": ".implementation/quality-gates/chat-delivery/20261004-050624-061a8019/native-worker.json",
+    "sha256": "ba3c61a4e00de7a8b757607a990960920037b330513fcf671e503054ddc6852e"
+  },
+  "counts_policy": "此前专项、重叠回归及本轮重复结果不累加为独立用例。",
+  "goal_complete": false,
+  "service_8011_loaded": "unconfirmed-not-restarted",
+  "limitations": [
+    "真实szh_new和外部模型未参与本批验证",
+    "MySQL并发、服务端SQL终止与分布式原子授权未验证",
+    "逐份交付修订与知识硬中断恢复仍待实施",
+    "不代表全部功能100轮或24小时目标完成"
+  ]
+}

@@ -1,0 +1,34 @@
+/* Normal business frame for retained Cloud Brain module pages. */
+body.business-module-page { --sidebar-width: 210px; --accent: #246bfe; --blue: #246bfe; color: #17243a; background: #f1f3f7; font-family: "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif; }
+body.business-module-page #app { display: block; width: 100%; height: 100dvh; padding-top: 60px; overflow: hidden; }
+body.business-module-page .admin-app { display: block; width: 100%; height: 100%; padding: 0; overflow: hidden; }
+body.business-module-page #sidebar.enterprise-sidebar { position: fixed; top: 60px; bottom: 0; left: 0; display: flex; flex-direction: column; width: 210px; height: calc(100dvh - 60px); color: #e8f2fc; background: #001a2f; border-right: 1px solid #0e3554; transform: none; }
+body.business-module-page #pages { display: flex; flex-direction: column; min-width: 0; margin-left: 210px; width: calc(100% - 210px); height: calc(100dvh - 60px); overflow: hidden; background: #f1f3f7; }
+.business-module-page .secondary-page { display: flex; flex: 1; flex-direction: column; min-height: 0; width: 100%; background: transparent; }
+.business-module-page .enterprise-contextbar { position: relative; top: 0; flex: 0 0 38px; }
+.business-module-page .secondary-body { flex: 1; min-height: 0; height: auto; overflow-y: auto; overflow-x: hidden; }
+.business-module-page .page-content { width: 100%; max-width: none; padding: 22px 24px 36px; }
+.business-module-page .page-content > .panel { color: #17243a; border-radius: 4px; border-color: #e0e5ec; box-shadow: 0 2px 10px rgba(20, 47, 79, .055); }
+.business-module-page .page-content > .panel > h1 { display:flex;align-items:center;gap:10px;font-size:23px;letter-spacing:0;font-weight:600;color:#17243a; }
+.business-module-page .page-content > .panel > h1::before { width:4px;height:22px;border-radius:3px;background:#246bfe;content:""; }
+.business-module-page .page-content .sub { color: #5c6d84; font-size: 12px; }
+.business-module-page .page-content th { background: #f0f2f6; color: #59677a; font-weight: 600; }
+.business-module-page .page-content tbody tr:hover { background:#f5f8ff; }
+.business-module-page .btn-primary { color: #fff; background: #246bfe; border-color: #246bfe; border-radius: 4px; box-shadow:0 3px 8px rgba(36,107,254,.16); }
+.business-module-page .btn-primary:hover { background: #1557d6; }
+.business-module-page .card, .business-module-page .field-input, .business-module-page .btn-secondary { border-radius: 4px; }
+.business-module-page .card { border-color:#e0e5ec;box-shadow:0 2px 10px rgba(20,47,79,.05); }
+.business-module-page .tab.active, .business-module-page .pill.active { color:#fff;background:#246bfe;border-color:#246bfe; }
+.business-module-page .business-navigation-loading { padding: 20px; color: #91a6bb; font-size: 12px; }
+.business-module-page :focus-visible { outline: 2px solid #2666e8; outline-offset: 3px; }
+body.business-module-page.enterprise-sidebar-collapsed #sidebar { display: none; }
+body.business-module-page.enterprise-sidebar-collapsed #pages, body.business-module-page.enterprise-no-sidebar #pages { width: 100%; margin-left: 0; }
+@media (max-width: 920px) {
+  body.business-module-page #sidebar.enterprise-sidebar { display: flex; width: 244px; z-index: 75; transform: translateX(-105%); visibility: hidden; transition: transform 160ms ease; }
+  body.business-module-page.enterprise-nav-open #sidebar.enterprise-sidebar { transform: translateX(0); visibility: visible; }
+  body.business-module-page #pages { margin-left: 0; width: 100%; }
+  .business-module-page .enterprise-contextbar { flex-basis: 48px; }
+  .business-module-page .page-content { padding: 22px 16px 32px; }
+  body.business-module-page.mobile-sidebar-open::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { body.business-module-page #sidebar { transition: none; } }

@@ -1,0 +1,558 @@
+{
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "backgroundColor": "#010817",
+    "backgroundImage": "",
+    "themeId": "auto-brand-reference-exact",
+    "theme": {
+      "id": "auto-brand-reference-exact",
+      "primary": "#11DDF7",
+      "secondary": "#087BFF",
+      "accent": "#FFD21C",
+      "positive": "#22E5A2",
+      "danger": "#FF6E74",
+      "panel": "#03112CE8",
+      "panelStrong": "#041B3DF2",
+      "grid": "#0B4D78",
+      "text": "#E8F8FF",
+      "muted": "#84B6D2",
+      "background": "#010817",
+      "backgroundRaised": "#020D22",
+      "surfaceLift": "#075A92",
+      "surfaceRadius": 0,
+      "ambientPrimary": "#087BFF18",
+      "ambientSecondary": "#11DDF712",
+      "palette": [
+        "#11DDF7",
+        "#087BFF",
+        "#FFD21C",
+        "#22E5A2",
+        "#FF6E74",
+        "#65B9FF"
+      ]
+    }
+  },
+  "widgets": [
+    {
+      "id": "auto-brand-exact-1",
+      "i": "auto-brand-exact-1",
+      "modelKey": "auto-brand-exact-1",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "全景背景",
+      "title": "全景背景",
+      "content": "全景背景",
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 1080,
+      "position": {
+        "left": 0,
+        "top": 0,
+        "width": 1920,
+        "height": 1080,
+        "zIndex": 0
+      },
+      "orderNum": 0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;background:\n    radial-gradient(ellipse at 50% 43%,#07326F5E 0%,#03122E80 38%,transparent 64%),\n    radial-gradient(circle at 78% 68%,#0751B32E 0 2px,transparent 3px),\n    linear-gradient(180deg,#010817 0%,#010A1C 56%,#02132C 100%);font-family:'Microsoft YaHei';font-weight:400\">\n    <div style=\"position:absolute;inset:0;opacity:.32;background-image:linear-gradient(#0B58A319 1px,transparent 1px),linear-gradient(90deg,#0B58A319 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(180deg,transparent 4%,#000 23%,#000 88%,transparent)\"></div>\n    <svg viewBox=\"0 0 1920 1080\" style=\"position:absolute;inset:0;width:100%;height:100%;opacity:.32\">\n      <defs><linearGradient id=\"bg-ray\" x1=\"0\" x2=\"1\"><stop stop-color=\"#087BFF00\"/><stop offset=\".52\" stop-color=\"#087BFF\"/><stop offset=\"1\" stop-color=\"#11DDF700\"/></linearGradient></defs>\n      <path d=\"M-100 990C420 680 600 980 1020 620S1640 390 2060 720\" fill=\"none\" stroke=\"url(#bg-ray)\" stroke-width=\"2\"/>\n      <path d=\"M-160 1040C360 720 660 1070 1100 700S1660 520 2080 790\" fill=\"none\" stroke=\"#0756BA\" stroke-width=\"1\" stroke-dasharray=\"6 16\"/>\n      <path d=\"M80 1070L870 260M380 1080L1010 300M1500 1080L1120 360\" stroke=\"#0966C9\" stroke-width=\"1\" opacity=\".2\"/>\n    </svg>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-2",
+      "i": "auto-brand-exact-2",
+      "modelKey": "auto-brand-exact-2",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "顶部信息栏",
+      "title": "顶部信息栏",
+      "content": "顶部信息栏",
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 72,
+      "position": {
+        "left": 0,
+        "top": 0,
+        "width": 1920,
+        "height": 72,
+        "zIndex": 30
+      },
+      "orderNum": 30,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;font-family:'Microsoft YaHei';font-weight:400;background:linear-gradient(180deg,#073149 0%,#032237 68%,transparent 69%)\">\n    <svg viewBox=\"0 0 1920 72\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%\">\n      <path d=\"M0 9H648L696 72H1224L1272 9H1920\" fill=\"none\" stroke=\"#0BD5F5\" stroke-width=\"2\"/>\n      <path d=\"M0 62H685L708 70H1212L1235 62H1920\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1\"/>\n      <path d=\"M551 17h18l18 38h-18zM579 17h18l18 38h-18zM607 17h18l18 38h-18z\" fill=\"#0EE7FF\"/>\n      <path d=\"M1278 17h18l-18 38h-18zM1306 17h18l-18 38h-18zM1334 17h18l-18 38h-18z\" fill=\"#0EE7FF\"/>\n      <path d=\"M27 32h9m9 0h5m9 0h5M1765 32h9m9 0h5m9 0h5\" stroke=\"#0EE7FF\" stroke-width=\"3\"/>\n    </svg>\n    <div style=\"position:absolute;left:62px;top:23px;color:#DDF9FF;font-size:12px;letter-spacing:.5px\"><span style=\"color:#18DDF6;margin-right:12px\">···</span>今日天气：晴转阴</div>\n    <div style=\"position:absolute;left:620px;right:620px;top:12px;color:#F2FCFF;text-align:center;font-size:27px;font-weight:700;letter-spacing:2px;text-shadow:0 0 12px #34CFFF55\">汽车品牌销售动态全景透视</div>\n    <div style=\"position:absolute;right:47px;top:23px;color:#DDF9FF;font-size:12px;letter-spacing:.5px\"><span style=\"color:#18DDF6;margin-right:15px\">···</span>2025-05-17&nbsp;&nbsp;12:11:18</div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-3",
+      "i": "auto-brand-exact-3",
+      "modelKey": "auto-brand-exact-3",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "供应链与生产数据",
+      "title": "供应链与生产数据",
+      "content": "供应链与生产数据",
+      "x": 20,
+      "y": 115,
+      "w": 462,
+      "h": 399,
+      "position": {
+        "left": 20,
+        "top": 115,
+        "width": 462,
+        "height": 399,
+        "zIndex": 12
+      },
+      "orderNum": 12,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#03102AD9,#02091BEF);font-family:'Microsoft YaHei';font-weight:400\">\n    <svg viewBox=\"0 0 462 399\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none\">\n    <path d=\"M2 22V2H416L460 20V375L438 397H2Z\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.4\"/>\n    <path d=\"M2 44V18H22M400 2H444\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"3\"/>\n    <path d=\"M2 381V397H360\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"1.2\" opacity=\".75\"/>\n    <path d=\"M434 396H458V372\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n  </svg><div style=\"position:absolute;top:13px;left:20px;width:94%;height:34px;display:flex;align-items:center;border-top:1px solid #0A467D;border-bottom:1px solid #0A467D;background:linear-gradient(90deg,#082E62B8,transparent);font-family:'Microsoft YaHei';font-weight:700;color:#F2FBFF;font-size:17px;letter-spacing:.5px\">\n    <span style=\"display:inline-flex;gap:5px;margin:0 10px 0 3px;transform:skew(-20deg)\"><i style=\"display:block;width:8px;height:15px;background:#11DDF7\"></i><i style=\"display:block;width:8px;height:15px;background:#087BFF\"></i></span>供应链与生产数据\n  </div>\n    <div style=\"position:absolute;left:24px;right:24px;top:66px;bottom:21px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:15px 12px\"><div style=\"position:relative;height:126px;text-align:center;color:#11DDF7\">\n    <div style=\"position:absolute;left:50%;top:0;width:76px;height:72px;transform:translateX(-50%);clip-path:polygon(50% 0,100% 27%,100% 82%,50% 100%,0 82%,0 27%);background:linear-gradient(180deg,#11DDF755,#04142C 58%);box-shadow:0 0 18px #11DDF755\"></div>\n    <div style=\"position:absolute;left:50%;top:18px;width:42px;height:42px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid #11DDF7;border-radius:50%;background:#071A36;color:#EAFDFF;font-size:22px;box-shadow:inset 0 0 12px #11DDF744,0 0 12px #11DDF744\"><i class=\"fa-solid fa-clipboard-list\"></i></div>\n    <div style=\"position:absolute;left:3px;right:3px;bottom:0;height:52px;border:1px solid #11DDF7;border-radius:4px;background:#06162EEB;box-shadow:inset 0 0 12px #11DDF716\">\n      <span style=\"display:block;margin-top:7px;color:#D8F5FF;font-size:11px\">生产数据一</span><b style=\"display:block;margin-top:0;color:#11DDF7;font:700 18px Bahnschrift,'Microsoft YaHei'\">65234</b>\n    </div>\n  </div><div style=\"position:relative;height:126px;text-align:center;color:#FFD21C\">\n    <div style=\"position:absolute;left:50%;top:0;width:76px;height:72px;transform:translateX(-50%);clip-path:polygon(50% 0,100% 27%,100% 82%,50% 100%,0 82%,0 27%);background:linear-gradient(180deg,#FFD21C55,#04142C 58%);box-shadow:0 0 18px #FFD21C55\"></div>\n    <div style=\"position:absolute;left:50%;top:18px;width:42px;height:42px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid #FFD21C;border-radius:50%;background:#071A36;color:#EAFDFF;font-size:22px;box-shadow:inset 0 0 12px #FFD21C44,0 0 12px #FFD21C44\"><i class=\"fa-solid fa-briefcase\"></i></div>\n    <div style=\"position:absolute;left:3px;right:3px;bottom:0;height:52px;border:1px solid #FFD21C;border-radius:4px;background:#06162EEB;box-shadow:inset 0 0 12px #FFD21C16\">\n      <span style=\"display:block;margin-top:7px;color:#D8F5FF;font-size:11px\">生产数据二</span><b style=\"display:block;margin-top:0;color:#FFD21C;font:700 18px Bahnschrift,'Microsoft YaHei'\">25846</b>\n    </div>\n  </div><div style=\"position:relative;height:126px;text-align:center;color:#22E5A2\">\n    <div style=\"position:absolute;left:50%;top:0;width:76px;height:72px;transform:translateX(-50%);clip-path:polygon(50% 0,100% 27%,100% 82%,50% 100%,0 82%,0 27%);background:linear-gradient(180deg,#22E5A255,#04142C 58%);box-shadow:0 0 18px #22E5A255\"></div>\n    <div style=\"position:absolute;left:50%;top:18px;width:42px;height:42px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid #22E5A2;border-radius:50%;background:#071A36;color:#EAFDFF;font-size:22px;box-shadow:inset 0 0 12px #22E5A244,0 0 12px #22E5A244\"><i class=\"fa-solid fa-chart-pie\"></i></div>\n    <div style=\"position:absolute;left:3px;right:3px;bottom:0;height:52px;border:1px solid #22E5A2;border-radius:4px;background:#06162EEB;box-shadow:inset 0 0 12px #22E5A216\">\n      <span style=\"display:block;margin-top:7px;color:#D8F5FF;font-size:11px\">生产数据三</span><b style=\"display:block;margin-top:0;color:#22E5A2;font:700 18px Bahnschrift,'Microsoft YaHei'\">318954</b>\n    </div>\n  </div><div style=\"position:relative;height:126px;text-align:center;color:#11DDF7\">\n    <div style=\"position:absolute;left:50%;top:0;width:76px;height:72px;transform:translateX(-50%);clip-path:polygon(50% 0,100% 27%,100% 82%,50% 100%,0 82%,0 27%);background:linear-gradient(180deg,#11DDF755,#04142C 58%);box-shadow:0 0 18px #11DDF755\"></div>\n    <div style=\"position:absolute;left:50%;top:18px;width:42px;height:42px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid #11DDF7;border-radius:50%;background:#071A36;color:#EAFDFF;font-size:22px;box-shadow:inset 0 0 12px #11DDF744,0 0 12px #11DDF744\"><i class=\"fa-solid fa-sack-dollar\"></i></div>\n    <div style=\"position:absolute;left:3px;right:3px;bottom:0;height:52px;border:1px solid #11DDF7;border-radius:4px;background:#06162EEB;box-shadow:inset 0 0 12px #11DDF716\">\n      <span style=\"display:block;margin-top:7px;color:#D8F5FF;font-size:11px\">生产数据四</span><b style=\"display:block;margin-top:0;color:#11DDF7;font:700 18px Bahnschrift,'Microsoft YaHei'\">62547</b>\n    </div>\n  </div><div style=\"position:relative;height:126px;text-align:center;color:#FFD21C\">\n    <div style=\"position:absolute;left:50%;top:0;width:76px;height:72px;transform:translateX(-50%);clip-path:polygon(50% 0,100% 27%,100% 82%,50% 100%,0 82%,0 27%);background:linear-gradient(180deg,#FFD21C55,#04142C 58%);box-shadow:0 0 18px #FFD21C55\"></div>\n    <div style=\"position:absolute;left:50%;top:18px;width:42px;height:42px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid #FFD21C;border-radius:50%;background:#071A36;color:#EAFDFF;font-size:22px;box-shadow:inset 0 0 12px #FFD21C44,0 0 12px #FFD21C44\"><i class=\"fa-solid fa-database\"></i></div>\n    <div style=\"position:absolute;left:3px;right:3px;bottom:0;height:52px;border:1px solid #FFD21C;border-radius:4px;background:#06162EEB;box-shadow:inset 0 0 12px #FFD21C16\">\n      <span style=\"display:block;margin-top:7px;color:#D8F5FF;font-size:11px\">生产数据五</span><b style=\"display:block;margin-top:0;color:#FFD21C;font:700 18px Bahnschrift,'Microsoft YaHei'\">32587</b>\n    </div>\n  </div><div style=\"position:relative;height:126px;text-align:center;color:#22E5A2\">\n    <div style=\"position:absolute;left:50%;top:0;width:76px;height:72px;transform:translateX(-50%);clip-path:polygon(50% 0,100% 27%,100% 82%,50% 100%,0 82%,0 27%);background:linear-gradient(180deg,#22E5A255,#04142C 58%);box-shadow:0 0 18px #22E5A255\"></div>\n    <div style=\"position:absolute;left:50%;top:18px;width:42px;height:42px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid #22E5A2;border-radius:50%;background:#071A36;color:#EAFDFF;font-size:22px;box-shadow:inset 0 0 12px #22E5A244,0 0 12px #22E5A244\"><i class=\"fa-solid fa-clock\"></i></div>\n    <div style=\"position:absolute;left:3px;right:3px;bottom:0;height:52px;border:1px solid #22E5A2;border-radius:4px;background:#06162EEB;box-shadow:inset 0 0 12px #22E5A216\">\n      <span style=\"display:block;margin-top:7px;color:#D8F5FF;font-size:11px\">生产数据六</span><b style=\"display:block;margin-top:0;color:#22E5A2;font:700 18px Bahnschrift,'Microsoft YaHei'\">322641</b>\n    </div>\n  </div></div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-4",
+      "i": "auto-brand-exact-4",
+      "modelKey": "auto-brand-exact-4",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "市场消息与品牌排行",
+      "title": "市场消息与品牌排行",
+      "content": "市场消息与品牌排行",
+      "x": 20,
+      "y": 536,
+      "w": 462,
+      "h": 518,
+      "position": {
+        "left": 20,
+        "top": 536,
+        "width": 462,
+        "height": 518,
+        "zIndex": 12
+      },
+      "orderNum": 12,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#03102AD9,#02091BEF);font-family:'Microsoft YaHei';font-weight:400\">\n    <svg viewBox=\"0 0 462 518\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none\">\n    <path d=\"M2 22V2H416L460 20V494L438 516H2Z\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.4\"/>\n    <path d=\"M2 44V18H22M400 2H444\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n    <path d=\"M2 500V516H360\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.2\" opacity=\".75\"/>\n    <path d=\"M434 515H458V491\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n  </svg><div style=\"position:absolute;top:13px;left:20px;width:94%;height:34px;display:flex;align-items:center;border-top:1px solid #0A467D;border-bottom:1px solid #0A467D;background:linear-gradient(90deg,#082E62B8,transparent);font-family:'Microsoft YaHei';font-weight:700;color:#F2FBFF;font-size:17px;letter-spacing:.5px\">\n    <span style=\"display:inline-flex;gap:5px;margin:0 10px 0 3px;transform:skew(-20deg)\"><i style=\"display:block;width:8px;height:15px;background:#11DDF7\"></i><i style=\"display:block;width:8px;height:15px;background:#087BFF\"></i></span>市场最新消息与销售TOP5品牌\n  </div>\n    <div style=\"position:absolute;left:22px;right:22px;top:61px\"><div style=\"margin-bottom:9px;padding:7px 10px 8px;border-left:2px solid #088BFF;background:linear-gradient(90deg,#052354,transparent)\"><b style=\"display:block;color:#1DE2FF;font-size:11px\">● 市场最新信息</b><p style=\"margin:4px 0 0;color:#B9D8E9;font-size:9px;line-height:1.45;font-weight:400\">小米汽车首款车型SU7定位中高端，续航700-800公里，搭载智能驾驶技术，2024上半年上市。首轮21.95-30万元。</p></div><div style=\"margin-bottom:9px;padding:7px 10px 8px;border-left:2px solid #088BFF;background:linear-gradient(90deg,#052354,transparent)\"><b style=\"display:block;color:#1DE2FF;font-size:11px\">● 市场最新信息</b><p style=\"margin:4px 0 0;color:#B9D8E9;font-size:9px;line-height:1.45;font-weight:400\">全球电动车销量达1500万，固态电池续航破千公里。中国新能源渗透率持续上升。</p></div></div>\n    <div style=\"position:absolute;left:24px;right:24px;top:221px;bottom:18px;border-top:1px solid #0B477C;padding-top:4px\"><div style=\"display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:7px;height:43px;color:#DDF8FF;font-size:10px\">\n    <i style=\"color:#11DDF7;font-style:italic\">No.1</i><span>丰田（Toyota）<b style=\"display:block;width:100%;height:4px;margin-top:7px;background:#11DDF7;box-shadow:0 0 8px #11DDF766\"></b></span><strong style=\"color:#11DDF7;text-align:right\">1040</strong>\n  </div><div style=\"display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:7px;height:43px;color:#DDF8FF;font-size:10px\">\n    <i style=\"color:#22E5A2;font-style:italic\">No.2</i><span>大众（VW）<b style=\"display:block;width:85%;height:4px;margin-top:7px;background:#22E5A2;box-shadow:0 0 8px #22E5A266\"></b></span><strong style=\"color:#22E5A2;text-align:right\">880</strong>\n  </div><div style=\"display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:7px;height:43px;color:#DDF8FF;font-size:10px\">\n    <i style=\"color:#FFD21C;font-style:italic\">No.3</i><span>现代起亚<b style=\"display:block;width:77%;height:4px;margin-top:7px;background:#FFD21C;box-shadow:0 0 8px #FFD21C66\"></b></span><strong style=\"color:#FFD21C;text-align:right\">800</strong>\n  </div><div style=\"display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:7px;height:43px;color:#DDF8FF;font-size:10px\">\n    <i style=\"color:#9DB9C8;font-style:italic\">No.4</i><span>斯柯达<b style=\"display:block;width:62%;height:4px;margin-top:7px;background:#9DB9C8;box-shadow:0 0 8px #9DB9C866\"></b></span><strong style=\"color:#9DB9C8;text-align:right\">642</strong>\n  </div><div style=\"display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:7px;height:43px;color:#DDF8FF;font-size:10px\">\n    <i style=\"color:#66A9BF;font-style:italic\">No.5</i><span>通用（GM）<b style=\"display:block;width:38%;height:4px;margin-top:7px;background:#66A9BF;box-shadow:0 0 8px #66A9BF66\"></b></span><strong style=\"color:#66A9BF;text-align:right\">400</strong>\n  </div></div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-5",
+      "i": "auto-brand-exact-5",
+      "modelKey": "auto-brand-exact-5",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "车辆里程指标",
+      "title": "车辆里程指标",
+      "content": "车辆里程指标",
+      "x": 514,
+      "y": 115,
+      "w": 884,
+      "h": 108,
+      "position": {
+        "left": 514,
+        "top": 115,
+        "width": 884,
+        "height": 108,
+        "zIndex": 14
+      },
+      "orderNum": 14,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"width:100%;height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-family:'Microsoft YaHei';font-weight:400\">\n    <div style=\"position:relative;height:100%;overflow:hidden;border:1px solid #11DDF7AA;border-radius:6px;background:linear-gradient(135deg,#11DDF718,#03162DDD 66%);box-shadow:inset 0 0 26px #11DDF712,0 0 12px #11DDF718\">\n    <div style=\"position:absolute;left:25px;top:21px;width:52px;height:52px;display:grid;place-items:center;border:1px solid #11DDF7;border-radius:50%;background:radial-gradient(circle,#11DDF755,#06162F 65%);color:#EFFFFF;font-size:23px;box-shadow:0 0 17px #11DDF755\"><i class=\"fa-solid fa-gauge-high\"></i></div>\n    <div style=\"position:absolute;left:92px;top:18px;color:#DDF8FF;font-size:13px\">车辆总里程<br><b style=\"display:inline-block;margin-top:5px;color:#11DDF7;font:700 24px Bahnschrift,'Microsoft YaHei';letter-spacing:.5px\">78563</b><small style=\"margin-left:4px;color:#B7D5E8\">m</small></div>\n    <div style=\"position:absolute;right:-22px;bottom:-35px;width:110px;height:110px;border:1px solid #11DDF733;border-radius:50%\"></div>\n  </div>\n    <div style=\"position:relative;height:100%;overflow:hidden;border:1px solid #FFD21CAA;border-radius:6px;background:linear-gradient(135deg,#FFD21C18,#03162DDD 66%);box-shadow:inset 0 0 26px #FFD21C12,0 0 12px #FFD21C18\">\n    <div style=\"position:absolute;left:25px;top:21px;width:52px;height:52px;display:grid;place-items:center;border:1px solid #FFD21C;border-radius:50%;background:radial-gradient(circle,#FFD21C55,#06162F 65%);color:#EFFFFF;font-size:23px;box-shadow:0 0 17px #FFD21C55\"><i class=\"fa-solid fa-car-side\"></i></div>\n    <div style=\"position:absolute;left:92px;top:18px;color:#DDF8FF;font-size:13px\">车辆总里程<br><b style=\"display:inline-block;margin-top:5px;color:#FFD21C;font:700 24px Bahnschrift,'Microsoft YaHei';letter-spacing:.5px\">84562</b><small style=\"margin-left:4px;color:#B7D5E8\">m</small></div>\n    <div style=\"position:absolute;right:-22px;bottom:-35px;width:110px;height:110px;border:1px solid #FFD21C33;border-radius:50%\"></div>\n  </div>\n    <div style=\"position:relative;height:100%;overflow:hidden;border:1px solid #22E5A2AA;border-radius:6px;background:linear-gradient(135deg,#22E5A218,#03162DDD 66%);box-shadow:inset 0 0 26px #22E5A212,0 0 12px #22E5A218\">\n    <div style=\"position:absolute;left:25px;top:21px;width:52px;height:52px;display:grid;place-items:center;border:1px solid #22E5A2;border-radius:50%;background:radial-gradient(circle,#22E5A255,#06162F 65%);color:#EFFFFF;font-size:23px;box-shadow:0 0 17px #22E5A255\"><i class=\"fa-solid fa-clipboard-list\"></i></div>\n    <div style=\"position:absolute;left:92px;top:18px;color:#DDF8FF;font-size:13px\">车辆总里程<br><b style=\"display:inline-block;margin-top:5px;color:#22E5A2;font:700 24px Bahnschrift,'Microsoft YaHei';letter-spacing:.5px\">67454</b><small style=\"margin-left:4px;color:#B7D5E8\">m</small></div>\n    <div style=\"position:absolute;right:-22px;bottom:-35px;width:110px;height:110px;border:1px solid #22E5A233;border-radius:50%\"></div>\n  </div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-6",
+      "i": "auto-brand-exact-6",
+      "modelKey": "auto-brand-exact-6",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "汽车数字孪生主视觉",
+      "title": "汽车数字孪生主视觉",
+      "content": "汽车数字孪生主视觉",
+      "x": 500,
+      "y": 238,
+      "w": 920,
+      "h": 580,
+      "position": {
+        "left": 500,
+        "top": 238,
+        "width": 920,
+        "height": 580,
+        "zIndex": 11
+      },
+      "orderNum": 11,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "primary-insight",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;font-family:'Microsoft YaHei';font-weight:400;background:radial-gradient(ellipse at 50% 63%,#006FEA55 0%,#03235366 37%,transparent 64%),linear-gradient(180deg,#020C23 0%,#03132F 100%)\">\n    <svg viewBox=\"0 0 920 580\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none\">\n    <path d=\"M2 22V2H828L918 20V556L896 578H2Z\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.4\"/>\n    <path d=\"M2 44V18H22M858 2H902\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"3\"/>\n    <path d=\"M2 562V578H718\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"1.2\" opacity=\".75\"/>\n    <path d=\"M892 577H916V553\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n  </svg>\n    <div style=\"position:absolute;inset:11px 15px 12px;border:1px solid #0758AA88;background-image:linear-gradient(#0A66A41B 1px,transparent 1px),linear-gradient(90deg,#0A66A41B 1px,transparent 1px);background-size:36px 36px\"></div>\n    <svg viewBox=\"0 0 922 580\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible\">\n      <defs>\n        <linearGradient id=\"body-fill\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop stop-color=\"#08E6FF\" stop-opacity=\".5\"/><stop offset=\".45\" stop-color=\"#0A71FF\" stop-opacity=\".18\"/><stop offset=\"1\" stop-color=\"#173CFF\" stop-opacity=\".46\"/></linearGradient>\n        <linearGradient id=\"glass-fill\" x1=\"0\" x2=\"1\"><stop stop-color=\"#04DBFF\" stop-opacity=\".23\"/><stop offset=\"1\" stop-color=\"#1670FF\" stop-opacity=\".5\"/></linearGradient>\n        <radialGradient id=\"wheel-fill\"><stop stop-color=\"#D9FDFF\"/><stop offset=\".18\" stop-color=\"#12E4FF\"/><stop offset=\".48\" stop-color=\"#0A4BAC\"/><stop offset=\".72\" stop-color=\"#020918\"/><stop offset=\"1\" stop-color=\"#0B72FF\"/></radialGradient>\n        <filter id=\"hero-glow\"><feGaussianBlur stdDeviation=\"3\" result=\"b\"/><feMerge><feMergeNode in=\"b\"/><feMergeNode in=\"SourceGraphic\"/></feMerge></filter>\n        <filter id=\"soft-glow\"><feGaussianBlur stdDeviation=\"12\"/></filter>\n      </defs>\n      <ellipse cx=\"460\" cy=\"350\" rx=\"386\" ry=\"138\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"2\" opacity=\".9\" filter=\"url(#hero-glow)\"/>\n      <ellipse cx=\"460\" cy=\"350\" rx=\"335\" ry=\"97\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"1\" stroke-dasharray=\"7 11\" opacity=\".68\"/>\n      <ellipse cx=\"470\" cy=\"449\" rx=\"350\" ry=\"62\" fill=\"#056CFF\" opacity=\".15\" filter=\"url(#soft-glow)\"/>\n      <path d=\"M133 445Q452 350 804 440\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1\" opacity=\".75\"/>\n      <path d=\"M250 450L372 230H646L767 448\" fill=\"none\" stroke=\"#0D74FF\" opacity=\".4\"/>\n      <g opacity=\".82\">\n        <rect x=\"195\" y=\"44\" width=\"184\" height=\"152\" fill=\"#03183AAE\" stroke=\"#087BFF\" stroke-width=\"2\"/>\n        <rect x=\"388\" y=\"42\" width=\"210\" height=\"150\" fill=\"#03183AAE\" stroke=\"#087BFF\" stroke-width=\"2\"/>\n        <rect x=\"607\" y=\"72\" width=\"135\" height=\"138\" fill=\"#03183AAE\" stroke=\"#11DDF7\" stroke-width=\"2\"/>\n        <circle cx=\"286\" cy=\"113\" r=\"54\" fill=\"none\" stroke=\"#12DEFF\" stroke-width=\"5\"/>\n        <circle cx=\"286\" cy=\"113\" r=\"38\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"8\" stroke-dasharray=\"4 7\"/>\n        <circle cx=\"286\" cy=\"113\" r=\"22\" fill=\"none\" stroke=\"#B2FAFF\"/>\n        <circle cx=\"452\" cy=\"103\" r=\"37\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"3\"/>\n        <circle cx=\"531\" cy=\"103\" r=\"45\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"6\" stroke-dasharray=\"3 5\"/>\n        <path d=\"M414 158h144m-116 0 32-30 22 25 26-18 24 23\" fill=\"none\" stroke=\"#11DDF7\"/>\n        <ellipse cx=\"673\" cy=\"131\" rx=\"48\" ry=\"25\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"3\"/><ellipse cx=\"673\" cy=\"131\" rx=\"35\" ry=\"17\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"2\"/><path d=\"M625 131h96M673 105v52\" stroke=\"#11DDF7\" opacity=\".6\"/>\n      </g>\n      <g filter=\"url(#hero-glow)\" opacity=\".08\">\n        <path d=\"M223 361Q238 303 302 282L386 251Q419 220 477 211Q540 203 600 235L669 278Q718 293 756 333L784 372L771 408L704 418Q678 356 624 365Q575 372 558 431L376 431Q354 369 300 373Q246 379 233 431L182 420L180 388Z\" fill=\"url(#body-fill)\" stroke=\"#25E7FF\" stroke-width=\"3\"/>\n        <path d=\"M386 251Q438 220 482 218Q537 217 590 246L629 285H344Z\" fill=\"url(#glass-fill)\" stroke=\"#47EDFF\" stroke-width=\"2\"/>\n        <path d=\"M397 255L374 286M486 220L490 285M575 242L546 285\" fill=\"none\" stroke=\"#52EFFF\" stroke-width=\"2\"/>\n        <path d=\"M344 288L320 348M630 286L688 318L724 366M364 324H639M390 431L565 431\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"2\"/>\n        <path d=\"M182 388L236 381M756 334L787 346M696 322L744 335\" fill=\"none\" stroke=\"#F3FDFF\" stroke-width=\"2\"/>\n        <ellipse cx=\"304\" cy=\"407\" rx=\"51\" ry=\"66\" fill=\"#020714\" stroke=\"#25E7FF\" stroke-width=\"4\"/>\n        <ellipse cx=\"304\" cy=\"407\" rx=\"35\" ry=\"50\" fill=\"url(#wheel-fill)\" stroke=\"#BDFBFF\" stroke-width=\"2\"/>\n        <ellipse cx=\"304\" cy=\"407\" rx=\"13\" ry=\"28\" fill=\"#041832\" stroke=\"#21DFFB\" stroke-width=\"3\"/>\n        <ellipse cx=\"630\" cy=\"405\" rx=\"61\" ry=\"73\" fill=\"#020714\" stroke=\"#087BFF\" stroke-width=\"4\"/>\n        <ellipse cx=\"630\" cy=\"405\" rx=\"43\" ry=\"55\" fill=\"url(#wheel-fill)\" stroke=\"#C2FBFF\" stroke-width=\"2\"/>\n        <ellipse cx=\"630\" cy=\"405\" rx=\"17\" ry=\"30\" fill=\"#041832\" stroke=\"#21DFFB\" stroke-width=\"3\"/>\n        <path d=\"M262 406h84M588 404h86\" stroke=\"#13E7FF\" stroke-width=\"1\" opacity=\".7\"/>\n      </g>\n      <g fill=\"#16DEFF\"><circle cx=\"192\" cy=\"389\" r=\"5\"/><circle cx=\"785\" cy=\"347\" r=\"5\"/><circle cx=\"458\" cy=\"325\" r=\"4\"/></g>\n      <path d=\"M164 329H97V235H220\" fill=\"none\" stroke=\"#087BFF\"/><path d=\"M744 248h92v121h-56\" fill=\"none\" stroke=\"#11DDF7\"/>\n      <path d=\"M122 479H272M675 485h153\" stroke=\"#087BFF\" stroke-width=\"2\" stroke-dasharray=\"3 7\"/>\n      <g transform=\"translate(675 405)\" fill=\"#11DDF7\"><rect x=\"0\" y=\"50\" width=\"9\" height=\"38\"/><rect x=\"16\" y=\"30\" width=\"9\" height=\"58\"/><rect x=\"32\" y=\"8\" width=\"9\" height=\"80\"/><rect x=\"48\" y=\"45\" width=\"9\" height=\"43\" fill=\"#FFD21C\"/></g>\n    </svg>\n    <img src=\"/lynx-ai/jimu-screen/templates/auto-brand-hologram-car-black.png\" alt=\"三维全息车辆数字孪生\" style=\"position:absolute;z-index:2;left:83px;top:155px;width:755px;height:425px;object-fit:contain;mix-blend-mode:screen;filter:saturate(1.2) contrast(1.08) drop-shadow(0 0 14px #087BFF88);pointer-events:none\">\n    <div style=\"position:absolute;z-index:4;left:188px;top:344px;padding:8px 13px;border-left:2px solid #11DDF7;background:#05285CE8;color:#DDF9FF;font-size:10px;line-height:1.7\"><b style=\"color:#11DDF7\">车辆号：15985</b><br>平均时长：48km<br>平均速度：542km/h<br>油耗量：26L/100km<br>总电量：421mAh</div>\n    <div style=\"position:absolute;z-index:4;right:43px;top:121px;width:154px;padding:12px;border:1px solid #087BFF;background:#05285CE8;color:#DDF9FF;font-size:10px;line-height:1.8\"><b style=\"color:#11DDF7;font-size:13px\">● 轮胎数据</b><br>材料与结构：橡胶<br>胎面宽：300<br>翘曲事故统计：22<br>投诉热点：23</div>\n    <div style=\"position:absolute;z-index:4;left:344px;bottom:22px;padding:8px 16px;border:1px solid #087BFF;background:#031A42E8;color:#C8F5FF;font-size:10px\">智能座舱&nbsp;&nbsp;·&nbsp;&nbsp;远程诊断&nbsp;&nbsp;·&nbsp;&nbsp;能源管理&nbsp;&nbsp;·&nbsp;&nbsp;OTA</div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-7",
+      "i": "auto-brand-exact-7",
+      "modelKey": "auto-brand-exact-7",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "综合评估分析流程",
+      "title": "综合评估分析流程",
+      "content": "综合评估分析流程",
+      "x": 500,
+      "y": 818,
+      "w": 920,
+      "h": 236,
+      "position": {
+        "left": 500,
+        "top": 818,
+        "width": 920,
+        "height": 236,
+        "zIndex": 12
+      },
+      "orderNum": 12,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#03102AEF,#02091BF5);font-family:'Microsoft YaHei';font-weight:400\">\n    <svg viewBox=\"0 0 920 236\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none\">\n    <path d=\"M2 22V2H828L918 20V212L896 234H2Z\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.4\"/>\n    <path d=\"M2 44V18H22M858 2H902\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"3\"/>\n    <path d=\"M2 218V234H718\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"1.2\" opacity=\".75\"/>\n    <path d=\"M892 233H916V209\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n  </svg>\n    <div style=\"position:absolute;left:25px;top:16px;color:#F2FBFF;font-size:17px;font-weight:700\"><span style=\"display:inline-flex;gap:5px;margin-right:10px;transform:skew(-20deg)\"><i style=\"display:block;width:8px;height:15px;background:#11DDF7\"></i><i style=\"display:block;width:8px;height:15px;background:#087BFF\"></i></span>综合评估型分析流程</div>\n    <div style=\"position:absolute;left:50px;right:50px;top:53px;bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:18px\"><div style=\"position:relative;display:flex;align-items:center;flex:1\">\n    <div style=\"flex:1;text-align:center\">\n      <div style=\"position:relative;width:82px;height:78px;margin:auto;clip-path:polygon(50% 0,94% 25%,94% 76%,50% 100%,6% 76%,6% 25%);background:linear-gradient(180deg,#073478,#021025);border-top:2px solid #11DDF7;color:#E8FDFF;display:grid;place-items:center;font-size:25px;filter:drop-shadow(0 0 8px #087BFF88)\"><i class=\"fa-solid fa-sack-dollar\"></i></div>\n      <span style=\"display:block;margin:-5px auto 0;width:125px;height:28px;line-height:28px;border:1px solid #087BFF;border-radius:4px;background:#041636;color:#DDF8FF;font-size:11px\">购车决策</span>\n      <b style=\"display:block;margin-top:8px;color:#11DDF7;font-size:15px\">流程一</b>\n    </div><i class=\"fa-solid fa-chevron-right\" style=\"color:#087BFF;font-size:28px;text-shadow:0 0 10px #087BFF\"></i>\n  </div><div style=\"position:relative;display:flex;align-items:center;flex:1\">\n    <div style=\"flex:1;text-align:center\">\n      <div style=\"position:relative;width:82px;height:78px;margin:auto;clip-path:polygon(50% 0,94% 25%,94% 76%,50% 100%,6% 76%,6% 25%);background:linear-gradient(180deg,#073478,#021025);border-top:2px solid #11DDF7;color:#E8FDFF;display:grid;place-items:center;font-size:25px;filter:drop-shadow(0 0 8px #087BFF88)\"><i class=\"fa-solid fa-sack-dollar\"></i></div>\n      <span style=\"display:block;margin:-5px auto 0;width:125px;height:28px;line-height:28px;border:1px solid #087BFF;border-radius:4px;background:#041636;color:#DDF8FF;font-size:11px\">竞品对比</span>\n      <b style=\"display:block;margin-top:8px;color:#11DDF7;font-size:15px\">流程二</b>\n    </div><i class=\"fa-solid fa-chevron-right\" style=\"color:#087BFF;font-size:28px;text-shadow:0 0 10px #087BFF\"></i>\n  </div><div style=\"position:relative;display:flex;align-items:center;flex:1\">\n    <div style=\"flex:1;text-align:center\">\n      <div style=\"position:relative;width:82px;height:78px;margin:auto;clip-path:polygon(50% 0,94% 25%,94% 76%,50% 100%,6% 76%,6% 25%);background:linear-gradient(180deg,#073478,#021025);border-top:2px solid #11DDF7;color:#E8FDFF;display:grid;place-items:center;font-size:25px;filter:drop-shadow(0 0 8px #087BFF88)\"><i class=\"fa-solid fa-sack-dollar\"></i></div>\n      <span style=\"display:block;margin:-5px auto 0;width:125px;height:28px;line-height:28px;border:1px solid #087BFF;border-radius:4px;background:#041636;color:#DDF8FF;font-size:11px\">技术验证</span>\n      <b style=\"display:block;margin-top:8px;color:#11DDF7;font-size:15px\">流程三</b>\n    </div><i class=\"fa-solid fa-chevron-right\" style=\"color:#087BFF;font-size:28px;text-shadow:0 0 10px #087BFF\"></i>\n  </div><div style=\"position:relative;display:flex;align-items:center;flex:1\">\n    <div style=\"flex:1;text-align:center\">\n      <div style=\"position:relative;width:82px;height:78px;margin:auto;clip-path:polygon(50% 0,94% 25%,94% 76%,50% 100%,6% 76%,6% 25%);background:linear-gradient(180deg,#073478,#021025);border-top:2px solid #11DDF7;color:#E8FDFF;display:grid;place-items:center;font-size:25px;filter:drop-shadow(0 0 8px #087BFF88)\"><i class=\"fa-solid fa-sack-dollar\"></i></div>\n      <span style=\"display:block;margin:-5px auto 0;width:125px;height:28px;line-height:28px;border:1px solid #087BFF;border-radius:4px;background:#041636;color:#DDF8FF;font-size:11px\">政策合规性检查</span>\n      <b style=\"display:block;margin-top:8px;color:#11DDF7;font-size:15px\">流程四</b>\n    </div>\n  </div></div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-8",
+      "i": "auto-brand-exact-8",
+      "modelKey": "auto-brand-exact-8",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "车型保值率对比",
+      "title": "车型保值率对比",
+      "content": "车型保值率对比",
+      "x": 1438,
+      "y": 115,
+      "w": 464,
+      "h": 399,
+      "position": {
+        "left": 1438,
+        "top": 115,
+        "width": 464,
+        "height": 399,
+        "zIndex": 12
+      },
+      "orderNum": 12,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#03102AD9,#02091BEF);font-family:'Microsoft YaHei';font-weight:400\">\n    <svg viewBox=\"0 0 464 399\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none\">\n    <path d=\"M2 22V2H418L462 20V375L440 397H2Z\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.4\"/>\n    <path d=\"M2 44V18H22M402 2H446\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"3\"/>\n    <path d=\"M2 381V397H362\" fill=\"none\" stroke=\"#11DDF7\" stroke-width=\"1.2\" opacity=\".75\"/>\n    <path d=\"M436 396H460V372\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n  </svg><div style=\"position:absolute;top:13px;left:20px;width:94%;height:34px;display:flex;align-items:center;border-top:1px solid #0A467D;border-bottom:1px solid #0A467D;background:linear-gradient(90deg,#082E62B8,transparent);font-family:'Microsoft YaHei';font-weight:700;color:#F2FBFF;font-size:17px;letter-spacing:.5px\">\n    <span style=\"display:inline-flex;gap:5px;margin:0 10px 0 3px;transform:skew(-20deg)\"><i style=\"display:block;width:8px;height:15px;background:#11DDF7\"></i><i style=\"display:block;width:8px;height:15px;background:#087BFF\"></i></span>燃油车与新能源车型保值率对比\n  </div>\n    <div style=\"position:absolute;left:30px;right:24px;top:62px;color:#A9CEE4;font-size:9px\"><b style=\"color:#FFD21C;margin-right:30px\">车龄</b><span style=\"float:right\">单位：万元</span></div>\n    <div style=\"position:absolute;left:13px;right:22px;top:82px;bottom:16px;background-image:linear-gradient(90deg,#0B4A731F 1px,transparent 1px);background-size:52px 100%\"><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄一年</span><i style=\"display:block;width:5.714285714285714%;height:11px;background:#4AE0F7;box-shadow:0 0 8px #4AE0F755\"></i><b style=\"font-size:10px;color:#F2FBFF\">2</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄二年</span><i style=\"display:block;width:98.97142857142858%;height:11px;background:#48E7B1;box-shadow:0 0 8px #48E7B155\"></i><b style=\"font-size:10px;color:#F2FBFF\">34.64</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄三年</span><i style=\"display:block;width:78.74285714285713%;height:11px;background:#FFD21C;box-shadow:0 0 8px #FFD21C55\"></i><b style=\"font-size:10px;color:#F2FBFF\">27.56</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄四年</span><i style=\"display:block;width:38.171428571428564%;height:11px;background:#FF9A24;box-shadow:0 0 8px #FF9A2455\"></i><b style=\"font-size:10px;color:#F2FBFF\">13.36</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄五年</span><i style=\"display:block;width:42.857142857142854%;height:11px;background:#FF6A30;box-shadow:0 0 8px #FF6A3055\"></i><b style=\"font-size:10px;color:#F2FBFF\">15</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄六年</span><i style=\"display:block;width:21.02857142857143%;height:11px;background:#91A3B0;box-shadow:0 0 8px #91A3B055\"></i><b style=\"font-size:10px;color:#F2FBFF\">7.36</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄七年</span><i style=\"display:block;width:86.05714285714286%;height:11px;background:#9BD8DE;box-shadow:0 0 8px #9BD8DE55\"></i><b style=\"font-size:10px;color:#F2FBFF\">30.12</b>\n  </div><div style=\"display:grid;grid-template-columns:82px 1fr 37px;align-items:center;gap:8px;height:35px;font-size:10px;color:#DFF7FF\">\n    <span style=\"text-align:right\">车龄八年</span><i style=\"display:block;width:100%;height:11px;background:#C6D3DA;box-shadow:0 0 8px #C6D3DA55\"></i><b style=\"font-size:10px;color:#F2FBFF\">35</b>\n  </div></div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-9",
+      "i": "auto-brand-exact-9",
+      "modelKey": "auto-brand-exact-9",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "智能功能活跃度",
+      "title": "智能功能活跃度",
+      "content": "智能功能活跃度",
+      "x": 1438,
+      "y": 536,
+      "w": 464,
+      "h": 338,
+      "position": {
+        "left": 1438,
+        "top": 536,
+        "width": 464,
+        "height": 338,
+        "zIndex": 12
+      },
+      "orderNum": 12,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#03102AD9,#02091BEF);font-family:'Microsoft YaHei';font-weight:400\">\n    <svg viewBox=\"0 0 464 338\" preserveAspectRatio=\"none\" style=\"position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none\">\n    <path d=\"M2 22V2H418L462 20V314L440 336H2Z\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.4\"/>\n    <path d=\"M2 44V18H22M402 2H446\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n    <path d=\"M2 320V336H362\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"1.2\" opacity=\".75\"/>\n    <path d=\"M436 335H460V311\" fill=\"none\" stroke=\"#087BFF\" stroke-width=\"3\"/>\n  </svg><div style=\"position:absolute;top:13px;left:20px;width:94%;height:34px;display:flex;align-items:center;border-top:1px solid #0A467D;border-bottom:1px solid #0A467D;background:linear-gradient(90deg,#082E62B8,transparent);font-family:'Microsoft YaHei';font-weight:700;color:#F2FBFF;font-size:17px;letter-spacing:.5px\">\n    <span style=\"display:inline-flex;gap:5px;margin:0 10px 0 3px;transform:skew(-20deg)\"><i style=\"display:block;width:8px;height:15px;background:#11DDF7\"></i><i style=\"display:block;width:8px;height:15px;background:#087BFF\"></i></span>不同车型智能功能活跃度\n  </div>\n    <svg viewBox=\"0 0 464 338\" style=\"position:absolute;inset:0;width:100%;height:100%\">\n      <polygon points=\"232,117 306.178,170.898 277.864,258.102 186.136,258.102 157.822,170.898\" fill=\"none\" stroke=\"#1C87C4\" stroke-width=\"1\" opacity=\".85\"/><polygon points=\"232,136 288.109,176.769 266.692,242.731 197.308,242.731 175.89100000000002,176.769\" fill=\"none\" stroke=\"#1C87C4\" stroke-width=\"1\" opacity=\".85\"/><polygon points=\"232,155 270.04,182.64 255.52,227.36 208.48,227.36 193.96,182.64\" fill=\"none\" stroke=\"#1C87C4\" stroke-width=\"1\" opacity=\".85\"/><polygon points=\"232,174 251.971,188.511 244.348,211.989 219.652,211.989 212.029,188.511\" fill=\"none\" stroke=\"#1C87C4\" stroke-width=\"1\" opacity=\".85\"/>\n      <path d=\"M232 133L271 183L263 233L206 229L186 181Z\" fill=\"#11DDF766\" stroke=\"#11DDF7\" stroke-width=\"2\"/>\n      <path d=\"M232 117V273M157 171L307 219M307 171L157 219\" stroke=\"#1C87C4\" stroke-width=\"1\" opacity=\".7\"/>\n      <g fill=\"#DFF9FF\" font-size=\"10\" text-anchor=\"middle\"><text x=\"232\" y=\"111\">汽车车型一</text><text x=\"326\" y=\"180\">汽车车型二</text><text x=\"290\" y=\"282\">汽车车型三</text><text x=\"174\" y=\"282\">汽车车型四</text><text x=\"138\" y=\"180\">汽车车型五</text></g>\n      <g font-size=\"13\" font-weight=\"700\"><text x=\"232\" y=\"88\" text-anchor=\"middle\" fill=\"#33E9FF\">35.2</text><text x=\"351\" y=\"180\" fill=\"#FFD21C\">15.5</text><text x=\"295\" y=\"306\" fill=\"#33E9FF\">84.6</text><text x=\"128\" y=\"306\" fill=\"#33E9FF\">32.5</text><text x=\"79\" y=\"180\" fill=\"#FFD21C\">45.6</text></g>\n      <g fill=\"#11DDF7\" stroke=\"#E9FEFF\"><circle cx=\"232\" cy=\"133\" r=\"4\"/><circle cx=\"271\" cy=\"183\" r=\"4\"/><circle cx=\"263\" cy=\"233\" r=\"4\"/><circle cx=\"206\" cy=\"229\" r=\"4\"/><circle cx=\"186\" cy=\"181\" r=\"4\"/></g>\n    </svg>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    },
+    {
+      "id": "auto-brand-exact-10",
+      "i": "auto-brand-exact-10",
+      "modelKey": "auto-brand-exact-10",
+      "type": "text",
+      "component": "JDragEditor",
+      "componentName": "OTA版本迭代效果",
+      "title": "OTA版本迭代效果",
+      "content": "OTA版本迭代效果",
+      "x": 1502,
+      "y": 891,
+      "w": 337,
+      "h": 143,
+      "position": {
+        "left": 1502,
+        "top": 891,
+        "width": 337,
+        "height": 143,
+        "zIndex": 13
+      },
+      "orderNum": 13,
+      "visible": true,
+      "locked": false,
+      "rotation": 0,
+      "panelVariant": "reference-exact",
+      "visualRole": "reference-module",
+      "style": {
+        "background": "transparent",
+        "borderColor": "transparent",
+        "color": "#E8F8FF",
+        "radius": 0,
+        "shadow": "none",
+        "density": "compact"
+      },
+      "config": {
+        "dataType": 1,
+        "datasourceId": 4,
+        "background": "#FFFFFF00",
+        "borderColor": "#FFFFFF00",
+        "chartData": "[]",
+        "chartDataParsed": [],
+        "option": {
+          "body": {
+            "text": "<div style=\"position:relative;width:100%;height:100%;padding:1px 0;box-sizing:border-box;font-family:'Microsoft YaHei';font-weight:400\">\n    <div style=\"position:relative;height:58px;border:1px solid #11DDF7;background:linear-gradient(90deg,#03162F,#11DDF718,#03162F);box-shadow:inset 0 0 16px #11DDF714\">\n    <span style=\"position:absolute;left:18px;top:20px;color:#DDF7FF;font-size:10px\">①OTA版本迭代效果增强</span><b style=\"position:absolute;right:20px;top:13px;color:#11DDF7;font:700 22px Bahnschrift,'Microsoft YaHei'\">86.23%</b>\n    <i style=\"position:absolute;left:0;top:0;border-top:11px solid #11DDF7;border-right:11px solid transparent\"></i><i style=\"position:absolute;right:0;bottom:0;border-bottom:11px solid #11DDF7;border-left:11px solid transparent\"></i>\n  </div>\n    <div style=\"height:17px\"></div>\n    <div style=\"position:relative;height:58px;border:1px solid #FFD21C;background:linear-gradient(90deg,#03162F,#FFD21C18,#03162F);box-shadow:inset 0 0 16px #FFD21C14\">\n    <span style=\"position:absolute;left:18px;top:20px;color:#DDF7FF;font-size:10px\">②OTA版本迭代效果增强</span><b style=\"position:absolute;right:20px;top:13px;color:#FFD21C;font:700 22px Bahnschrift,'Microsoft YaHei'\">46.32%</b>\n    <i style=\"position:absolute;left:0;top:0;border-top:11px solid #FFD21C;border-right:11px solid transparent\"></i><i style=\"position:absolute;right:0;bottom:0;border-bottom:11px solid #FFD21C;border-left:11px solid transparent\"></i>\n  </div>\n  </div>",
+            "color": "#E8F8FF",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "textAlign": "left"
+          }
+        }
+      }
+    }
+  ]
+}

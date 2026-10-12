@@ -1,0 +1,130 @@
+{
+  "scope": "B23 首轮数据阶段超时后定位；只有临时SQLite、回环HTTP，没有业务库或真实模型。",
+  "collected_tests": 375,
+  "original_log_progress_dots": 373,
+  "progress_is_not_terminal_test_evidence": true,
+  "last_two_collected_ids": [
+    "tests/backend/test_http_query_export_contract.py::test_http_export_rechecks_current_permissions_and_ownership[query_owner]",
+    "tests/backend/test_http_query_export_contract.py::test_partial_http_batch_remains_in_collection_history"
+  ],
+  "tail_file_pytest_passed": 21,
+  "tail_file_pytest_seconds": 45.59,
+  "phases": [
+    {
+      "name": "collect-data-phase",
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_query_lifecycle_control.py",
+        "tests/backend/test_query_lifecycle_governance.py",
+        "tests/backend/test_dsh_query_cancellation.py",
+        "tests/backend/test_database_provider.py",
+        "tests/backend/test_datasource_governance.py",
+        "tests/backend/test_analytics_task_control.py",
+        "tests/backend/test_analytics.py",
+        "tests/backend/test_semantic_relation_contract.py",
+        "tests/backend/test_data_profile.py",
+        "tests/backend/test_read_connection_pool.py",
+        "tests/backend/test_graph_property_contracts.py",
+        "tests/backend/test_knowledge_graph.py",
+        "tests/backend/test_graph_explore_contract.py",
+        "tests/backend/test_extraction_source_authority.py",
+        "tests/backend/test_extraction_materialization_contract.py",
+        "tests/backend/test_extraction_review_contract.py",
+        "tests/backend/test_query_source_revalidation.py",
+        "tests/backend/test_query_source_revalidation_boundaries.py",
+        "tests/backend/test_query_source_revalidation_dsh.py",
+        "tests/backend/test_query_source_revalidation_replay.py",
+        "tests/backend/test_http_query_export_contract.py",
+        "--collect-only",
+        "--disable-warnings"
+      ],
+      "seconds": 12.765,
+      "exit_code": 0,
+      "budget_seconds": 60,
+      "log_sha256": "7bac31c1a1785cd5f31ad1d640f611cf9e75cb3ae0a0b884cbb5c612237e6a24"
+    },
+    {
+      "name": "http-export-tail",
+      "command": [
+        "E:\\code\\Yun_tian\\the_company_agent\\test5\\.venv_py312\\Scripts\\python.exe",
+        "tests/run_isolated_backend.py",
+        "tests/backend/test_http_query_export_contract.py",
+        "-vv",
+        "--durations=25",
+        "--maxfail=1",
+        "--disable-warnings",
+        "--junitxml=E:\\code\\Yun_tian\\the_company_agent\\test5\\.implementation\\worktrees\\major-extraction-recovery\\.implementation\\batch23-timeout-diagnosis\\http-export-tail.xml"
+      ],
+      "seconds": 55.297,
+      "exit_code": 0,
+      "budget_seconds": 180,
+      "log_sha256": "19f6d9ba344bd2bfe85e0b8aeb2948313416ec8b9fe312f0b4b16a07409a8ae9"
+    }
+  ],
+  "groups": [
+    {
+      "name": "backend-query-lifecycle",
+      "files": [
+        "tests/backend/test_query_lifecycle_control.py",
+        "tests/backend/test_query_lifecycle_governance.py",
+        "tests/backend/test_dsh_query_cancellation.py",
+        "tests/backend/test_database_provider.py",
+        "tests/backend/test_datasource_governance.py",
+        "tests/backend/test_analytics_task_control.py",
+        "tests/backend/test_analytics.py",
+        "tests/backend/test_semantic_relation_contract.py",
+        "tests/backend/test_data_profile.py",
+        "tests/backend/test_read_connection_pool.py"
+      ],
+      "collected": 182
+    },
+    {
+      "name": "backend-graph-extraction",
+      "files": [
+        "tests/backend/test_graph_property_contracts.py",
+        "tests/backend/test_knowledge_graph.py",
+        "tests/backend/test_graph_explore_contract.py",
+        "tests/backend/test_extraction_source_authority.py",
+        "tests/backend/test_extraction_materialization_contract.py",
+        "tests/backend/test_extraction_review_contract.py"
+      ],
+      "collected": 143
+    },
+    {
+      "name": "backend-query-revalidation",
+      "files": [
+        "tests/backend/test_query_source_revalidation.py",
+        "tests/backend/test_query_source_revalidation_boundaries.py",
+        "tests/backend/test_query_source_revalidation_dsh.py",
+        "tests/backend/test_query_source_revalidation_replay.py",
+        "tests/backend/test_http_query_export_contract.py"
+      ],
+      "collected": 50
+    }
+  ],
+  "diagnosis": "末尾21项可在原始源码下45.59秒完成，未复现单项卡死。既有375项整组接近600秒预算。共同夹具建库/登录耗时可见于durations；并发资源是否为唯一成因尚未证明。",
+  "decision": "仅重分组数据阶段并增加慢项输出，不改测试语义/产品/600秒单阶段上限；保留全部97个门禁入口。五个已通过前缀源码未变，复用原独立证据，按新冻结补验21阶段，不写成单轮26阶段运行。",
+  "evidence": [
+    {
+      "path": ".implementation/batch23-timeout-diagnosis/collect-data-phase.log",
+      "sha256": "7bac31c1a1785cd5f31ad1d640f611cf9e75cb3ae0a0b884cbb5c612237e6a24"
+    },
+    {
+      "path": ".implementation/batch23-timeout-diagnosis/http-export-tail.log",
+      "sha256": "19f6d9ba344bd2bfe85e0b8aeb2948313416ec8b9fe312f0b4b16a07409a8ae9"
+    },
+    {
+      "path": ".implementation/batch23-timeout-diagnosis/http-export-tail.xml",
+      "sha256": "7143baf7a7259dc9e2a4435e988b4b2f5fa330d3a1562ea8e7ef7c53abdfb393"
+    },
+    {
+      "path": ".implementation/batch23-timeout-diagnosis/manifest.json",
+      "sha256": "53976cb163c265cd041b3ddb08d1fbd359eb84d47563bce08d9bfc1bc29b710a"
+    },
+    {
+      "path": ".implementation/batch23-timeout-diagnosis/verify_chat_delivery.before.py",
+      "sha256": "8cefd097e537f22f04e7c6256adeacf93dfdcdca47c5f1557910a9539de028b4"
+    }
+  ]
+}

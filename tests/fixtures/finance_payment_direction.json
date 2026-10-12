@@ -1,0 +1,629 @@
+{
+  "description": "保存工具结果的最小结构回归：只有表列声明和失败 SQL，不含任何业务行或连接信息。",
+  "tables": [
+    {
+      "tableName": "t_custbaseinfo",
+      "tableComment": "客户信息表",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "custBaseInfoId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "createdOn",
+          "comment": "创建时间",
+          "dataType": "DATETIME",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "createdBy",
+          "comment": "创建用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "ownerUser",
+          "comment": "所属用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "ownerDepartment",
+          "comment": "所属部门",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "modifiedOn",
+          "comment": "最近修改时间",
+          "dataType": "DATETIME",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "modifiedBy",
+          "comment": "修改用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "isDeleted",
+          "comment": "",
+          "dataType": "TINYINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custName",
+          "comment": "客户名称",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custType",
+          "comment": "客户类型",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_industry",
+          "comment": "所属行业",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custLevel",
+          "comment": "客户等级",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custSource",
+          "comment": "客户来源",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_locatian",
+          "comment": "公司坐标",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custUrl",
+          "comment": "公司网址",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custStatus",
+          "comment": "客户状态",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_custCity",
+          "comment": "所属省/市",
+          "dataType": "VARCHAR(300) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_destCountry",
+          "comment": "目的国家",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_address",
+          "comment": "公司地址",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_invoiceName",
+          "comment": "发票抬头",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_invoiceTaxID",
+          "comment": "发票税号",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_taxCategory",
+          "comment": "税种",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_vatRate",
+          "comment": "增值税税率 %",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_openAcctPhone",
+          "comment": "开户电话",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_openAcctBank",
+          "comment": "开户银行",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_bankAcct",
+          "comment": "银行账号",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_email",
+          "comment": "收票邮箱",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_customerCode",
+          "comment": "客户编码",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_personInCharge",
+          "comment": "负责人",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_reasonForEnteringSea",
+          "comment": "入海理由",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_otherReasons",
+          "comment": "其他理由",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": []
+    },
+    {
+      "tableName": "t_summaryoffundpaymentplan",
+      "tableComment": "资金支付计划汇总单",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "summaryofFundPaymentPlanId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "createdOn",
+          "comment": "创建时间",
+          "dataType": "DATETIME",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "createdBy",
+          "comment": "创建用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "ownerUser",
+          "comment": "所属用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "ownerDepartment",
+          "comment": "所属部门",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "modifiedOn",
+          "comment": "最近修改时间",
+          "dataType": "DATETIME",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "modifiedBy",
+          "comment": "修改用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "isDeleted",
+          "comment": "",
+          "dataType": "TINYINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_plandDate",
+          "comment": "日期",
+          "dataType": "DATE",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_count",
+          "comment": "合计",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_headOfDepartment",
+          "comment": "部门负责人",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_tabulator",
+          "comment": "制表人",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_zhibiaoren",
+          "comment": "制表人签字",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_bumenfuzerenqianzi",
+          "comment": "部门负责人签字",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_bumen",
+          "comment": "部门",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_zijinzhifubianhao",
+          "comment": "资金支付编号",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_zijinzhifudanmingcheng",
+          "comment": "资金支付单名称",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "approvalConfigId",
+          "comment": "审批流程",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "approvalStatus",
+          "comment": "审批状态",
+          "dataType": "SMALLINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "lastApprovedBy",
+          "comment": "最近审批人",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "lastApprovedOn",
+          "comment": "最近审批时间",
+          "dataType": "DATETIME",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "lastApprovalRemark",
+          "comment": "最近审批批注",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_caiwubu",
+          "comment": "财务部",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_anquanzongjian",
+          "comment": "安全总监",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_fujingligonghuizhuxi",
+          "comment": "副经理工会主席",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_fujingli",
+          "comment": "副经理",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_dangzhibufushuji",
+          "comment": "党支部副书记",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_jingli",
+          "comment": "经理",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_dangzhibushuji",
+          "comment": "党支部书记",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_fenguanlingdao",
+          "comment": "分管领导",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_zuidijiatoubiaohuiyijueding",
+          "comment": "最低价投标会议决定",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "fieldLabel": "",
+          "sourceField": "",
+          "sourceTable": "t_summaryoffundpaymentplan",
+          "targetField": "",
+          "targetLabel": "资金支付汇总明细",
+          "targetTable": "t_summaryoffundpayments",
+          "relationType": "main_detail",
+          "targetNameField": "",
+          "joinKeysKnown": false
+        }
+      ]
+    },
+    {
+      "tableName": "t_summaryoffundpayments",
+      "tableComment": "资金支付汇总明细",
+      "columns": [
+        {
+          "columnName": "autoId",
+          "comment": "",
+          "dataType": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "columnName": "summaryofFundPaymentsId",
+          "comment": "id主键",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "createdOn",
+          "comment": "创建时间",
+          "dataType": "DATETIME",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "createdBy",
+          "comment": "创建用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "columnName": "modifiedOn",
+          "comment": "最近修改时间",
+          "dataType": "DATETIME",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "modifiedBy",
+          "comment": "修改用户",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "isDeleted",
+          "comment": "",
+          "dataType": "TINYINT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "mdSummaryofFundPaymentPlanId",
+          "comment": "主从关联Id",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractNo",
+          "comment": "合同号",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractName",
+          "comment": "合同名称/款项名称",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_payee",
+          "comment": "收款单位",
+          "dataType": "VARCHAR(200) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_contractAmount",
+          "comment": "合同金额（元）",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_pamented",
+          "comment": "已付金额（元）",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_unpayment",
+          "comment": "未付金额（元）",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_requestPament",
+          "comment": "本次申请支付金额",
+          "dataType": "DECIMAL(18, 6)",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_yongtushuoming",
+          "comment": "用途说明",
+          "dataType": "LONGTEXT",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_bumen",
+          "comment": "部门",
+          "dataType": "CHAR(40) COLLATE \"utf8mb4_general_ci\"",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "columnName": "c_xuhao",
+          "comment": "序号",
+          "dataType": "INTEGER",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "declaredRelations": [
+        {
+          "fieldLabel": "",
+          "sourceField": "",
+          "sourceTable": "t_summaryoffundpayments",
+          "targetField": "",
+          "targetLabel": "资金支付汇总明细",
+          "targetTable": "t_summaryoffundpaymentplan",
+          "relationType": "main_detail",
+          "targetNameField": "",
+          "relationDirection": "reverse",
+          "joinKeysKnown": false
+        }
+      ]
+    }
+  ],
+  "rejectedSql": "SELECT `c`.`c_custName` AS `客户名称`, `p`.`c_contractNo` AS `合同号`, `p`.`c_contractName` AS `合同名称或款项名称`, `p`.`c_contractAmount` AS `合同金额_元`, `p`.`c_pamented` AS `已付金额_元`, `p`.`c_unpayment` AS `未付金额_元`, `p`.`c_requestPament` AS `本次申请支付金额`, `p`.`c_payee` AS `收款单位`, `p`.`c_bumen` AS `部门`, `p`.`c_xuhao` AS `序号`, `pl`.`c_plandDate` AS `计划日期`, `pl`.`c_zijinzhifubianhao` AS `资金支付编号`, `pl`.`c_zijinzhifudanmingcheng` AS `资金支付单名称`, `pl`.`approvalStatus` AS `审批状态` FROM `t_summaryoffundpayments` AS `p` LEFT JOIN `t_summaryoffundpaymentplan` AS `pl` ON `p`.`mdSummaryofFundPaymentPlanId` = `pl`.`summaryofFundPaymentPlanId` LEFT JOIN `t_custbaseinfo` AS `c` ON `c`.`c_custName` = `p`.`c_payee` WHERE `p`.`isDeleted` = 0 AND `pl`.`c_plandDate` >= DATE_FORMAT(DATE_SUB(CURRENT_DATE, INTERVAL '1' MONTH), '%Y-%m-01') AND `pl`.`c_plandDate` < DATE_FORMAT(CURRENT_DATE, '%Y-%m-01') ORDER BY `pl`.`c_plandDate`, `p`.`c_xuhao` LIMIT 100"
+}

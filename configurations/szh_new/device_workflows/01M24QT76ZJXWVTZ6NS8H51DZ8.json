@@ -1,0 +1,1872 @@
+{
+  "name": "4#皮带机B · 设备预警",
+  "description": "选择本设备 → 读取值 → 计算值 → 判断值 → 输出结果。条件均在画布中，周期及标准每次从本设备计划读取；不需要编写 SQL、Python 或 JSONPath。只读导入副本。",
+  "domains": [
+    "alert"
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "start",
+        "kind": "start",
+        "title": "开始",
+        "description": "",
+        "position": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "variables": [
+            {
+              "type": "text-input",
+              "label": "参考时间（导入副本）",
+              "default": "2026-09-02 13:53:59",
+              "required": true,
+              "variable": "asOf"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintenance_read",
+        "kind": "read-values",
+        "title": "读取值 · 本设备润滑点、周期和时间",
+        "description": "",
+        "position": {
+          "x": 320.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "fields": [
+            "设备",
+            "计划",
+            "润滑点",
+            "点位编号",
+            "周期天数",
+            "要求油品",
+            "要求用量",
+            "要求方式",
+            "换油周期",
+            "换油量",
+            "上次完成时间",
+            "任务状态",
+            "点位状态",
+            "本次完成时间",
+            "记录油品",
+            "记录用量",
+            "记录方式",
+            "原记录",
+            "参考时间",
+            "同名计划数"
+          ],
+          "deviceId": "01M24QT76ZJXWVTZ6NS8H51DZ8",
+          "parameters": {
+            "asOf": "2026-09-02 13:53:59",
+            "deviceKey": ""
+          },
+          "templateId": "01M24ZDZC4A7HMT2CRDFDW8P8W",
+          "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+          "templateVersion": 2,
+          "datasourceVersion": 2
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "results",
+        "kind": "merge",
+        "title": "汇总输出",
+        "description": "",
+        "position": {
+          "x": 2370.0,
+          "y": 750.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "report",
+        "kind": "alert-evaluate",
+        "title": "保存预警结果",
+        "description": "",
+        "position": {
+          "x": 2700.0,
+          "y": 750.0
+        },
+        "inputs": {},
+        "config": {
+          "ruleId": "01M24QT9NCHKJMFZHKC9K2JF52",
+          "deviceId": "01M24QT76ZJXWVTZ6NS8H51DZ8",
+          "ruleRevision": 2
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "end",
+        "kind": "end",
+        "title": "结束",
+        "description": "",
+        "position": {
+          "x": 3030.0,
+          "y": 750.0
+        },
+        "inputs": {},
+        "config": {},
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_values",
+        "kind": "calculate-values",
+        "title": "计算值 · 保养超期",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "calculations": [
+            {
+              "left": {
+                "value": "保养超期",
+                "source": "constant"
+              },
+              "name": "检查项目",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "周期天数",
+                "source": "field"
+              },
+              "name": "检查要求",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "上次完成时间",
+                "source": "field"
+              },
+              "name": "实测值",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "上次完成时间",
+                "source": "field"
+              },
+              "name": "已过天数",
+              "right": {
+                "field": "参考时间",
+                "source": "field"
+              },
+              "operation": "days_between"
+            },
+            {
+              "left": {
+                "field": "周期天数",
+                "source": "field"
+              },
+              "name": "周期数值",
+              "operation": "number"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_if_0",
+        "kind": "condition",
+        "title": "判断值 · 周期是否缺失或无效",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "周期数值"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "field": "周期数值"
+                  },
+                  {
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_result_0",
+        "kind": "output-values",
+        "title": "输出 · 保养超期 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 220.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "源计划的保养周期缺失或不大于零，无法判断是否超期；其他检查继续执行。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_if_1",
+        "kind": "condition",
+        "title": "判断值 · 保养时间是否缺失或无效",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "已过天数"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "field": "已过天数"
+                  },
+                  {
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "op": "ne",
+                "args": [
+                  {
+                    "field": "同名计划数"
+                  },
+                  {
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_result_1",
+        "kind": "output-values",
+        "title": "输出 · 保养超期 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 220.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "未读到可关联的保养完成时间，或时间晚于参考时间，无法判断是否超期；其他检查继续执行。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_if_2",
+        "kind": "condition",
+        "title": "判断值 · 是否超过本点保养周期",
+        "description": "",
+        "position": {
+          "x": 1680.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "gt",
+            "args": [
+              {
+                "field": "已过天数"
+              },
+              {
+                "field": "周期数值"
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_result_2",
+        "kind": "output-values",
+        "title": "输出 · 保养超期 · 预警",
+        "description": "",
+        "position": {
+          "x": 1680.0,
+          "y": 220.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "距上次完成保养的天数超过源计划中该润滑点的周期。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_cycle_normal",
+        "kind": "output-values",
+        "title": "输出 · 保养超期 · 正常",
+        "description": "",
+        "position": {
+          "x": 2020.0,
+          "y": 0.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "截至参考时间，距上次完成保养的天数未超过源计划周期。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_oil_values",
+        "kind": "calculate-values",
+        "title": "计算值 · 润滑油品",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 500.0
+        },
+        "inputs": {},
+        "config": {
+          "calculations": [
+            {
+              "left": {
+                "value": "润滑油品",
+                "source": "constant"
+              },
+              "name": "检查项目",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "要求油品",
+                "source": "field"
+              },
+              "name": "检查要求",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "记录油品",
+                "source": "field"
+              },
+              "name": "实测值",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "任务状态",
+                "source": "field"
+              },
+              "name": "主任务完成状态",
+              "mapping": {
+                "1": "已完成",
+                "2": "未完成"
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "点位状态",
+                "source": "field"
+              },
+              "name": "点位完成状态",
+              "mapping": {
+                "1": "已完成",
+                "2": "未完成"
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "本次完成时间",
+                "source": "field"
+              },
+              "name": "完成距参考天数",
+              "right": {
+                "field": "参考时间",
+                "source": "field"
+              },
+              "operation": "days_between"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_oil_if_0",
+        "kind": "condition",
+        "title": "判断值 · 润滑油品要求或完成记录是否缺失",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 500.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "要求油品"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "记录油品"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "同名计划数"
+                      },
+                      {
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "missing",
+                        "args": [
+                          {
+                            "field": "完成距参考天数"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "lt",
+                    "args": [
+                      {
+                        "field": "完成距参考天数"
+                      },
+                      {
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "主任务完成状态"
+                      },
+                      {
+                        "value": "已完成"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "点位完成状态"
+                      },
+                      {
+                        "value": "已完成"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_oil_result_0",
+        "kind": "output-values",
+        "title": "输出 · 润滑油品 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 720.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "无法核对润滑油品：请查看本行源库要求和实测值；未读到对应实测值或已完成的保养记录。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_oil_if_1",
+        "kind": "condition",
+        "title": "判断值 · 润滑油品是否不符合要求",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 500.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "ne",
+            "args": [
+              {
+                "field": "记录油品"
+              },
+              {
+                "field": "要求油品"
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_oil_result_1",
+        "kind": "output-values",
+        "title": "输出 · 润滑油品 · 预警",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 720.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "完成记录中的润滑油品与本润滑点在源计划中的要求不一致。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_oil_normal",
+        "kind": "output-values",
+        "title": "输出 · 润滑油品 · 正常",
+        "description": "",
+        "position": {
+          "x": 1680.0,
+          "y": 500.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "完成记录中的润滑油品与本润滑点在源计划中的要求一致。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_method_values",
+        "kind": "calculate-values",
+        "title": "计算值 · 保养方式",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 1000.0
+        },
+        "inputs": {},
+        "config": {
+          "calculations": [
+            {
+              "left": {
+                "value": "保养方式",
+                "source": "constant"
+              },
+              "name": "检查项目",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "要求方式",
+                "source": "field"
+              },
+              "name": "检查要求",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "记录方式",
+                "source": "field"
+              },
+              "name": "实测值",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "任务状态",
+                "source": "field"
+              },
+              "name": "主任务完成状态",
+              "mapping": {
+                "1": "已完成",
+                "2": "未完成"
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "点位状态",
+                "source": "field"
+              },
+              "name": "点位完成状态",
+              "mapping": {
+                "1": "已完成",
+                "2": "未完成"
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "本次完成时间",
+                "source": "field"
+              },
+              "name": "完成距参考天数",
+              "right": {
+                "field": "参考时间",
+                "source": "field"
+              },
+              "operation": "days_between"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_method_if_0",
+        "kind": "condition",
+        "title": "判断值 · 保养方式要求或完成记录是否缺失",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 1000.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "要求方式"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "记录方式"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "同名计划数"
+                      },
+                      {
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "missing",
+                        "args": [
+                          {
+                            "field": "完成距参考天数"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "lt",
+                    "args": [
+                      {
+                        "field": "完成距参考天数"
+                      },
+                      {
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "主任务完成状态"
+                      },
+                      {
+                        "value": "已完成"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "点位完成状态"
+                      },
+                      {
+                        "value": "已完成"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_method_result_0",
+        "kind": "output-values",
+        "title": "输出 · 保养方式 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 1220.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "无法核对保养方式：请查看本行源库要求和实测值；未读到对应实测值或已完成的保养记录。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_method_if_1",
+        "kind": "condition",
+        "title": "判断值 · 保养方式是否不符合要求",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 1000.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "ne",
+            "args": [
+              {
+                "field": "记录方式"
+              },
+              {
+                "field": "要求方式"
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_method_result_1",
+        "kind": "output-values",
+        "title": "输出 · 保养方式 · 预警",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 1220.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "完成记录中的保养方式与本润滑点在源计划中的要求不一致。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_method_normal",
+        "kind": "output-values",
+        "title": "输出 · 保养方式 · 正常",
+        "description": "",
+        "position": {
+          "x": 1680.0,
+          "y": 1000.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "完成记录中的保养方式与本润滑点在源计划中的要求一致。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_values",
+        "kind": "calculate-values",
+        "title": "计算值 · 润滑用量",
+        "description": "",
+        "position": {
+          "x": 660.0,
+          "y": 1500.0
+        },
+        "inputs": {},
+        "config": {
+          "calculations": [
+            {
+              "left": {
+                "value": "润滑用量",
+                "source": "constant"
+              },
+              "name": "检查项目",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "要求用量",
+                "source": "field"
+              },
+              "name": "检查要求",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "记录用量",
+                "source": "field"
+              },
+              "name": "实测值",
+              "operation": "copy"
+            },
+            {
+              "left": {
+                "field": "任务状态",
+                "source": "field"
+              },
+              "name": "主任务完成状态",
+              "mapping": {
+                "1": "已完成",
+                "2": "未完成"
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "点位状态",
+                "source": "field"
+              },
+              "name": "点位完成状态",
+              "mapping": {
+                "1": "已完成",
+                "2": "未完成"
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "本次完成时间",
+                "source": "field"
+              },
+              "name": "完成距参考天数",
+              "right": {
+                "field": "参考时间",
+                "source": "field"
+              },
+              "operation": "days_between"
+            },
+            {
+              "left": {
+                "field": "要求用量",
+                "source": "field"
+              },
+              "name": "要求用量下限",
+              "operation": "range_lower"
+            },
+            {
+              "left": {
+                "field": "要求用量",
+                "source": "field"
+              },
+              "name": "要求用量上限",
+              "operation": "range_upper"
+            },
+            {
+              "left": {
+                "field": "要求用量",
+                "source": "field"
+              },
+              "name": "要求用量单位",
+              "operation": "range_unit"
+            },
+            {
+              "left": {
+                "field": "要求用量单位",
+                "source": "field"
+              },
+              "name": "要求单位换算率",
+              "mapping": {
+                "G": "0.001",
+                "g": "0.001",
+                "KG": 1,
+                "Kg": 1,
+                "kg": 1
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "要求用量下限",
+                "source": "field"
+              },
+              "name": "下限千克",
+              "right": {
+                "field": "要求单位换算率",
+                "source": "field"
+              },
+              "operation": "multiply"
+            },
+            {
+              "left": {
+                "field": "要求用量上限",
+                "source": "field"
+              },
+              "name": "上限千克",
+              "right": {
+                "field": "要求单位换算率",
+                "source": "field"
+              },
+              "operation": "multiply"
+            },
+            {
+              "left": {
+                "field": "记录用量",
+                "source": "field"
+              },
+              "name": "实际用量数值",
+              "operation": "number"
+            },
+            {
+              "left": {
+                "field": "记录用量",
+                "source": "field"
+              },
+              "name": "实际用量单位",
+              "operation": "unit"
+            },
+            {
+              "left": {
+                "field": "实际用量单位",
+                "source": "field"
+              },
+              "name": "实际单位换算率",
+              "mapping": {
+                "G": "0.001",
+                "g": "0.001",
+                "KG": 1,
+                "Kg": 1,
+                "kg": 1
+              },
+              "operation": "lookup"
+            },
+            {
+              "left": {
+                "field": "实际用量数值",
+                "source": "field"
+              },
+              "name": "实际用量千克",
+              "right": {
+                "field": "实际单位换算率",
+                "source": "field"
+              },
+              "operation": "multiply"
+            }
+          ]
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_if_0",
+        "kind": "condition",
+        "title": "判断值 · 用量范围是否缺失或不明确",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 1500.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "下限千克"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "上限千克"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "field": "下限千克"
+                  },
+                  {
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_result_0",
+        "kind": "output-values",
+        "title": "输出 · 润滑用量 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1000.0,
+          "y": 1720.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "源库用量要求没有可自动核对的明确数值区间及质量单位，保留原要求供人工确认。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_if_1",
+        "kind": "condition",
+        "title": "判断值 · 实际用量是否缺失或无法核对",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 1500.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "missing",
+                    "args": [
+                      {
+                        "field": "实际用量千克"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "同名计划数"
+                      },
+                      {
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "missing",
+                        "args": [
+                          {
+                            "field": "完成距参考天数"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "lt",
+                    "args": [
+                      {
+                        "field": "完成距参考天数"
+                      },
+                      {
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "主任务完成状态"
+                      },
+                      {
+                        "value": "已完成"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "ne",
+                    "args": [
+                      {
+                        "field": "点位完成状态"
+                      },
+                      {
+                        "value": "已完成"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_result_1",
+        "kind": "output-values",
+        "title": "输出 · 润滑用量 · 待确认",
+        "description": "",
+        "position": {
+          "x": 1340.0,
+          "y": 1720.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "未读到已完成保养的实际用量，或实际值没有明确的 kg/g 单位；不能把要求区间当成实际加注量。",
+          "conclusion": "pending"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_if_2",
+        "kind": "condition",
+        "title": "判断值 · 实际用量是否超出范围",
+        "description": "",
+        "position": {
+          "x": 1680.0,
+          "y": 1500.0
+        },
+        "inputs": {},
+        "config": {
+          "mode": "rows",
+          "expression": {
+            "op": "or",
+            "args": [
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "field": "实际用量千克"
+                  },
+                  {
+                    "field": "下限千克"
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "field": "实际用量千克"
+                  },
+                  {
+                    "field": "上限千克"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_result_2",
+        "kind": "output-values",
+        "title": "输出 · 润滑用量 · 预警",
+        "description": "",
+        "position": {
+          "x": 1680.0,
+          "y": 1720.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "实际润滑用量超出源计划要求的区间；比较时已统一 kg/g 单位。",
+          "conclusion": "warning"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      },
+      {
+        "id": "maintcheck_amount_normal",
+        "kind": "output-values",
+        "title": "输出 · 润滑用量 · 正常",
+        "description": "",
+        "position": {
+          "x": 2020.0,
+          "y": 1500.0
+        },
+        "inputs": {},
+        "config": {
+          "message": "实际润滑用量位于源计划要求的区间内，且有对应的已完成保养记录。",
+          "conclusion": "normal"
+        },
+        "retryConfig": {
+          "retryEnabled": false,
+          "maxRetries": 3,
+          "retryInterval": 1000
+        },
+        "errorStrategy": "none",
+        "defaultValue": null
+      }
+    ],
+    "edges": [
+      {
+        "id": "start_out_maintenance_read",
+        "source": "start",
+        "target": "maintenance_read",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "results_out_report",
+        "source": "results",
+        "target": "report",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "report_out_end",
+        "source": "report",
+        "target": "end",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintenance_read_out_maintcheck_cycle_values",
+        "source": "maintenance_read",
+        "target": "maintcheck_cycle_values",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_values_out_maintcheck_cycle_if_0",
+        "source": "maintcheck_cycle_values",
+        "target": "maintcheck_cycle_if_0",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_if_0_true_maintcheck_cycle_result_0",
+        "source": "maintcheck_cycle_if_0",
+        "target": "maintcheck_cycle_result_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_result_0_out_results",
+        "source": "maintcheck_cycle_result_0",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_if_0_false_maintcheck_cycle_if_1",
+        "source": "maintcheck_cycle_if_0",
+        "target": "maintcheck_cycle_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_if_1_true_maintcheck_cycle_result_1",
+        "source": "maintcheck_cycle_if_1",
+        "target": "maintcheck_cycle_result_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_result_1_out_results",
+        "source": "maintcheck_cycle_result_1",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_if_1_false_maintcheck_cycle_if_2",
+        "source": "maintcheck_cycle_if_1",
+        "target": "maintcheck_cycle_if_2",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_if_2_true_maintcheck_cycle_result_2",
+        "source": "maintcheck_cycle_if_2",
+        "target": "maintcheck_cycle_result_2",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_result_2_out_results",
+        "source": "maintcheck_cycle_result_2",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_if_2_false_maintcheck_cycle_normal",
+        "source": "maintcheck_cycle_if_2",
+        "target": "maintcheck_cycle_normal",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_cycle_normal_out_results",
+        "source": "maintcheck_cycle_normal",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintenance_read_out_maintcheck_oil_values",
+        "source": "maintenance_read",
+        "target": "maintcheck_oil_values",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_values_out_maintcheck_oil_if_0",
+        "source": "maintcheck_oil_values",
+        "target": "maintcheck_oil_if_0",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_if_0_true_maintcheck_oil_result_0",
+        "source": "maintcheck_oil_if_0",
+        "target": "maintcheck_oil_result_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_result_0_out_results",
+        "source": "maintcheck_oil_result_0",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_if_0_false_maintcheck_oil_if_1",
+        "source": "maintcheck_oil_if_0",
+        "target": "maintcheck_oil_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_if_1_true_maintcheck_oil_result_1",
+        "source": "maintcheck_oil_if_1",
+        "target": "maintcheck_oil_result_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_result_1_out_results",
+        "source": "maintcheck_oil_result_1",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_if_1_false_maintcheck_oil_normal",
+        "source": "maintcheck_oil_if_1",
+        "target": "maintcheck_oil_normal",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_oil_normal_out_results",
+        "source": "maintcheck_oil_normal",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintenance_read_out_maintcheck_method_values",
+        "source": "maintenance_read",
+        "target": "maintcheck_method_values",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_values_out_maintcheck_method_if_0",
+        "source": "maintcheck_method_values",
+        "target": "maintcheck_method_if_0",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_if_0_true_maintcheck_method_result_0",
+        "source": "maintcheck_method_if_0",
+        "target": "maintcheck_method_result_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_result_0_out_results",
+        "source": "maintcheck_method_result_0",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_if_0_false_maintcheck_method_if_1",
+        "source": "maintcheck_method_if_0",
+        "target": "maintcheck_method_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_if_1_true_maintcheck_method_result_1",
+        "source": "maintcheck_method_if_1",
+        "target": "maintcheck_method_result_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_result_1_out_results",
+        "source": "maintcheck_method_result_1",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_if_1_false_maintcheck_method_normal",
+        "source": "maintcheck_method_if_1",
+        "target": "maintcheck_method_normal",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_method_normal_out_results",
+        "source": "maintcheck_method_normal",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintenance_read_out_maintcheck_amount_values",
+        "source": "maintenance_read",
+        "target": "maintcheck_amount_values",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_values_out_maintcheck_amount_if_0",
+        "source": "maintcheck_amount_values",
+        "target": "maintcheck_amount_if_0",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_if_0_true_maintcheck_amount_result_0",
+        "source": "maintcheck_amount_if_0",
+        "target": "maintcheck_amount_result_0",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_result_0_out_results",
+        "source": "maintcheck_amount_result_0",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_if_0_false_maintcheck_amount_if_1",
+        "source": "maintcheck_amount_if_0",
+        "target": "maintcheck_amount_if_1",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_if_1_true_maintcheck_amount_result_1",
+        "source": "maintcheck_amount_if_1",
+        "target": "maintcheck_amount_result_1",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_result_1_out_results",
+        "source": "maintcheck_amount_result_1",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_if_1_false_maintcheck_amount_if_2",
+        "source": "maintcheck_amount_if_1",
+        "target": "maintcheck_amount_if_2",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_if_2_true_maintcheck_amount_result_2",
+        "source": "maintcheck_amount_if_2",
+        "target": "maintcheck_amount_result_2",
+        "port": "true",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_result_2_out_results",
+        "source": "maintcheck_amount_result_2",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_if_2_false_maintcheck_amount_normal",
+        "source": "maintcheck_amount_if_2",
+        "target": "maintcheck_amount_normal",
+        "port": "false",
+        "sourceSide": "right",
+        "targetSide": "left"
+      },
+      {
+        "id": "maintcheck_amount_normal_out_results",
+        "source": "maintcheck_amount_normal",
+        "target": "results",
+        "port": "out",
+        "sourceSide": "right",
+        "targetSide": "left"
+      }
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "id": "01M257SW2RNQ4JEM3VK0KGAQQ9",
+  "name": "出厂检测原始数据 · 按产品与要求读取",
+  "category": "工作流读取值",
+  "content": "SELECT d.incomingMaterialQcItemDetails2Id recordKey,\n                h.incomingMaterialQcFormId AS `单据标识`,h.c_incomingQcNo AS `质检单号`,d.c_timePoint AS `检测时间`,\n                d.c_luyanshu AS `炉眼`,d.c_faqiliang AS `发气量_L每kg`,\n                d.c_linhuaqing AS `磷化氢_百分比`,d.c_liuhuaqing AS `硫化氢_百分比`,d.c_jieguo AS `原检验结果`\n                FROM t_incomingmaterialqcitemdetails2 d JOIN t_incomingmaterialqcform h\n                ON h.incomingMaterialQcFormId=d.mdIncomingMaterialQcFormId AND h.isDeleted=0\n                WHERE (:formNumber='' OR h.c_incomingQcNo=:formNumber) AND d.isDeleted=0 AND h.c_qualityInspection=:category AND (\n (:qualityTemplate<>'' AND h.c_qualityInspectionTemplate=:qualityTemplate)\n OR (:qualityTemplate='' AND (h.c_qualityInspectionTemplate IS NULL OR h.c_qualityInspectionTemplate=''))\n) ORDER BY d.incomingMaterialQcItemDetails2Id",
+  "mode": "sql",
+  "parameters": {
+    "inputs": [
+      {
+        "name": "category",
+        "label": "质检类别（1来料、2过程、3成品）",
+        "default": 1,
+        "options": [
+          {
+            "label": "来料质检",
+            "value": 1
+          },
+          {
+            "label": "过程质检",
+            "value": 2
+          },
+          {
+            "label": "成品质检",
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "formNumber",
+        "label": "质检单号（留空全部）",
+        "default": ""
+      },
+      {
+        "name": "qualityTemplate",
+        "label": "产品与检测要求",
+        "default": "",
+        "options": [
+          {
+            "label": "兰炭 · 兰炭质检模板",
+            "value": "0001328-825ef55128b14f67a9c98885cfdb16ec"
+          },
+          {
+            "label": "焦炭 · 焦 炭  质检报告",
+            "value": "0001328-199815f9e9f044218f663c79f9938b36"
+          },
+          {
+            "label": "电极糊 · 电极糊质检报告",
+            "value": "0001328-c3b7bf2a2ec54c6e97b80aea2bff92a1"
+          },
+          {
+            "label": "石灰 · 石 灰  质检报告",
+            "value": "0001328-e8f60ab21b97492a83d6215fa3091c58"
+          },
+          {
+            "label": "石灰石 · 石灰石质检报告",
+            "value": "0001328-d73088c806e744b4823f016db00af4f1"
+          },
+          {
+            "label": "电石 · 出厂成品电石质检模板",
+            "value": "0001328-54d75eec3432407c994c93326cf27d09"
+          },
+          {
+            "label": "电石 · 炉前电石质检模板",
+            "value": "0001328-56722877a26f4aa59495d9a165b56ce0"
+          },
+          {
+            "label": "石灰 · 石灰窑模板",
+            "value": "0001328-7ae9e5f756f24a96b39cf3e2473f1f7e"
+          },
+          {
+            "label": "焦炭 · 筛分楼焦炭",
+            "value": "0001328-9836c717f8334072bacb66410ea74c86"
+          },
+          {
+            "label": "石灰 · 筛分楼石灰模板",
+            "value": "0001328-124f83ea13f2429da57efd6c3a760bdd"
+          },
+          {
+            "label": "未关联产品与模板的单据",
+            "value": ""
+          }
+        ]
+      }
+    ],
+    "columns": [
+      {
+        "name": "单据标识",
+        "label": "单据标识"
+      },
+      {
+        "name": "质检单号",
+        "label": "质检单号"
+      },
+      {
+        "name": "检测时间",
+        "label": "检测时间"
+      },
+      {
+        "name": "炉眼",
+        "label": "炉眼"
+      },
+      {
+        "name": "发气量_L每kg",
+        "label": "发气量_L每kg"
+      },
+      {
+        "name": "磷化氢_百分比",
+        "label": "磷化氢_百分比"
+      },
+      {
+        "name": "硫化氢_百分比",
+        "label": "硫化氢_百分比"
+      },
+      {
+        "name": "原检验结果",
+        "label": "原检验结果"
+      }
+    ],
+    "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+    "identityFields": [
+      "recordKey"
+    ],
+    "workflowValues": true
+  },
+  "usageCount": 0,
+  "version": 2
+}

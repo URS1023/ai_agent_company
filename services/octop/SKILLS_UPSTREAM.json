@@ -1,0 +1,36 @@
+{
+  "project": "Octop",
+  "version": "1.0.1",
+  "source_directory": "E:\\code\\Yun_tian\\Octop-main",
+  "license": "MIT",
+  "license_path": "services/octop/LICENSE",
+  "license_sha256": "5f2089cdcc57d00c6b70c0fb83368cbf3a86bb57839385fc6ac9086878d606e8",
+  "source_git_commit": null,
+  "source_git_commit_note": "本地来源目录没有 .git，使用逐文件 SHA-256 标识快照。",
+  "files": [
+    {
+      "source_path": "src/octop/infra/skills/skill_packages.py",
+      "source_sha256": "54680679777b13a50e98c86d01aed408fca9a35a586f688ba4000a468a6b4d4d",
+      "source_bytes": 7168,
+      "adapted_path": "backend/app/modules/octop_bridge/skill_packages.py"
+    },
+    {
+      "source_path": "src/octop/infra/utils/frontmatter.py",
+      "source_sha256": "721fd37c734acf213db24be055060e35e7691e4f2a8724568e5a190f626215da",
+      "source_bytes": 3214,
+      "adapted_path": "backend/app/modules/octop_bridge/skill_packages.py"
+    }
+  ],
+  "adaptation_notes": [
+    "保留技能包不可变数据结构、路径规范、根 SKILL.md、UTF-8 及文件数量和总字节限制。",
+    "补充 Windows ADS、驱动器相对路径、设备名、大小写冲突、文件目录冲突及 reparse/junction 拒绝。",
+    "新增纯内存 ZIP 解析，仅校验与读取，不解压或执行脚本。",
+    "frontmatter 使用 YAML safe_load，支持 BOM/空行/HTML 注释；损坏清单明确报错。",
+    "本项目 skills.py 提供受信任业务技能仓库发现与长度受限的 UTF-8 资源读取。",
+    "未引入 Octop 内置专有 Office 技能，不引入 harness_agent 或新的模型执行循环。"
+  ],
+  "local_modules": [
+    "backend/app/modules/octop_bridge/skills.py"
+  ],
+  "validation": "backend/smoke_octop_skills.py：7 项隔离回归通过；无数据库/网络/模型调用。"
+}

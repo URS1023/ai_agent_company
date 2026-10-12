@@ -1,0 +1,128 @@
+{
+  "batch": "2026-10-04-major-23-preimplementation",
+  "status": "reproduced-not-fixed",
+  "source_head": "cfe11ac",
+  "first_attempt": {
+    "scope": "临时文件SQLite、合成结构化记录；真实Worker初始化与抽取；无Host/RPC/浏览器",
+    "status": "fixture_or_budget_failure",
+    "barrier": {
+      "pid": 11996,
+      "job_id": "01M42VACCD1Q0D32CBWDXVBVD9",
+      "run_id": "01M42VACCSEZRQJMZDQMZSC6AZ",
+      "run_status": "running",
+      "network_calls": 0,
+      "model_calls": 0
+    },
+    "error_type": "AssertionError",
+    "message": "",
+    "old_process_alive_after_cleanup": false,
+    "elapsed_seconds": 14.828
+  },
+  "second_attempt": {
+    "scope": "临时文件SQLite、合成结构化记录；真实Worker初始化与抽取；无Host/RPC/浏览器",
+    "status": "observed",
+    "old_identity": {
+      "pid": 4204,
+      "parent_pid": 24188,
+      "launcher_pid": 24188
+    },
+    "barrier": {
+      "pid": 4204,
+      "job_id": "01M42VF7W03A8Q35S6N2D904JJ",
+      "run_id": "01M42VF7WB5D5R4RAB2MFH6GK3",
+      "run_status": "running",
+      "network_calls": 0,
+      "model_calls": 0
+    },
+    "fault_cleanup": {
+      "method": "windows_job",
+      "active_before": 2,
+      "active_after": 0
+    },
+    "confirmed_old_exit_code": 1,
+    "new_identity": {
+      "pid": 22588,
+      "parent_pid": 7136,
+      "launcher_pid": 7136
+    },
+    "new_cleanup": {
+      "method": "windows_job",
+      "active_before": 0,
+      "active_after": 0
+    },
+    "after_restart": {
+      "pid": 22588,
+      "worker_initialized": {
+        "ready": true,
+        "protocol_version": 2
+      },
+      "job_status": "running",
+      "run_statuses": [
+        "running"
+      ],
+      "candidate_count": 0,
+      "retry": {
+        "accepted": false,
+        "error_type": "ConflictError",
+        "message": "抽取任务已在执行"
+      },
+      "edit": {
+        "accepted": false,
+        "error_type": "ConflictError",
+        "message": "抽取任务正在执行，不能修改"
+      },
+      "calls": {
+        "network": 0,
+        "model": 0
+      }
+    },
+    "old_process_alive_after_cleanup": false,
+    "elapsed_seconds": 28.64
+  },
+  "files": [
+    {
+      "path": ".implementation/knowledge-hard-interrupt-probe-20261004/probe-before.py",
+      "sha256": "53c20505212de431ac7c4bf1be3155474dbc80cfaf07f69fb73ca8ca146446ee"
+    },
+    {
+      "path": ".implementation/knowledge-hard-interrupt-probe-20261004/result.json",
+      "sha256": "c02f3c04dad7756e1566fc4d4c0b8f099c339e1621d58c84dbcb33d47fc6bc74"
+    },
+    {
+      "path": ".implementation/knowledge-hard-interrupt-probe-20261004/old-worker.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".implementation/knowledge-hard-interrupt-probe-20261004-r2/result.json",
+      "sha256": "c9677585a96ec297d45935de0418337023b7fad271326e98a4295e8ac0ce8b03"
+    },
+    {
+      "path": ".implementation/knowledge-hard-interrupt-probe-20261004-r2/old-worker.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".implementation/knowledge-hard-interrupt-probe-20261004-r2/new-worker.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".implementation/probe_extraction_hard_interrupt.py",
+      "sha256": "d7bf9156199fe3f3d67b3d9e7d739e5c6938086b5de99c8afdde9d6b0da830d0"
+    }
+  ],
+  "product_sources": [
+    {
+      "path": "backend/app/modules/knowledge_graph/extraction.py",
+      "sha256": "afef0edf95ce71010cdfe3d7b2c87ce96d97ae11f9cc96529993d89c736c7664"
+    },
+    {
+      "path": "backend/app/modules/knowledge_graph/models.py",
+      "sha256": "929a1dcec503210afc54724dd02a09565e9e219c41ea0d692941964d0c82f089"
+    },
+    {
+      "path": "backend/app/business_worker/server.py",
+      "sha256": "dbeed35b2bd74831f450c76f7b285ad1f1e2e3db4827d184cec95e9fd2af040d"
+    }
+  ],
+  "scope": "真实独立Python进程中的Worker.initialize和extraction.execute_job；临时文件SQLite；无Host、RPC、浏览器或实际模型",
+  "gate_batch19_unchanged": true
+}

@@ -1,0 +1,86 @@
+{
+  "date": "2026-09-26",
+  "target": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "szh_new",
+    "server": "MySQL80 / MySQL 8.0.46"
+  },
+  "deployment": "独立临时平台运行当前DSH/Worker代码；在用部署未验收",
+  "model": {
+    "provider": "opencode-go",
+    "request_model": "deepseek-v4.1-flash",
+    "response_models": [
+      "deepseek-v4.1-flash"
+    ],
+    "thinking": "disabled",
+    "context_window": 32768,
+    "max_output_tokens": 4096,
+    "request_count": 39,
+    "upstream_errors": 0,
+    "request_seconds": 215.251
+  },
+  "database": {
+    "connections": 6,
+    "business_selects": 5,
+    "recorded_commands": 82,
+    "query_timeout_seconds": 3,
+    "database_failure_stop_exists": false
+  },
+  "measurements": {
+    "independent_join_select_ms": 16.0,
+    "business_query_http_ms": 250.0,
+    "complex_delivery_seconds": 67.688,
+    "complex_first_text_seconds": 2.922,
+    "revision_seconds": 14.125,
+    "natural_language_query_seconds": 16.656,
+    "natural_language_sql_model_calls": 2,
+    "natural_language_sql_repairs_before_db_execution": 1
+  },
+  "validation": {
+    "query_rows": 10,
+    "fields_per_row": 10,
+    "json_exact_values": 100,
+    "spreadsheet_exact_values": 100,
+    "presentation_pages": 5,
+    "presentation_topic_order_correct": true,
+    "presentation_points_visible": 7,
+    "presentation_points_in_notes": 3,
+    "same_task_revision_completed": true,
+    "only_requested_slide_content_changed": true,
+    "final_query_assertions": [
+      {
+        "name": "真实模型调用业务查询且名称符合独立基准",
+        "passed": true
+      },
+      {
+        "name": "本样例未删除条件为严格零且不引入NULL",
+        "passed": true
+      }
+    ]
+  },
+  "remaining_text_issues": [
+    "生成文稿对cycle_days单位的说明前后不一致",
+    "模型原备注仍有10行均在页面展示的旧措辞；工具附加备注和最终回答正确说明7+3"
+  ],
+  "checks": {
+    "backend_pytest": 94,
+    "native_host_node": 11,
+    "acceptance_helpers_unittest": 37,
+    "backend_syntax_modules": 373
+  },
+  "limitations": [
+    "样本没有NULL或完全重复行，不能外推此类数据保真",
+    "没有Office视觉渲染验收",
+    "未进行全库/所有业务接口/全部工作流验收",
+    "未进行小时级任务、并发压力或压缩后长期记忆验收",
+    "产品尚无统一单任务总时限/步数上限/固定取消期限"
+  ],
+  "failed_attempts_retained": [
+    "首次种子脚本时间字段缺失，零业务SELECT和模型请求",
+    "PPT封尾/表格备注/页码以及续改交付合同的初次失败",
+    "初次自然语言SQL把NULL并入未删除范围",
+    "辅助模型纠错携带assistant历史时报replayState缺失，零业务SELECT",
+    "原始ZIP比对把内嵌Excel创建/修改时间误计为数据变化，二层OOXML复核已纠正"
+  ]
+}

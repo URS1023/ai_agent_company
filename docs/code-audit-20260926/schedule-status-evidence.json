@@ -1,0 +1,46 @@
+[
+  {
+    "businessStatus": "failed",
+    "scheduleResult": {
+      "status": "completed",
+      "output": {
+        "status": "failed",
+        "errorMessage": "fixture failure"
+      },
+      "errorSummary": ""
+    }
+  },
+  {
+    "businessStatus": "waiting",
+    "scheduleResult": {
+      "status": "completed",
+      "output": {
+        "status": "waiting",
+        "errorMessage": ""
+      },
+      "errorSummary": ""
+    }
+  },
+  {
+    "businessStatus": "cancelled",
+    "scheduleResult": {
+      "status": "completed",
+      "output": {
+        "status": "cancelled",
+        "errorMessage": ""
+      },
+      "errorSummary": ""
+    }
+  },
+  {
+    "businessStatus": "completed",
+    "scheduleResult": {
+      "status": "completed",
+      "output": {
+        "status": "completed",
+        "errorMessage": ""
+      },
+      "errorSummary": ""
+    }
+  }
+]

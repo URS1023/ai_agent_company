@@ -1,0 +1,90 @@
+{
+  "id": "01M252Y64X19MNE4TB4R72ZA9Q",
+  "name": "质检项目、实测值和必检要求",
+  "category": "工作流读取值",
+  "content": "WITH selected_forms AS (\n SELECT h.incomingMaterialQcFormId formId,h.c_incomingQcNo formNumber,\n h.c_qualityInspectionTemplate templateId,h.c_testResults originalResult,\n h.c_zhijianshifouhege originalQualified,h.c_zhijiandanzhuangtai documentStatus\n FROM t_incomingmaterialqcform h WHERE h.isDeleted=0 AND h.c_qualityInspection=:category\n AND (:formNumber='' OR h.c_incomingQcNo=:formNumber)\n), items AS (\n SELECT h.formId,i.qualityInspectionItemDetailsId rowId,i.qualityInspectionItemDetailsId actualId,\n i.c_qualityInspectionProject projectId,i.c_jianyanjieguo measured,\n i.c_judgeRule ruleCode,i.c_standardMin lowerBound,i.c_standardMax upperBound\n FROM selected_forms h JOIN t_qualityinspectionitemdetails i\n ON i.mdIncomingMaterialQcFormId=h.formId AND i.isDeleted=0\n UNION ALL\n SELECT h.formId,d.qITemplateDetailsId rowId,NULL actualId,\n d.c_xuanzezhijianxiangmu projectId,NULL measured,NULL ruleCode,NULL lowerBound,NULL upperBound\n FROM selected_forms h JOIN t_qitemplatedetails d\n ON d.mdQualityInspectionTemplateId=h.templateId AND d.isDeleted=0\n LEFT JOIN t_qualityinspectionitemdetails i ON i.mdIncomingMaterialQcFormId=h.formId\n AND i.c_qualityInspectionProject=d.c_xuanzezhijianxiangmu AND i.isDeleted=0\n WHERE i.qualityInspectionItemDetailsId IS NULL\n)\nSELECT COALESCE(i.actualId,CONCAT(h.formId,':',COALESCE(i.rowId,'empty'))) recordKey,\n h.formId AS `单据标识`,h.formNumber AS `质检单号`,t.qualityInspectionTemplateId AS `有效模板`,\n (SELECT COUNT(*) FROM t_qitemplatedetails d WHERE d.mdQualityInspectionTemplateId=h.templateId AND d.isDeleted=0) AS `必检项数`,\n h.originalResult AS `原检验结果`,h.originalQualified AS `原合格状态`,h.documentStatus AS `原单据状态`,\n i.actualId AS `实测记录`,p.qualityInspectionProjectId AS `有效项目`,p.c_projectName AS `检验项目`,\n p.c_inspectionStandard AS `标准文本`,i.measured AS `测量值`,i.ruleCode AS `判定方式`,\n i.lowerBound AS `下界`,i.upperBound AS `阈值`\nFROM selected_forms h LEFT JOIN items i ON i.formId=h.formId\nLEFT JOIN t_qualityinspectiontemplate t ON t.qualityInspectionTemplateId=h.templateId AND t.isDeleted=0\nLEFT JOIN t_qualityinspectionproject p ON p.qualityInspectionProjectId=i.projectId AND p.isDeleted=0\nORDER BY h.formId,i.rowId",
+  "mode": "sql",
+  "parameters": {
+    "inputs": [
+      {
+        "name": "category",
+        "label": "质检类别（1来料、2过程、3成品）",
+        "default": 1
+      },
+      {
+        "name": "formNumber",
+        "label": "质检单号（留空全部）",
+        "default": ""
+      }
+    ],
+    "columns": [
+      {
+        "name": "单据标识",
+        "label": "单据标识"
+      },
+      {
+        "name": "质检单号",
+        "label": "质检单号"
+      },
+      {
+        "name": "有效模板",
+        "label": "有效模板"
+      },
+      {
+        "name": "必检项数",
+        "label": "必检项数"
+      },
+      {
+        "name": "原检验结果",
+        "label": "原检验结果"
+      },
+      {
+        "name": "原合格状态",
+        "label": "原合格状态"
+      },
+      {
+        "name": "原单据状态",
+        "label": "原单据状态"
+      },
+      {
+        "name": "实测记录",
+        "label": "实测记录"
+      },
+      {
+        "name": "有效项目",
+        "label": "有效项目"
+      },
+      {
+        "name": "检验项目",
+        "label": "检验项目"
+      },
+      {
+        "name": "标准文本",
+        "label": "标准文本"
+      },
+      {
+        "name": "测量值",
+        "label": "测量值"
+      },
+      {
+        "name": "判定方式",
+        "label": "判定方式"
+      },
+      {
+        "name": "下界",
+        "label": "下界"
+      },
+      {
+        "name": "阈值",
+        "label": "阈值"
+      }
+    ],
+    "datasourceId": "01M259A7KTHDCWNW2T7P6REKP4",
+    "identityFields": [
+      "recordKey"
+    ],
+    "workflowValues": true
+  },
+  "usageCount": 0,
+  "version": 3
+}

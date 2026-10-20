@@ -478,3 +478,9 @@
 - 暂存变更24文件，新增独立Docker控制器/密文入口/API与原生UI验证工具，修复Windows180秒预算与合法saved-chat事件协议，更新安装/实际证据/边界文档。稳定Docker局部97 passed；此前Windows守卫+旧verifier82 passed与协议修正51 passed分别属于先前批次，不相加冒充一次全套。
 - 当前完整索引546文件/47.79MiB，逐blob核对两把真实模型密钥、令牌/私钥模式、原项目整库/数据包/依赖/运行路径与>8MiB文件均0命中；git diff --cached --check（cr-at-eol）通过。仅正常提交main，不force，不提交D盘程序/磁盘/配置或.local。
 - 当前无本次Docker/backend/vmmem进程、13000/13080监听或running distro；实际新Docker业务容器/HTTP/模型均0，修复后引擎仍待单次恢复答复与5GiB物理/7GiB提交准入，未恢复大型构建。已完成本轮代码及离线验收，整体企业平台与原生完整验收仍未完成。
+
+## 本轮发布与停止状态（agent-1020-root，2026-10-20）
+- 代码提交5252b45e18daab498ea99c08fbba701e9edc69fc已正常push到origin/main，随后git ls-remote精确一致；发布后工作区clean。D盘安装/数据/.local/凭据均未提交，完整索引敏感检查0命中。
+- 末次只读资源采样物理4996MiB/提交余量5003MiB，尚未达到引擎修复后5GiB/7GiB准入；无Docker Desktop/backend/vmmem、无running发行版、无13000/13080监听。端口查询无结果的PowerShell退出码1表示没有匹配监听，不是实际连接测试失败。
+- 本轮已完成：Windows180秒参数与原生回复事实/协议修复、Docker与WSL官方D盘安装及实际VHDX归属、双用户目录隔离修复源码、97条新Docker离线回归、文档/索引和Git发布。尚未完成：修复后引擎实际启动、候选镜像/容器/API/原生登录UI、Dify完整依赖与企业试点；R27新HTTP0/模型0，未伪报原生全功能成功。
+- 本轮结束前仍无新的单次引擎恢复答复；已准备具体修复和预算问题，当前只等待答复及资源变化，不自动重启，不删除/重置任何原配置或虚拟磁盘。整体R22仍未全部达到验收。

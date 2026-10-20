@@ -1,0 +1,169 @@
+/* 工作流页面样式：列表 + 运行结果 + 步骤编辑器。 */
+
+.flow-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+}
+.flow-list {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.flow-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
+}
+.flow-panel-head .section-title {
+  margin: 0;
+  font-size: var(--fs-4);
+}
+.flow-items {
+  padding: var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.flow-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  text-align: left;
+  transition: background var(--dur-1) var(--ease);
+}
+.flow-item .title {
+  font-size: var(--fs-2);
+  font-weight: 650;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.flow-item .meta {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.flow-item:hover {
+  background: var(--surface-sunken);
+}
+.flow-item.active {
+  background: var(--brand-gradient-soft);
+}
+.flow-item.active .title {
+  color: var(--brand-600);
+}
+.flow-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.flow-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+.flow-toolbar h2 {
+  margin-bottom: 2px;
+}
+.flow-run-row {
+  display: flex;
+  gap: var(--sp-3);
+}
+.flow-run-row .el-input {
+  flex: 1;
+}
+.flow-run-result {
+  margin-top: var(--sp-4);
+  display: grid;
+  gap: var(--sp-3);
+}
+.flow-run-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.flow-step {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--tone-emerald);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface-sunken);
+}
+.flow-step.failed {
+  border-left-color: var(--tone-rose);
+}
+.flow-step-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.flow-step-name {
+  font-size: var(--fs-2);
+  font-weight: 650;
+  color: var(--text-strong);
+}
+.flow-step-body {
+  margin: 0;
+  font-family: inherit;
+  font-size: var(--fs-2);
+  line-height: 1.8;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 320px;
+  overflow: auto;
+}
+.flow-final .flow-step-body {
+  background: var(--ink-900);
+  color: #b8e6ff;
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  max-height: 420px;
+}
+.flow-editor {
+  display: grid;
+  gap: var(--sp-3);
+  max-height: 46vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+.flow-editor-step {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--sp-3);
+  background: var(--surface-sunken);
+}
+.flow-editor-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.flow-editor-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+.flow-editor-fields > .el-textarea,
+.flow-editor-fields > .el-select:first-child {
+  grid-column: 1/-1;
+}
+
+@media (max-width: 1080px) {
+  .flow-layout {
+    grid-template-columns: 1fr;
+  }
+  .flow-editor-fields {
+    grid-template-columns: 1fr;
+  }
+}

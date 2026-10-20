@@ -1,4 +1,4 @@
-"""本机统一入口：平台和对话运行于Windows，已装配的Dify运行于专属WSL。"""
+"""本机入口：统一平台独立启动，完整原生引擎保留显式管理动作。"""
 
 from __future__ import annotations
 
@@ -42,6 +42,8 @@ def start_platform() -> dict:
         'AGENT_DATA_DIR': str(PLATFORM_DATA), 'AGENT_ENV': 'development',
         'AGENT_DATABASE_URL': 'sqlite:///' + (PLATFORM_DATA / 'platform.sqlite3').as_posix(),
         'AGENT_ALLOW_REMOTE_CONNECTIONS': 'false',
+        'AGENT_LOCAL_MYSQL_PROOF': str(windows.REPO / '.local/mysql-demo/metadata-20261021.json')
+        if (windows.REPO / '.local/mysql-demo/metadata-20261021.json').is_file() else '',
     })
     launched = windows.spawn(ROOT, 'platform', [
         str(windows.REPO / '.venv/Scripts/python.exe'), '-m', 'uvicorn',
@@ -62,6 +64,28 @@ def start_platform() -> dict:
         if windows.same_launch(windows.load(ROOT).get('processes', {}).get('platform'), launched):
             windows.stop(ROOT, 'platform')
         raise
+
+
+def start_workspace() -> dict:
+    """日常入口启动平台与已配置的纯图运行环境，不启动Dify整套业务服务。
+
+    Linux只保留专属keeper；运行时仍逐次校验进程归属。新电脑尚未配置
+    WSL时可先使用平台已有业务，不暗中安装系统或回退其他发行版。
+    """
+    result = {'platform': start_platform()}
+    if not windows.load(ROOT).get('dify_wsl', {}).get('enabled'):
+        result['graph_runtime'] = {'configured': False, 'ready': False}
+        return result
+    import wsl_lifetime
+    lifetime = wsl_lifetime.ensure_windows_lifetime()
+    # 与执行器核对同一boot和keeper；具体解释器/Graphon版本仍在每次运行前验证。
+    from agent_platform.modules.flows.graph_runtime import worker_module
+    proof, _, _ = worker_module()._wsl_proof(timeout_seconds=5)
+    if not lifetime.get('running') or proof['runtime_id'] != lifetime.get('runtime_id'):
+        raise RuntimeError('workspace_graph_runtime_mismatch')
+    result['graph_runtime'] = {'configured': True, 'environment_ready': True,
+        'runtime_id': proof['runtime_id'], 'reused': bool(lifetime.get('reused'))}
+    return result
 
 
 def start() -> dict:
@@ -118,7 +142,7 @@ def accounts() -> None:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['start', 'stop', 'accounts'], default='start', nargs='?')
+    parser.add_argument('action', choices=['start', 'start-platform', 'start-workspace', 'stop', 'accounts'], default='start', nargs='?')
     args = parser.parse_args()
     if args.action == 'accounts':
         accounts()
@@ -126,5 +150,11 @@ if __name__ == '__main__':
         result = stop()
         print(json.dumps(result, ensure_ascii=False))
         raise SystemExit(1 if any(item.get('stopped') is False for item in result) else 0)
+    elif args.action == 'start-platform':
+        print(json.dumps({'platform': start_platform()}, ensure_ascii=False))
+    elif args.action == 'start-workspace':
+        # 直接运行部署脚本时，平台包尚不在解释器路径中。
+        sys.path.insert(0, str(windows.REPO / 'services/platform'))
+        print(json.dumps(start_workspace(), ensure_ascii=False))
     else:
         print(json.dumps(start(), ensure_ascii=False))

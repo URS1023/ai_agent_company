@@ -14,6 +14,8 @@ export interface MenuSection {
 export interface ModuleGroup {
   id: string;
   label: string;
+  /** 左轨图标，取值 Font Awesome 类名。 */
+  icon: string;
   sections: MenuSection[];
 }
 function item(
@@ -28,6 +30,7 @@ function item(
 export const modules: ModuleGroup[] = [
   {
     id: "home",
+    icon: "fa-house",
     label: "工作台",
     sections: [
       {
@@ -42,20 +45,22 @@ export const modules: ModuleGroup[] = [
   },
   {
     id: "ai",
+    icon: "fa-comment-dots",
     label: "AI工作台",
     sections: [
       {
         label: "智能助手",
         items: [
-          item("chat", "AI对话", "native", "m02.read", "openwebui"),
-          item("history", "会话记录", "native", "m02.read", "openwebui"),
-          item("memory", "记忆管理", "native", "m02.read", "openwebui"),
+          item("chat", "AI对话", "chat", "m02.read"),
+          item("history", "会话记录", "chat", "m02.read"),
+          item("memory", "记忆管理", "chat", "m02.read"),
         ],
       },
     ],
   },
   {
     id: "business",
+    icon: "fa-industry",
     label: "业务应用",
     sections: [
       {
@@ -86,6 +91,7 @@ export const modules: ModuleGroup[] = [
   },
   {
     id: "data",
+    icon: "fa-chart-line",
     label: "数据分析",
     sections: [
       {
@@ -133,12 +139,13 @@ export const modules: ModuleGroup[] = [
   },
   {
     id: "knowledge",
+    icon: "fa-book-open",
     label: "知识管理",
     sections: [
       {
         label: "企业知识",
         items: [
-          item("bases", "知识库", "native", "m08.read", "dify-knowledge"),
+          item("bases", "知识库", "kb", "m08.read"),
         ],
       },
       {
@@ -159,17 +166,18 @@ export const modules: ModuleGroup[] = [
   },
   {
     id: "dev",
+    icon: "fa-diagram-project",
     label: "开发工作台",
     sections: [
       {
         label: "智能体",
-        items: [item("agents", "Agents", "native", "m03.read", "dify-agents")],
+        items: [item("agents", "Agents", "agent", "m03.read")],
       },
       {
         label: "流程编排",
         items: [
-          item("workflows", "工作流", "native", "m04.read", "dify-workflows"),
-          item("triggers", "触发器", "native", "m04.read", "dify-triggers"),
+          item("workflows", "工作流", "flow", "m04.read"),
+          item("triggers", "触发器", "flow", "m04.read"),
         ],
       },
       {
@@ -177,13 +185,14 @@ export const modules: ModuleGroup[] = [
         items: [
           item("tools", "工具", "catalog", "m12.read", "tool-bindings"),
           item("skills", "Skills", "catalog", "m12.read", "skill-bindings"),
-          item("plugins", "插件", "native", "m12.read", "dify-plugins"),
+          item("plugins", "插件", "plugin", "m12.read"),
         ],
       },
     ],
   },
   {
     id: "apps",
+    icon: "fa-cubes",
     label: "应用中心",
     sections: [
       {
@@ -203,6 +212,7 @@ export const modules: ModuleGroup[] = [
   },
   {
     id: "results",
+    icon: "fa-folder-open",
     label: "成果中心",
     sections: [
       {
@@ -216,6 +226,7 @@ export const modules: ModuleGroup[] = [
   },
   {
     id: "admin",
+    icon: "fa-gear",
     label: "系统管理",
     sections: [
       {

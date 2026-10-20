@@ -123,7 +123,7 @@ onMounted(() =>
 <style scoped>
 .document-section {
   padding: 18px;
-  border: 1px solid #e7ebf2;
+  border: 1px solid var(--line);
   margin-bottom: 15px;
 }
 </style>

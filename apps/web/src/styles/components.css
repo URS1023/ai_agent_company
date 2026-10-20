@@ -1,0 +1,543 @@
+/* 组件库：可直接在页面复用的视觉组件，全部基于 tokens.css 的令牌。
+   分成卡片、列表、数据、提示、装饰五组，页面按需组合，不新造配色。 */
+
+/* ============ 1. 卡片与容器 ============ */
+/* 渐变描边卡：用于重点区域入口 */
+.surface-gradient {
+  position: relative;
+  border-radius: var(--r-lg);
+  padding: 1px;
+  background: linear-gradient(135deg, #4f5bff, #06b6d4 45%, #8b5cf6);
+}
+.surface-gradient > * {
+  background: var(--surface);
+  border-radius: calc(var(--r-lg) - 1px);
+}
+/* 玻璃面板：叠在渐变背景上时使用 */
+.surface-glass {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--r-lg);
+  color: #fff;
+}
+/* 深色强调面板 */
+.surface-ink {
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(79, 91, 255, 0.5) 0%, transparent 60%),
+    linear-gradient(135deg, var(--ink-900), var(--ink-700));
+  border-radius: var(--r-lg);
+  color: #fff;
+  padding: var(--sp-5);
+  border: 0;
+}
+.surface-ink h3,
+.surface-ink h4 {
+  color: #fff;
+}
+.surface-ink .muted {
+  color: #9fb6d8;
+}
+/* 斑马区块 */
+.surface-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--surface-sunken),
+    var(--surface-sunken) 10px,
+    var(--surface) 10px,
+    var(--surface) 20px
+  );
+  border-radius: var(--r-md);
+}
+/* 分区标题：左侧渐变竖条 */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-5);
+  font-weight: 700;
+  color: var(--text-strong);
+  margin-bottom: var(--sp-4);
+}
+.section-title::before {
+  content: "";
+  width: 4px;
+  height: 17px;
+  border-radius: var(--r-pill);
+  background: var(--brand-gradient);
+}
+.section-title .tail {
+  margin-left: auto;
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--text-faint);
+}
+.divider {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: var(--sp-4) 0;
+}
+.divider-dashed {
+  height: 0;
+  border: 0;
+  border-top: 1px dashed var(--line-strong);
+  margin: var(--sp-4) 0;
+}
+
+/* ============ 2. 徽标、胶囊、键帽 ============ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--brand-soft);
+  color: var(--brand-600);
+  white-space: nowrap;
+}
+.badge.tone-cyan {
+  background: var(--tone-cyan-soft);
+  color: #0a7c93;
+}
+.badge.tone-emerald {
+  background: var(--tone-emerald-soft);
+  color: #05805c;
+}
+.badge.tone-amber {
+  background: var(--tone-amber-soft);
+  color: #a86a05;
+}
+.badge.tone-rose {
+  background: var(--tone-rose-soft);
+  color: #cf2745;
+}
+.badge.tone-violet {
+  background: var(--tone-violet-soft);
+  color: #6d3fd8;
+}
+.badge.tone-orange {
+  background: var(--tone-orange-soft);
+  color: #b5560c;
+}
+.badge.gradient {
+  background: var(--brand-gradient);
+  color: #fff;
+}
+.badge.outline {
+  background: transparent;
+  box-shadow: 0 0 0 1px var(--line-strong) inset;
+  color: var(--text-muted);
+}
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.pill-group {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--surface-sunken);
+  border-radius: var(--r-pill);
+}
+.pill-group button {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  font-size: var(--fs-1);
+  font-weight: 700;
+  transition:
+    background var(--dur-1) var(--ease),
+    color var(--dur-1) var(--ease);
+}
+.pill-group button.active {
+  background: var(--surface);
+  color: var(--brand-600);
+  box-shadow: var(--sh-1);
+}
+.kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: var(--r-xs);
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--line-strong) inset,
+    0 1px 0 var(--line-strong);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: center;
+  font-family: "Cascadia Code", Consolas, monospace;
+}
+
+/* ============ 3. 数据展示 ============ */
+/* 进度条：tone 决定颜色 */
+.progress {
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+.progress > i {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--grad-blue);
+  transition: width var(--dur-2) var(--ease);
+}
+.progress.tone-emerald > i {
+  background: var(--grad-emerald);
+}
+.progress.tone-amber > i {
+  background: var(--grad-amber);
+}
+.progress.tone-rose > i {
+  background: var(--grad-rose);
+}
+.progress.tone-violet > i {
+  background: var(--grad-violet);
+}
+.progress-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  margin-bottom: var(--sp-3);
+  font-size: var(--fs-2);
+}
+.progress-row .label {
+  color: var(--text);
+  font-weight: 600;
+}
+.progress-row .value {
+  color: var(--text-strong);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.progress-row .progress {
+  grid-column: 1/-1;
+}
+
+/* 迷你趋势条 */
+.spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 34px;
+}
+.spark > i {
+  flex: 1;
+  min-width: 3px;
+  border-radius: 2px 2px 0 0;
+  background: var(--brand-400);
+  opacity: 0.85;
+}
+.spark > i.hot {
+  background: var(--grad-rose);
+  opacity: 1;
+}
+
+/* 键值对 */
+.kv {
+  display: grid;
+  gap: var(--sp-3);
+}
+.kv-row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: var(--sp-3);
+  align-items: baseline;
+  font-size: var(--fs-2);
+}
+.kv-row dt {
+  color: var(--text-faint);
+  font-weight: 600;
+  margin: 0;
+}
+.kv-row dd {
+  color: var(--text-strong);
+  font-weight: 600;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}
+.num-lg {
+  font-size: var(--fs-8);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============ 4. 列表与流 ============ */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-2);
+  border-radius: var(--r-sm);
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+  transition: background var(--dur-1) var(--ease);
+}
+.list-row:last-child {
+  border-bottom: 0;
+}
+.list-row:hover {
+  background: var(--surface-sunken);
+}
+.list-row .grow {
+  flex: 1;
+  min-width: 0;
+}
+.list-row .title {
+  font-weight: 650;
+  color: var(--text-strong);
+  font-size: var(--fs-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.list-row .desc {
+  color: var(--text-muted);
+  font-size: var(--fs-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.avatar-chip {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-pill);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--grad-blue);
+  flex-shrink: 0;
+}
+.avatar-chip.tone-violet {
+  background: var(--grad-violet);
+}
+.avatar-chip.tone-emerald {
+  background: var(--grad-emerald);
+}
+.avatar-chip.tone-amber {
+  background: var(--grad-amber);
+}
+.avatar-chip.tone-rose {
+  background: var(--grad-rose);
+}
+
+/* 时间线 */
+.timeline {
+  position: relative;
+  padding-left: var(--sp-5);
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(180deg, var(--brand-400), var(--tone-cyan) 50%, var(--tone-violet));
+  opacity: 0.5;
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--sp-4);
+  font-size: var(--fs-2);
+}
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--sp-5) + 2px);
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--brand-500);
+}
+.timeline-item.done::before {
+  background: var(--tone-emerald);
+  box-shadow: 0 0 0 2px var(--tone-emerald);
+}
+.timeline-item .when {
+  color: var(--text-faint);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* ============ 5. 提示与状态 ============ */
+.callout {
+  display: flex;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  border-left: 3px solid var(--brand-500);
+  background: var(--brand-soft);
+  color: var(--text);
+  font-size: var(--fs-2);
+  line-height: 1.7;
+}
+.callout .icon {
+  color: var(--brand-600);
+  font-size: var(--fs-5);
+  flex-shrink: 0;
+}
+.callout.tone-amber {
+  border-left-color: var(--tone-amber);
+  background: var(--tone-amber-soft);
+}
+.callout.tone-amber .icon {
+  color: var(--tone-amber);
+}
+.callout.tone-rose {
+  border-left-color: var(--tone-rose);
+  background: var(--tone-rose-soft);
+}
+.callout.tone-rose .icon {
+  color: var(--tone-rose);
+}
+.callout.tone-emerald {
+  border-left-color: var(--tone-emerald);
+  background: var(--tone-emerald-soft);
+}
+.callout.tone-emerald .icon {
+  color: var(--tone-emerald);
+}
+/* 骨架屏 */
+.skeleton {
+  border-radius: var(--r-sm);
+  background: linear-gradient(90deg, var(--surface-sunken) 25%, #eef2fa 37%, var(--surface-sunken) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-move 1.4s ease infinite;
+}
+@keyframes skeleton-move {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+.skeleton-line {
+  height: 12px;
+  margin-bottom: var(--sp-2);
+}
+.skeleton-block {
+  height: 120px;
+}
+/* 空状态 */
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-5);
+  text-align: center;
+}
+.empty-state .glyph {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-lg);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: var(--brand-500);
+  background: var(--brand-gradient-soft);
+}
+.empty-state .title {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+.empty-state .hint {
+  color: var(--text-muted);
+  font-size: var(--fs-2);
+  max-width: 420px;
+  line-height: 1.7;
+}
+
+/* ============ 6. 装饰 ============ */
+/* 顶部渐变条 */
+.accent-bar {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, #4f5bff, #06b6d4 40%, #8b5cf6 70%, #f43f5e);
+}
+/* 角标数字 */
+.corner-count {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--r-pill);
+  background: var(--brand-gradient);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--sh-brand);
+}
+/* 图标底板 */
+.icon-tile {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-md);
+  display: grid;
+  place-items: center;
+  font-size: var(--fs-5);
+  color: #fff;
+  background: var(--grad-blue);
+  box-shadow: 0 6px 16px rgba(47, 107, 255, 0.28);
+  flex-shrink: 0;
+}
+.icon-tile.tone-cyan {
+  background: var(--grad-cyan);
+  box-shadow: 0 6px 16px rgba(6, 182, 212, 0.28);
+}
+.icon-tile.tone-emerald {
+  background: var(--grad-emerald);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.28);
+}
+.icon-tile.tone-amber {
+  background: var(--grad-amber);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.28);
+}
+.icon-tile.tone-rose {
+  background: var(--grad-rose);
+  box-shadow: 0 6px 16px rgba(244, 63, 94, 0.28);
+}
+.icon-tile.tone-violet {
+  background: var(--grad-violet);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.28);
+}
+.icon-tile.soft {
+  background: var(--brand-gradient-soft);
+  color: var(--brand-600);
+  box-shadow: none;
+}

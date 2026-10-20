@@ -15,6 +15,7 @@ class Settings:
     database_url: str = ''
     environment: str = 'development'
     allow_remote_connections: bool = False
+    local_mysql_proof: str = ''
     session_hours: int = 12
     max_upload_bytes: int = 20 * 1024 * 1024
     allowed_origins: tuple[str, ...] = (
@@ -46,6 +47,7 @@ class Settings:
             database_url=os.environ.get('AGENT_DATABASE_URL', ''),
             environment=os.environ.get('AGENT_ENV', 'development'),
             allow_remote_connections=os.environ.get('AGENT_ALLOW_REMOTE_CONNECTIONS', '').lower() == 'true',
+            local_mysql_proof=os.environ.get('AGENT_LOCAL_MYSQL_PROOF', ''),
             allowed_origins=tuple(x.strip() for x in os.environ.get(
                 'AGENT_ALLOWED_ORIGINS', ','.join(defaults.allowed_origins)).split(',') if x.strip()),
             enabled_modules=tuple(x.strip() for x in os.environ.get('AGENT_ENABLED_MODULES', '').split(',') if x.strip()),

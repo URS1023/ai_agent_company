@@ -204,7 +204,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 15px;
-  background: #fff;
+  background: var(--surface);
   border-bottom: 1px solid #e2e7ef;
 }
 .document-name {
@@ -230,7 +230,7 @@ onBeforeUnmount(() => {
   height: 100%;
   border: 0;
   display: block;
-  background: #fff;
+  background: var(--surface);
 }
 @media (max-width: 1200px) {
   .document-toolbar {

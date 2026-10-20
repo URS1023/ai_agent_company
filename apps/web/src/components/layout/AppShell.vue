@@ -1,16 +1,21 @@
 <script setup lang="ts">
+/** 应用外壳：左侧模块轨道 + 上下文栏目 + 顶栏 + 工作标签。
+ *  导航收敛为两级（轨道选分组、侧栏选条目），顶部只承载当前页定位与账号操作。 */
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { Menu, Fold, Bell, SwitchButton } from "@element-plus/icons-vue";
+import { Bell, Fold, Menu, SwitchButton } from "@element-plus/icons-vue";
+import NavigationSearch from "./NavigationSearch.vue";
 import { modules, menuItems } from "../../modules/manifest";
 import { useSession } from "../../stores/session";
 import { useOperation } from "../../composables/useOperation";
+
 const session = useSession();
 const route = useRoute();
 const router = useRouter();
 const op = useOperation();
 const collapsed = ref(false);
 const tabs = ref<{ path: string; title: string }[]>([]);
+
 const activeGroup = computed(
   () =>
     modules.find((group) =>
@@ -34,6 +39,7 @@ const sections = computed(() =>
     }))
     .filter((x) => x.items.length),
 );
+
 const allowed = computed(() =>
   session.can(route.meta.permission as string | undefined),
 );
@@ -64,15 +70,34 @@ async function workspace(id: string) {
   });
 }
 </script>
+
 <template>
   <div class="app-shell" :class="{ collapsed }">
+    <!-- 模块轨道：一个分组一个入口，取代原先堆在顶栏的组按钮 -->
+    <nav class="rail" aria-label="模块导航">
+      <RouterLink class="rail-mark" to="/overview" aria-label="返回概览">
+        <img src="/logo-k.png" alt="" />
+      </RouterLink>
+      <button
+        v-for="group in groups"
+        :key="group.id"
+        class="rail-item"
+        :class="{ active: group.id === activeGroup.id }"
+        :title="group.label"
+        @click="selectGroup(group.id)"
+      >
+        <i class="fa-solid" :class="group.icon" />
+        <span>{{ group.label }}</span>
+      </button>
+    </nav>
+
     <aside class="sidebar">
-      <RouterLink class="brand" to="/overview" aria-label="qKnow首页"
-        ><img src="/logo-k.png" alt="" /><img
-          v-if="!collapsed"
-          src="/logo-qknow.png"
-          alt="qKnow"
-      /></RouterLink>
+      <RouterLink class="brand" to="/overview">
+        <img src="/logo-qknow.png" alt="qKnow" />
+        <span class="brand-text">
+          <strong>{{ activeGroup.label }}</strong>
+        </span>
+      </RouterLink>
       <div class="sidebar-menu">
         <section
           v-for="section in sections"
@@ -88,78 +113,83 @@ async function workspace(id: string) {
             :to="item.path"
             :title="item.label"
             class="menu-link"
-            ><span class="menu-dot">{{ item.label.slice(0, 1) }}</span
-            ><span v-if="!collapsed">{{ item.label }}</span></RouterLink
           >
+            <span class="menu-dot">{{ item.label.slice(0, 1) }}</span>
+            <span v-if="!collapsed">{{ item.label }}</span>
+          </RouterLink>
         </section>
       </div>
     </aside>
-    <div class="workspace">
+
+    <div class="workspace" :class="{ 'without-tabs': tabs.length < 2 }">
       <header class="topbar">
         <el-button
+          class="icon-button"
           text
           :icon="collapsed ? Menu : Fold"
           aria-label="切换侧栏"
           @click="collapsed = !collapsed"
         />
-        <nav class="topnav">
-          <button
-            v-for="group in groups"
-            :key="group.id"
-            :class="{ active: group.id === activeGroup.id }"
-            @click="selectGroup(group.id)"
-          >
-            {{ group.label }}
-          </button>
-        </nav>
+        <div class="topbar-spacer" />
+        <NavigationSearch />
         <el-select
           :model-value="session.value?.workspace.id"
           class="workspace-picker"
+          aria-label="切换工作区"
           @change="workspace"
-          ><el-option
+        >
+          <el-option
             v-for="item in session.value?.workspaces"
             :key="item.id"
             :value="item.id"
             :label="item.name"
-        /></el-select>
+          />
+        </el-select>
         <el-button
+          class="icon-button"
           text
           :icon="Bell"
           aria-label="消息通知"
           @click="router.push('/notices')"
         />
-        <el-dropdown
-          ><button class="avatar">
+        <el-dropdown>
+          <button class="avatar" aria-label="账号菜单">
             {{
               (
                 session.value?.user.display_name ??
                 session.value?.user.username ??
                 "用"
               ).slice(0, 1)
-            }}</button
-          ><template #dropdown
-            ><el-dropdown-menu
-              ><el-dropdown-item disabled>{{
-                session.value?.user.display_name ?? session.value?.user.username
-              }}</el-dropdown-item
-              ><el-dropdown-item
+            }}
+          </button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item disabled>
+                {{
+                  session.value?.user.display_name ??
+                  session.value?.user.username
+                }}
+              </el-dropdown-item>
+              <el-dropdown-item
                 :icon="SwitchButton"
                 @click="op.run(() => session.logout())"
-                >退出登录</el-dropdown-item
-              ></el-dropdown-menu
-            ></template
-          ></el-dropdown
-        >
+              >
+                退出登录
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </header>
-      <div class="work-tabs">
+
+      <div v-if="tabs.length > 1" class="work-tabs">
         <div
           v-for="tab in tabs"
           :key="tab.path"
           :class="['work-tab', { active: tab.path === route.path }]"
           @click="router.push(tab.path)"
         >
-          <span>{{ tab.title }}</span
-          ><button
+          <span>{{ tab.title }}</span>
+          <button
             v-if="tabs.length > 1"
             aria-label="关闭标签"
             @click.stop="closeTab(tab.path)"
@@ -168,12 +198,20 @@ async function workspace(id: string) {
           </button>
         </div>
       </div>
+
       <main class="main-content">
         <RouterView
           v-if="allowed"
           :key="`${session.value?.workspace.id}:${route.path}`"
-        /><el-result v-else icon="warning" title="你没有此页面的访问权限" />
+        />
+        <el-result v-else icon="warning" title="你没有此页面的访问权限" />
       </main>
     </div>
   </div>
 </template>
+
+<style scoped>
+.workspace.without-tabs {
+  grid-template-rows: var(--topbar-height) minmax(0, 1fr);
+}
+</style>

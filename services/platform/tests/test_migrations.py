@@ -15,7 +15,7 @@ from tools.manage_database import manage
 def test_fresh_migration_is_repeatable_and_production_can_open(tmp_path):
     settings = Settings(data_dir=tmp_path / 'owned-platform')
     assert manage('upgrade', settings)['ready']
-    assert manage('upgrade', settings)['revision'] == '20261021_06'
+    assert manage('upgrade', settings)['revision'] == '20261021_10'
     assert manage('check', settings)['ready']
     production = Database(Settings(data_dir=settings.data_dir, environment='production'))
     try:
@@ -85,6 +85,6 @@ def test_manufacturing_upgrade_preserves_existing_device_records(tmp_path):
                     'service_client_certificates', 'service_client_assertions',
                     'service_certificate_token_bindings',
                     'data_row_policies', 'data_query_access_snapshots'} <= tables
-        assert manage('upgrade', settings)['revision'] == '20261021_06'
+        assert manage('upgrade', settings)['revision'] == '20261021_10'
     finally:
         database.dispose()

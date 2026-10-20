@@ -8,7 +8,13 @@ import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/regular.min.css";
 import App from "./App.vue";
 import { router } from "./router";
+import "./styles/tokens.css";
 import "./assets/main.css";
+import "./styles/components.css";
+import "./modules/chat/chat.css";
+import "./modules/knowledge/knowledge.css";
+import "./modules/flows/flows.css";
+import "./modules/agents/agents.css";
 
 createApp(App)
   .use(createPinia())

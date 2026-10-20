@@ -86,7 +86,7 @@ onMounted(sync);
   flex-wrap: wrap;
   gap: 3px;
   padding: 5px;
-  background: #f5f7fa;
+  background: var(--surface-sunken);
   border-bottom: 1px solid #e4e7ed;
 }
 .rich-toolbar button {

@@ -6,11 +6,13 @@ defineProps<{
   canWrite: boolean;
   canDelete: boolean;
   canExecute: boolean;
+  canReadHistory?: boolean;
 }>();
 const emit = defineEmits<{
   edit: [row: Entity];
   remove: [row: Entity];
   execute: [row: Entity];
+  history: [row: Entity];
 }>();
 function configured(row: Entity) {
   return (
@@ -43,7 +45,7 @@ function configured(row: Entity) {
       }}</template></el-table-column
     ><el-table-column prop="revision" label="版本" width="70" /><el-table-column
       label="操作"
-      width="190"
+      width="240"
       ><template #default="{ row }"
         ><el-button link type="primary" @click="emit('edit', row)">{{
           canWrite ? "编辑" : "查看"
@@ -55,6 +57,12 @@ function configured(row: Entity) {
           :disabled="!configured(row)"
           @click="emit('execute', row)"
           >执行</el-button
+        ><el-button
+          v-if="canReadHistory"
+          link
+          type="primary"
+          @click="emit('history', row)"
+          >历史</el-button
         ><el-button
           v-if="canDelete"
           link

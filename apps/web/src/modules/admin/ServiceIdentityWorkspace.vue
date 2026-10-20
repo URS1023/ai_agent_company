@@ -770,7 +770,7 @@ onBeforeUnmount(() => {
   flex: 1;
 }
 .identity-description {
-  color: #69758a;
+  color: var(--text-muted);
   font-weight: normal;
   margin-top: 5px;
   white-space: pre-wrap;
@@ -806,7 +806,7 @@ onBeforeUnmount(() => {
   margin-bottom: 14px;
 }
 .issued-metadata span {
-  color: #69758a;
+  color: var(--text-muted);
 }
 @media (max-width: 760px) {
   .identity-form-row {

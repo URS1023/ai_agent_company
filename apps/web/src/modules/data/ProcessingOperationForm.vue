@@ -236,7 +236,7 @@ const path = () => `operations.${props.index}`;
 <style scoped>
 .step-panel {
   padding: 16px;
-  border: 1px solid #e5eaf2;
+  border: 1px solid var(--line);
   border-radius: 2px;
   margin-bottom: 15px;
 }
@@ -260,7 +260,7 @@ const path = () => `operations.${props.index}`;
 }
 .aggregate-row {
   padding: 12px;
-  background: #f7f9fc;
+  background: var(--surface-sunken);
   margin-bottom: 12px;
 }
 </style>

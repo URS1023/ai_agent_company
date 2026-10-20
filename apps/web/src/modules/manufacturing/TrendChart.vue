@@ -36,21 +36,21 @@ const option = computed(() => ({
   animation: !matchMedia("(prefers-reduced-motion: reduce)").matches,
   tooltip: { trigger: "axis" },
   legend: props.series
-    ? { top: 0, textStyle: { color: "#7d8a9c" } }
+    ? { top: 0, textStyle: { color: "#7b8aa6" } }
     : undefined,
   grid: { left: 55, right: 25, top: 35, bottom: 45 },
   xAxis: {
     type: "category",
     data: props.rows.map((x) => x[props.xField]),
-    axisLine: { lineStyle: { color: "#dce2ec" } },
-    axisLabel: { color: "#7d8a9c" },
+    axisLine: { lineStyle: { color: "#e3e9f4" } },
+    axisLabel: { color: "#7b8aa6" },
   },
   yAxis: {
     type: "value",
     scale: props.type !== "bar",
     name: props.unit,
-    splitLine: { lineStyle: { color: "#eef1f6" } },
-    axisLabel: { color: "#7d8a9c" },
+    splitLine: { lineStyle: { color: "#eef2fa" } },
+    axisLabel: { color: "#7b8aa6" },
   },
   series: (props.series ?? [{ field: props.yField, name: "" }]).map(
     (series, index) => ({
@@ -59,7 +59,7 @@ const option = computed(() => ({
       data: props.rows.map((x) => x[series.field]),
       showSymbol: props.rows.length < 30,
       smooth: false,
-      color: index === 0 ? "#2666fb" : "#16b9a4",
+      color: index === 0 ? "#4f5bff" : "#06b6d4",
       lineStyle: { width: 2 },
       areaStyle:
         props.type === "line" ? { color: "rgba(38,102,251,.04)" } : undefined,
@@ -73,10 +73,9 @@ const option = computed(() => ({
     :option="option"
     autoresize
     :style="{ height: `${height}px` }"
-  /><el-empty
-    v-else
-    description="暂无趋势数据"
-    :image-size="80"
-    :style="{ height: `${height}px` }"
   />
+  <div v-else class="empty-state" :style="{ minHeight: `${height}px` }">
+    <div class="glyph"><i class="fa-solid fa-chart-line" /></div>
+    <div class="title">暂无趋势数据</div>
+  </div>
 </template>

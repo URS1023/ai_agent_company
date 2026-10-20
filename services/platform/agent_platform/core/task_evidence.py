@@ -24,6 +24,18 @@ def query_references(value):
 
 def authorize_task_evidence(session, actor, task):
     """读取任务对应的不可变运行/来源，不调用会反查TaskService的领域入口。"""
+    if task.kind == 'platform_workflow':
+        from ..modules.flows.models import WorkflowRun
+        from ..modules.knowledge.evidence import authorize_evidence
+        run_id = (task.inputs or {}).get('run_id')
+        run = session.get(WorkflowRun, run_id) if isinstance(run_id, str) and run_id else None
+        if run is None or run.workspace_id != actor.workspace_id or run.task_id not in {None, task.id}:
+            raise DomainError(403, 'task_evidence_access_denied', '当前账号无法访问任务引用的流程运行')
+        if actor.can('m04.read') and run.task_id == task.id:
+            from ..modules.flows.execution import reconcile_expired
+            reconcile_expired(session, actor, run)
+        authorize_evidence(session, actor, run.knowledge_sources, legacy_steps=run.steps)
+        return
     if task.kind not in DATA_TASK_KINDS:
         return
     from ..modules.data.service import DataService

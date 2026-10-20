@@ -308,9 +308,9 @@ const chartWidget = computed(() => ({
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-bottom: 1px solid #ffffff0b;
+  border-bottom: 1px solid var(--surface)0b;
 }
 .reference-table tr:nth-child(even) {
-  background: #ffffff05;
+  background: var(--surface)05;
 }
 </style>

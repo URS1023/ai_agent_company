@@ -3,7 +3,7 @@
 import hashlib
 from pathlib import Path
 
-from sqlalchemy import or_, select
+from sqlalchemy import and_, exists, or_, select
 
 from .context import Actor
 from .errors import DomainError
@@ -21,8 +21,10 @@ def file_dict(row: FileEntry):
 
 
 class FileService:
-    def __init__(self, session, actor: Actor, settings: Settings):
+    def __init__(self, session, actor: Actor, settings: Settings, *, knowledge_write: bool = False):
         self.session, self.actor, self.settings = session, actor, settings
+        # 仅知识摄取内部可按写权限读取待解析原件；通用文件路由永远使用默认读路径。
+        self.knowledge_write = knowledge_write
 
     def conditions(self):
         rules = [FileEntry.workspace_id == self.actor.workspace_id, FileEntry.deleted.is_(False)]
@@ -32,6 +34,29 @@ class FileService:
             granted_ids = [g.resource_id for g in grants if 'read' in g.actions or '*' in g.actions]
             rules.append(or_(FileEntry.visibility == 'workspace', FileEntry.owner_id == self.actor.user_id,
                              FileEntry.id.in_(granted_ids)))
+        protected_ids = select(ResourceReference.target_id).where(
+            ResourceReference.workspace_id == self.actor.workspace_id,
+            ResourceReference.target_type == 'file', ResourceReference.source_type == 'kb_document_upload')
+        # 无受保护原件时不引入知识表依赖，兼容只启用文件模块的部署和隔离测试。
+        if not self.session.scalar(select(exists(protected_ids))):
+            return rules
+        protected = FileEntry.id.in_(protected_ids)
+        permission = 'm08.write' if self.knowledge_write else 'm08.read'
+        if not self.actor.can(permission):
+            rules.append(~protected)
+        else:
+            # 必须同时存在当前文档与空间；不能拿公开file_id绕过知识关联，也不能读取悬空保护引用。
+            from agent_platform.modules.knowledge.models import KnowledgeDocument, KnowledgeSpace
+            linked = exists(select(ResourceReference.id).join(
+                KnowledgeDocument, ResourceReference.source_id == KnowledgeDocument.id).join(
+                KnowledgeSpace, KnowledgeSpace.id == KnowledgeDocument.space_id).where(
+                ResourceReference.workspace_id == self.actor.workspace_id,
+                ResourceReference.target_type == 'file', ResourceReference.target_id == FileEntry.id,
+                ResourceReference.source_type == 'kb_document_upload',
+                KnowledgeDocument.workspace_id == self.actor.workspace_id,
+                KnowledgeSpace.workspace_id == self.actor.workspace_id,
+                KnowledgeDocument.file_id == FileEntry.id))
+            rules.append(or_(~protected, and_(protected, linked)))
         return rules
 
     def _get(self, id: str) -> FileEntry:
@@ -72,18 +97,30 @@ class FileService:
         path = self.settings.files_dir / key
         path.parent.mkdir(parents=True, exist_ok=True)
         # 文件名不参与磁盘路径，排他写防止覆盖其他版本或目录穿越。
-        with path.open('xb') as f:
-            f.write(content)
+        created = False
+        try:
+            with path.open('xb') as f:
+                created = True
+                f.write(content)
+        except Exception:
+            if created:
+                path.unlink(missing_ok=True)
+            raise
         row = FileEntry(id=id, workspace_id=self.actor.workspace_id, owner_id=self.actor.user_id,
                         visibility=visibility, name=name, content_type=content_type, size=len(content),
                         sha256=hashlib.sha256(content).hexdigest(), storage_key=key)
-        self.session.add(row)
-        self.session.flush()
-        RecordStore(self.session, self.actor).audit('file.create', 'file', row.id, {'name': name, 'size': row.size})
-        if source:
-            self.session.add(ResourceReference(workspace_id=self.actor.workspace_id,
-                source_type=str(source['type']), source_id=str(source['id']), target_type='file', target_id=id))
+        try:
+            self.session.add(row)
             self.session.flush()
+            RecordStore(self.session, self.actor).audit('file.create', 'file', row.id, {'name': name, 'size': row.size})
+            if source:
+                self.session.add(ResourceReference(workspace_id=self.actor.workspace_id,
+                    source_type=str(source['type']), source_id=str(source['id']), target_type='file', target_id=id))
+                self.session.flush()
+        except Exception:
+            # 这里只清理上面以xb排他创建的唯一文件，不触碰已有路径和失败事务。
+            path.unlink(missing_ok=True)
+            raise
         return file_dict(row)
 
     def references(self, id: str) -> list[dict]:

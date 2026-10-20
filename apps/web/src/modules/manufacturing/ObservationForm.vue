@@ -130,7 +130,7 @@ function submit() {
   gap: 16px;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--line);
 }
 .observation-name {
   font-weight: 500;

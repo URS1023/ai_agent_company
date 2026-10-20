@@ -143,7 +143,7 @@ const path = () => `rules.${props.index}`;
 <style scoped>
 .quality-rule {
   padding: 15px;
-  border: 1px solid #e5eaf2;
+  border: 1px solid var(--line);
   border-radius: 2px;
   margin-bottom: 15px;
 }

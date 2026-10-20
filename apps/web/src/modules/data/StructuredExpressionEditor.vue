@@ -186,7 +186,7 @@ function removeArg(index: number) {
 .expression-args {
   margin: 10px 0 0 12px;
   padding-left: 15px;
-  border-left: 2px solid #e5eaf2;
+  border-left: 2px solid var(--line);
 }
 .expression-arg {
   display: flex;

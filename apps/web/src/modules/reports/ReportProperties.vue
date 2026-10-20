@@ -269,7 +269,7 @@ function setTitle(value: string) {
   min-height: 0;
   overflow: auto;
   padding: 20px;
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--line);
 }
 .property-pair {
   display: grid;

@@ -309,3 +309,40 @@
 | apps/web/src/modules/data/dataPreparation.ts、ProcessingWorkspace.vue、DataQualityWorkspace.vue、BusinessMetricWorkspace.vue及相关表单组件 | 处理/质量/指标三个既有入口，消费typed DTO，结构化控件与真实导出 | web作者；root接管 | 在用 | 不可删除 | 139纯断言/14SFC/2580模块正式build通过，真实UI待验 | 2026-10-21/T-web25 |
 | services/platform/tests/test_data_transformations.py、apps/web/tests/data-preparation-controls.mjs | 数据处理/质量/指标行为与表单纯回归 | domain/web作者；root接管 | 在用 | 不可删除 | 新tmp CSV/SQLite与纯前端，不替代企业验收 | 2026-10-21/T-domain27/web25 |
 | 项目文档/contracts/platform.openapi.json | 从当前代码导出403操作/278路径；设计227操作仍独立 | root | 在用 | 不可删除 | tools/export_api.py实际导出，API数不代表全部功能完成 | 2026-10-21/T-root38 |
+
+| services/platform/agent_platform/core/local_mysql.py、core/settings.py、modules/data/connectors.py | 部署证明核本机mysqld进程/监听/pid文件，连接后再核实例；只开放用户两库，仍需目标批准 | agent-1021-root | 在用 | 不可删除 | 新14项纯检查通过；部署证明位于.local，不含密码 | 2026-10-21/T-root41 |
+| tools/demo_data/platform.py、apps/web/src/modules/manufacturing/MaintenancePresetPicker.vue | 导入后按正式API登记数据源/设备/测点；维护表单选择监测方案自动映射 | agent-1021-root | 在用 | 不可删除 | 装配2项DTO/SQL纯验通过，实际注册待数据导入 | 2026-10-21/T-root41/42 |
+| services/platform/migrations/versions/20261021_07_融合对话知识与流程.py、modules/knowledge/evidence.py | 融合六表迁移及不可变知识来源/撤权检查 | agent-1020-native | 在用 | 不可删除 | 作者29项纯回归通过，实际迁移待root | 2026-10-21/T-native33 |
+
+| tools/demo_data/package.py、import_mysql.py、recover_mysql.py | 原包完整映射/批次事务导入/明确受审恢复；复用本机实例证明，依赖可选PyArrow | agent-1020-domain，root接管 | 在用 | 不可删除 | 11导入+15恢复纯检查；首次900秒停止保留1483000行，恢复待授权 | 2026-10-21/T-domain30/32 |
+| tools/demo_data/quality.py、fixtures/食品产品质检.csv、apps/web/public/demo/quality/ | 16个合成食品三维质检样本、独立新表与5种外观示意；映射正式API | agent-1020-domain，root接管 | 在用 | 不可删除 | 12纯验证通过；不是企业真实样本，实际导入待恢复许可 | 2026-10-21/T-domain31 |
+| tools/demo_data/platform.py、verify_business.py、requirements.txt | 导入收据校验、正式API资源登记、三个演示流程；PyArrow为可选导入依赖 | agent-1021-root | 在用 | 不可删除 | 2装配DTO纯检查；真实注册/业务验收尚未执行，不可标完成 | 2026-10-21/T-root41/44 |
+| services/platform/agent_platform/modules/flows/execution.py、core/bounded_http.py | 运行预约与绝对HTTP预算；逐步commit、unknown与同键去重 | agent-1020-native | 在用 | 不可删除 | 82联合纯回归及7本机无模型API验收通过 | 2026-10-21/T-native34/root43 |
+| services/platform/migrations/versions/20261021_08_流程运行预约与幂等.py | 流程运行快照/请求编号与任务绑定迁移，依赖07 | agent-1020-native | 在用 | 不可删除 | 实际备份→升级→完整结构比较通过 | 2026-10-21/T-native34/root43 |
+| apps/web/src/modules/data/PreparationHistory.vue、PreparationQuerySelect.vue、usePreparationHistory.ts | 处理/指标历史与真实CSV；服务端查询分页、独立已选详情 | agent-1020-web | 在用 | 不可删除 | 83新断言/139既有断言通过；7业务SFC接入，实图待验 | 2026-10-21/T-web28/29 |
+| apps/web/src/modules/chat/useScopedChatSessions.ts、useChatConversation.ts、ChatHistory.vue | 会话用户/工作区隔离、流迟到保护、本机历史管理 | agent-1020-web | 在用 | 不可删除 | 71纯断言通过；记忆管理另任务在做 | 2026-10-21/T-web27 |
+| .local/mysql-demo/、.local/backups/fusion07-20261021.sqlite3、.local/backups/fusion08-20261021.sqlite3 | 本机实例证明、导入失败/停连证据、候选恢复计划和两次平台更新备份 | agent-1021-root | 在用 | 不可删除 | 归属与恢复依赖，Git忽略；不能因临时命名清理 | 2026-10-21/T-root39–44 |
+
+| services/platform/agent_platform/modules/chat/memory_models.py、memories.py、memory_router.py | 个人记忆所属过滤/CRUD/搜索/CAS，适配OWUI手工记忆，router包含 | agent-1020-domain | 在用 | 不可删除 | 26纯回归及7真实本机管理API成功，默认无自动注入 | 2026-10-21/T-domain33/root43 |
+| services/platform/migrations/versions/20261021_09_个人记忆.py | chat_user_memories独立表，依赖08 | agent-1020-domain | 在用 | 不可删除 | 09实际备份升级与结构比较通过，5完整迁移回归通过 | 2026-10-21/T-domain33/root43 |
+| apps/web/src/modules/chat/MemoryWorkspace.vue、MemoryList.vue、MemoryEditor.vue、useMemories.ts | 当前用户工作区记忆管理与冲突/未知写入处理 | agent-1020-web | 在用 | 不可删除 | 96纯断言/71聊天回归、正式build和新增表单真实截图通过 | 2026-10-21/T-web30/root45 |
+| apps/web/src/components/layout/NavigationSearch.vue、AppShell.vue | 按当前权限搜索功能入口、单系统外壳；删除冗余标题/无作用搜索 | agent-1021-root | 在用 | 不可删除 | 正式build及真实搜索跳转记忆页面成功 | 2026-10-21/T-root46 |
+| tools/demo_data/requirements.txt | PyArrow23.0.1可选Parquet导入依赖 | agent-1021-root | 在用 | 不可删除 | 本机实际版本已核，不添加到日常平台启动依赖 | 2026-10-21/T-root44 |
+
+| services/platform/agent_platform/core/datetimes.py、tests/test_utc_storage.py | SQLite已知UTC存储转带时区响应，flows/agents/knowledge共用 | agent-1021-root | 在用 | 不可删除 | 2纯回归通过；不转换原设备数据 | 2026-10-21/T-root47 |
+| services/workflow_runtime/worker.py、README.md、requirements.txt、licenses/Graphon-LICENSE.txt | Graphon0.8原执行引擎独立Python3.13协议；依赖专属WSL与原Apache许可 | agent-1020-native；许可root | 在用 | 不可删除 | 37项纯图/协议已过；平台接入仍T37进行中 | 2026-10-21/T-native36/37 |
+
+| services/platform/agent_platform/modules/knowledge/extractor.py、ingestion.py、file_sources.py、service.py、router.py、models.py、evidence.py | Test5解析提取、原件保护/定位、摄取预约及显式索引；依赖FileService和bge-m3 | agent-1020-domain | 在用 | 不可删除 | 29新+24旧纯检查，7真实API/2向量及27浏览器请求/1向量通过 | 2026-10-21/T-domain34/root48 |
+| services/platform/migrations/versions/20261021_10_知识原件与来源定位.py | 文档4列与分块1列可空来源扩展，依赖09 | agent-1020-domain | 在用 | 不可删除 | 5全迁移纯回归及实际备份升级/结构比较通过 | 2026-10-21/T-domain34/root43 |
+| apps/web/src/modules/knowledge/、apps/web/tests/knowledge-documents.mjs、request-timeouts.mjs | 知识空间/三种导入/分块详情/授权下载/检索、身份切换与可选等待时间 | agent-1020-web | 在用 | 不可删除 | 112+27纯断言/类型/正式build及真实上传下载截图通过 | 2026-10-21/T-web31/root48 |
+| .local/mysql-demo/ui-knowledge10/、platform-knowledge10.json、platform-upgrade10.json、.local/backups/fusion10-20261021.sqlite3 | 本轮知识实际证据与平台升级备份，Git忽略 | agent-1021-root | 在用 | 不可删除 | 恢复及验收追溯依赖；路径在mysql-demo下不代表执行过MySQL查询 | 2026-10-21/T-root43/48 |
+
+| services/platform/agent_platform/modules/flows/graph_runtime.py、tests/test_workflow_graph.py | 原生图输入/事件/双向任务绑定与纯回归；依赖Graphon worker及TaskEvent | agent-1020-native | 在用 | 不可删除 | 39图回归与2所属WSL纯图通过，平台实际调用待T-root50 | 2026-10-21/T-native37 |
+| services/platform/agent_platform/core/embedding_vectors.py、tests/test_embedding_vectors.py、test_knowledge_text_ingestion.py | 向量顺序/有限数值/维度与稳定余弦、贴文摄取回归 | agent-1020-domain | 在用 | 不可删除 | 55新+70旧纯回归通过，实际贴文待部署 | 2026-10-21/T-domain35 |
+| deploy/native/desktop.py、启动系统.cmd、services/platform/tests/test_desktop_workspace.py | 单8080日常入口及已配置纯图keeper启动，不启动14角色 | agent-1021-root | 在用 | 不可删除 | 6项纯检查通过，真实复用待验 | 2026-10-21/T-root51 |
+
+| .local/mysql-demo/platform-update-graph.json、platform-graph-runtime.json、platform-paste-index.json、platform-workspace-start.json、.local/backups/fusion-graph-20261021.sqlite3 | 真实图运行/知识贴文/启动复用证据和更新备份；均Git忽略 | agent-1021-root | 在用 | 不可删除 | 单次有界实际验收通过，恢复/追溯需保留，未涉及MySQL续导 | 2026-10-21/T-root43/50/51 |
+
+| apps/web/src/modules/flows/GraphWorkflowRunner.vue、GraphInputForm.vue、SchemaInput.vue、WorkflowJsonValue.vue、WorkflowRunEvents.vue及同目录graphInputs/workflowEvents/useWorkflowEvents/useWorkflowRequests | 结构化图运行/原JSON结果/真实事件分页；依赖native37 DTO | agent-1020-web | 在用 | 不可删除 | 117新断言/类型检查通过，实际UI待T-root52；不等于完整编辑器 | 2026-10-21/T-web33 |
+
+| .local/mysql-demo/ui-graph-runtime.json、ui-graph-runtime-read.json、ui-graph-runtime-read/ | 真实图UI首轮定位失败及只读核验/截图，保留原已成功run | agent-1021-root | 在用 | 不可删除 | 未重复派发，30只读/登录请求通过，0模型业务库 | 2026-10-21/T-root52 |

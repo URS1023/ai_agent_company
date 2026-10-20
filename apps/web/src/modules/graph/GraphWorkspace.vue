@@ -375,7 +375,7 @@ onMounted(load);
   min-height: 0;
 }
 .graph-details {
-  background: #fff;
+  background: var(--surface);
   width: 360px;
   padding: 20px;
   overflow: auto;

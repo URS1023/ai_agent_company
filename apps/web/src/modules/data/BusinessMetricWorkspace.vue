@@ -2,12 +2,15 @@
 import { onMounted } from "vue";
 import { useSession } from "../../stores/session";
 import { useBusinessMetrics } from "./useBusinessMetrics";
-import { queryLabel } from "./dataPreparation";
+import PreparationQuerySelect from "./PreparationQuerySelect.vue";
+import PreparationHistory from "./PreparationHistory.vue";
+import { usePreparationHistory } from "./usePreparationHistory";
 import BusinessMetricList from "./BusinessMetricList.vue";
 import MetricDefinitionForm from "./MetricDefinitionForm.vue";
 import PreparationResult from "./PreparationResult.vue";
 const session = useSession();
 const state = useBusinessMetrics();
+const history = usePreparationHistory();
 onMounted(() => state.load(session.can("m06.read")));
 </script>
 <template>
@@ -34,9 +37,11 @@ onMounted(() => state.load(session.can("m06.read")));
         :can-write="session.can('m05.write')"
         :can-delete="session.can('m05.delete')"
         :can-execute="session.can('m06.write')"
+        :can-read-history="session.can('m06.read')"
         @edit="state.edit"
         @remove="state.remove"
         @execute="state.startExecution"
+        @history="history.open($event.id)"
       /><el-pagination
         v-model:current-page="state.list.page.value"
         :total="state.list.total.value"
@@ -49,6 +54,7 @@ onMounted(() => state.load(session.can("m06.read")));
       v-if="state.result.value"
       :job="state.result.value"
       metric
+      @permission-denied="state.result.value = null"
     />
     <el-dialog
       v-model="state.dialog.value"
@@ -75,16 +81,11 @@ onMounted(() => state.load(session.can("m06.read")));
                 :value="source.id"
                 :label="source.name" /></el-select></el-form-item
           ><el-form-item label="字段参考" class="full-width"
-            ><el-select
-              v-model="state.queries.queryId.value"
-              filterable
-              clearable
-              ><el-option
-                v-for="query in state.queries.queries.value"
-                :key="query.id"
-                :value="query.id"
-                :label="queryLabel(query)" /></el-select
-          ></el-form-item>
+            ><PreparationQuerySelect
+              :catalog="state.queries"
+              :disabled="!session.can('m06.read')"
+            />
+          </el-form-item>
         </div>
         <MetricDefinitionForm
           v-model="state.definition.value"
@@ -117,12 +118,8 @@ onMounted(() => state.load(session.can("m06.read")));
           state.executing.value?.name
         }}</el-form-item
         ><el-form-item label="数据查询" :error="state.errors.value.query_id"
-          ><el-select v-model="state.queries.queryId.value" filterable
-            ><el-option
-              v-for="query in state.queries.queries.value"
-              :key="query.id"
-              :value="query.id"
-              :label="queryLabel(query)" /></el-select></el-form-item></el-form
+          ><PreparationQuerySelect
+            :catalog="state.queries" /></el-form-item></el-form
       ><template #footer
         ><el-button
           :disabled="state.op.busy.value"
@@ -131,11 +128,16 @@ onMounted(() => state.load(session.can("m06.read")));
         ><el-button
           type="primary"
           :loading="state.op.busy.value"
-          :disabled="!state.queries.queryId.value"
+          :disabled="
+            !state.queries.queryId.value ||
+            state.queries.selecting.value ||
+            state.queries.loading.value
+          "
           @click="state.execute"
           >执行</el-button
         ></template
       ></el-dialog
     >
+    <PreparationHistory :history="history" />
   </div>
 </template>

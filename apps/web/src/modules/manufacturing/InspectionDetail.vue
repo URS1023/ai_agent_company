@@ -8,6 +8,8 @@ import ObservationForm from "./ObservationForm.vue";
 import InspectionReportAction from "./InspectionReportAction.vue";
 import ReinspectionPanel from "./ReinspectionPanel.vue";
 import QualityCasePanel from "./QualityCasePanel.vue";
+import PreparationQuerySelect from "../data/PreparationQuerySelect.vue";
+import { usePreparationQueries } from "../data/usePreparationQueries";
 const session = useSession();
 const props = defineProps<{ inspectionId: string }>();
 const emit = defineEmits<{ updated: []; back: []; navigate: [id: string] }>();
@@ -16,7 +18,7 @@ const detail = ref<Entity | null>(null);
 const samples = ref<Entity[]>([]);
 const result = ref<Entity[]>([]);
 const reviews = ref<Entity[]>([]);
-const queries = ref<Entity[]>([]);
+const queryCatalog = usePreparationQueries();
 const targetName = computed(
   () =>
     detail.value?.device_name ??
@@ -87,11 +89,20 @@ const binding = reactive({
     unit: string;
   }[],
 });
-const queryColumns = computed(
-  () =>
-    queries.value.find((x) => x.id === binding.query_id)?.result?.columns ??
-    queries.value.find((x) => x.id === binding.query_id)?.columns ??
-    [],
+const queryColumns = queryCatalog.columns;
+watch(
+  queryCatalog.queryId,
+  (id) => {
+    binding.query_id = id;
+  },
+  { flush: "sync" },
+);
+watch(
+  () => binding.query_id,
+  (id) => {
+    queryCatalog.queryId.value = id;
+  },
+  { flush: "sync" },
 );
 async function load() {
   await op.run(async () => {
@@ -150,8 +161,7 @@ async function createSample() {
 }
 async function openImport() {
   await op.run(async () => {
-    queries.value = (await api.get<ListResult>("/queries?limit=100"))
-      .items as Entity[];
+    await queryCatalog.load();
     binding.mappings = metricDefinitions.value.map((metric: any) => ({
       metric_id: metric.id,
       value_field: "",
@@ -407,14 +417,7 @@ watch(() => props.inspectionId, load, { immediate: true });
       ><el-form label-position="top" @submit.prevent="importData"
         ><div class="form-grid">
           <el-form-item label="数据查询"
-            ><el-select v-model="binding.query_id" filterable
-              ><el-option
-                v-for="query in queries"
-                :key="query.id"
-                :value="query.id"
-                :label="
-                  query.name ?? query.sql ?? query.id
-                " /></el-select></el-form-item
+            ><PreparationQuerySelect :catalog="queryCatalog" /></el-form-item
           ><el-form-item label="样本编号字段"
             ><el-select v-model="binding.sample_field" filterable allow-create
               ><el-option
@@ -480,7 +483,12 @@ watch(() => props.inspectionId, load, { immediate: true });
         ><el-button
           type="primary"
           native-type="submit"
-          :disabled="!binding.query_id || !binding.sample_field"
+          :disabled="
+            !binding.query_id ||
+            !binding.sample_field ||
+            queryCatalog.selecting.value ||
+            queryCatalog.loading.value
+          "
           :loading="op.busy.value"
           style="margin-top: 20px"
           >导入</el-button

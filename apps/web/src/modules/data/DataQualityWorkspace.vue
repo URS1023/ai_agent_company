@@ -9,7 +9,6 @@ import {
   newQualityRule,
   preparationErrors,
   qualityPayload,
-  queryLabel,
   queryColumns,
   type Fields,
   type QualityDraft,
@@ -17,6 +16,7 @@ import {
 import DataFieldSelect from "./DataFieldSelect.vue";
 import DataQualityRuleForm from "./DataQualityRuleForm.vue";
 import QualityCheckResults from "./QualityCheckResults.vue";
+import PreparationQuerySelect from "./PreparationQuerySelect.vue";
 const session = useSession();
 const op = useOperation();
 const sources = usePreparationQueries();
@@ -97,13 +97,8 @@ onMounted(() => op.run(sources.load));
         @submit.prevent="submit"
       >
         <el-form-item label="数据查询" :error="errors.query_id"
-          ><el-select v-model="sources.queryId.value" filterable
-            ><el-option
-              v-for="query in sources.queries.value"
-              :key="query.id"
-              :value="query.id"
-              :label="queryLabel(query)" /></el-select
-        ></el-form-item>
+          ><PreparationQuerySelect :catalog="sources"
+        /></el-form-item>
         <div class="form-grid">
           <el-form-item label="必填字段" :error="errors.required_fields"
             ><DataFieldSelect
@@ -140,7 +135,11 @@ onMounted(() => op.run(sources.load));
             type="primary"
             native-type="submit"
             :loading="op.busy.value"
-            :disabled="!sources.queryId.value"
+            :disabled="
+              !sources.queryId.value ||
+              sources.selecting.value ||
+              sources.loading.value
+            "
             >执行检查</el-button
           >
         </div>

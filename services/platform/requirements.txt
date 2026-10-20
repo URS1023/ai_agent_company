@@ -18,3 +18,4 @@ jsonschema>=4.23
 psycopg[binary]>=3.2,<4
 PyMySQL>=1.1,<2
 alembic>=1.16,<2
+pypdf==6.21.1

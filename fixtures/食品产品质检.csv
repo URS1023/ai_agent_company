@@ -1,0 +1,17 @@
+设备编号,sample_id,product_code,product_name,batch_no,observed_at,net_weight_g,protein_pct,moisture_pct,appearance_defects_json,appearance_image_ref,data_origin
+SP-JZ-001,DEMO-FD-QC-001,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:00:00+08:00,100.0,10.0,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-002,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:01:00+08:00,99.8,9.8,3.8,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-003,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:02:00+08:00,97.4,10.0,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-004,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:03:00+08:00,103.1,10.0,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-005,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:04:00+08:00,100.0,7.6,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-006,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:05:00+08:00,100.0,12.4,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-007,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:06:00+08:00,100.0,10.0,6.2,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-008,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:07:00+08:00,100.0,10.0,3.5,"[{""defect_type"":""封口开裂（合成示例）"",""confidence"":""0.97"",""severity"":""severe"",""bbox"":[0.385,0.15,0.18,0.09]}]",/demo/quality/seam-open.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-009,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:08:00+08:00,100.0,10.0,3.5,"[{""defect_type"":""轻微褶皱（合成示例）"",""confidence"":""0.94"",""severity"":""minor"",""bbox"":[0.58,0.62,0.1,0.15]}]",/demo/quality/wrinkle.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-010,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:09:00+08:00,100.0,10.0,3.5,"[{""defect_type"":""疑似局部破损（合成示例）"",""confidence"":""0.55"",""severity"":""moderate"",""bbox"":[0.36,0.44,0.18,0.14]}]",/demo/quality/uncertain.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-011,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:10:00+08:00,,10.0,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-012,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:11:00+08:00,100.0,,3.5,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-013,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:12:00+08:00,100.0,10.0,,[],/demo/quality/normal.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-014,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:13:00+08:00,100.0,10.0,3.5,[],,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-015,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:14:00+08:00,100.0,10.0,3.5,null,/demo/quality/uninspected.svg,synthetic_demo_v1
+SP-JZ-001,DEMO-FD-QC-016,DEMO-FOOD-OAT-001,原味燕麦饼干（演示）,DEMO-FD-20261021-01,2026-10-21T09:15:00+08:00,98.0,8.0,5.0,[],/demo/quality/normal.svg,synthetic_demo_v1

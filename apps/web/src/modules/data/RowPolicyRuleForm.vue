@@ -122,7 +122,7 @@ function changeSubject() {
   padding: 16px;
   border: 1px solid var(--el-border-color-light);
   border-radius: 2px;
-  background: #fff;
+  background: var(--surface);
 }
 .rule-header,
 .condition-heading {

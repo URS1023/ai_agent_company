@@ -17,6 +17,7 @@ from time import monotonic
 import httpx
 
 from agent_platform.core.errors import DomainError
+from agent_platform.core.local_mysql import verified_local_mysql, verify_connected_mysql
 from .sql_safety import driver_query
 
 DEFAULT_PORTS = {"postgres": 5432, "mysql": 3306, "http_json": 443, "elasticsearch": 9200}
@@ -54,7 +55,8 @@ def config_target(provider, config):
 def require_approved_target(source, settings, scope="query"):
     """运行开关与精确目标批准同时满足才允许连接；回环地址不自动获得批准。"""
     target = config_target(source.provider, source.connection_config)
-    if not settings or not settings.allow_remote_connections:
+    local = verified_local_mysql(getattr(settings, 'local_mysql_proof', ''), source.provider, target)
+    if not settings or not (settings.allow_remote_connections or local):
         raise DomainError(403, "source_connections_disabled", "当前环境尚未启用外部数据连接")
     approval = source.target_approval or {}
     try:
@@ -102,13 +104,15 @@ def plan_cost(plan):
 
 class ReadConnector:
     """每次读取使用短连接并回滚，不建立后台轮询或自动重试。"""
-    def __init__(self, *, http_transport=None, sql_factory=None):
+    def __init__(self, *, http_transport=None, sql_factory=None, local_mysql_proof=''):
         self.http_transport, self.sql_factory = http_transport, sql_factory
+        self.local_mysql_proof = local_mysql_proof
 
     @contextmanager
     def _connection(self, source, password):
         config, provider = source.connection_config, source.provider
         target = config_target(provider, config)
+        proof = verified_local_mysql(self.local_mysql_proof, provider, target)
         if self.sql_factory:
             connection = self.sql_factory(provider, target, config, password)
         elif provider == "postgres":
@@ -119,6 +123,8 @@ class ReadConnector:
             connection = pymysql.connect(host=target["host"], port=target["port"], database=target["database"], user=config.get("username", ""), password=password, connect_timeout=2, read_timeout=2, write_timeout=2, local_infile=False, charset="utf8mb4", autocommit=False, ssl=ssl.create_default_context() if config.get("tls", True) else None)
         try:
             with closing(connection.cursor()) as cursor:
+                if proof:
+                    verify_connected_mysql(cursor, proof)
                 if provider == "postgres":
                     cursor.execute("SET TRANSACTION READ ONLY")
                     schema = config.get("schema_name", "public")

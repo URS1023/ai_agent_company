@@ -1361,7 +1361,7 @@ defineExpose({ getRenderedOption: () => chart?.getOption() });
   padding: 6px 12px;
   border: 1px solid #c43d3d;
   border-radius: 5px;
-  color: #fff;
+  color: var(--surface);
   background: #b83232;
   cursor: pointer;
 }

@@ -43,7 +43,7 @@ def view(row):
 class DataService:
     def __init__(self, session, actor, settings=None, *, connector=None):
         self.session, self.actor, self.settings = session, actor, settings
-        self.connector = connector or ReadConnector()
+        self.connector = connector or ReadConnector(local_mysql_proof=getattr(settings, 'local_mysql_proof', ''))
 
     @staticmethod
     def _dialect(source):

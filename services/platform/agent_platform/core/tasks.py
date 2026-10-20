@@ -3,7 +3,7 @@
 from hashlib import sha256
 import json
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from .context import Actor
@@ -129,3 +129,50 @@ class TaskService:
         self.session.add(row)
         self.session.flush()
         return {'sequence': row.sequence, 'task_id': id, 'type': type, 'data': row.data, 'created_at': row.created_at}
+
+    def project_workflow(self, run_id: str, *, completed_step: int | None = None) -> dict:
+        """仅供流程执行器内部同步状态，不暴露路由，也不读取已撤权的知识正文。
+
+        状态和输出只能来自绑定的运行记录。公共get/list仍执行完整来源鉴权；
+        这里额外核对工作区、发起人、任务种类和双向ID，避免将普通任务变成写入目标。
+        """
+        from ..modules.flows.models import WorkflowRun
+        self.actor.require('m04.read')
+        run = self.session.get(WorkflowRun, run_id)
+        task = self.session.get(Task, run.task_id) if run is not None and run.task_id else None
+        if (run is None or task is None or run.workspace_id != self.actor.workspace_id
+                or task.workspace_id != run.workspace_id or task.kind != 'platform_workflow'
+                or task.user_id != run.created_by or task.inputs.get('run_id') != run.id
+                or task.inputs.get('workflow_id') != run.workflow_id):
+            raise DomainError(409, 'workflow_task_binding_invalid', '运行与任务的关联不一致')
+        status = run.status
+        if (status not in {'running', 'succeeded', 'failed', 'unknown'}
+                or (status != task.status and status not in TRANSITIONS.get(task.status, set()))):
+            raise DomainError(409, 'task_state_conflict', '任务当前状态不支持此操作')
+        if completed_step is not None and (status != 'running' or not any(
+                item.get('index') == completed_step and item.get('status') == 'ok' for item in run.steps)):
+            raise DomainError(409, 'workflow_step_not_completed', '该步骤尚未完成')
+        if task.status == status and completed_step is None:
+            return task_dict(task)
+        previous = task.status
+        error = None
+        if status in {'failed', 'unknown'}:
+            error = {'code': 'workflow_result_unknown' if status == 'unknown' else 'workflow_failed',
+                'message': '执行结果尚未确认，请核对运行记录' if status == 'unknown' else '流程执行失败，请查看运行记录'}
+        values = {'status': status, 'updated_at': now_iso(), 'revision': task.revision + 1,
+            'source_run_id': run.id, 'outputs': {'run_id': run.id,
+                'completed_steps': sum(item.get('status') == 'ok' for item in run.steps)}, 'error': error}
+        changed = self.session.execute(update(Task).where(Task.id == task.id,
+            Task.workspace_id == run.workspace_id, Task.revision == task.revision).values(**values))
+        if not changed.rowcount:
+            raise DomainError(409, 'task_state_conflict', '任务状态已变化，请读取最新运行记录')
+        self.session.refresh(task)
+        data = {'run_id': run.id, 'step': completed_step} if completed_step is not None else {'from': previous, 'status': status}
+        self.session.add(TaskEvent(task_id=task.id,
+            type='workflow_step_completed' if completed_step is not None else 'state_changed', data=data))
+        if status != previous and status in {'succeeded', 'failed', 'unknown'}:
+            label = {'succeeded': '已完成', 'failed': '执行失败', 'unknown': '需要核对执行结果'}[status]
+            self.session.add(Notification(workspace_id=task.workspace_id, user_id=task.user_id,
+                title=task.title + ' · ' + label, resource_type='task', resource_id=task.id))
+        self.session.flush()
+        return task_dict(task)

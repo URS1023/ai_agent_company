@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">合成演示：燕麦饼干包装外观样本</title>
+  <desc id="desc">独立绘制的包装示意图，展示完整袋体与封口。</desc>
+  <rect width="800" height="600" fill="#f4f7fb"/>
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif">
+    <rect x="32" y="28" width="218" height="36" rx="4" fill="#e7efff"/><text x="48" y="52" font-size="18" fill="#2d6bff">合成演示 · 包装示意</text>
+    <path d="M250 90h300l10 420H240z" fill="#fff" stroke="#b2c3dd" stroke-width="3"/>
+    <path d="M248 108h304v36H248zm-6 350h316v36H242z" fill="#dfe9fb"/>
+    <path d="M251 118h298m-298 11h298M246 469h308m-308 12h308" stroke="#9fb6d8" stroke-width="2"/>
+    <rect x="267" y="176" width="266" height="128" rx="4" fill="#ecf3ff"/>
+    <text x="400" y="224" text-anchor="middle" font-size="29" font-weight="bold" fill="#1f3657">原味燕麦饼干</text>
+    <text x="400" y="263" text-anchor="middle" font-size="19" fill="#667c99">演示产品</text>
+    <g fill="#d6ad6a" stroke="#b98c4b" stroke-width="2"><ellipse cx="367" cy="358" rx="47" ry="28"/><ellipse cx="425" cy="373" rx="47" ry="28"/></g>
+    <g fill="#a57539"><circle cx="350" cy="351" r="3"/><circle cx="374" cy="364" r="3"/><circle cx="431" cy="364" r="3"/><circle cx="411" cy="381" r="3"/></g>
+    <text x="400" y="431" text-anchor="middle" font-size="20" fill="#425774">标称净重 100 g</text>
+    <text x="400" y="558" text-anchor="middle" font-size="22" fill="#425774">包装外观样本</text>
+  </g>
+</svg>

@@ -7,7 +7,6 @@ import {
   newOperation,
   operationColumns,
   processingPayload,
-  queryLabel,
   PreparationError,
   preparationErrors,
   type Fields,
@@ -16,9 +15,13 @@ import {
 import { usePreparationQueries } from "./usePreparationQueries";
 import ProcessingOperationForm from "./ProcessingOperationForm.vue";
 import PreparationResult from "./PreparationResult.vue";
+import PreparationQuerySelect from "./PreparationQuerySelect.vue";
+import PreparationHistory from "./PreparationHistory.vue";
+import { usePreparationHistory } from "./usePreparationHistory";
 const session = useSession();
 const op = useOperation();
 const sources = usePreparationQueries();
+const history = usePreparationHistory();
 const name = shallowRef("");
 const steps = ref<OperationDraft[]>([newOperation()]);
 const localErrors = ref<Fields>({});
@@ -61,6 +64,11 @@ onMounted(() => op.run(sources.load));
 </script>
 <template>
   <div class="page-stack">
+    <div class="row-actions" style="justify-content: flex-end">
+      <el-button v-if="session.can('m06.read')" @click="history.open()"
+        >运行历史</el-button
+      >
+    </div>
     <section class="panel">
       <el-form
         label-position="top"
@@ -71,13 +79,8 @@ onMounted(() => op.run(sources.load));
           <el-form-item label="任务名称" :error="errors.name"
             ><el-input v-model="name" /></el-form-item
           ><el-form-item label="数据查询" :error="errors.query_id"
-            ><el-select v-model="sources.queryId.value" filterable
-              ><el-option
-                v-for="query in sources.queries.value"
-                :key="query.id"
-                :value="query.id"
-                :label="queryLabel(query)" /></el-select
-          ></el-form-item>
+            ><PreparationQuerySelect :catalog="sources" />
+          </el-form-item>
         </div>
         <ProcessingOperationForm
           v-for="(step, index) in steps"
@@ -102,12 +105,21 @@ onMounted(() => op.run(sources.load));
             type="primary"
             native-type="submit"
             :loading="op.busy.value"
-            :disabled="!sources.queryId.value"
+            :disabled="
+              !sources.queryId.value ||
+              sources.selecting.value ||
+              sources.loading.value
+            "
             >执行处理</el-button
           >
         </div>
       </el-form>
     </section>
-    <PreparationResult v-if="result" :job="result" />
+    <PreparationResult
+      v-if="result"
+      :job="result"
+      @permission-denied="result = null"
+    />
+    <PreparationHistory :history="history" />
   </div>
 </template>

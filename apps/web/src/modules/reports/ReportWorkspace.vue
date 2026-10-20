@@ -319,7 +319,7 @@ watch(
   gap: 15px;
 }
 .template-card {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid #e1e6ef;
   border-radius: 2px;
   overflow: hidden;

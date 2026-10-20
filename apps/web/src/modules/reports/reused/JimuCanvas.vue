@@ -1816,7 +1816,7 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.08);
 }
 .canvas-context-menu button:disabled {
-  color: #555;
+  color: var(--text);
   cursor: default;
 }
 .canvas-context-menu .name {

@@ -104,7 +104,7 @@ function submit() {
   font:
     14px/1.7 Consolas,
     monospace;
-  background: #f8fafc;
-  color: #18345a;
+  background: var(--surface-sunken);
+  color: var(--text-strong);
 }
 </style>

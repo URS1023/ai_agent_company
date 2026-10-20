@@ -3,6 +3,8 @@ import { computed, onMounted, reactive, shallowRef, watch } from "vue";
 import type { Entity } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import { allRecords } from "./workflowOptions";
+import PreparationQuerySelect from "../data/PreparationQuerySelect.vue";
+import { usePreparationQueries } from "../data/usePreparationQueries";
 const props = defineProps<{
   initial?: Record<string, any>;
   busy?: boolean;
@@ -13,8 +15,8 @@ const emit = defineEmits<{
   cancel: [];
 }>();
 const load = useOperation(),
-  devices = shallowRef<Entity[]>([]),
-  queries = shallowRef<Entity[]>([]);
+  devices = shallowRef<Entity[]>([]);
+const catalog = usePreparationQueries();
 const form = reactive({
   name: "节能分析",
   device_id: "",
@@ -58,10 +60,22 @@ for (const name of [
   "planned_hours",
 ] as const)
   if (form[name] === null) form[name] = "";
-const query = computed(() =>
-  queries.value.find((row) => row.id === form.query_id),
+const query = catalog.query;
+const columns = catalog.columns;
+watch(
+  catalog.queryId,
+  (id) => {
+    form.query_id = id;
+  },
+  { flush: "sync" },
 );
-const columns = computed<string[]>(() => query.value?.result?.columns ?? []);
+watch(
+  () => form.query_id,
+  (id) => {
+    catalog.queryId.value = id;
+  },
+  { flush: "sync", immediate: true },
+);
 const periods = computed<string[]>(() => [
   ...new Set<string>(
     (query.value?.result?.rows ?? [])
@@ -105,6 +119,8 @@ const ready = computed(
     !!form.name.trim() &&
     !!form.device_id &&
     !!form.query_id &&
+    !catalog.selecting.value &&
+    !catalog.loading.value &&
     critical.every((name) => columns.value.includes(form[name])) &&
     form.baseline_value !== form.recent_value &&
     periods.value.includes(form.baseline_value) &&
@@ -120,22 +136,21 @@ watch(
       form.energy_unit = energyUnits.value[0]!;
   },
 );
-watch(
-  () => form.query_id,
-  () => {
-    for (const field of [
-      ...critical,
-      "energy_unit_field",
-      "production_unit_field",
-      "duration_field",
-      "price_field",
-      "device_field",
-    ] as const)
-      if (!columns.value.includes(form[field])) form[field] = "";
-    form.condition_fields = [];
-  },
-);
+watch(query, (selected) => {
+  if (!selected || catalog.selecting.value) return;
+  for (const field of [
+    ...critical,
+    "energy_unit_field",
+    "production_unit_field",
+    "duration_field",
+    "price_field",
+    "device_field",
+  ] as const)
+    if (!columns.value.includes(form[field])) form[field] = "";
+  form.condition_fields = [];
+});
 watch(periods, (values) => {
+  if (catalog.selecting.value || !query.value) return;
   if (!values.includes(form.baseline_value)) form.baseline_value = "";
   if (!values.includes(form.recent_value)) form.recent_value = "";
 });
@@ -171,10 +186,8 @@ function submit() {
 }
 onMounted(() =>
   load.run(async () => {
-    [devices.value, queries.value] = await Promise.all([
-      allRecords("/devices"),
-      allRecords("/queries"),
-    ]);
+    devices.value = await allRecords("/devices");
+    await catalog.load();
   }),
 );
 </script>
@@ -200,12 +213,7 @@ onMounted(() =>
             :value="row.id"
             :label="row.name" /></el-select></el-form-item
       ><el-form-item label="数据查询" :error="errors?.query_id"
-        ><el-select v-model="form.query_id" filterable
-          ><el-option
-            v-for="row in queries"
-            :key="row.id"
-            :value="row.id"
-            :label="row.name" /></el-select></el-form-item
+        ><PreparationQuerySelect :catalog="catalog" /></el-form-item
       ><el-form-item label="计量类型"
         ><el-select v-model="form.energy_mode"
           ><el-option value="interval" label="期间电量" /><el-option

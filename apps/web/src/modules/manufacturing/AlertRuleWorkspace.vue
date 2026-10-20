@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { ElMessageBox } from "element-plus";
 import { api, type Entity, type ListResult } from "../../api/client";
 import { useCollection } from "../../composables/useCollection";
 import { useOperation } from "../../composables/useOperation";
 import { useSession } from "../../stores/session";
+import PreparationQuerySelect from "../data/PreparationQuerySelect.vue";
+import { usePreparationQueries } from "../data/usePreparationQueries";
 const emit = defineEmits<{ incident: [] }>();
 const session = useSession();
 const list = useCollection(() => "/alert-rules");
 const op = useOperation();
 const devices = ref<Entity[]>([]);
-const queries = ref<Entity[]>([]);
+const catalog = usePreparationQueries();
 const selected = ref<Entity | null>(null);
 const dialog = ref(false);
 const evaluation = ref<Entity | null>(null);
@@ -32,10 +34,21 @@ const source = reactive({
   unit_field: "",
   create_incident: true,
 });
-const columns = computed(() => {
-  const query = queries.value.find((item) => item.id === source.query_id);
-  return query?.columns ?? query?.result?.columns ?? [];
-});
+const columns = catalog.columns;
+watch(
+  catalog.queryId,
+  (id) => {
+    source.query_id = id;
+  },
+  { flush: "sync" },
+);
+watch(
+  () => source.query_id,
+  (id) => {
+    catalog.queryId.value = id;
+  },
+  { flush: "sync" },
+);
 function edit(row: Entity | null) {
   selected.value = row;
   Object.assign(form, {
@@ -93,9 +106,7 @@ onMounted(async () => {
   await op.run(async () => {
     devices.value = (await api.get<ListResult>("/devices?limit=200"))
       .items as Entity[];
-    if (session.can("m06.read"))
-      queries.value = (await api.get<ListResult>("/queries?limit=200"))
-        .items as Entity[];
+    if (session.can("m06.read")) await catalog.load();
   });
 });
 </script>
@@ -236,13 +247,8 @@ onMounted(async () => {
       @close="evaluation = null"
       ><el-form label-position="top" @submit.prevent="evaluate"
         ><el-form-item label="数据查询"
-          ><el-select v-model="source.query_id" filterable
-            ><el-option
-              v-for="query in queries"
-              :key="query.id"
-              :value="query.id"
-              :label="query.name ?? query.sql" /></el-select
-        ></el-form-item>
+          ><PreparationQuerySelect :catalog="catalog"
+        /></el-form-item>
         <div class="form-grid">
           <el-form-item
             v-for="field in [
@@ -272,7 +278,11 @@ onMounted(async () => {
             native-type="submit"
             :loading="op.busy.value"
             :disabled="
-              !source.query_id || !source.value_field || !source.time_field
+              !source.query_id ||
+              !source.value_field ||
+              !source.time_field ||
+              catalog.selecting.value ||
+              catalog.loading.value
             "
             >执行评估</el-button
           >

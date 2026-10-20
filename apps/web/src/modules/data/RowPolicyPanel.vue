@@ -139,8 +139,8 @@ onBeforeUnmount(() => {
 .rule-alternative {
   width: 34px;
   margin: 0 auto 15px;
-  color: #2666fb;
-  background: #edf4ff;
+  color: var(--brand-500);
+  background: var(--brand-soft);
   text-align: center;
   line-height: 26px;
   border-radius: 2px;

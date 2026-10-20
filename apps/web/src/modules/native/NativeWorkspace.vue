@@ -643,7 +643,7 @@ onMounted(load);
   height: 42px;
   border-radius: 5px;
   background: #e7efff;
-  color: #2666fb;
+  color: var(--brand-500);
   display: grid;
   place-items: center;
   font-size: 23px;
@@ -662,7 +662,7 @@ onMounted(load);
   gap: 20px;
 }
 .knowledge-card {
-  background: #fff;
+  background: var(--surface);
   padding: 22px;
   border-radius: 2px;
   min-height: 240px;
@@ -690,7 +690,7 @@ onMounted(load);
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: #777;
+  color: var(--text-muted);
   font-size: 12px;
   overflow-wrap: anywhere;
 }

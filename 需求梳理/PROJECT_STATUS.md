@@ -857,3 +857,153 @@
 - T-root38提交前检查：733个可跟踪文件约52.3MB，未发现被禁止的运行/整库路径、>50MB单文件或扫描规则命中的真实令牌/私钥；现有构建与模块测试结果见上述交接。准备提交当前快照并推送main，最终远端SHA另行核对。
 
 - T-agent-1021-root-38已完成：2026-10-21按用户要求正常推送origin/main成功，代码提交725d85c577e2ee23f9d2c45d7f56ac51ba9d490a；git ls-remote已核远端main与本地HEAD相同。共245文件/53235新增行/5049删除行（含生成契约），不是功能完成比例。根进度之外工作区只保留预先存在且未纳入的deploy/docker_desktop.ps1修改；本机数据/密钥/参考整库/依赖均未推送。构建17.57秒与提交空白检查通过；新迁移2处空白末尾仅格式修正。当前交付是实现进展快照，T28真实数据UI、I-root43 V2目录与I-root42 NAT地址协调以及完整125项剩余验收继续保留。
+
+- R-agent-1021-root-39（用户明确，2026-10-21）：继续直到原始需求全部达成；使用本机MySQL、目标数据库szh_new和szh_new_food，将当前项目的数据填充到新库并接通演示。用户已提供数据库密码，仅在内存/本机密文使用，不写共享文档/源码/Git。授权包括核实本机服务、创建缺失目标库和导入本项目数据；未授权覆盖已有同名表、删除旧数据或改test5在用绑定。
+- T-agent-1021-root-39（root，进行中）：核Windows本机MySQL服务/PID/监听/数据目录，单连接少量元数据查询确认两个库现状；先EXPLAIN再业务读取，短超时/串行/总量记录。已有库保留，演示新表使用独立可追溯命名与来源清单；导入批次/数量/失败需留本机收据。目标用户名未明确，先从本机服务配置与既有说明确认；不能因此连接非本机数据源。
+- 协作恢复：root串行写同一共享进度/索引。native延续原生cwd修复，只做源码最小改动；domain先核当前项目数据资产/字段/数量，待root目标证明；web补已实现ProcessingJob历史UI。各Agent须先读最新文档并自行确认原范围释放，再新认领，不启动其他已有数据库或重复失败运行。
+
+## 平台自研合并（2026-10-21，DSH 会话）
+- 方向变更：用户明确不再使用 iframe 内嵌、内嵌代理与平台网关；改为把外部系统的界面代码搬进 apps/web、能力并入 services/platform，前端统一、后端统一。
+- 已完成：设计令牌与组件库（styles/tokens.css、styles/components.css）、外壳重做（左轨分组 + 上下文栏目 + 顶栏 + 药丸标签），main.css 保留全部旧类名以免破坏 124 个组件。
+- 已完成：原生对话模块 modules/chat（/api/v1/chat/profile、/completions、/answers），直连本机已配置模型；上游网关需 x-opencode-session 头，缺省会 400 MissingSessionID。前端 ChatWorkspace 实测回复「收到」。
+- 已完成：平台原生知识库 modules/knowledge（/api/v1/kb/spaces、documents、search）+ core/embeddings.py，使用本机已配置 BAAI/bge-m3；实测建空间、入库 1 文档（1 切块）、语义检索命中 score 0.6686。前端 KnowledgeWorkspace 已在 /bases 验收通过。
+- 菜单：AI对话/会话记录/记忆管理 → 原生 chat；知识库 → 原生 kb。仍指向 Dify 的为 agents、workflows、triggers、plugins 四项。
+- 未做：工作流/智能体/插件原生化；124 个组件逐模块精修。
+
+## 平台自研合并 · 第 2 批（2026-10-21）
+- 新增平台工作流引擎 modules/flows：flow_workflows / flow_runs 两表，步骤类型 kb（知识检索）、ai（模型回答）、text（文本整理），支持 {{input}} 与 {{步骤名.output}} 变量引用；失败保留已完成步骤。
+- 接口：/api/v1/workflows（列表/创建/详情/更新/删除）、/{id}/runs（运行与历史）、/runs/{run_id}。
+- 前端 modules/flows/WorkflowWorkspace.vue：流程列表、步骤编辑器（增删/类型/字段）、运行输入、逐步输出与最终输出、运行历史。菜单「工作流」「触发器」已指向该页。
+- 实测：点检标准速查（kb+text）运行成功，2 步输出正确；浏览器 /workflows 验收通过，0 错误。
+- 已知外部依赖：模型步骤当前受上游 429 限流影响（已把 429 单独映射为「模型服务正在限流，请稍后重试」）；知识检索与文本步骤不依赖模型，可独立验证。
+- 仍指向 Dify 的菜单项：Agents、插件。
+
+## 平台自研合并 · 第 3 批（2026-10-21）
+- 新增 platform agents 模块 modules/agents：agent_apps 表存提示词、知识空间、检索条数与模型参数；/api/v1/agents CRUD + /{id}/messages（SSE）+ /{id}/answers。回答时自动检索绑定空间并把资料拼进 system 提示词。
+- 新增前端 AgentWorkspace.vue（应用列表、编辑器、对话面板）与 PluginWorkspace.vue（工具登记，复用既有 /tool-bindings 与 /integration-instances）。
+- 菜单 Agents → agent、插件 → plugin。至此 manifest 中跳转 Dify 的 8 项全部改为系统内页面；仅「模型配置」保留 native（应用内模型列表，非外部跳转）。
+- 修复两处真实缺陷：
+  1) 流式接口在上游报错时先发 200 再断开，浏览器拿到 0 字节。改为 ChatService.open_stream 先建立连接并校验状态，429/5xx 以正常 JSON 返回（实测 429 + 151 字节可读错误）。
+  2) 前端 SSE 按网络分片切行，跨分片的事件被丢弃导致回答缺字。新增 apps/web/src/api/sse.ts 带缓冲解析器，对话页与智能体页统一改用。
+- 实测：智能体「设备点检问答助手」绑定 1 个知识空间，回答「轴承温度超过 75 摄氏度判定为异常，需要检查润滑脂是否变质或加注过量」；/agents 与 /plugins 浏览器验收 0 错误。
+- 上游模型存在间歇 429 限流（同一密钥被运行中的对话系统占用），已单独映射为「模型服务正在限流，请稍后重试」。
+- 未做：124 个组件逐模块视觉精修（全局新样式已生效）。
+
+- R-agent-1021-root-40（用户目标恢复，2026-10-21）：延续一个系统融合、统一现有样式并优化、保留原始需求及本地数据库演示。当前DSH三批变更保留，新增基础对话/三类步骤不等于原生功能全部完成。
+- T-agent-1021-native-33（agent-1020-native认领，进行中；root代串行记录）：修复新增agents/flows经知识库绕过权限、增加6张融合表Alembic迁移，必要纯回归。范围仅后端agents/flows/knowledge、独立迁移07及新测试；不触实际服务/数据库/模型，不覆盖已在工作区的融合实现。
+- T-agent-1021-root-39进展：本机MySQL80服务PID5680，子进程mysqld.exe PID6904实际监听3306；本地my.ini数据目录E:/Environment_f/mysql-8.0.46-winx64/data，其主机pid文件内容6904与监听一致。进程路径API权限拒绝，采用服务配置/父子链/数据目录pid三项交叉证明。下一步单连接读取实例元数据与两个指定库列表，尚未执行业务查询。
+- T-agent-1021-domain-29（agent-1020-domain，只读进行中）：已核设备包9个Parquet约393.1MiB，manifest共2,332,800分钟记录；来源说明全部合成，演示须保留此来源。食品3设备适合szh_new_food，其余6设备适合szh_new；不拿旧部署台账冒充当前有dump。
+- T-agent-1021-domain-30（agent-1020-domain认领，进行中）：新tools/demo_data/package.py、import_mysql.py及独立纯测试；全包Parquet/CSV/JSONL导入计划、独立aic_demo表与文件校验/批次账本，禁止覆盖旧表。root负责真实执行；作者不连接实际库。首轮单连接串行每语句5秒/总900秒/分批1000行，失败保留且不自动重试。
+- T-agent-1021-web-27（agent-1020-web认领，进行中）：当前统一样式下聊天用户/工作区隔离、历史搜索打开删除、错误反馈及记忆栏目合同审查；不改整体外壳、不调用真实服务。后端chat会话合同须协调，避免UI多轮假象。
+- T-root39元数据阶段已通过：1本机连接/4条元数据SQL/0业务查询，MySQL8.0.46、datadir/pid再核一致；szh_new及szh_new_food均已存在。旧业务表全部保留，后续仅新aic_demo命名表。本机收据.local/mysql-demo/metadata-20261021.json，无密码。此前pyarrow21不支持当前Python3.14 wheel，构建失败未安装，改用只允许二进制的兼容版本，不构建源码。
+- T-agent-1021-root-41（root认领，进行中）：core/settings.py、新core/local_mysql.py、data/connectors.py及service.py构造接入、deploy/native/desktop.py局部启动配置、新纯测试。只对已核验本机MySQL实例和两个明确库启用连接，远程连接开关继续关闭；每次连接前核监听PID/本机数据目录pid证明，连接后核server_uuid/datadir，仍保留已有目标批准与只读SQL边界。另负责tools/demo_data/platform.py装配及实际有界验收。
+- T-agent-1021-root-42（root认领，进行中）：MaintenanceForm.vue及新MaintenancePresetPicker.vue，从设备既有measurement-point.mapping.analysis装配方案，保留历史查询方式；组件只读平台配置，不在选择时自动连接业务库。沿当前DSH统一样式，Vue Composition API；不加常驻技术解释。
+- T-agent-1021-native-33由作者正式释放：29项新tmpSQLite/Mock回归6.22秒通过；中央知识权限、冻结来源与历史撤权、流取消关闭、07迁移及原迁移测试完成。实际平台升级待root；不等于完整Dify功能已融合。
+- T-agent-1021-native-34（agent-1020-native认领，进行中）：flows后端与迁移08、相关纯测试；幂等键/请求及定义快照、网络调用前Run+Task预约提交、逐步持久化、unknown不重放、90秒总deadline。附加chat/service.py、core/embeddings.py仅可选剩余timeout参数，必要core/task_evidence窄来源接入；不修改原生引擎、不实际HTTP/DB/模型。前端合同直接协调web，未授权重写UI整体。
+- T-root41初验：14项本机连接证明与原连接器回归1.91秒通过；2项平台装配DTO/参数化SQL纯验证0.34秒通过。实际MySQL总2连接/6元数据SQL已结束、0业务SELECT，未发生超时。
+- T-agent-1021-domain-30作者正式释放3路径：package.py/import_mysql.py/test_demo_data_import.py，最终11项纯tmp/Mock回归0.60秒通过，0实际连接。非系统SELECT已加入EXPLAIN及索引/行数预算；计划JSON往返、失败停连接、成功幂等与未知拒绝均已验证。root现接管实际一次导入，预算按plan-v2：1本机连接/1000行一批/每语句5秒/总900秒，失败停止保留收据，不自动续灌。
+- T-root41平台07部署实际通过：本机自有SQLite有界备份后停止已核PID31088，07兼容迁移+完整schema比较adopt至head07成功，8080已正常重启；远程开关保持false，仅本机证明配置已接入。其他引擎未重启，0业务源查询/模型。
+- T-agent-1021-web-27作者正式释放9文件：会话用户/工作区隔离与迟到流阻断、独立本机历史搜索/打开/删除、两个脚本硬编码账号移除；71断言/2SFC/全局Vue类型/格式通过，0真实HTTP。memory未实现明确保留缺口，跨浏览器标签身份同步待身份层处理。
+- T-agent-1021-web-28（agent-1020-web认领，进行中）：ProcessingWorkspace/BusinessMetricWorkspace、usePreparationQueries、新history/query组件composable及纯测试；允许BusinessMetricList/useBusinessMetrics最小历史接入；WorkflowWorkspace仅与native34协调幂等意图/未知状态。保持当前DSH样式，不改后端。
+- T-agent-1021-domain-31（agent-1020-domain认领，进行中）：tools/demo_data/quality.py、fixtures食品QC CSV、apps/web/public/demo/quality合成包装示意SVG及test_demo_quality_data.py；复用已释放Importer仅写独立aic_demo_product_quality，16个样本覆盖数值/成分/外观及缺测/低置信。图与数据明确合成，旧设备包不含该业务证据。仅纯检，root随后实际导入。
+- T-web28附加范围经root确认：新flows/useWorkflowRunIntent.ts与纯测试，WorkflowWorkspace仅幂等键/unknown结果核对；不修改共享API客户端、不自动重派未知运行。
+
+- T-agent-1021-domain-31作者正式交接：16个合成食品质检样本、5种包装示意及独立质量表导入器，12项纯回归0.49秒通过；未执行MySQL/模型。预期4合格/6不合格/1待复核/5不完整，用于演示分支，不是实际业务准确率。
+- T-agent-1021-domain-32（agent-1020-domain认领，进行中；root串行落盘）：独立tools/demo_data/recover_mysql.py与test_demo_mysql_recovery.py。正在执行的T30源码/预算冻结；准备显式review文件绑定原收据、计划、源hash、connection_id已结束、授权恢复，逐已提交batch核真实行与账本后只续确认断点；成功来源保持、不覆盖/清空。仅纯测试，实际恢复须先核原任务停止并按数据库超时规则处理授权，不自动执行。
+
+- T-native34扩展归属（root确认，作者agent-1020-native）：core/tasks.py增加无public路由的内部工作流状态投影，仅核真实run/task双向绑定及工作区/发起人；模型期间来源删除时仍落真实终态，公共读鉴权不放宽。纯回归覆盖，不实际派发。
+- T-agent-1021-web-28作者正式交接11文件：处理/指标历史与服务端查询分页、403/404清缓存、工作流幂等与未知核对；83新断言/7SFC、139旧断言/14SFC、全局Vue类型及格式通过。0真实HTTP/DB/浏览器/模型，实际部署待root。
+- T-agent-1021-web-29（agent-1020-web认领，进行中）：DataQualityWorkspace及制造模块查询选择复用新PreparationQuerySelect，核分页与独立已选查询，不重查业务源；root42释放MaintenanceForm/Picker给本任务，优化设备方案默认折叠高级字段。允许新增必要组件/纯回归，不改后端、不真实HTTP/DB/模型；保持DSH样式与原功能。不碰其他Agent当前文件。
+
+- I-agent-1021-root-44（关联R39/T-domain30，2026-10-21）：首次全量导入900秒总时限到达停止，已提交1483000/2340740行，1连接/5022语句，失败码import_timeout（非单条SQL超时）。原收据.local/mysql-demo/import-full-20261021.json保留；没有自动续灌/扩大预算。此前设置总量预算偏短，已准备T-domain32核真实批次后断点恢复工具；实际恢复须按用户明确规则取得授权。
+- I-root44停止核查已完成：原导入Python进程结束，独立一次本机归属复核+PROCESSLIST共1连接/2系统元数据语句，connection_id=10已不在服务器；收据.local/mysql-demo/import-stop-check.json passed。0业务查询/数据修改，未运行恢复。当前独立前端/后端纯验证继续；MySQL导入与业务验收暂停等待明确恢复范围。
+
+- T-agent-1021-native-34作者正式释放：82项纯tmpSQLite/Mock联合回归17.87秒全通过、10源码/迁移语法通过。已实现先预约后派发/逐步提交/同键不重放/90秒绝对预算/未知原运行回查/撤权后真实终态投影；公共知识与任务权限保持。实际08部署待root；当前kb/ai/text三类步骤仍不等同完整Dify。
+- T-agent-1021-native-35（agent-1020-native认领，进行中）：只读核原锁定Dify及平台既有执行/工具/发布代码，给完整工作流节点和Agent能力融合的最短复用清单与明确文件/依赖/版本/迁移代价。遵用户一个系统方向与尽量copy，不能用三节点/单轮RAG替代原需求。不改代码/运行/DB/HTTP，不把建议标已实现；root串行保存结论。
+- T-agent-1021-root-43（root认领，进行中）：在平台07已验证基础上，备份平台自有SQLite、常规upgrade08并完整schema比较后只重启8080，暂不操作已暂停MySQL源；随后统一构建前端、验证工作流无模型文本节点单次执行/同键回查。各独立步骤收据保留，不重跑旧失败。
+
+- T-agent-1021-domain-32作者正式释放：独立恢复器与15项纯Mock回归0.73秒通过，默认零连接，仅显式review授权后恢复；原T30源码未改。root已生成候选recovery-plan.json，2026-10-21向用户发出900秒异常后的1800秒单次恢复及后续原定演示验收确认，尚未收到答复，未执行恢复。
+- T-root43平台08已实际完成：新独立SQLite备份→upgrade08→完整schema compare通过，8080已重启。随后7次本机HTTP成功，文本2步骤只产生1次运行，同键回原run，GET按键/详情及Task终态一致；0业务源/模型。收据platform-upgrade08.json与platform-fusion08.json保留。
+- T-agent-1021-domain-33（agent-1020-domain认领，进行中）：补齐平台记忆管理后端，先只读Open WebUI memories原实现及平台现有记录/权限模式，按最小依赖copy/adapt明确来源；user+workspace隔离CRUD/搜索、删除后不再注入；默认不自动采集、不静默跨用户共享。范围新modules/chat/memories.py、必要独立model/router及迁移09、纯回归；不得改native35正在分析的流程执行/全局provider，不实际DB/模型。先冻结DTO给web/root再实现。root串行共享；09迁移基于已完成08。
+
+- T-agent-1021-native-35作者正式交接只读结论：已有graphon0.8.0提供真实DAG/变量/容器/基础节点；Python要求>=3.12,<3.14，平台3.14须隔离3.13执行环境，不硬塞依赖。当前三节点/单轮RAG缺完整Dify图、插件、发布/触发、人审暂停、Agent工具循环/会话等，不能宣称原始全部功能完成。作者0改动/真实请求。
+- T-agent-1021-native-36（agent-1020-native认领，进行中）：新services/workflow_runtime/worker.py、最小协议说明与requirements，以及纯图测试，复用graphon0.8真实Graph/Engine/VariablePool/完整factory。先Start/End/IfElse/变量/迭代纯节点，stdin JSON/NDJSON隔离运行；禁外部HTTP/DB/模型/沙箱。允许现有3.13解释器只读依赖运行纯图，不改native venv/服务，不引入公开监听。平台/API/前端接入另行分配，未支持节点明确拒绝。
+- T-agent-1021-root-44（root认领，进行中）：README/NOTICE与启动系统.cmd、desktop.py仅单平台启动动作、tools/demo_data/requirements.txt。对齐最新单系统入口8080，保留显式原生引擎管理动作；文档区分融合基础与未完成完整节点。锁演示导入可选PyArrow版本，不把大型数据包纳入Git。与root43独立部署收据不混记。
+
+- T-agent-1021-web-29作者正式释放8文件：7个业务SFC查询搜索分页/独立已选、设备唯一方案自动装配与高级映射按需展开；67纯断言/全局Vue类型/8文件格式通过。0实际调用，待root新前端构建和实图验收；维修工单带日期过滤的查询目录另列后续，未丢失旧约束。
+
+- T-root43前端正式构建通过：2612模块，Vite13.15秒，类型检查通过；报表/公共包仍有>500kB提示，不因此隐去优化项。当前dist可由8080直接读取，未触MySQL。
+- T-agent-1021-web-30（agent-1020-web认领，进行中）：新modules/chat/MemoryWorkspace.vue及必要composable/纯测试，ChatWorkspace仅memory分支接入。对齐domain33的当前用户工作区CRUD、类型/关键词分页、revision冲突与删除确认；无自动采集/注入，不碰已交接stream/history隔离。实际API与迁移由root统一验收。
+- T-agent-1021-root-45（root认领，进行中）：准备并执行单次浏览器UI只读抽查，8080归属核验，≤120同源HTTP/180秒，仅登录及GET/打开表单；不提交数据源查询/模型/运行。覆盖统一外壳、工作流、处理、维护与质检入口，保存截图与错误收据。MySQL恢复仍等待用户回答。
+
+- T-agent-1021-domain-33作者正式释放6文件：个人记忆CRUD/搜索/分页及用户工作区强隔离、revision保护、09迁移，26纯tmpSQLite/进程内接口回归1.46秒通过；0在用库/外部HTTP/模型。默认不自动采集或注入，web30正在接管理UI；root负责09完整迁移回归和真实部署。
+- T-agent-1021-domain-34（agent-1020-domain认领，进行中）：先只读查平台已有文件/文档解析与OWUI/Dify文件入库可复用链，再补融合知识库上传原文件→解析→分块入库→可授权下载来源。范围knowledge后端新文件及必要router/service/models/迁移10/纯tests，先交DTO和源清单再改模型；不改chat/flows/当前MySQL工具。最大文件/解析/模型预算清楚，不能上传任意路径、失权后下载或以假文本冒充成功。仅tmp数据/Mock传输，不实际外部请求/在用库。
+- T-agent-1021-root-46（root认领，进行中）：AppShell.vue及新本地功能搜索组件、TrendChart空态文案最小修改；删除重复顶栏标题/路径说明和无作用readonly搜索，替换按权限筛选的真实功能导航搜索；单标签不额外重复标题。仅纯前端检查，不触web30 chat或native流程。
+
+- T-agent-1021-web-30作者正式释放6文件：记忆专页/列表/表单/状态composable/ChatWorkspace分支/纯测；96新断言、71聊天回归、全局类型与格式通过。0实际调用。root实际09迁移独立备份/upgrade/完整schema compare通过，5完整迁移回归3.83秒通过，尚待真实管理API/UI。
+- T-root45浏览器抽查原收据保留：第一次把未登录/me正常401误计异常，第二次已打开7页且无JS/HTTP错误，但脚本未关闭维护弹窗导致下一页点击超时；是验收器问题，不能据此标8页全部通过。合计101同源请求/0业务查询/0模型，旧记录不重写。root已查看工作台/工作流/处理截图；维护截图拍在动画中，后续仅补针对性验收，不机械重跑所有页面。
+- T-root46实际视觉修正追加：AppShell功能导航搜索/重复顶栏清理、单标签折叠同步grid行数；TrendChart删除重复空态解释；WorkflowWorkspace仅清无描述时的泛泛说明与运行框技术占位，不改变用户填写描述/流程执行。
+- T-domain34追加确认（root）：复用FileService及Test5约170行extractor，允许小依赖pypdf、knowledge上传/原件授权链及必要10迁移；09现已完成，可按先冻结schema再改继续。无实际模型请求，所有业务源仍暂停。
+
+- T-domain34必要core/files.py追加归属确认（root，作者domain）：FileService条件过滤KB来源引用（列表/count/详情/签名下载），仅内部knowledge_write，解除最后KB上传关联前visibility转private并revision+1；不变既有独立file-import共享语义，避免普通文件通道绕过知识权限。无不可清理墓碑；原件保留不等同完全销毁，后续owner文件管理UX仍核。
+- T-root43/46：记忆真实7HTTP管理闭环通过，临时记录已删除；0业务源/模型。新版2625模块构建15.02秒通过，包含记忆页面与真实功能搜索/文案简化；因代码新增，仅针对记忆/功能搜索/质检入口及维护表单补一次60请求/90秒只读浏览器检查，旧验收器失败保留。
+
+- T-root45/46新UI针对性抽查通过：41次同源HTTP、功能搜索实际进入记忆管理、打开新增表单、产品质检入口及维护表单，0JS/HTTP错误/业务源/模型。root已查看记忆截图；维护截图仍拍到元数据loading，不作为填充数据后的完整效果交付。此前两份验收器失败保留。
+- T-domain34依赖由root完成：平台requirements/lock添加pypdf6.21.1，单次only-binary/no-deps/无重试安装成功；实际wheel405KB。未安装全量检索/模型包，不影响其他依赖。
+
+- I-agent-1021-root-45：真实工作流截图时间比Asia/Shanghai本地早8小时；新融合模型按UTC写入SQLite DateTime，回读丢tz后直接isoformat导致浏览器当本地时间。不是源设备时间问题，不修改导入ISO原值。
+- T-agent-1021-root-47（root认领，进行中）：新core/datetimes.py及纯回归，flows/service.py、agents/service.py只改已确定UTC存储字段的响应序列化，保留+00:00；不动运行/模型。knowledge/service.py在domain34归属中，由作者自行适配新helper，root不重叠编辑。
+
+- T-agent-1021-web-31（agent-1020-web认领，进行中）：KnowledgeWorkspace及新上传/文件来源组件、必要composable与纯tests，消费domain34已冻结DTO；单文件真实上传/解析索引状态/失败反馈、详情分块与授权原件下载、用户明确重建索引。优先复用FileWorkspace的下载/上传模式，不把201+failed显示成功；不改核心聊天/流程/全局样式，不实际模型/DB/HTTP。root统一部署10与真正上传验收。
+- T-domain34同意FileService.store_bytes本次唯一新建文件的flush/audit异常清理，不能删除复用/既有路径；文件+doc+引用预约提交后才解析/嵌入，失败留下可回查记录。仍在该作者core/files窄归属内，纯回归需覆盖。
+- T-root47两项UTC存储纯回归通过0.24秒，覆盖SQLite回读及+08偏移转换；flows/agents响应已改，实际部署等10知识合同稳定，未更改设备数据原值。
+
+- T-web31追加client.ts窄归属（root确认）：request增加timeoutMs可选默认30000，知识上传/明确索引使用100000给后端90秒留响应余量；正整数≤120000，fetch剥离该自定义参数，保留CSRF/取消/Blob与不重试。纯回归覆盖默认/指定/非法参数。
+- T-agent-1021-native-36作者正式交接释放：workflow_runtime/worker.py、README/requirements及test_workflow_runtime.py。37项协议与真实专属WSL纯图14.85秒通过，补PID字段1项0.06秒通过；0安装/HTTP/DB/模型/服务启动。真实支持13种type（含别名/双assigner版本），原Graph/Engine执行分支、变量、串并行与嵌套迭代、Loop。仅独立worker，尚未接平台/API/UI，未支持完整Jinja/LLM/KB/tool/HTTP/code/humaninput/trigger/Agent。
+- T-agent-1021-native-37（agent-1020-native认领，进行中）：平台flows/新graph_runtime适配与execution/service/router必要窄改、worker仅增事件回调、相关纯tests。definition明确graph与原steps格式区分，旧流程保留；复用T34预约/同键不重放/逐事件持久/unknown。首批仅T36纯节点，平台统一身份/权限/Task；worker不接DB/模型/公开HTTP。root47时间序列化已释放，须保留utc_storage_iso；不修改UI/knowledge/记忆或新增表，先交具体DTO与事件映射再实现。
+
+- T-native37合同追加确认（agent-1021-root，作者agent-1020-native）：采用graph/legacy_steps显式双格式，inputs结构化输入与旧input互斥，保留JSON输出；复用TaskEvent逐行记录图事件，不新增迁移。worker必要扩展实时有界事件回调、Linux PID/start_ticks/uid/nonce握手与精确所属停止；只回收本次worker，不动原生14服务。Session留主线程，SQL异常后停止不再补偿查询；缺原生终态或停止未确认均unknown且同键不重放。事件公共读取沿Run来源权限，内部持久须核run/task/工作区双向绑定。
+
+- T-root43/47后续部署准备：10全迁移5项临时SQLite回归通过4.03秒；已准备新独立09→10备份/升级/结构比较脚本，等待domain34正式交接，尚未执行。UTC响应修复将同次更新。
+- T-agent-1021-root-48（agent-1021-root认领，进行中）：准备知识原件实际验收.local/verify_knowledge10.py，固定8080自有SQLite/项目合成食品CSV、最多12本机HTTP/180秒、最多2个BAAI/bge-m3向量请求（单批上传+检索）、0LLM/业务MySQL。核真实ready、行位置、原件SHA下载、检索引用，不重发失败上传；成功资料保留用于演示。前置domain34发布与10升级，尚未执行。
+
+- T-agent-1021-domain-34作者正式交接释放10路径：knowledge文件/来源/摄取/接口与core/files窄改、迁移10及新测试。29新增+24旧知识授权/文件引用共53项18.14秒通过，0在用DB/外部HTTP/模型。原件保护覆盖通用文件旁路，失败保留、显式重索引、位置与固定来源已实现；扫描PDF/OCR/旧OLE、贴文原旧事务收口及无m17原件管理仍有缺口。root已通过5项完整迁移，现准备实际升级10。
+
+- T-agent-1021-root-49（agent-1021-root认领，进行中）：仅更新现有4份项目核心说明与README/NOTICE，追加最新单系统融合决策及实际交付边界；旧多应用跳转方案标为被后续要求取代，不删原始功能范围/125编号，不新增重复文档。实际API快照待T37合同稳定后导出，当前旧403计数只作为历史快照。
+
+- T-root43/47/48实际交付：自有SQLite09→10独立备份、upgrade和完整模型结构比较通过，8080正常重启；UTC响应一同部署。随后知识文件链路7次本机HTTP/2次bge-m3向量请求通过：项目食品合成CSV生成17块，真实原件下载SHA一致，检索3条且行号/原件引用完整，资料保留演示。0业务MySQL/LLM。收据platform-upgrade10.json、platform-knowledge10.json；MySQL续导仍未获答复，未恢复。
+- T-agent-1021-domain-35（agent-1020-domain认领，进行中）：knowledge ingestion/service旧贴文入口复用已完成index预约/失败记录/32批/60秒，API字段保持兼容；core/embeddings.py及新embedding_vectors.py仅统一标准index顺序、有限数值/维度和稳定余弦、默认绝对60秒HTTP，无重试。配套纯回归，禁止实际在用DB/模型。flows DeadlineEmbeddings原调用签名和90秒总预算不改；与native37直接核合同，不修改flows。root完成T48后释放knowledge上述范围，core/files不在此任务。
+
+- T-agent-1021-web-31作者正式交接13路径：knowledge页面及拆分组件/composable/类型、client.ts可选timeoutMs、2纯测试。112知识断言/7SFC、27请求参数断言、全局Vue类型/格式通过；0真实HTTP/模型。真实文件后端已由root T48通过，root接管正式build及对应界面实测。
+- T-agent-1021-web-32（agent-1020-web认领，只读进行中）：核现有Dify工作流React编辑器的实际可提取入口、依赖和平台接法，并与native37冻结graph inputs/events DTO。给最短保留原节点/变量交互的方案与文件归属，不自行重新画简化编辑器；先只读，无安装/构建/外部请求。独立图运行/历史组件可后续先交付，不将其冒充完整编辑器。
+
+- T-root48前端实际验收完成：2643模块正式build通过12.89秒，保留报表/公共包大chunk提示。真实浏览器27次同源请求、1次新知识文件上传/1次向量化，成功显示ready、分块正文、下载原件SHA一致及返回列表；0JS/HTTP错误/业务MySQL/LLM。root已目检上传表单、文档详情、知识列表三张截图，资料保留用于演示，收据ui-knowledge10.json。
+
+- T-root49核心文档已更新：4份既有说明对齐单系统/当前样式、ADR-08执行环境与平台存储边界，原子域方案标历史兼容；125功能范围不变，未宣称消息树/完整Agent已融合。添加Graphon许可副本、Test5解析来源，未新增重复说明文档。当前API快照仍旧403操作，待graph合同稳定导出。root拥有文档差异检查通过，旧CRLF告警已仅规范本人所改文件行尾，不改共享历史。
+
+- T-agent-1021-domain-35作者正式交接6路径：贴文预约与统一index链、向量index顺序/数值/维度验证、稳定余弦与默认绝对60秒调用。55新用例及70旧知识/流程预算回归通过，0在用DB/外部HTTP/模型；初轮2个长参数ID的tmp路径setup失败已修，非DB异常。实际部署合并下一次图后端更新，不重复刷新当前服务。
+- T-agent-1021-web-32作者正式交接只读结论：原Dify画布层可React同页挂载，不能直接搬workflow-app账户外壳；原工具目录/inspect-vars、hooks默认noop与全权限、Next路径、样式Portal和循环事件归并均需适配。复用原组件/节点仍是目标，独立运行表单不等于完整编辑器；0修改/安装/请求。
+- T-agent-1021-web-33（agent-1020-web认领，进行中）：当前flows前端加显式graph识别、结构化运行表单/结果/逐次节点事件；旧steps编辑和历史保留，graph不得套旧编辑器覆盖成空steps。新增小型组件/工具/必要纯测，root不改该范围；消费native37已冻结DTO，复杂JSON schema未支持时给可行动反馈而非JSON代码输入。先支持普通类型及简单对象/数组子表单；不引新全局依赖、不造图编辑器。
+- T-agent-1021-domain-36（agent-1020-domain认领，只读进行中）：查锁定Open WebUI原聊天内核/消息树/附件/工具循环的最短代码提取与平台身份依赖，重点给同系统复用方案及明确文件/版本/存储边界；现浏览器localStorage基础聊天不能当成完整原需求。仅只读，无代码/服务/DB/模型/新文档；结论由root写同一共享进度。
+
+- T-agent-1021-root-50（agent-1021-root认领，准备中）：.local/verify_graph_runtime.py单次真实平台纯图验收，至多10本机HTTP/120秒/1个Graphon运行/0模型与业务源；开始温度number→真实IfElse→不同End，核数值输出、选中分支、逐事件cursor、任务终态及同键不重放。脚本已准备但依赖T37完整交接及统一部署，尚未执行。原UI模板只含合成温度，不表示已对设备作质量判定。
+
+- T-agent-1021-root-51（agent-1021-root认领，进行中）：deploy/native/desktop.py新增日常workspace启动协调、启动系统.cmd最小接入与独立纯测试。已配置专属WSL时只ensure_windows_lifetime及纯执行器归属proof，不调用wsl.start_runtime/14角色；平台仍单8080入口，start-platform保留纯平台动作。依赖现有已核发行版/运行根/3.13，不安装新系统；异常不重试。真实只做现有keeper复用核验，整机重启另待证据。
+
+- T-agent-1021-native-37作者正式交接：真实graph格式/typed输入输出/TaskEvent逐事件、CAS定义及90秒预算/停止归属已接；101联合纯回归、最终39图回归和2项真实所属WSL纯图通过。无实际HTTP/模型/业务库。root接管T50统一部署，完整Dify节点和编辑器仍未完成。
+- T-agent-1021-domain-36作者只读交接：保留13000原Open WebUI内核，8080后台HTTP+Socket统一身份；原消息树/工具循环/审批可复用。现15工具按引擎服务Actor运行，须新增可信用户委托才能代表当前用户，不能直接授予新聊天账号；历史来源也须重查。0修改/实际请求。
+- T-agent-1021-native-38（agent-1020-native认领，进行中）：新chat/native_*与必要独立router/models/迁移11、adapters/native窄接及纯tests。复用原13000普通账号映射、消息树、Turn预约/同键不重放、服务端Socket事件与停止审批；先冻结与domain37委托合同，工具先空、自动记忆关闭。原JWT仅后台Vault，0在用DB/实际HTTP/模型，root统一部署验收。不得改旧chat/service或记忆。
+- T-agent-1021-domain-37（agent-1020-domain认领，进行中）：新integrations/delegated_tools及独立tests，必要router include与wsl_http_bridge固定签名头透传；与native38冻结mapping/Turn/来源契约，双证书与有效turn校验后重新解析当前人类Actor，禁止无委托服务Actor回退。仅纯tmp/Mock，真实工具授权由root另验。
+- T-root51纯检查6项通过0.14秒，当前仅日常启动协调代码，真实keeper复用与整机重启均未验证。
+
+- T-root43/50实际图更新及验收完成：自有SQLite新独立备份、保持head10且完整结构比较通过，8080更新成功；8本机HTTP/1真实Graphon图/0模型业务源，78.5数值输入选择review分支，输出类型保持、11原事件、同键复用及Task成功。收据platform-update-graph.json、platform-graph-runtime.json。
+- T-domain35实际验收由root补充：4本机HTTP/1次bge-m3向量，贴文ready/1块/1024维与UTC时间通过；0LLM/业务源。收据platform-paste-index.json。
+- T-root51实际复用验收完成：单次日常start_workspace复用平台与keeper，前后14角色身份/状态及平台launch_id一致，0业务HTTP/模型/业务SQL。收据platform-workspace-start.json；整机重启未验证，README与worker说明已明确边界。
+
+- T-agent-1021-root-52（agent-1021-root认领，准备中）：.local图流程浏览器验收脚本，T-web33交接并正式build后只在8080打开已建温度分流演示、一次72数值纯图运行、读取历史/执行明细；至多75同源HTTP/150秒/1图运行/0模型业务源，独立收据及截图。不编辑定义、不重发失败运行。
+
+- T-agent-1021-web-33作者正式交接14文件：graph独立输入/结果/事件/历史，旧steps编辑与保存双拦截保护原图；支持简单schema/0/false/空数组，复杂schema字段失败，不让用户填JSON。117新断言/7SFC与83既有回归、全局Vue类型/格式通过，0真实调用。root接T52真实UI。
+- T-agent-1021-web-34（agent-1020-web认领，进行中）：新packages/dify-workflow提取原React画布/节点/属性和变量交互，必要flows挂载与Library入口、局部依赖/vite/tsconfig/tests/REUSE来源；先原Start/End/IfElse同页保存CAS，再扩支持类型。禁止原console隐式请求/重试/telemetry/autosave，身份切换卸载，不支持图不得破坏。允许项目局部有界前端依赖安装，不改系统或原source副本，不实际API/模型/业务库；root统一验收。
+
+- T-root52真实页面验收：正式build2663模块13.56秒通过；首轮31请求/一次纯图72→正常成功，无页面/HTTP错误，但脚本精确文本定位未包含JSON字符串引号而超时。保留ui-graph-runtime.json，不重发图；修定位后仅30GET/登录读取原run，11事件/历史/详情及截图通过（ui-graph-runtime-read.json），0新运行/模型/业务库。截图已目检。
+- T-agent-1021-root-54（agent-1021-root认领，进行中）：提交并推送已交接融合阶段，186文件snapshot；排除其他Agent当前native聊天/委托/React包和无关docker脚本，工作区变更保留。required npm run check通过；构建和分模块纯回归/实际知识及图证据见前。仅修已交接flows/router末尾空行；共享历史CRLF保留，以cr-at-eol方式检查，不重排他人记录。MySQL仍暂停未获恢复答复，不能在发布中标完成。

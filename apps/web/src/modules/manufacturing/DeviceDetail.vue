@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { ElMessageBox } from "element-plus";
 import { api, type Entity, type ListResult } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import { useSession } from "../../stores/session";
 import ResultTable from "../../components/common/ResultTable.vue";
+import PreparationQuerySelect from "../data/PreparationQuerySelect.vue";
+import { usePreparationQueries } from "../data/usePreparationQueries";
 const props = defineProps<{ device: Entity }>();
 const session = useSession();
 const op = useOperation();
 const points = ref<Entity[]>([]);
-const queries = ref<Entity[]>([]);
+const catalog = usePreparationQueries();
+const queries = catalog.queries;
 const telemetry = ref<any[]>([]);
 const dialog = ref(false);
 const selected = ref<Entity | null>(null);
-const queryId = ref("");
+const queryId = catalog.queryId;
 const form = reactive({ name: "", code: "", unit: "" });
-const sourceQuery = computed(() =>
-  queries.value.find((query) => query.id === queryId.value),
-);
+const sourceQuery = catalog.query;
 async function load() {
   await op.run(async () => {
     const pointList = await api.get<ListResult>(
@@ -26,9 +27,7 @@ async function load() {
     points.value = pointList.items.filter(
       (point) => point.device_id === props.device.id,
     ) as Entity[];
-    if (session.can("m06.read"))
-      queries.value = (await api.get<ListResult>("/queries?limit=200"))
-        .items as Entity[];
+    if (session.can("m06.read")) await catalog.load();
   });
 }
 function edit(record: Entity | null) {
@@ -176,15 +175,18 @@ onMounted(load);
           ><el-form-item label="单位"
             ><el-input v-model="form.unit" /></el-form-item
           ><el-form-item label="数据查询"
-            ><el-select v-model="queryId" clearable filterable
-              ><el-option
-                v-for="query in queries"
-                :key="query.id"
-                :value="query.id"
-                :label="query.name ?? query.sql" /></el-select
-          ></el-form-item>
+            ><PreparationQuerySelect :catalog="catalog"
+          /></el-form-item>
         </div>
-        <el-button type="primary" native-type="submit" :loading="op.busy.value"
+        <el-button
+          type="primary"
+          native-type="submit"
+          :loading="op.busy.value"
+          :disabled="
+            catalog.selecting.value ||
+            catalog.loading.value ||
+            Boolean(catalog.error.value)
+          "
           >保存测点</el-button
         ></el-form
       ></el-dialog

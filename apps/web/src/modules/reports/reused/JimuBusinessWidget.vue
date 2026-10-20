@@ -939,7 +939,7 @@ button {
   height: 24px;
   border-radius: 50%;
   background: #168ed0;
-  color: #fff;
+  color: var(--surface);
   box-shadow: 0 0 18px rgba(22, 142, 208, 0.52);
 }
 .calendar-grid .busy i {
@@ -1058,7 +1058,7 @@ button {
   border: 1px solid #28a8e8;
   border-radius: 3px;
   background: linear-gradient(135deg, #167eb5, #0e5d91);
-  color: #fff;
+  color: var(--surface);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.18),
     0 0 18px rgba(26, 145, 205, 0.22);
@@ -1310,7 +1310,7 @@ button {
   place-items: center;
   height: 28px;
   border-radius: 5px;
-  color: #fff;
+  color: var(--surface);
   font-size: 10px;
 }
 .project-widget article > div,
@@ -1606,7 +1606,7 @@ button {
   padding: 0 17px;
   border: 1px solid #289bd3;
   background: #1679ab;
-  color: #fff;
+  color: var(--surface);
   font-size: 9px;
 }
 .gender-widget {
@@ -1776,7 +1776,7 @@ button {
   height: 40px;
   background: #071b2d99;
   border: 0;
-  color: #fff;
+  color: var(--surface);
   font-size: 30px;
   cursor: pointer;
 }

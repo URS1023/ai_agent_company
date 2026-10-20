@@ -191,6 +191,6 @@ onMounted(() => {
 }
 .seconds-unit {
   margin-left: 8px;
-  color: #666;
+  color: var(--text-muted);
 }
 </style>

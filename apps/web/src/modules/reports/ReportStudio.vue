@@ -414,7 +414,7 @@ watch(
   height: calc(100vh - 124px);
   display: grid;
   grid-template-rows: 58px minmax(0, 1fr);
-  background: #fff;
+  background: var(--surface);
   min-height: 500px;
 }
 .report-toolbar {
@@ -422,7 +422,7 @@ watch(
   align-items: center;
   gap: 8px;
   padding: 10px 15px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--line);
 }
 .spacer {
   flex: 1;
@@ -437,7 +437,7 @@ watch(
   flex-shrink: 0;
   padding: 18px 12px;
   overflow: auto;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--line);
 }
 .report-library h3 {
   font-size: 14px;
@@ -448,7 +448,7 @@ watch(
   gap: 8px;
 }
 .component-grid button {
-  background: #f7f9fc;
+  background: var(--surface-sunken);
   border: 1px solid #e5eaf1;
   padding: 10px 4px;
   border-radius: 2px;
@@ -463,11 +463,11 @@ watch(
   border: 0;
   background: transparent;
   padding: 10px 8px;
-  color: #666;
+  color: var(--text-muted);
 }
 .layer-button.active {
-  background: #e9effe;
-  color: #2666fb;
+  background: var(--brand-soft);
+  color: var(--brand-500);
 }
 .report-canvas {
   position: relative;

@@ -88,9 +88,9 @@ onMounted(() =>
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid #dce4f1;
-  color: #333;
+  color: var(--text);
   text-align: left;
   padding: 16px;
   align-items: center;
@@ -111,7 +111,7 @@ onMounted(() =>
   height: 70px;
 }
 .catalog-items button:hover:enabled {
-  border-color: #2666fb;
+  border-color: var(--brand-500);
   background: #f7faff;
 }
 .catalog-items button:disabled {
@@ -120,7 +120,7 @@ onMounted(() =>
 }
 .catalog-items span {
   font-size: 12px;
-  color: #777;
+  color: var(--text-muted);
   line-height: 1.6;
 }
 </style>

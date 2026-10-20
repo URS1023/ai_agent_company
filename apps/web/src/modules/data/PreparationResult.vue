@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { api } from "../../api/client";
+import { api, ApiError } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import ResultTable from "../../components/common/ResultTable.vue";
 import {
@@ -9,6 +9,7 @@ import {
   displayScalar,
 } from "./dataPreparation";
 const props = defineProps<{ job: Record<string, any>; metric?: boolean }>();
+const emit = defineEmits<{ "permission-denied": [message: string] }>();
 const rows = computed<Record<string, unknown>[]>(
   () => props.job.result?.rows ?? [],
 );
@@ -33,15 +34,21 @@ const hasStepDetails = computed(() =>
 );
 const op = useOperation();
 async function download() {
+  const jobId = props.job.id;
+  const filename = `${(props.job.name || "计算结果").replace(/[\\/:*?"<>|]/g, "_")}.csv`;
   await op.run(async () => {
-    const blob = await api.postBlob(
-      `/data-processing-jobs/${props.job.id}/exports`,
-      {},
-    );
+    let blob: Blob;
+    try {
+      blob = await api.postBlob(`/data-processing-jobs/${jobId}/exports`, {});
+    } catch (failure) {
+      if (failure instanceof ApiError && [403, 404].includes(failure.status))
+        emit("permission-denied", failure.message);
+      throw failure;
+    }
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${(props.job.name || "计算结果").replace(/[\\/:*?"<>|]/g, "_")}.csv`;
+    link.download = filename;
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   });

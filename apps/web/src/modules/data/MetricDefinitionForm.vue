@@ -81,7 +81,7 @@ function update(key: keyof MetricDraft, value: unknown) {
 </template>
 <style scoped>
 .metric-section {
-  border-top: 1px solid #e5eaf2;
+  border-top: 1px solid var(--line);
   padding-top: 15px;
   margin-top: 10px;
 }

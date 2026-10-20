@@ -210,7 +210,7 @@ function goToday() {
 }
 .calendar-control[aria-pressed="true"] {
   border-color: #42b7ea;
-  color: #fff;
+  color: var(--surface);
   background: #17618c;
 }
 .calendar-control:disabled {

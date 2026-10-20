@@ -1,0 +1,134 @@
+/* 知识库页面样式：空间列表 + 检索 + 文档表，沿用设计令牌。 */
+
+.kb-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+}
+.kb-spaces {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+}
+.kb-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
+}
+.kb-panel-head .section-title {
+  margin: 0;
+  font-size: var(--fs-4);
+}
+.kb-space-list {
+  padding: var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.kb-space-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  text-align: left;
+  transition: background var(--dur-1) var(--ease);
+}
+.kb-space-item .title {
+  font-size: var(--fs-2);
+  font-weight: 650;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kb-space-item .meta {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.kb-space-item:hover {
+  background: var(--surface-sunken);
+}
+.kb-space-item.active {
+  background: var(--brand-gradient-soft);
+}
+.kb-space-item.active .title {
+  color: var(--brand-600);
+}
+.kb-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.kb-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+.kb-title h2 {
+  margin-bottom: 2px;
+}
+.kb-search {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+}
+.kb-search .el-input {
+  flex: 1;
+}
+.kb-results {
+  display: grid;
+  gap: var(--sp-3);
+}
+.kb-hit {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface-sunken);
+  transition: border-color var(--dur-1) var(--ease);
+}
+.kb-hit:hover {
+  border-color: var(--brand-400);
+}
+.kb-hit-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  flex-wrap: wrap;
+}
+.kb-score {
+  margin-left: auto;
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--tone-emerald);
+  font-variant-numeric: tabular-nums;
+}
+.kb-hit-body {
+  margin: 0;
+  font-size: var(--fs-2);
+  line-height: 1.8;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.kb-docs .section-title {
+  margin-bottom: var(--sp-3);
+}
+
+@media (max-width: 1080px) {
+  .kb-layout {
+    grid-template-columns: 1fr;
+  }
+  .kb-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

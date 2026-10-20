@@ -16,3 +16,16 @@ __pycache__/
 .DS_Store
 Thumbs.db
 upload-audit.local.json
+
+# 原项目与数据包保留本地，不纳入本次前端发布。
+/dify-main/
+/open-webui-main/
+/qKnow-develop/
+/qknow-design-test/
+/the_company_agent-codex-python-snapshot-20261020/
+/设备预测维护数据包/
+/.workbuddy/
+/erp-demo/
+/workspace-manifest.json
+/.gitattributes
+/tools/sync_workspace.py

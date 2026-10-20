@@ -75,3 +75,7 @@
 | ../ai_agent_company/workspace-manifest.json | 全文件镜像数量、大小与排除范围 | sync_workspace.py实际遍历生成 | agent-1020-root | 在用 | 不可删除 | 用户要求全量上传的范围证据 | 2026-10-20 / T05 |
 | ../ai_agent_company/.gitattributes | 超大zip的Git LFS规则 | 本机Git LFS、430863679字节原文件 | agent-1020-root | 在用 | 不可删除 | 普通GitHub文件限制要求 | 2026-10-20 / T05 |
 | ../ai_agent_company/licenses/、NOTICE.md | qKnow来源许可与各项目归属 | 原项目许可保留原样 | agent-1020-root | 在用 | 不可删除 | 复用素材及源码许可依据 | 2026-10-20 / T05 |
+
+## R21发布范围更正（agent-1020-root，2026-10-20 / T05）
+- 前端index.html、frontend/、tools/build_preview.py、tools/serve.mjs、screenshots/及项目文档继续在用/不可删除；build_preview.py改为从独立HTML刷新具名嵌入区，无原项目依赖。
+- 原项目目录、设备包、workspace-manifest.json、.gitattributes及sync_workspace.py仍在本地，最新用户指令取消其发布。该变更不构成删除授权；仍需性与删除条件沿用前条，未把“取消上传”写成“可删除”。

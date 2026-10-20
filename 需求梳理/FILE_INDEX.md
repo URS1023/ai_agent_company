@@ -209,3 +209,11 @@
 | services/platform/tests/test_windows_frontend.py、test_native_windows.py | 前端提取安全及原生启动确认/归属/预算回归 | agent-1020-root | 在用 | 不可删除 | 最新70项纯Mock/临时文件通过，无数据库连接 | 2026-10-20/T-root14 |
 | .local/platform/、.local/desktop-access.enc、.local/desktop-access.key | 平台自有SQLite及加密交付账号/解密密钥 | 本机用户/root部署 | 在用 | 不可删除 | 新建本机数据，不包含企业旧数据，删除会丢失配置/账号 | 2026-10-20/T-root14 |
 | .local/native_windows/sources/openwebui/build/、.local/native_windows/openwebui/frontend-artifact.json | 原生完整前端及制品摘要收据，后端FRONTEND_BUILD_DIR引用 | 本机用户/root部署 | 在用 | 不可删除 | 原生登录与对话真实依赖；原项目产物不提交 | 2026-10-20/T-root14 |
+
+## 全项目剩余计划与状态口径（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键引用与依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 核查日期/任务 |
+|---|---|---|---|---|---|---|
+| AGENTS.md | 当前实施协作入口，部署条款引用R31/R32及Dify兼容问题 | agent-1020-root | 在用 | 不可删除 | 纠正旧R25最新路线，供后续执行遵循 | 2026-10-20/T-root15 |
+| 项目文档/README.md | 四份文档总入口、当前部署与六批交付摘要 | agent-1020-root（已交接后维护） | 在用 | 不可删除 | 链接03及125项验收；设计范围保留 | 2026-10-20/T-root15 |
+| 项目文档/03_开发计划与验收.md | A—F交付、17模块缺口、8项近期任务、三业务链及企业验收 | agent-1020-root（已交接后维护） | 在用 | 不可删除 | 与现有源码/本机证据核对，旧估算明确历史口径 | 2026-10-20/T-root15 |
+| 项目文档/contracts/实施验收.csv | 125项真实状态与主要后续批次；引用范围基线稳定ID | agent-1020-root | 在用 | 不可删除 | 全部ID与基线一致，人工证据表不由build_docs覆盖 | 2026-10-20/T-root15 |

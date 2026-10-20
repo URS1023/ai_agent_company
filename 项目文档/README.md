@@ -4,7 +4,7 @@
 
 实际启动见[仓库README](../README.md)；逐项状态见[125项实施验收表](contracts/实施验收.csv)；持续进度与问题只记在[共享进度](../需求梳理/PROJECT_STATUS.md)。原设计的227操作继续保留；[代码实际OpenAPI](contracts/platform.openapi.json)单独生成，注册接口不等于功能完成。
 
-最新用户变更：所有服务本机直接部署，**不用Docker**；对话模型使用OpenCode Go `deepseek-v4.1-flash`，向量使用硅基流动`BAAI/bge-m3`，密钥只在本机加密保存。原生运行及Windows兼容边界以[部署说明](../deploy/native/README.md)的实际证据为准。
+最新用户变更（R25，覆盖此前不用Docker要求）：允许在本机D盘安装Docker，程序与镜像/卷数据显式放D盘，Windows独立进程方案保留；对话模型使用OpenCode Go `deepseek-v4.1-flash`，向量使用硅基流动`BAAI/bge-m3`，密钥只在本机加密保存。原生运行及Windows兼容边界以[部署说明](../deploy/native/README.md)的实际证据为准。
 
 这套文档指导四个成熟项目聚合成一个企业可使用、团队可开发、客户可验收、后续可扩展的平台。保留 Open WebUI 的完整对话与 Agent 内核、Dify 的完整开发与运行能力；参考 qKnow 的界面和功能，提取 Test5 的数据分析、报表、组件与模板。新增开发集中在制造业务、统一入口、身份与资源适配、真实结果和预留功能补齐。
 

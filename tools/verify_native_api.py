@@ -1,6 +1,7 @@
 """对已启动的本机OWUI API做一次有限验收；不安装、不启动、不重放。
 
-固定14次本机HTTP、最多一次64-token SSE；55秒业务预算预留5秒退出核查。
+固定14次本机HTTP、最多一次64-token模型请求；55秒业务预算预留5秒退出核查。
+区分保存聊天的原生事件模式与HTTP SSE，均须读取准确消息确认实际回复落库。
 账号密码先写既有credentials.enc，逐阶段保存令牌和尝试状态；输出不含身份或密钥。
 """
 
@@ -9,6 +10,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -28,13 +30,34 @@ MODEL = 'deepseek-v4.1-flash'
 MAX_HTTP = 14
 TOTAL_SECONDS = 60
 WORK_SECONDS = 55
-SSE_SECONDS = 30
+COMPLETION_SECONDS = 30
 RSS_LIMIT = 1024 ** 3
 PROMPT = '请直接回复OK，不要展开说明。'
 
 
 class VerificationError(RuntimeError):
     """只携带安全代码，不将上游响应、凭据或环境拼入异常。"""
+
+
+def visible_reply_text(message):
+    """沿用原生utils.misc.get_output_text的message投影；reasoning不算用户可见回答。"""
+    content = message.get('content')
+    if isinstance(content, str) and content.strip():
+        return content
+    output = message.get('output')
+    if not isinstance(output, list):
+        return ''
+    texts = []
+    for item in output:
+        if not isinstance(item, dict) or item.get('type') != 'message':
+            continue
+        parts = item.get('content')
+        if not isinstance(parts, list):
+            continue
+        text = ''.join(str(part['text']) for part in parts if isinstance(part, dict) and part.get('text') is not None)
+        if text and not text.isspace():
+            texts.append(text)
+    return '\n'.join(texts)
 
 
 def native_modules():
@@ -247,7 +270,7 @@ class Verifier:
         self.transport = transport
         self.record = None
         self.http_attempts, self.model_calls, self.phase = 0, 0, 'preflight'
-        self.checks = {}
+        self.checks = {'completion_transport': 'unobserved', 'sse_transport_observed': False}
 
     def remaining(self):
         value = self.work_deadline - time.monotonic()
@@ -295,17 +318,67 @@ class Verifier:
         self.ledger.update(self.run_id, lambda record: record['steps'].append({'step': step, 'status': response.status_code}))
         return value
 
-    async def sse(self, client, chat_id: str):
+    def completion_budget(self, deadline):
+        """每块响应都重查资源与本次30秒期限，不扩大总工作预算。"""
+        self.guard.sample()
+        self.remaining()
+        if time.monotonic() >= deadline:
+            raise VerificationError('completion_deadline')
+
+    async def consume_sse(self, response, deadline):
+        """只接受包含完成信号及可见文本的SSE；错误帧不能充当成功回复。"""
+        content, frames, wire_bytes, done = [], 0, 0, False
+        async for line in response.aiter_lines():
+            self.completion_budget(deadline)
+            wire_bytes += len(line.encode())
+            if wire_bytes > 128 * 1024:
+                raise VerificationError('sse_body_budget')
+            if not line.startswith('data:'):
+                continue
+            raw = line[5:].strip()
+            if raw == '[DONE]':
+                done = True
+                continue
+            if not raw:
+                continue
+            frame = json.loads(raw)
+            if not isinstance(frame, dict) or frame.get('error'):
+                raise VerificationError('sse_error_frame')
+            frames += 1
+            for choice in frame.get('choices', []):
+                delta = choice.get('delta', {})
+                if isinstance(delta.get('content'), str):
+                    content.append(delta['content'])
+                if choice.get('finish_reason') is not None:
+                    done = True
+        if not done or not ''.join(content).strip() or frames == 0:
+            raise VerificationError('sse_no_completed_text_reply')
+        self.checks.update(sse_completed=True, sse_text_present=True)
+
+    async def consume_saved_chat_ack(self, response, deadline):
+        """锁定版本的同步事件消费返回JSON null；仅此回包合法，结果仍须查原聊天。"""
+        body = bytearray()
+        async for part in response.aiter_bytes():
+            self.completion_budget(deadline)
+            body.extend(part)
+            if len(body) > 4096:
+                raise VerificationError('native_completion_ack_body_budget')
+        # 不能接受空正文、任意JSON成功标志或task_ids，避免把其他协议当作已完成。
+        if bytes(body).strip() != b'null':
+            raise VerificationError('native_completion_ack_not_null')
+
+    async def completion(self, client, chat_id: str):
+        """单次派发前加密保存消息定位与规范请求摘要；回包不等于原生回复完成。"""
         if self.model_calls or self.record.get('model_attempted'):
             raise VerificationError('model_attempt_already_recorded')
+        if chat_id != self.record.get('chat_id'):
+            raise VerificationError('completion_chat_not_verified')
         self.guard.sample()
         self.remaining()
         self.model_calls = 1
         self.http_attempts += 1
         if self.http_attempts > MAX_HTTP:
             raise VerificationError('http_budget_exceeded')
-        self.checkpoint('model_attempted', model_attempted=True, http_attempts=self.http_attempts)
-        self.record['model_attempted'] = True
         user_id, assistant_id = str(uuid4()), str(uuid4())
         payload = {'model': MODEL, 'chat_id': chat_id, 'id': assistant_id,
             'user_message': {'id': user_id, 'parentId': None, 'childrenIds': [assistant_id], 'role': 'user',
@@ -313,44 +386,50 @@ class Verifier:
             'messages': [{'role': 'user', 'content': PROMPT}], 'stream': True, 'params': {'max_tokens': 64},
             'background_tasks': {}, 'features': {'memory': False, 'web_search': False, 'image_generation': False, 'code_interpreter': False},
             'tool_ids': [], 'files': []}
-        deadline = min(self.work_deadline, time.monotonic() + SSE_SECONDS)
-        content, frames, wire_bytes, done = [], 0, 0, False
+        canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+        reference = {'chat_id': chat_id, 'message_id': assistant_id, 'user_message_id': user_id,
+            'model': MODEL, 'max_tokens': 64, 'request_method': 'POST', 'request_path': '/api/chat/completions',
+            'request_sha256': hashlib.sha256(canonical).hexdigest(), 'expected_protocol': 'saved_chat_events_or_http_sse'}
+        self.checkpoint('model_attempted', model_attempted=True, http_attempts=self.http_attempts, completion_request=reference)
+        self.record.update(model_attempted=True, completion_request=reference)
+        deadline = min(self.work_deadline, time.monotonic() + COMPLETION_SECONDS)
         async with asyncio.timeout(max(0.001, deadline - time.monotonic())):
             async with client.stream('POST', '/api/chat/completions', json=payload,
-                    headers={'Authorization': 'Bearer ' + self.token('admin')}) as response:
-                if response.status_code != 200 or 'text/event-stream' not in response.headers.get('content-type', ''):
-                    raise VerificationError('invalid_sse_response')
-                async for line in response.aiter_lines():
-                    self.guard.sample()
-                    if time.monotonic() >= deadline:
-                        raise VerificationError('sse_deadline')
-                    wire_bytes += len(line.encode())
-                    if wire_bytes > 128 * 1024:
-                        raise VerificationError('sse_body_budget')
-                    if not line.startswith('data:'):
-                        continue
-                    raw = line[5:].strip()
-                    if raw == '[DONE]':
-                        done = True
-                        continue
-                    if not raw:
-                        continue
-                    frame = json.loads(raw)
-                    if frame.get('error'):
-                        raise VerificationError('sse_error_frame')
-                    frames += 1
-                    for choice in frame.get('choices', []):
-                        delta = choice.get('delta', {})
-                        if isinstance(delta.get('content'), str):
-                            content.append(delta['content'])
-                        if choice.get('finish_reason') is not None:
-                            done = True
+                    headers={'Authorization': 'Bearer ' + self.token('admin')},
+                    timeout=httpx.Timeout(max(0.001, deadline - time.monotonic()), connect=3)) as response:
+                if response.status_code != 200:
+                    raise VerificationError('invalid_completion_response_status')
+                media_type = response.headers.get('content-type', '').split(';', 1)[0].strip().lower()
+                if media_type == 'text/event-stream':
+                    self.checks.update(completion_transport='http_sse', sse_transport_observed=True)
+                    await self.consume_sse(response, deadline)
+                elif media_type == 'application/json':
+                    await self.consume_saved_chat_ack(response, deadline)
+                    self.checks.update(completion_transport='saved_chat_events', sse_transport_observed=False,
+                        sse_completed=False, sse_text_present=False)
+                else:
+                    raise VerificationError('invalid_completion_response_type')
         self.guard.sample()
-        if not done or not ''.join(content).strip() or frames == 0:
-            raise VerificationError('sse_no_completed_text_reply')
-        self.checks.update(sse_completed=True, sse_text_present=True)
-        self.checkpoint('model_completed', model_completed=True)
+        self.checkpoint('model_response_received', completion_transport=self.checks['completion_transport'])
         return assistant_id
+
+    def verify_saved_reply(self, saved, assistant_id):
+        """只验派发前登记的聊天与父子消息；null、旧回复、错误或空白均不能通过。"""
+        reference = self.record['completion_request']
+        if not isinstance(saved, dict) or saved.get('id') != reference['chat_id'] or saved.get('user_id') != self.record['accounts']['admin']['id']:
+            raise VerificationError('native_reply_chat_mismatch')
+        messages = (saved.get('chat', {}).get('history', {}).get('messages', {}) or {})
+        message, original = messages.get(assistant_id, {}), messages.get(reference['user_message_id'], {})
+        if (assistant_id != reference['message_id'] or message.get('id') != assistant_id
+                or message.get('parentId') != reference['user_message_id'] or message.get('model') != MODEL
+                or message.get('user_id') != saved['user_id'] or original.get('id') != reference['user_message_id']
+                or original.get('role') != 'user' or original.get('content') != PROMPT or original.get('user_id') != saved['user_id']):
+            raise VerificationError('native_reply_message_mismatch')
+        text = visible_reply_text(message)
+        if message.get('role') != 'assistant' or message.get('done') is not True or message.get('error') or not text.strip():
+            raise VerificationError('native_reply_not_persisted')
+        self.checks.update(real_reply_persisted=True, completion_reply_present=True)
+        self.checkpoint('model_completed', model_completed=True)
 
     async def workflow(self, a, b):
         health = await self.request(a, 'health', 'GET', '/health')
@@ -373,8 +452,10 @@ class Verifier:
         if not isinstance(chat_id, str) or not re.fullmatch(r'[0-9a-f-]{36}', chat_id):
             raise VerificationError('invalid_native_chat_id')
         own_chat = await self.request(a, 'owner_reads_chat', 'GET', '/api/v1/chats/' + chat_id, role='admin')
-        if own_chat.get('user_id') != admin['id']:
+        if own_chat.get('id') != chat_id or own_chat.get('user_id') != admin['id']:
             raise VerificationError('chat_owner_mismatch')
+        self.checkpoint('private_chat_verified', chat_id=chat_id)
+        self.record['chat_id'] = chat_id
         result = await self.request(a, 'add_ordinary_user', 'POST', '/api/v1/auths/add', role='admin',
             payload={**{key: user[key] for key in ['name', 'email', 'password']}, 'role': 'user'})
         self.save_auth('user', result)
@@ -388,12 +469,9 @@ class Verifier:
             raise VerificationError('private_chat_leaked_in_user_list')
         self.checks.update(authenticated_admin=True, authenticated_ordinary_user=True, private_chat_read_denied=True,
             private_chat_write_denied=True, private_chat_not_listed=True, configured_model_visible=True)
-        assistant_id = await self.sse(a, chat_id)
+        assistant_id = await self.completion(a, chat_id)
         saved = await self.request(a, 'saved_model_reply', 'GET', '/api/v1/chats/' + chat_id, role='admin')
-        message = (saved.get('chat', {}).get('history', {}).get('messages', {}) or {}).get(assistant_id, {})
-        if message.get('role') != 'assistant' or message.get('done') is not True or not str(message.get('content', '')).strip():
-            raise VerificationError('native_reply_not_persisted')
-        self.checks['real_reply_persisted'] = True
+        self.verify_saved_reply(saved, assistant_id)
 
     async def watch(self):
         while True:
@@ -466,7 +544,7 @@ class Verifier:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='只验已启动本机OWUI API；固定14 HTTP/1 SSE，不重放')
+    parser = argparse.ArgumentParser(description='只验已启动本机OWUI API；固定14 HTTP/1次模型请求，区分原生事件与SSE，不重放')
     parser.add_argument('--root', type=Path, default=REPO / '.local/native_windows')
     parser.add_argument('--run-id', required=True)
     args = parser.parse_args()

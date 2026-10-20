@@ -172,4 +172,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    raise SystemExit('历史容器控制入口已停用。请使用 deploy/native/windows.py start/stop/doctor；当前方案不使用Docker。')
+    raise SystemExit('R25已允许Docker。历史全栈控制入口仍停用：累计资源与失败回收守卫尚未落实，不可直接启动17服务；Windows独立进程入口保留。')

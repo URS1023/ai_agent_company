@@ -440,7 +440,8 @@ def spawn(root: Path, name: str, command: list[str], *, cwd: Path, env: dict[str
     return {'component': name, 'started': True, **info}
 
 
-def start(root: Path, component: str, *, api_only: bool = False, ack_resource_incident: bool = False) -> dict:
+def start(root: Path, component: str, *, api_only: bool = False, ack_resource_incident: bool = False,
+        startup_seconds: int = 45) -> dict:
     """API单次确认只影响本次OWUI启动，不清除故障、不恢复安装或其他原生服务。"""
     data = load(root)
     if (api_only or ack_resource_incident) and component != 'openwebui':
@@ -448,6 +449,10 @@ def start(root: Path, component: str, *, api_only: bool = False, ack_resource_in
     if ack_resource_incident and not api_only:
         raise ValueError('资源确认必须与--api-only一起使用')
     acknowledged_api = component == 'openwebui' and api_only and ack_resource_incident
+    if type(startup_seconds) is not int or startup_seconds not in (45, 180):
+        raise ValueError('启动预算只允许45或180秒')
+    if startup_seconds == 180 and not acknowledged_api:
+        raise ValueError('180秒预算仅适用于start openwebui --api-only --ack-resource-incident')
     if data.get('resource_incident', {}).get('active') and not acknowledged_api:
         raise RuntimeError('资源异常后的原生启动已暂停；需处理异常并取得用户恢复授权')
     if component == 'openwebui':
@@ -456,7 +461,7 @@ def start(root: Path, component: str, *, api_only: bool = False, ack_resource_in
         secret = credentials(root)
         with exclusive_operation(root, 'openwebui-start'):
             return start_openwebui(sys.modules[__name__], root, load(root), secret,
-                api_only=api_only, acknowledged_incident=acknowledged_api)
+                api_only=api_only, acknowledged_incident=acknowledged_api, startup_seconds=startup_seconds)
     secret = credentials(root)
     if component == 'redis':
         config = root / 'redis/runtime.conf'
@@ -598,15 +603,21 @@ def main() -> None:
     parser.add_argument('--openwebui-source', type=Path, default=REPO.parent / 'open-webui-main')
     parser.add_argument('--api-only', action='store_true', help='仅启动Open WebUI API，明确没有原生首页')
     parser.add_argument('--ack-resource-incident', action='store_true', help='仅确认本次API-only启动，不解除安装/构建暂停')
+    parser.add_argument('--startup-seconds', type=int, choices=(45, 180), default=45,
+        help='启动等待秒数，默认45；180仅用于明确确认的Open WebUI API-only单次启动')
     args = parser.parse_args()
     if (args.api_only or args.ack_resource_incident) and (args.action != 'start' or args.component != 'openwebui'):
         parser.error('--api-only/--ack-resource-incident仅适用于start openwebui')
+    if args.startup_seconds == 180 and not (args.action == 'start' and args.component == 'openwebui'
+            and args.api_only and args.ack_resource_incident):
+        parser.error('--startup-seconds 180仅适用于start openwebui --api-only --ack-resource-incident')
     root = args.root.resolve()
     if args.action == 'doctor': result = doctor(root)
     elif args.action == 'prepare': result = {'prepared': prepare(root, args.dify_source, args.openwebui_source).get('prepared', False), 'root': str(root)}
     elif not args.component: parser.error('该操作需要指定组件')
     elif args.action == 'install': result = install(root, args.component)
-    elif args.action == 'start': result = start(root, args.component, api_only=args.api_only, ack_resource_incident=args.ack_resource_incident)
+    elif args.action == 'start': result = start(root, args.component, api_only=args.api_only,
+        ack_resource_incident=args.ack_resource_incident, startup_seconds=args.startup_seconds)
     elif args.action == 'smoke': result = smoke(root, args.component)
     else: result = stop(root, args.component)
     print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -160,3 +160,35 @@
 | apps/web/test-results/inspection-report-25-samples.pdf | 25新合成样本、三维明细/标准/复核的5页分页验收样本，Git忽略 | agent-1020-root | 在用 | 暂不可删除（待核实） | 全页视觉与文本末行/精度通过；转存验收证据后再评估，不是客户现场数据或签名认证 | 2026-10-20/T-domain08 |
 | .local/native_windows/openwebui/data/webui.db | 首次API-only冷启动生成的本项目独立原生SQLite | 本机用户/root核查 | 在用 | 不可删除 | 45秒未监听已停止进程，迁移日志及故障记录保留；不是可随意清除的旧库，无HTTP或模型验收 | 2026-10-20/I-root10 |
 - T-domain08全部报告排版已交接root并通过12局部测试及最终5页视觉；tools/verify_native_api.py真实验收尚未执行，56 Mock结果不得替代原生成功。
+
+
+## Docker授权变更索引（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 日期/任务 |
+|---|---|---|---|---|---|---|
+| deploy/docker_desktop.ps1 | 固定官方包摘要/签名校验，D盘程序与WSL数据根定址安装，状态记录 | agent-1020-root | 在用 | 不可删除 | PowerShell parser/Check已过，安装尚未执行；R25最新Docker授权，不能再按旧no-Docker拒绝 | 2026-10-20/T-root09 |
+- 部署状态更正：R25覆盖此前禁止Docker要求，现有Windows方案/失败数据保留；deploy/native/linux-runtime.md为此前独立Ubuntu候选，当前优先Docker随附WSL，不自动安装独立发行版。
+
+
+## Docker安装与协议核验进展（agent-1020-root，2026-10-20）
+- deploy/docker_desktop.ps1 已实际完成D盘Docker安装（exit0/注册表/CLI证明），新增PrepareWSL固定微软MSI、摘要/签名和/norestart边界；WSL MSI仍下载中，Linux引擎与实际VHDX位置尚未核验，仍在用/不可删除。
+- tools/verify_native_api.py 与test_native_api_verifier.py 已交接root，合法原生事件模式/准确回复验证等51条Mock通过；本次实际回复另以已停本地库1索引读确认，不改历史unknown，不冒称完整HTTP SSE通过。
+
+
+## 系统安装完成与验收边界（agent-1020-root，2026-10-20）
+- deploy/docker_desktop.ps1 的D盘Docker和微软WSL3.0.3 MSI安装均已真实完成（两个exit0、双摘要/签名、无自动重启）。程序/注册表位于D:/Docker/Desktop，安装配置wslDefaultDataRoot指向D:/Docker/wsl-data；引擎实际启动与VHDX核验因I-root13资源预检未过而待验。
+- deploy/native/prepare.py、control.py仅更新已过时的“不用Docker”拒绝原因，保留全栈入口暂停：需要新项目、精确镜像、累计资源及失败回收守卫，不能直接启动17服务；仍在用/不可删除。
+
+## 独立Docker运行与验收入口（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键引用与依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 核查日期/任务 |
+|---|---|---|---|---|---|---|
+| deploy/docker_desktop.ps1 | 固定Docker/WSL安装；Start为Docker进程设置D盘加密Roaming/Local目录，主机资源监测与所属进程回收 | agent-1020-root | 在用 | 不可删除 | 安装exit0/官方摘要签名已核；Windows PowerShell解析、Check及故障标记阻止启动已过；双目录修复实际启动待验 | 2026-10-20/T-root09,10 |
+| deploy/docker/openwebui.py | 新D盘单容器prepare/pull/start/inspect/stop与digest/绑定/资源归属；被Docker API守卫复用 | agent-1020-native | 在用 | 不可删除 | 源码已实际检查，仍在补本次主机资源守卫；不视为实际容器验收 | 2026-10-20/T-native10 |
+| deploy/docker/provider_entrypoint.py | 容器只读解密本次模型配置后exec原生start.sh；不把密钥写入Docker Env | agent-1020-native | 在用 | 不可删除 | 控制器校验并复制入口摘要，镜像候选仍待拉取/运行 | 2026-10-20/T-native10 |
+| tools/verify_docker_api.py | 复用原生Verifier/CredentialLedger，固定13080/14HTTP/唯一模型；API+UI共享20请求和60秒 | agent-1020-domain | 在用 | 不可删除 | 36纯Mock已过，主机资源复核小处T-domain11继续；实际API未运行 | 2026-10-20/T-domain09,10,11 |
+| services/platform/tests/test_docker_openwebui.py、test_docker_api_verifier.py | 纯Mock/临时加密文件/无DB的Docker归属与协议预算回归 | 原作者native/domain，协调者root验收 | 在用 | 不可删除 | API36条已过，控制器守卫待原作者交接后串行运行 | 2026-10-20/T-native10/T-domain11 |
+| apps/web/tests/docker-openwebui.mjs | 原生登录表单真实可见与字段有效性，系统Chrome、不提交；消费先行API实际额度/UTC时刻 | agent-1020-root接管，web09已交接 | 在用 | 不可删除 | node --check过，实际浏览器未运行；不将登录UI当聊天UI通过 | 2026-10-20/T-web09 |
+- 外部运行路径已核：D:/Docker/Desktop（程序）、D:/Docker/wsl-data/main/ext4.vhdx与disk/docker_data.vhdx（实际WSL磁盘）、D:/Docker/desktop-profile-20261020-01/Roaming（首次D盘新加密配置）、D:/Docker/installers/engine-resource-incident.json（资源故障标记）。均在仓库外，不提交、不清理；新profile-02和新OWUI runtime尚未创建。
+
+## Docker工具验收状态更新（agent-1020-root，2026-10-20）
+- 前条T-native10、T-domain09/10/11入口已全部交接root；组合97条Mock/临时文件测试通过（controller54/API43）。provider_entrypoint/两个验收工具Python编译通过，原生UI脚本node --check过；均未启动真实容器/浏览器或发模型请求。
+- deploy/docker_desktop.ps1 双目录隔离已实现并通过Windows PowerShell5解析与故障标记拒绝；D盘profile-02与OpenWebUI runtime仍未创建，实际新启动未验。现有D盘程序/两个VHDX/故障标记继续保留，不自动清理。

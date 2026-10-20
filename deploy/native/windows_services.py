@@ -154,7 +154,7 @@ def record_api_failure(runtime, root: Path, reason: str, details: dict) -> None:
 
 
 def wait_for_api(runtime, root: Path, *, seconds=API_START_SECONDS, rss_limit=API_RSS_LIMIT, deadline=None) -> dict:
-    """45秒内只核本次进程树RSS与回环监听，不发HTTP/SQL；超限立刻失败。"""
+    """在本次明确预算内核进程树RSS与回环监听，不发HTTP/SQL；超限立刻失败。"""
     deadline = time.monotonic() + seconds if deadline is None else deadline
     maximum_rss = 0
     while time.monotonic() < deadline:
@@ -172,10 +172,16 @@ def wait_for_api(runtime, root: Path, *, seconds=API_START_SECONDS, rss_limit=AP
                 'startup_budget_seconds': seconds, 'rss_limit_bytes': rss_limit}
         time.sleep(0.25)
     record_api_failure(runtime, root, 'startup_timeout', {'budget_seconds': seconds, 'maximum_rss_bytes': maximum_rss})
-    raise RuntimeError('API未在45秒预算内获得本进程回环监听，必须停止；不重试或扩大超时')
+    raise RuntimeError(f'API未在{seconds}秒预算内获得本进程回环监听，必须停止；不重试或扩大超时')
 
 
-def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: bool, acknowledged_incident: bool) -> dict:
+def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: bool, acknowledged_incident: bool,
+        startup_seconds: int = API_START_SECONDS) -> dict:
+    """按显式单次预算启动；180秒须同时确认API模式与资源故障，不改变资源门限。"""
+    if type(startup_seconds) is not int or startup_seconds not in (45, 180):
+        raise ValueError('启动预算只允许45或180秒')
+    if startup_seconds == 180 and not (api_only and acknowledged_incident):
+        raise ValueError('180秒预算仅适用于已明确确认的Open WebUI API-only启动')
     paths = openwebui_paths(runtime, root, data, api_only=api_only)
     snapshot = require_api_resources()
     if runtime.owned_process(root, 'openwebui', data):
@@ -188,8 +194,8 @@ def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: 
     metadata = {'mode': 'api_only' if api_only else 'full', 'frontend_available': not api_only,
         'sqlite_file': str(paths['sqlite']), 'data_directory': str(paths['data']),
         'acknowledged_resource_incident': acknowledged_incident, 'ready': False,
-        'preflight_resources': snapshot, 'startup_budget_seconds': API_START_SECONDS, 'rss_limit_bytes': API_RSS_LIMIT}
-    deadline = time.monotonic() + API_START_SECONDS
+        'preflight_resources': snapshot, 'startup_budget_seconds': startup_seconds, 'rss_limit_bytes': API_RSS_LIMIT}
+    deadline = time.monotonic() + startup_seconds
     started, phase = None, 'prepare_environment'
     try:
         env = openwebui_environment(runtime, paths, secret)
@@ -199,11 +205,11 @@ def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: 
         if not started.get('started') or not started.get('launch_id'):
             raise RuntimeError('本次未创建并登记独立API进程，禁止接管既有服务')
         phase = 'readiness'
-        ready = wait_for_api(runtime, root, deadline=deadline)
+        ready = wait_for_api(runtime, root, seconds=startup_seconds, deadline=deadline)
         runtime.update_runtime(root, lambda state: state['processes']['openwebui'].update(ready=True, **ready))
     except Exception as error:
         # spawn失败时started仍为None，不能按组件名称猜测进程；spawn自身核对其Popen句柄回收结果。
-        details = {'phase': phase, 'error_type': type(error).__name__}
+        details = {'phase': phase, 'error_type': type(error).__name__, 'startup_budget_seconds': startup_seconds}
         if isinstance(error, runtime.NativeSpawnError):
             details.update(spawn_phase=error.phase, cleanup=error.cleanup,
                 registered_process=error.registered_process)
@@ -228,7 +234,7 @@ def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: 
         unverified_spawn = isinstance(error, runtime.NativeSpawnError) and not error.cleanup.get('verified')
         if cleanup_error or unverified_spawn:
             raise RuntimeError('API启动失败，本次进程回收未能全部核实；已保留故障与已知PID，禁止重试') from None
-        raise RuntimeError('API启动失败，阶段' + phase + '；已记录非敏感故障，未清除全局暂停') from None
+        raise RuntimeError('API启动失败，阶段' + phase + f'，启动预算{startup_seconds}秒；已记录非敏感故障，未清除全局暂停') from None
     return {**started, **ready, 'ready': True, 'http_health_tested': False,
         'functional_acceptance': False, 'resource_incident_remains_active': bool(runtime.load(root).get('resource_incident', {}).get('active'))}
 

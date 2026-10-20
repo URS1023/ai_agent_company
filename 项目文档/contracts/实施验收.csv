@@ -6,7 +6,7 @@ F-M01-04,首页任务,通知与订阅,部分实现,modules/workspace/,任务通�
 F-M01-05,首页任务,全局资源搜索,部分实现,modules/workspace/,权限内目录搜索已实现；强业务实体全量索引待补,2026-10-20,agent-1020-root
 F-M01-06,首页任务,工厂行业切换,部分实现,modules/workspace/,工作区切换/CSRF轮换/隔离通过；原生上下文待联调,2026-10-20,agent-1020-root
 F-M01-07,首页任务,个人偏好与快捷入口,部分实现,modules/workspace/,偏好保存可用；收藏与所有入口联动待补,2026-10-20,agent-1020-root
-F-M02-01,AI对话,原生流式多轮对话,原生待联调,modules/integrations/ + 原生OpenWebUI,保留原生内核，Windows安装构建中，尚未验收,2026-10-20,agent-1020-root
+F-M02-01,AI对话,原生流式多轮对话,原生待联调,modules/integrations/ + 原生OpenWebUI,原生API启动/两账号登录/私聊隔离/DS4.1已有回复持久化已本机核验；saved-chat走事件模式，UI及流式展示未验收,2026-10-20,agent-1020-root
 F-M02-02,AI对话,业务上下文与助手选择,原生待联调,modules/integrations/ + 原生OpenWebUI,上下文与助手绑定已有适配，原生带入对象待联调,2026-10-20,agent-1020-root
 F-M02-03,AI对话,工具与子Agent执行,原生待联调,modules/integrations/ + 原生OpenWebUI,真实工具协议/幂等适配完成，原生Agent链待联调,2026-10-20,agent-1020-root
 F-M02-04,AI对话,附件与多模态对话,原生待联调,modules/integrations/ + 原生OpenWebUI,授权文件与原生入口保留；多模态效果未验收,2026-10-20,agent-1020-root
@@ -86,7 +86,7 @@ F-M11-08,设备及产品质检,质量统计与改善,部分实现,modules/manufa
 F-M12-01,工具MCP技能插件,工具接口注册与Schema,部分实现,modules/catalog/ + modules/integrations/,Schema/固定协议注册已实现；副作用工具实际调用未开放,2026-10-20,agent-1020-root
 F-M12-02,工具MCP技能插件,MCP服务接入,部分实现,modules/catalog/ + modules/integrations/,MCP initialize/initialized/DELETE与1MB预算已Mock，不执行tools/call,2026-10-20,agent-1020-root
 F-M12-03,工具MCP技能插件,按设备类别管理Skill,部分实现,modules/catalog/ + modules/integrations/,类别Skill绑定/Schema目录已有；多实例业务Skill模板待补,2026-10-20,agent-1020-root
-F-M12-04,工具MCP技能插件,插件安装升级和停用,部分实现,modules/catalog/ + modules/integrations/,Dify原生插件管理保留；Windows daemon构建中未验收,2026-10-20,agent-1020-root
+F-M12-04,工具MCP技能插件,插件安装升级和停用,部分实现,modules/catalog/ + modules/integrations/,Dify原生插件管理保留；Windows daemon构建曾因资源失败，R25已允许Docker改走Linux配套镜像，尚未验收,2026-10-20,agent-1020-root
 F-M12-05,工具MCP技能插件,Skills与Snippets完整保留,部分实现,modules/catalog/ + modules/integrations/,保留原生能力，待各自完整运行验收,2026-10-20,agent-1020-root
 F-M12-06,工具MCP技能插件,工具测试与权限审批,部分实现,modules/catalog/ + modules/integrations/,服务端授权已有；具体参数审批与工具执行完整链待补,2026-10-20,agent-1020-root
 F-M12-07,工具MCP技能插件,能力依赖与停用影响,部分实现,modules/catalog/ + modules/integrations/,原生配置删除依赖预检已有；升级回退与运行版本保留待联调,2026-10-20,agent-1020-root

@@ -60,3 +60,10 @@ from agent_platform.core.settings import get_settings
 Vue3/TypeScript，Composition API，单一API client；同源`/api/v1`，开发代理到`127.0.0.1:8080`。身份使用HttpOnly会话Cookie；不在localStorage存凭据。`GET /api/v1/me`返回`user/workspace/workspaces/roles/permissions/csrf_token`，写请求带`X-CSRF-Token`。首次部署`GET /api/v1/auth/status`，未初始化时通过`POST /api/v1/auth/setup`创建管理员与工作区；登录`POST /api/v1/auth/login`，退出`POST /api/v1/auth/logout`。
 
 应用外壳/表单/表格/图表/领域工作区各有组件；模块manifest维护导航、路由与所需权限。保持qKnow独立滚动，不在页面堆技术说明与规则文案。原生编辑器通过真实深链接打开，未配置时提供当前操作所需的连接配置入口。
+
+
+### Open WebUI保存聊天与HTTP流协议
+
+锁定0.12.3版本在携带chat_id与消息id时进入原生事件模式：服务端消费模型流、保存结果，HTTP可合法返回200/null。`tools/verify_native_api.py`分别记录saved_chat_events与http_sse，前者必须继续读取同会话的准确助手消息并验证归属、父子关系、模型、完成状态与可见文本；null本身不代表模型成功。派发前将请求标识与SHA256写入本机密文检查点，unknown不得自动重放。
+
+平台对话入口继续打开原生界面；NL2SQL使用OpenWebUIAdapter.completion的stream=False单次JSON请求，未携带保存聊天标识，因此不应为验收工具分支放宽通用HTTP JSON协议。当前NativeHTTP.stream只由Dify工作流调用。上述为调用链静态核查结论，不替代UI/流式实机验收。

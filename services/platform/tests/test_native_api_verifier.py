@@ -4,6 +4,7 @@ import asyncio
 from contextlib import nullcontext
 from copy import deepcopy
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -72,12 +73,13 @@ class NativeAPI:
 
     chat_id = '56b95e67-691c-4d46-94dd-378253308b27'
 
-    def __init__(self, ledger, *, model_error=False, redirect_health=False):
+    def __init__(self, ledger, *, model_error=False, redirect_health=False, completion_transport='saved_chat_events'):
         self.ledger = ledger
         self.calls = []
         self.model_payloads = []
         self.model_error = model_error
         self.redirect_health = redirect_health
+        self.completion_transport = completion_transport
 
     def __call__(self, request):
         method, path = request.method, request.url.path
@@ -119,13 +121,26 @@ class NativeAPI:
             assert token == 'Bearer admin-session-token' and method == 'GET'
             messages = {}
             if self.model_payloads:
-                messages[self.model_payloads[0]['id']] = {'role': 'assistant', 'done': True, 'content': 'OK'}
-            return httpx.Response(200, json={'user_id': 'admin-id', 'chat': {'history': {'messages': messages}}})
+                turn = self.model_payloads[0]
+                messages[turn['user_message']['id']] = {**turn['user_message'], 'user_id': 'admin-id'}
+                messages[turn['id']] = {'id': turn['id'], 'parentId': turn['user_message']['id'],
+                    'user_id': 'admin-id', 'model': turn['model'], 'role': 'assistant', 'done': True, 'content': 'OK'}
+                if self.model_error:
+                    messages[turn['id']]['error'] = {'content': 'do-not-log-upstream-secret'}
+            return httpx.Response(200, json={'id': self.chat_id, 'user_id': 'admin-id', 'chat': {'history': {'messages': messages}}})
         if path == '/api/chat/completions':
             assert token == 'Bearer admin-session-token'
             self.model_payloads.append(payload)
             run = next(iter(self.ledger.read()[self.ledger.namespace].values()))
             assert run['model_attempted'] is True and run['phase'] == 'model_attempted'
+            reference = run['completion_request']
+            canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+            assert reference['chat_id'] == self.chat_id and reference['message_id'] == payload['id']
+            assert reference['user_message_id'] == payload['user_message']['id'] and reference['model'] == payload['model']
+            assert reference['request_sha256'] == hashlib.sha256(canonical).hexdigest()
+            if self.completion_transport == 'saved_chat_events':
+                # 锁定版原生事件分支消费上游模型流并保存消息，HTTP回包本身不含回复。
+                return httpx.Response(200, headers={'content-type': 'application/json'}, content=b'null')
             frame = {'error': {'detail': 'do-not-log-upstream-secret'}} if self.model_error else {
                 'choices': [{'delta': {'content': 'OK'}, 'finish_reason': 'stop'}]}
             content = 'data: ' + json.dumps(frame) + '\n\ndata: [DONE]\n\n'
@@ -172,6 +187,8 @@ def test_fixed_workflow_has_two_real_tokens_one_model_attempt_and_no_replay(modu
     assert result['status'] == 'succeeded' and result['http_attempts'] == 14
     assert len(api.calls) == 14 and len(api.model_payloads) == result['model_calls'] == 1
     assert result['checks']['real_reply_persisted'] and verifier.guard.stop_result is None
+    assert result['checks']['completion_transport'] == 'saved_chat_events'
+    assert result['checks']['sse_transport_observed'] is False and result['checks']['sse_completed'] is False
     assert result['frontend_available'] is False and result['full_native_acceptance'] is False
     payload = api.model_payloads[0]
     assert payload['params']['max_tokens'] == 64 and payload['background_tasks'] == {}
@@ -181,16 +198,170 @@ def test_fixed_workflow_has_two_real_tokens_one_model_attempt_and_no_replay(modu
     assert record['accounts']['admin']['token'] == 'admin-session-token'
     assert record['accounts']['user']['token'] == 'user-session-token'
     assert record['phase'] == 'completed' and record['model_attempted'] is True
+    reference = record['completion_request']
+    assert reference['chat_id'] == payload['chat_id'] and reference['message_id'] == payload['id']
+    assert reference['user_message_id'] == payload['user_message']['id']
+    assert payload['id'].encode() not in ledger.path.read_bytes()
     output = json.dumps(result)
     assert 'session-token' not in output and record['accounts']['admin']['email'] not in output
     duplicate = make_verifier(module, ledger, api)
     duplicate_result = asyncio.run(duplicate.execute())
     assert duplicate_result['error_code'] == 'actual_run_id_already_attempted'
     assert len(api.calls) == 14 and duplicate.guard.stop_result is None
+    with pytest.raises(module.VerificationError, match='model_attempt_already_recorded'):
+        asyncio.run(verifier.completion(None, api.chat_id))
+    assert len(api.calls) == 14
+
+
+def test_http_sse_transport_remains_strict_and_distinct_from_native_events(module, ledger):
+    api = NativeAPI(ledger, completion_transport='http_sse')
+    result = asyncio.run(make_verifier(module, ledger, api).execute())
+    assert result['status'] == 'succeeded' and result['http_attempts'] == 14 and result['model_calls'] == 1
+    assert result['checks']['completion_transport'] == 'http_sse'
+    assert result['checks']['sse_transport_observed'] is True and result['checks']['sse_completed'] is True
+    assert result['checks']['real_reply_persisted'] is True
+
+
+@pytest.mark.parametrize('body', [
+    b'data: {"choices":[{"delta":{"content":"OK"}}]}\n\n',
+    b'data: [DONE]\n\n',
+    b'data: {"choices":[{"delta":{"reasoning_content":"hidden"},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n',
+])
+def test_http_sse_requires_both_visible_text_and_a_completion_signal(module, ledger, body):
+    api = NativeAPI(ledger, completion_transport='http_sse')
+
+    def handler(request):
+        response = api(request)
+        if request.url.path == '/api/chat/completions':
+            return httpx.Response(200, headers={'content-type': 'text/event-stream'}, content=body)
+        return response
+
+    result = asyncio.run(make_verifier(module, ledger, handler).execute())
+    assert result['status'] == 'unknown' and result['error_code'] == 'sse_no_completed_text_reply'
+    assert result['model_calls'] == 1 and result['http_attempts'] == 13
+    assert result['checks']['sse_transport_observed'] is True and not result['checks'].get('sse_completed')
+
+
+@pytest.mark.parametrize('body', [b'', b'{}', b'[]', b'false', b'"null"',
+    b'{"status":true}', b'{"status":true,"task_ids":["task"],"chat_id":"other-chat"}', b'nullnull'])
+def test_native_event_ack_only_accepts_exact_json_null_without_retry(module, ledger, body):
+    api = NativeAPI(ledger)
+
+    def handler(request):
+        response = api(request)
+        if request.url.path == '/api/chat/completions':
+            return httpx.Response(200, headers={'content-type': 'application/json'}, content=body)
+        return response
+
+    result = asyncio.run(make_verifier(module, ledger, handler).execute())
+    assert result['status'] == 'unknown' and result['error_code'] == 'native_completion_ack_not_null'
+    assert result['http_attempts'] == 13 and result['model_calls'] == len(api.model_payloads) == 1
+    assert result['checks']['sse_transport_observed'] is False
+    record = ledger.read()[ledger.namespace]['mock-native-run-01']
+    assert record['model_attempted'] is True and not record.get('model_completed')
+
+
+@pytest.mark.parametrize('status,media,expected', [
+    (500, 'application/json', 'invalid_completion_response_status'),
+    (302, 'application/json', 'invalid_completion_response_status'),
+    (200, 'text/plain', 'invalid_completion_response_type'),
+    (200, 'text/event-stream-not-real', 'invalid_completion_response_type'),
+])
+def test_native_completion_rejects_wrong_status_or_media_without_fallback_call(module, ledger, status, media, expected):
+    api = NativeAPI(ledger)
+
+    def handler(request):
+        response = api(request)
+        if request.url.path == '/api/chat/completions':
+            return httpx.Response(status, headers={'content-type': media, 'location': 'https://never-follow.invalid/'}, content=b'null')
+        return response
+
+    result = asyncio.run(make_verifier(module, ledger, handler).execute())
+    assert result['status'] == 'unknown' and result['error_code'] == expected
+    assert result['http_attempts'] == 13 and result['model_calls'] == len(api.model_payloads) == 1
+
+
+@pytest.mark.parametrize('mutation', ['wrong_chat', 'wrong_owner', 'missing_assistant', 'wrong_parent',
+    'wrong_model', 'wrong_message_id', 'wrong_message_user', 'wrong_prompt', 'not_done', 'empty_text', 'reasoning_only', 'error'])
+def test_null_ack_cannot_pass_without_the_exact_saved_assistant_reply(module, ledger, mutation):
+    api = NativeAPI(ledger)
+
+    def handler(request):
+        response = api(request)
+        if request.method != 'GET' or request.url.path != '/api/v1/chats/' + api.chat_id or not api.model_payloads:
+            return response
+        saved, payload = response.json(), api.model_payloads[0]
+        messages = saved['chat']['history']['messages']
+        message = messages[payload['id']]
+        if mutation == 'wrong_chat':
+            saved['id'] = 'other-chat'
+        elif mutation == 'wrong_owner':
+            saved['user_id'] = 'user-id'
+        elif mutation == 'missing_assistant':
+            messages.pop(payload['id'])
+        elif mutation == 'wrong_parent':
+            message['parentId'] = 'old-user-message'
+        elif mutation == 'wrong_model':
+            message['model'] = 'other-model'
+        elif mutation == 'wrong_message_id':
+            message['id'] = 'old-assistant-message'
+        elif mutation == 'wrong_message_user':
+            message['user_id'] = 'user-id'
+        elif mutation == 'wrong_prompt':
+            messages[payload['user_message']['id']]['content'] = 'old-prompt'
+        elif mutation == 'not_done':
+            message['done'] = False
+        elif mutation == 'empty_text':
+            message['content'] = '  '
+        elif mutation == 'reasoning_only':
+            message.update(content='', output=[{'type': 'reasoning', 'content': [{'text': 'private reasoning'}]}])
+        elif mutation == 'error':
+            message['error'] = {'content': 'do-not-log-upstream-secret'}
+        return httpx.Response(200, json=saved)
+
+    result = asyncio.run(make_verifier(module, ledger, handler).execute())
+    assert result['status'] == 'unknown' and result['http_attempts'] == 14 and result['model_calls'] == 1
+    assert result['checks']['completion_transport'] == 'saved_chat_events'
+    assert result['checks']['sse_transport_observed'] is False and not result['checks'].get('real_reply_persisted')
+    assert 'do-not-log-upstream-secret' not in json.dumps(result)
+    assert not ledger.read()[ledger.namespace]['mock-native-run-01'].get('model_completed')
+
+
+def test_native_output_message_text_is_accepted_without_content_or_reasoning_leak(module, ledger):
+    api = NativeAPI(ledger)
+
+    def handler(request):
+        response = api(request)
+        if request.method == 'GET' and request.url.path == '/api/v1/chats/' + api.chat_id and api.model_payloads:
+            saved = response.json()
+            saved['chat']['history']['messages'][api.model_payloads[0]['id']].update(content='', output=[
+                {'type': 'reasoning', 'content': [{'text': 'private reasoning'}]},
+                {'type': 'message', 'content': [{'type': 'output_text', 'text': 'OK'}]},
+            ])
+            return httpx.Response(200, json=saved)
+        return response
+
+    result = asyncio.run(make_verifier(module, ledger, handler).execute())
+    assert result['status'] == 'succeeded' and result['checks']['real_reply_persisted'] is True
+    assert result['checks']['sse_transport_observed'] is False
+    assert module.visible_reply_text({'output': [{'type': 'reasoning', 'content': [{'text': 'hidden'}]},
+        {'type': 'message', 'content': [{'text': 'OK'}]}]}) == 'OK'
+
+
+def test_historical_unknown_without_chat_reference_is_never_rewritten_or_replayed(module, ledger):
+    run_id = 'legacy-native-run-01'
+    ledger.begin(run_id, 'new-local-runtime')
+    ledger.update(run_id, lambda run: run.update(model_attempted=True, phase='model_attempted', status='unknown', http_attempts=13))
+    historical, encrypted = deepcopy(ledger.read()[ledger.namespace][run_id]), ledger.path.read_bytes()
+    api = NativeAPI(ledger)
+    result = asyncio.run(make_verifier(module, ledger, api, run_id=run_id).execute())
+    assert result['status'] == 'failed' and result['error_code'] == 'actual_run_id_already_attempted'
+    assert not api.calls and result['model_calls'] == 0
+    assert ledger.read()[ledger.namespace][run_id] == historical and ledger.path.read_bytes() == encrypted
 
 
 def test_sse_failure_retains_unknown_phase_without_retry_or_raw_body(module, ledger):
-    api = NativeAPI(ledger, model_error=True)
+    api = NativeAPI(ledger, model_error=True, completion_transport='http_sse')
     verifier = make_verifier(module, ledger, api)
     result = asyncio.run(verifier.execute())
     assert result['status'] == 'unknown' and result['error_code'] == 'sse_error_frame'
@@ -212,10 +383,10 @@ def test_redirect_is_rejected_without_following_or_retry(module, ledger):
 
 
 def test_sse_deadline_preserves_attempt_before_any_repeat(module, ledger, monkeypatch):
-    monkeypatch.setattr(module, 'SSE_SECONDS', 0)
-    api = NativeAPI(ledger)
+    monkeypatch.setattr(module, 'COMPLETION_SECONDS', 0)
+    api = NativeAPI(ledger, completion_transport='http_sse')
     result = asyncio.run(make_verifier(module, ledger, api).execute())
-    assert result['status'] == 'unknown' and result['error_code'] == 'sse_deadline'
+    assert result['status'] == 'unknown' and result['error_code'] == 'completion_deadline'
     assert result['model_calls'] == 1 and len(api.model_payloads) == 1
     assert ledger.read()[ledger.namespace]['mock-native-run-01']['model_attempted'] is True
 

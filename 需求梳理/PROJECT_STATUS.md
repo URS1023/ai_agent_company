@@ -378,3 +378,103 @@
 - 当前任务：等待I-root10的180秒单次冷启动预算答复，以及R24独立WSL系统组件答复；两个问题已提供具体本机目录/端口/预算与不自动重启方案。等待不等于批准，不继续任何依赖启动或系统变更。
 - 下一步：得到答复后只在批准范围推进，优先真实原生登录/隔离/DS4.1短SSE，再原生前端与Dify依赖；完整范围继续跟踪125项验收CSV。I-root09资源异常、I-root10启动超时、原生AgentV2/沙箱运行时、SSO及100剩余组件均仍有未关闭项。
 - 已核实全部本轮API/Vite/浏览器/原生进程已停止，无悬挂嵌入式DB查询；新SQLite、密文配置和依赖完整保留本机，不自动删除或重试。
+
+
+## 用户授权变更与本轮认领（agent-1020-root，2026-10-20）
+- R-agent-1020-root-25：用户最新答复“允许安装docker在d盘”，明确覆盖R24此前禁止Docker的部署约束；本机部署/不接旧库和外部DB、凭据不入Git及不自动重启继续有效。范围为本机Docker安装到D盘（程序和Linux镜像/卷数据目录均显式在D盘），独立Ubuntu不再作为当前首选安装动作。验收为签名可信安装器、实际程序/数据目录、WSL/引擎就绪证据；安装成功不等于125项功能完成。
+- R-agent-1020-root-26：用户明确“允许单次180秒启动验收”；只允许本项目OWUI API-only下一次启动上限180秒，RSS仍1GiB、固定本项目新SQLite、最多14HTTP/1SSE/60秒验收、不自动重试、不恢复大型构建。首次45秒失败历史保留；新异常仍立即停止并核实查询停止。
+- T-agent-1020-native-08：agent-1020-native独占deploy/native/windows.py、windows_services.py、test_native_windows.py，新增显式--startup-seconds仅45/180、默认45、只适用已确认api-only启动，metadata/守卫错误文字随预算，RSS/资源门限不变；准备纯Mock验证，不运行任何服务/命令/测试，由root串行执行。
+- T-agent-1020-root-09：root认领Docker本机只读检查、官方安装器下载/签名/D盘定址安装，以及相关独立安装脚本和部署文档；串行系统安装与原生启动，避免并发资源争抢。当前非管理员，D盘34.71GiB空闲，未发现docker命令/已装目录，Windows11工作站版26200/64位/硬件虚拟化已见；WSL状态待核。
+
+
+## 180秒受限入口验证与安装包准备（agent-1020-root，2026-10-20）
+- T-native08作者完成并释放三文件，root串行验证windows守卫+验收器82 passed/2.99s（原56+新26；纯Mock/临时文件，无DB/HTTP），仅本次显式startup-seconds180可放宽45秒默认；RSS/资源/全局故障不变。
+- Docker官方4.96.0/build243774安装包下载到D:/Docker/installers/4.96.0-243774；官方checksums为3f75d46a07ff7c7adcc42e55b2bab862e25a459351723ac2633de9ad22a5b4b6，完成后再签名核验，当前不能执行partial。WSL实际status exit50=未安装，当前无管理员token；安装需Windows UAC。
+- root已完成deploy/docker_desktop.ps1，仅核验固定官方包后提权安装到D:/Docker/Desktop，Linux镜像/卷数据置D:/Docker/wsl-data，两目录独立，未执行安装/未启动容器/不自动重启。PowerShell parser及Check通过，D盘剩余34.69GiB。
+- 当前下一步单次OWUI180秒启动及最多14HTTP/1SSE/60秒验收，只有本仓库先前新建webui.db；先前失败进程已回收，资源现物理5706MB/提交7557MB，安装仍等待下载且不并发系统初始化。
+
+
+## 原生180秒启动与首次协议验收结果（agent-1020-root，2026-10-20）
+- R26单次180秒启动已执行且成功：PID15528/launch7f1dec6389a405414b2eae57，本项目webui.db/固定13000/启动峰值802074624字节；全局故障标记保留，没有修改RSS上限或恢复大型构建。I-root10的冷启动时限阻塞已有本次成功证据，但完整原生验收不因此完成。
+- 实际verifier run native-api-20261020-01：13/14HTTP、model_calls=1、6.261秒；管理员及普通用户登录、私聊读/写401/列表隔离、模型可见均passed；第13次POST /api/chat/completions返回HTTP200，但非text/event-stream，invalid_sse_response，status=unknown/phase=model_attempted，未请求第14次回复持久化。
+- I-agent-1020-root-11关联T-native07：短对话原生协议与脚本预期不符，尚不能确认模型回复/是否已被上游执行；保留加密账号/检查点，禁止重放该run/model_attempted。native作者只读排查准确协议，不触发HTTP/DB/模型。
+- 工具回收verified=true、alive_pids=[]、errors=[]；root额外只读核查本轮原生进程=[]/13000监听=[]，已无嵌入式DB查询。不是DB超时或资源超限，未重试启动/模型，不将200写成对话通过。
+- Docker下载单连接约150KiB/s，明确停止所属curl保留40MB partial，换8段固定官方Range并核对完整650507696字节与SHA256，不是数据库测试重试；两段已完成，安装尚未执行。
+
+
+## 原生协议误判修复认领（agent-1020-root，2026-10-20）
+- native只读源码证据：本版middleware仅chat_id+message_id即走event_emitter分流，已保存聊天由原生消费上游流并落库，HTTP200/null是合法事件模式；verifier假定必须text/event-stream属于确定脚本缺陷，不能据此断言模型失败或重发。
+- T-agent-1020-native-09：agent-1020-native认领tools/verify_native_api.py及test_native_api_verifier.py，兼容锁定版本合法saved-chat HTTP200/null事件模式后用原有第14次GET核查真实assistant done及文本；SSE分支继续严格核验，分别记录transport和是否实际观测SSE，不把事件模式冒充HTTP SSE。派发前密文检查点记录chat/message/请求摘要以便只读追溯；不得重放已有model_attempted或改已失败运行历史。仅源码与Mock断言，不运行测试/服务/HTTP/DB，由root串行落盘与验。
+- root可在已停服务的本项目SQLite内做一次只读索引定位核对当前唯一验收会话（先EXPLAIN、3秒超时、LIMIT2、不改数据），只判断已有回复是否保存，不新增模型调用或重启服务；严格重查本地绑定与进程停止。
+
+
+## 原生已有回复只读核验（agent-1020-root，2026-10-20）
+- 严格核对runtime.sqlite归属、固定本机磁盘、全部本次原生进程/13000监听已停后，使用mode=ro，1秒连接/3秒查询预算；EXPLAIN确认user_id索引定位后只执行1条SELECT id,chat WHERE user_id=当次密文管理员ID LIMIT2，无重试、无写入、无新HTTP/模型。当前恰有1个验收会话、1条assistant，done=true、可见文本非空、error=false、model=deepseek-v4.1-flash。脚本进程已退出、读连接释放，证据.local/native-reply-inspection.json。
+- 结论：当前已有真实原生DS4.1回复持久化证据，I-root11为saved-chat事件模式被工具当HTTP SSE误判；原run历史unknown不改写、不重放，HTTP SSE/Socket.IO/UI流式仍未实际观测。身份/私聊隔离及回复事实分别记证据，不能把离线核验冒充第14次HTTP通过。
+- Docker检查补充：VirtualMachinePlatform已启用，Microsoft-Windows-Subsystem-Linux可选功能未启用，WSL runtime未安装；D盘安装仍须管理员UAC。不自动安装独立Ubuntu，不把HypervisorPresent当WSL已就绪。
+
+
+## Docker已安装、WSL依赖准备与协议修复验收（agent-1020-root，2026-10-20）
+- T-root09 Docker Desktop4.96.0/build243774已实际安装，官方SHA256与Docker Inc有效签名双核通过，installer exit0；注册表InstallLocation=D:/Docker/Desktop，CLI Docker29.9.1可执行。安装日志Installation succeeded，未要求重启、没有自动重启、未启动业务容器。WSL镜像/卷数据目录通过--wsl-default-data-root指定D:/Docker/wsl-data，实际VHDX位置仍须引擎首次启动后核对，不提前写成已验证。
+- I-agent-1020-root-12：系统原wsl --install --no-distribution --web-download经UAC运行后exit1，运行时仍未安装；没有重复该命令或装默认Ubuntu。按微软/Docker官方支持的离线方式准备WSL3.0.3 x64 MSI，官方资产367575040字节/SHA256 ae977286974255bd26bf925f00f40f5692c6b2084155cbc0563c09aea091f211。分段httpx下载遇TLS EOF已停止保留文件，未禁用证书验证、未执行partial；转Windows原生TLS curl对微软GitHub签名重定向资产固定8段/0重试下载。此为软件网络下载，非DB连接/查询失败，不恢复任何业务循环。
+- deploy/docker_desktop.ps1的PrepareWSL改为固定官方MSI摘要/微软签名后msiexec /qn /norestart REBOOT=ReallySuppress；系统日志和状态均留D:/Docker/installers，当前下载未完成故尚未执行MSI。安装器当前状态与事件历史分开记录；不会启动17服务或改既有原生数据。
+- T-native09作者完成交接，root仅纯Mock验收51 passed/5.53s。修正合法saved_chat_events(null)与http_sse区分、准确消息关系/来源检查、派发前密文request摘要；14HTTP/唯一模型/60秒/1GiB保留，原unknown不改写，未重启或重发原生模型。
+
+
+## 调用链影响与后续部署计划静态核查（agent-1020-root代记只读作者结论，2026-10-20）
+- native作者已只读确认：平台用户聊天为NativeWorkspace→IntegrationService.launch深链；NL2SQL走adapters/native.py OpenWebUIAdapter.completion，stream=False且无chat_id/id/session_id，正常choices JSON不受saved-chat200/null影响。NativeHTTP.stream仅用于Dify；无需全局放宽HTTP JSON。未修改业务代码、未发请求/查DB/测试。root同步INTERNAL.md说明。
+- web作者给出16个Dify+1OWUI精确依赖与分批建议：api/worker硬依赖Agent backend→plugin daemon+Redis→新PG；0.6.10-local插件精确制品未落实。源码构建和整组预算未因此获批，不能只删prepare/control旧拒绝语句后全栈up。root将简明分组计划写入已有deploy/native/README，不另堆新文档。
+- 当前Docker程序安装已完成；WSL官方MSI以Windows TLS下载剩1段，下载完成前不执行MSI、不启动引擎/业务容器；Windows API-only服务保持停止，无在途业务查询。
+
+
+## WSL安装成功与引擎启动资源阻塞（agent-1020-root，2026-10-20）
+- WSL3.0.3 x64官方完整MSI367575040字节已完成，SHA256与官方资产一致，Microsoft Corporation签名Valid；PrepareWSL通过msiexec /qn /norestart REBOOT=ReallySuppress安装，exit0、reboot_requested=false。随后wsl --version实际3.0.3.0/kernel6.18.54.1-1，--status exit0/default2，--list为空；未安装Ubuntu或其他发行版，未自动重启。
+- Docker Desktop4.96.0/CLI29.9.1程序与注册表位置均为D:/Docker/Desktop；C:/ProgramData/DockerDesktop/install-settings.json实际wslDefaultDataRoot=D:/Docker/wsl-data。真实Linux VHDX尚未创建/核验，不能把配置目标写成实际数据盘验收。
+- I-agent-1020-root-13关联R25/T-root09：引擎启动前只读检查时，物理available1283MB、commit_free1368MB，低于既定2GiB/3GiB门限；Docker Desktop/backend实际进程为空，因此未启动引擎、未拉业务镜像/启动容器/发业务或数据库测试，不能自行扩大内存配置、关闭其他应用或绕过守卫。当前所有安装器/下载器已正常退出，原生API也已停止，无本轮在途DB查询。
+- 当前已完成R25的Docker程序D盘安装及必要WSL运行时安装，T-root09实际引擎/数据盘验收待资源条件满足；R26单次原生180秒已执行，已有账号隔离和唯一DS4.1回复事实，后续新Docker实例不重放该run。准备提交本轮结果；新容器/模型预算与资源恢复待用户明确答复。
+
+
+## 新Docker独立验收授权与任务认领（agent-1020-root，2026-10-20）
+- R-agent-1020-root-27：用户明确回复“释放资源后继续单独验收”，授权单独Docker OpenWebUI：先核资源，新D盘数据、1GiB/1CPU、单次180秒启动、最多20业务HTTP与1次64token模型/60秒，不重试、不恢复大型构建；不重放Windows原run，不扩大为17服务全栈或Linux源码build。
+- 刚只读重测物理2764MB/提交3517MB，达到原2GiB/3GiB单次准入线；引擎启动、镜像准备、容器启动分别再次核验，不因答复自动视为资源充足。
+- T-agent-1020-native-10：agent-1020-native独占新deploy/docker/openwebui.py、provider_entrypoint.py、services/platform/tests/test_docker_openwebui.py；仅准备单容器、新D盘runtime、精确本机Docker管道/标签/镜像/挂载归属、内存CPU/失败停止与加密模型注入，不启动或测试。R27参数固定、无restart/无health循环、无build；root串行运行。
+- T-agent-1020-domain-09：agent-1020-domain独占新tools/verify_docker_api.py及test_docker_api_verifier.py，复用已修Verifier协议/不可重放密文检查点，DockerGuard只认当前D盘新容器；13080/14HTTP（为后续原生UI余下预算）/唯一模型/60秒，严格区分事件模式与SSE。只写源码/Mock不运行；与native10协调runtime接口，不修改对方文件或旧工具。
+- T-agent-1020-web-09：agent-1020-web独占新apps/web/tests/docker-openwebui.mjs，仅预算化查看真正原生登录界面（非获取HTML即通过），不触发模型或登录写入、业务HTTP与API验证合计不得超20；静态80/单浏览器/60秒，使用系统Chrome。不跑浏览器/服务；root执行。
+
+## Docker设置文件系统故障与修复认领（agent-1020-root，2026-10-20）
+- I-agent-1020-root-14，关联R27/T-root09：重新预检物理3880MB/提交3700MB后，仅启动Docker引擎；官方CLI约15秒exit1。日志明确settings-store.json同目录原子rename报WinError17。Desktop/backend均已退出，无Linux引擎、业务容器、HTTP、模型或DB测试。
+- 无敏感14字节独立临时文件在C:/Users/urdcbk/AppData/Roaming/Docker同目录rename亦WinError17；目录带Encrypted且非reparse，cipher读取密钥信息AccessDenied。此为可复现路径/文件系统问题，尚不能将全部原因归结为EFS。
+- D:/Docker/diagnostics/atomic-20261020-01独立对照：普通文件rename成功、同样启用EFS的文件rename也成功。因此可以保留加密保护，仅将Docker进程的APPDATA改为D盘全新专用配置目录，不解密/删除原目录、不改全局APPDATA/安全策略；未重发业务测试。
+- T-agent-1020-root-10：root认领deploy/docker_desktop.ps1追加受控Start动作与已有deploy/native/README相关说明；新D盘配置树保持EFS、固定路径/拒绝接管/资源门限、Docker程序D盘归属、引擎120秒、超时只回收本次树。若新配置加密或原子写入核验失败即停止，不绕过。单容器R27的180秒/20HTTP/唯一模型预算仍未使用。
+
+## 引擎第二配置路径失败与资源停止（agent-1020-root，2026-10-20）
+- I-agent-1020-root-15，关联R27/T-root10：D盘加密Roaming/settings-store.json成功写入；首次Docker发行版docker-desktop的Lxss BasePath实为\\?\D:\Docker\wsl-data\main，实际ext4.vhdx与disk/docker_data.vhdx均位于D盘。仍未拉镜像或创建业务容器。
+- Desktop随后在C:/Users/urdcbk/AppData/Local/Docker/volume-backup-schedule.json原子rename报同类WinError17，用户截图与日志一致；说明仅处理APPDATA不足，LOCALAPPDATA也须进程级隔离，不能把D盘设置文件成功当引擎成功。
+- 资源采样physical_available1796MB/commit_free573MB，vmmemWSL2455MB，立即停止后续。重查D盘exe/PID/创建时间后停止本次Desktop/backend，并核本次docker-desktop的固定D BasePath后单独terminate；未shutdown全WSL、不恢复出厂、不删数据。随后Docker/backend/vmmem进程为空、running distro为空，物理5443MB/提交4983MB，旧引擎CLI已exit1、包装脚本exit1，无在途业务/DB请求。
+- root继续只修源码：APPDATA和LOCALAPPDATA一并采用D盘新加密专用配置、保留既有配置和VHDX；增加持续主机资源守卫及故障标记，启动准入提高到物理5GiB/提交7GiB以覆盖本次WSL开销并保留原2/3GiB底线。已有R27为异常前授权，出现本次资源异常后不自动重启；修复/Mock完成后提交可审阅结果，后续动态需要明确继续范围。
+- T-web09作者已正式完成并释放新docker-openwebui.mjs；root node --check通过，实际浏览器尚未运行，因引擎失败不能标原生UI通过。
+
+## 单容器守卫静审修正认领（agent-1020-root，2026-10-20）
+- T-domain09原作者交接verify_docker_api.py与test_docker_api_verifier.py，预计34 Mock尚未运行。root静审发现60秒到期时stop_owned直接拒停，会留下已知所属容器；不能把清理预算混同业务验证预算。
+- T-agent-1020-domain-10：agent-1020-domain继续认领上述两文件，仅修deadline过后独立最多5秒CAS清理、业务仍60秒硬截止，并补边界Mock，不运行。作者先前文件释放后现范围已重新认领。
+- root向T-native10原作者反馈prepare首次父目录尚不存在导致disk_usage失败，要求就近已存在的已核实D盘祖先测磁盘并补真实临时目录纯FS断言；作者仍独占该三文件，不由root重叠修改。
+
+## Docker API守卫局部验收与主机资源复核（agent-1020-root，2026-10-20）
+- T-domain09/10作者已交接，root串行36 passed/1.04s，纯MockTransport/临时密文，无真实Docker、HTTP、数据库或模型。包含60秒到期/OOM末端后独立最多5秒CAS清理、不继续业务请求；不是动态原生通过。
+- T-agent-1020-domain-11：agent-1020-domain重新认领tools/verify_docker_api.py与对应测试，仅补每次完整inspect调用native10的check_host_resources()核主机2/3GiB余量，检测失败同样CAS清理并停止HTTP；native10负责该公共包装与控制器内部守卫，文件范围不重叠。仅代码/Mock，不运行，root统一验收。
+- 用户已收到一次明确范围问题：本次实际资源异常后，是否允许物理5GiB/提交7GiB达标时单次重启引擎（120秒），随后使用原未用R27容器预算。当前无答复，不将等待视为批准；修复代码/文档/Git核查继续。
+
+## 单容器控制器交接与首轮局部失败（agent-1020-root，2026-10-20）
+- T-native10作者已完成并释放controller/entrypoint/tests，包含每半秒pull主机与磁盘核查、startup持续主机核查、精确CAS停止和公共check_host_resources；作者零执行，root接管串行验收。
+- 首轮纯Mock/临时文件52 passed/2 failed，3.54s。I-agent-1020-root-16：两条prepare测试patch模块DEFAULT_ROOT后仍省略实参，Python函数定义时绑定的默认值保持真实D路径，被_root正确拒绝；没有执行Docker/HTTP/DB。T-agent-1020-root-11认领已释放的test_docker_openwebui.py仅修两个prepare调用为显式临时目录，产品固定根校验不放宽，随后局部复验。
+
+## 独立Docker工具最终离线验收（agent-1020-root，2026-10-20）
+- T-domain11作者交接并释放，主机余量低于2/3GiB、检测异常/快照非法时均拒继续并一次CAS停止；验证仍60秒、清理独立最多5秒，没有真实资源测试或HTTP。
+- T-root11修正3处prepare测试调用（含同一测试内重放拒绝断言），明确传入tmp路径，不更改产品固定D根边界。前两轮52/2与53/1仅测试默认参数错误，不连接任何DB或Docker；最终控制器54 passed/2.07s。
+- 最终稳定两文件组合：controller/entrypoint54 + Docker API43 = 97 passed/3.22s，均Mock/临时加密文件/小范围本机FS，无真实Docker、HTTP、模型、DB；4入口Python编译通过、原生UI脚本node --check通过、Windows PowerShell5解析与只读Check/故障标记拒绝通过。未重跑大型前端构建或无关全量测试。
+- T-native10/T-domain09,10,11/T-web09均已由作者完成交接、root验收各自离线范围；真实容器/原生UI仍未验，R27 HTTP0/模型0。root当前仅敏感信息核查与正常main提交；等待新单次引擎启动答复/资源达标，不自动恢复。
+
+## 本轮提交前检查（agent-1020-root，2026-10-20）
+- 暂存变更24文件，新增独立Docker控制器/密文入口/API与原生UI验证工具，修复Windows180秒预算与合法saved-chat事件协议，更新安装/实际证据/边界文档。稳定Docker局部97 passed；此前Windows守卫+旧verifier82 passed与协议修正51 passed分别属于先前批次，不相加冒充一次全套。
+- 当前完整索引546文件/47.79MiB，逐blob核对两把真实模型密钥、令牌/私钥模式、原项目整库/数据包/依赖/运行路径与>8MiB文件均0命中；git diff --cached --check（cr-at-eol）通过。仅正常提交main，不force，不提交D盘程序/磁盘/配置或.local。
+- 当前无本次Docker/backend/vmmem进程、13000/13080监听或running distro；实际新Docker业务容器/HTTP/模型均0，修复后引擎仍待单次恢复答复与5GiB物理/7GiB提交准入，未恢复大型构建。已完成本轮代码及离线验收，整体企业平台与原生完整验收仍未完成。

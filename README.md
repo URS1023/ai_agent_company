@@ -6,7 +6,7 @@
 
 ## 本机启动
 
-平台需要 Python 3.12—3.14、Node.js 22.12+。原生引擎使用各自独立环境，不共享平台虚拟环境，不使用 Docker。
+平台需要 Python 3.12—3.14、Node.js 22.12+。原生引擎与平台环境分开。用户最新已允许 Docker 安装到 D 盘：程序使用 `D:/Docker/Desktop`，镜像及卷数据使用 `D:/Docker/wsl-data`；安装与实际状态见[部署说明](deploy/native/README.md)。Windows 独立进程方案继续保留，不与容器共享数据库。
 
 ```powershell
 npm run setup

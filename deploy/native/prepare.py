@@ -288,4 +288,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    raise SystemExit('历史容器准备入口已停用。请使用 deploy/native/windows.py prepare 或 doctor；当前方案不使用Docker。')
+    raise SystemExit('R25已允许D盘Docker安装。历史全栈准备入口仍停用：需先落实D盘新项目、精确镜像和分组资源预算；安装入口为deploy/docker_desktop.ps1。')

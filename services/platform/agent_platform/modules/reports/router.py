@@ -10,6 +10,7 @@ from agent_platform.core.settings import get_settings
 
 from . import models as m, schemas as s
 from .service import ReportService, STATIC_COMPONENTS, SUPPORTED_COMPONENTS, component_catalog, view
+from .capabilities import SOURCE_TYPES
 
 router = APIRouter(prefix="/api/v1", tags=["报表与模板"])
 
@@ -77,7 +78,7 @@ def image_assets(id: str, session=Depends(get_session), actor=Depends(require_pe
 
 @router.post("/report-generations", status_code=201)
 def generate(data: s.GenerationInput, session=Depends(get_session), actor=Depends(require_permission("m07.write")), settings=Depends(get_settings)):
-    return ReportService(session, actor, settings).generate(data.model_dump())
+    return ReportService(session, actor, settings).generate(data.model_dump(exclude_none=True))
 
 
 @router.post("/inspection-report-generations", status_code=201)
@@ -120,7 +121,7 @@ def publish_template(id: str, data: s.RevisionInput, session=Depends(get_session
 
 @router.get("/report-components")
 def components(actor=Depends(require_permission("m07.read"))):
-    rows = [{"id": key, "name": name, "editable": True, "supports_binding": key not in STATIC_COMPONENTS} for key, name in SUPPORTED_COMPONENTS.items()]
+    rows = [{"id": key, "name": name, "editable": True, "supports_binding": key not in STATIC_COMPONENTS, "source_required": key in SOURCE_TYPES} for key, name in SUPPORTED_COMPONENTS.items()]
     return {"items": rows, "total": len(rows)}
 
 

@@ -16,7 +16,14 @@
  *   校验失败返回空串而不是原始 URL；
  * - 监听 window 的 pointerdown/keydown 必须与 onBeforeUnmount 成对清理。
  */
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+} from "vue";
 import JimuWidgetRenderer from "./JimuWidgetRenderer.vue";
 import { normalizeDashboardTheme, panelStyle } from "@/utils/dashboardTheme";
 import { safeAssetUrl } from "@/utils/safeContent";
@@ -254,9 +261,11 @@ const stageStyle = computed(() => {
       ? referenceBackground
       : props.page.backgroundImage
         ? `url(${assetUrl(props.page.backgroundImage)})`
-        : props.page.theme || props.page.themeId
-          ? themedBackground
-          : `url(${assetUrl("/jimu-screen/bg4.png")})`;
+        : props.page.backgroundColor
+          ? "none"
+          : props.page.theme || props.page.themeId
+            ? themedBackground
+            : `url(${assetUrl("/jimu-screen/bg4.png")})`;
   return {
     width: `${stageWidth.value}px`,
     height: `${stageHeight.value}px`,
@@ -571,6 +580,23 @@ function changeZoom(value) {
   emit("zoom-change", clamp(Number(value), 0.1, 1));
 }
 
+/** 使用当前独立视口计算缩放，不能把固定60%当成适配。 */
+async function fitCanvas() {
+  const viewport = viewportRef.value;
+  if (!viewport) return;
+  const zoom = clamp(
+    Math.min(
+      (viewport.clientWidth - 100) / stageWidth.value,
+      (viewport.clientHeight - 150) / stageHeight.value,
+    ),
+    0.1,
+    1,
+  );
+  emit("zoom-change", zoom);
+  await nextTick();
+  viewport.scrollTo({ left: 0, top: 0 });
+}
+
 /** 仅未旋转或接近 90 度倍数时显示对齐参考线（旋转态下参考线没有意义）。 */
 function showHoverGuides(widget) {
   const rotation = Math.abs(Number(widget.rotation || 0) % 90);
@@ -823,7 +849,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div v-if="!preview" class="zoom-area">
-      <button title="适配画布" @click="emit('fit')">
+      <button title="适配画布" @click="fitCanvas">
         <i class="fa-solid fa-expand"></i>
       </button>
       <button title="缩小" @click="changeZoom(zoom - 0.02)">

@@ -9,7 +9,7 @@ from uuid import uuid4
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.exc import IntegrityError, OperationalError
 
@@ -20,6 +20,22 @@ from .core.files import FileService
 from .core.secrets import SecretVault
 from .core.settings import PROJECT_ROOT, Settings
 from .registry import load_modules
+
+
+def accepts_html(value: str) -> bool:
+    """区分浏览器文档与默认健康探针，尊重显式禁止HTML的q=0。"""
+    for part in value.split(','):
+        media, *parameters = [item.strip() for item in part.split(';')]
+        if media.lower() != 'text/html':
+            continue
+        quality = next((item.partition('=')[2].strip() for item in parameters
+                        if item.partition('=')[0].strip().lower() == 'q'), '1')
+        try:
+            if 0 < float(quality) <= 1:
+                return True
+        except ValueError:
+            continue
+    return False
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -104,10 +120,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                              'trace_id': trace_id}, status_code=500)
 
     @app.get('/health')
-    def health():
-        return {'status': 'ok', 'service': 'manufacturing-platform',
+    def health(request: Request):
+        # 菜单与探针沿用同一路径：浏览器刷新拿页面，默认JSON探针保持原契约。
+        document = PROJECT_ROOT / 'apps/web/dist/index.html'
+        if document.is_file() and accepts_html(request.headers.get('accept', '')):
+            return FileResponse(document, headers={'Vary': 'Accept', 'Cache-Control': 'no-cache'})
+        return JSONResponse({'status': 'ok', 'service': 'manufacturing-platform',
                 'modules': [m.key for m in app.state.modules],
-                'missing_modules': [m.key for m in app.state.missing_modules]}
+                'missing_modules': [m.key for m in app.state.missing_modules]}, headers={'Vary': 'Accept'})
 
     for _, router in loaded:
         app.include_router(router)

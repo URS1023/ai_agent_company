@@ -87,7 +87,13 @@ class ManufacturingService:
                 if query_id:
                     queries.add(query_id)
         for query_id in queries:
-            DataService(self.session, self.actor).get_query(query_id)
+            try:
+                DataService(self.session, self.actor).get_query(query_id)
+            except DomainError as exc:
+                from ..data.sql_safety import SqlFieldValidationError
+                if isinstance(exc, SqlFieldValidationError) or (exc.status == 422 and exc.fields.get("table")):
+                    raise DomainError(403, "manufacturing_evidence_access_denied", "当前账号无法访问原始业务证据") from exc
+                raise
 
     def list(self, model, *, q="", limit=50, offset=0, **filters):
         clauses = [model.workspace_id == self.actor.workspace_id, model.archived.is_(False)]
@@ -96,12 +102,35 @@ class ManufacturingService:
         for key, value in filters.items():
             if value is not None:
                 clauses.append(getattr(model, key) == value)
-        total = self.session.scalar(select(func.count()).select_from(model).where(*clauses))
-        rows = self.session.scalars(select(model).where(*clauses).order_by(model.created_at.desc()).limit(min(max(limit, 1), 200)).offset(max(offset, 0))).all()
-        for row in rows:
-            self._authorize_evidence(row)
-        items = self.inspection_views(rows) if model is m.Inspection else [view(row) for row in rows]
+        statement = select(model).where(*clauses).order_by(model.created_at.desc())
+        if model in (m.Inspection, m.Incident, m.MaintenanceAnalysis):
+            # 先按当前来源权限过滤再分页，撤权的一条历史记录不能阻断整个工作区或泄露总数。
+            visible = []
+            for row in self.session.scalars(statement):
+                try:
+                    self._authorize_evidence(row)
+                except DomainError as exc:
+                    if exc.status in (403, 404):
+                        continue
+                    raise
+                visible.append(row)
+            total = len(visible)
+            rows = visible[max(offset, 0):max(offset, 0) + min(max(limit, 1), 200)]
+        else:
+            total = self.session.scalar(select(func.count()).select_from(model).where(*clauses))
+            rows = self.session.scalars(statement.limit(min(max(limit, 1), 200)).offset(max(offset, 0))).all()
+        items = self.inspection_views(rows) if model is m.Inspection else self.maintenance_views(rows) if model in (m.Incident, m.MaintenanceAnalysis) else [view(row) for row in rows]
         return {"items": items, "total": total}
+
+    def maintenance_views(self, rows):
+        """只投影同工作区设备名称，不为显示名称开放额外模块权限。"""
+        ids = {row.device_id for row in rows}
+        devices = dict(self.session.execute(select(m.Device.id, m.Device.name).where(m.Device.id.in_(ids), m.Device.workspace_id == self.actor.workspace_id)).all()) if ids else {}
+        incidents = {row.id for row in rows if isinstance(row, m.Incident)}
+        analyses = {row.id for row in rows if isinstance(row, m.MaintenanceAnalysis)}
+        orders = self.session.scalars(select(m.MaintenanceWorkOrder).where(m.MaintenanceWorkOrder.workspace_id == self.actor.workspace_id, m.MaintenanceWorkOrder.archived.is_(False), (m.MaintenanceWorkOrder.incident_id.in_(incidents)) | (m.MaintenanceWorkOrder.analysis_id.in_(analyses)))).all() if incidents or analyses else []
+        by_source = {(order.incident_id or order.analysis_id): order.id for order in orders}
+        return [{**view(row), "device_name": devices.get(row.device_id), "work_order_id": by_source.get(row.id)} for row in rows]
 
     def inspection_views(self, rows):
         """为检验读者批量投影当前工作区名称；不开放主数据模块或泄露外工作区引用。"""
@@ -199,6 +228,11 @@ class ManufacturingService:
 
     def archive(self, model, row_id, revision):
         row = self.get(model, row_id)
+        if model is m.Inspection:
+            linked = self.session.scalar(select(m.InspectionReinspection.id).where(m.InspectionReinspection.workspace_id == self.actor.workspace_id, (m.InspectionReinspection.parent_inspection_id == row.id) | (m.InspectionReinspection.child_inspection_id == row.id)).limit(1))
+            case = self.session.scalar(select(m.QualityCase.id).where(m.QualityCase.workspace_id == self.actor.workspace_id, m.QualityCase.inspection_id == row.id).limit(1))
+            if linked or case:
+                raise DomainError(409, "inspection_history_in_use", "该任务关联复检或处置记录，需要保留追溯")
         # 主数据软删保留历史引用；执行中任务引用的设备/产品/标准需先停用任务。
         refs = {m.Device: "device_id", m.Product: "product_id", m.ProductBatch: "batch_id", m.InspectionTemplate: "template_id"}
         if model in refs:
@@ -439,8 +473,10 @@ class ManufacturingService:
     def inspection_results(self, inspection_id):
         row = self.get(m.Inspection, inspection_id)
         reviews = self.session.scalars(select(m.InspectionReview).where(m.InspectionReview.inspection_id == row.id).order_by(m.InspectionReview.created_at)).all()
+        from .workflow import people_names
+        names = people_names(self.session, self.actor, [review.created_by for review in reviews])
         return {"id": row.id, "revision": row.revision, "outcome": row.outcome, "result": row.result,
-                "standard_snapshot": row.standard_snapshot, "reviews": [view(r) for r in reviews]}
+                "standard_snapshot": row.standard_snapshot, "reviews": [{**view(review), "reviewer_name": names.get(review.created_by)} for review in reviews]}
 
     def create_analysis(self, config: AnalysisInput, settings):
         self.get(m.Device, config.device_id)
@@ -493,10 +529,15 @@ class ManufacturingService:
             raise DomainError(422, "invalid_time", "观测时间须包含时区") from exc
         value, threshold = Decimal(data["value"]), Decimal(rule.threshold)
         matched = {"gt": value > threshold, "gte": value >= threshold, "lt": value < threshold, "lte": value <= threshold}[rule.operator]
-        result = {"matched": matched, "rule_id": rule.id, "value": data["value"], "threshold": rule.threshold, "unit": rule.unit, "observed_at": observed.isoformat(), "provenance": provenance or {"type": "manual", "actor_id": self.actor.user_id}}
+        result = {"matched": matched, "rule_id": rule.id, "rule_revision": rule.revision, "operator": rule.operator, "value": data["value"], "threshold": rule.threshold, "unit": rule.unit, "observed_at": observed.isoformat(), "provenance": provenance or {"type": "manual", "actor_id": self.actor.user_id}}
         if not matched or not data.get("create_incident"):
             return result
-        previous = self.session.scalar(select(m.Incident).where(m.Incident.workspace_id == self.actor.workspace_id, m.Incident.rule_id == rule.id, m.Incident.status.in_(["open", "acknowledged"]), m.Incident.last_observed_at.between(observed - timedelta(minutes=rule.dedupe_minutes), observed + timedelta(minutes=rule.dedupe_minutes))).order_by(m.Incident.created_at.desc()).limit(1))
+        previous = self.session.scalar(select(m.Incident).where(m.Incident.workspace_id == self.actor.workspace_id, m.Incident.rule_id == rule.id, m.Incident.status.in_(["open", "acknowledged", "assigned", "in_progress", "awaiting_review"]), m.Incident.last_observed_at.between(observed - timedelta(minutes=rule.dedupe_minutes), observed + timedelta(minutes=rule.dedupe_minutes))).order_by(m.Incident.created_at.desc()).limit(1))
+        if previous:
+            first = previous.evidence.get("first", previous.evidence)
+            # 改过判定条件或历史缺少标准快照时新建预警，不能合并后再用新阈值结旧案。
+            if any(first.get(key) != result[key] for key in ("operator", "threshold", "unit")):
+                previous = None
         if previous:
             last = previous.last_observed_at.replace(tzinfo=timezone.utc) if previous.last_observed_at.tzinfo is None else previous.last_observed_at
             latest_evidence = previous.evidence.get("latest", previous.evidence)
@@ -548,7 +589,9 @@ class ManufacturingService:
 
     def incident_action(self, incident_id, data):
         incident = self.get(m.Incident, incident_id)
-        transitions = {("open", "acknowledge"): "acknowledged", ("open", "resolve"): "resolved", ("acknowledged", "resolve"): "resolved", ("resolved", "reopen"): "open"}
+        if data["action"] in ("resolve", "reopen"):
+            raise DomainError(409, "maintenance_work_order_required", "请通过维修工单记录维修并完成复核")
+        transitions = {("open", "acknowledge"): "acknowledged"}
         status = incident.status if data["action"] == "comment" else transitions.get((incident.status, data["action"]))
         if status is None:
             raise DomainError(409, "invalid_transition", "当前状态不支持该操作")

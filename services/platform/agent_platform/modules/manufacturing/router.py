@@ -3,16 +3,127 @@ from fastapi import APIRouter, Body, Depends, Query
 from fastapi.responses import Response
 from pydantic import ValidationError
 from sqlalchemy import select
+from typing import Literal
 
-from agent_platform.core.context import require_permission
+from agent_platform.core.context import get_actor, require_permission
 from agent_platform.core.database import get_session
 from agent_platform.core.errors import DomainError
 from agent_platform.core.settings import get_settings
 
 from . import models as m, schemas as s
 from .service import ManufacturingService, csv_content, view
+from .quality_lifecycle import QualityService
+from .maintenance_work import MaintenanceWorkService
+from .categories import CategoryService
+from .quality_statistics import quality_statistics
+from .workflow import assignees
+from .energy.router import router as energy_router
 
 router = APIRouter(prefix="/api/v1", tags=["制造质检与维护"])
+router.include_router(energy_router)
+
+
+@router.get("/manufacturing-assignees")
+def manufacturing_assignees(area: Literal["quality", "maintenance"] = "quality", session=Depends(get_session), actor=Depends(get_actor)):
+    actor.require("m10.read" if area == "maintenance" else "m11.read")
+    return assignees(session, actor, "m10.write" if area == "maintenance" else "m11.write")
+
+
+@router.get("/quality-statistics")
+def quality_summary(target_type: Literal["device", "product"] | None = None, start_at: str | None = None, end_at: str | None = None, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    return quality_statistics(session, actor, target_type=target_type, start_at=start_at, end_at=end_at)
+
+
+@router.get("/quality-categories")
+def quality_categories(target_type: Literal["device", "product"] | None = None, q: str = "", limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    return CategoryService(session, actor).list(m.QualityCategory, q=q, limit=limit, offset=offset, target_type=target_type)
+
+
+@router.post("/quality-categories", status_code=201)
+def create_category(data: s.CategoryInput, session=Depends(get_session), actor=Depends(require_permission("m11.write"))):
+    return CategoryService(session, actor).save(data.model_dump())
+
+
+@router.patch("/quality-categories/{id}")
+def patch_category(id: str, data: s.CategoryPatch, session=Depends(get_session), actor=Depends(require_permission("m11.write"))):
+    return CategoryService(session, actor).save(data.model_dump(), id)
+
+
+@router.delete("/quality-categories/{id}")
+def delete_category(id: str, revision: int = Query(ge=1), session=Depends(get_session), actor=Depends(require_permission("m11.delete"))):
+    return CategoryService(session, actor).remove(id, revision)
+
+
+@router.get("/quality-category-resources")
+def category_resources(resource_type: Literal["device", "product", "template"], target_type: Literal["device", "product"] | None = None, category_id: str | None = None, q: str = "", limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    return CategoryService(session, actor).resources(resource_type, target_type, category_id, q, limit, offset)
+
+
+@router.post("/quality-category-bindings", status_code=201)
+def bind_category(data: s.CategoryBindingInput, session=Depends(get_session), actor=Depends(require_permission("m11.write"))):
+    return CategoryService(session, actor).bind(data.model_dump())
+
+
+@router.delete("/quality-category-bindings/{id}")
+def unbind_category(id: str, revision: int = Query(ge=1), session=Depends(get_session), actor=Depends(require_permission("m11.write"))):
+    return CategoryService(session, actor).change(m.QualityCategoryBinding, id, {"archived": True}, revision)
+
+
+@router.post("/inspections/{id}/reinspections", status_code=201)
+def create_reinspection(id: str, data: s.ReinspectionInput, session=Depends(get_session), actor=Depends(require_permission("m11.write"))):
+    return QualityService(session, actor).create_reinspection(id, data.model_dump())
+
+
+@router.get("/inspections/{id}/lineage")
+def inspection_lineage(id: str, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    return QualityService(session, actor).lineage(id)
+
+
+@router.get("/quality-cases")
+def quality_cases(inspection_id: str | None = None, target_type: Literal["device", "product"] | None = None, status: str | None = None, limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    return QualityService(session, actor).cases(inspection_id=inspection_id, target_type=target_type, status=status, limit=limit, offset=offset)
+
+
+@router.post("/quality-cases", status_code=201)
+def create_quality_case(data: s.QualityCaseInput, session=Depends(get_session), actor=Depends(require_permission("m11.write"))):
+    return QualityService(session, actor).create_case(data.model_dump())
+
+
+@router.get("/quality-cases/{id}")
+def quality_case(id: str, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    service = QualityService(session, actor)
+    return service.case_view(service.case(id), events=True)
+
+
+@router.post("/quality-cases/{id}/actions")
+def quality_case_action(id: str, data: s.QualityCaseAction, session=Depends(get_session), actor=Depends(require_permission("m11.read"))):
+    return QualityService(session, actor).action(id, data.model_dump())
+
+
+@router.post("/incidents/{id}/work-orders", status_code=201)
+def incident_work_order(id: str, data: s.WorkOrderInput, session=Depends(get_session), actor=Depends(require_permission("m10.write"))):
+    return MaintenanceWorkService(session, actor).create_order("incident", id, data.model_dump())
+
+
+@router.post("/maintenance-analyses/{id}/work-orders", status_code=201)
+def analysis_work_order(id: str, data: s.WorkOrderInput, session=Depends(get_session), actor=Depends(require_permission("m10.write"))):
+    return MaintenanceWorkService(session, actor).create_order("analysis", id, data.model_dump())
+
+
+@router.get("/maintenance-work-orders")
+def work_orders(q: str = "", status: str | None = None, device_id: str | None = None, limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m10.read"))):
+    return MaintenanceWorkService(session, actor).orders(q=q, status=status, device_id=device_id, limit=limit, offset=offset)
+
+
+@router.get("/maintenance-work-orders/{id}")
+def work_order(id: str, session=Depends(get_session), actor=Depends(require_permission("m10.read"))):
+    service = MaintenanceWorkService(session, actor)
+    return service.order_view(service.order(id), events=True)
+
+
+@router.post("/maintenance-work-orders/{id}/actions")
+def work_order_action(id: str, data: s.WorkOrderAction, session=Depends(get_session), actor=Depends(require_permission("m10.read"))):
+    return MaintenanceWorkService(session, actor).action(id, data.model_dump())
 
 
 def _validate(schema, data):
@@ -85,7 +196,8 @@ def analyses(q: str = "", device_id: str | None = None, limit: int = 50, offset:
 
 @router.get("/maintenance-analyses/{id}")
 def analysis(id: str, session=Depends(get_session), actor=Depends(require_permission("m10.read"))):
-    return view(ManufacturingService(session, actor).get(m.MaintenanceAnalysis, id))
+    service = ManufacturingService(session, actor)
+    return service.maintenance_views([service.get(m.MaintenanceAnalysis, id)])[0]
 
 
 @router.post("/maintenance-analyses/{id}/exports")
@@ -124,7 +236,7 @@ def incident(id: str, session=Depends(get_session), actor=Depends(require_permis
     service = ManufacturingService(session, actor)
     row = service.get(m.Incident, id)
     events = session.scalars(select(m.IncidentEvent).where(m.IncidentEvent.incident_id == row.id).order_by(m.IncidentEvent.created_at)).all()
-    return {**view(row), "events": [view(e) for e in events]}
+    return {**service.maintenance_views([row])[0], "events": [view(e) for e in events]}
 
 
 @router.post("/incidents/{id}/actions")

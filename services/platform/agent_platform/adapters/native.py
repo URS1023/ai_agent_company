@@ -245,7 +245,7 @@ def native_link(engine: str, console_url: str, target: str, native_id: str | Non
     if engine == "openwebui":
         paths = {"chat": f"/c/{value}" if value else "/", "models": "/workspace/models", "knowledge": "/workspace/knowledge", "tools": "/workspace/tools", "admin": "/admin"}
     else:
-        paths = {"apps": "/apps", "workflow": f"/app/{value}/workflow" if value else "/apps", "agent": f"/app/{value}/configuration" if value else "/apps", "agent_v2": f"/agents/{value}" if value else "/agents", "knowledge": f"/datasets/{value}/documents" if value else "/datasets", "plugins": "/plugins"}
+        paths = {"apps": "/apps", "workflow": f"/app/{value}/workflow" if value else "/apps", "agent": f"/app/{value}/configuration" if value else "/apps", "agent_v2": f"/agents/{value}" if value else "/agents", "knowledge": f"/datasets/{value}/documents" if value else "/datasets", "plugins": "/plugins", "models": "/apps?settings=provider"}
     if target not in paths:
         raise DomainError(422, "invalid_native_target", "该原生页面入口不存在")
     return base + paths[target]

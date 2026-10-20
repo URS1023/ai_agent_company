@@ -7,9 +7,11 @@ from sqlalchemy.orm import Session
 from ...core.context import Actor, get_actor, require_permission
 from ...core.database import Base, get_session
 from ...core.errors import DomainError
-from ...core.models import AuditEvent, Notification, ResourceRecord, Task, TaskEvent, now_iso
+from ...core.models import Notification, ResourceRecord, Task, TaskEvent, now_iso
 from ...core.records import RecordStore
 from ...core.tasks import TASK_PERMISSIONS, TaskService, task_dict
+from .quality_overview import first_inspection_trend
+from .activity import recent_activities
 
 router = APIRouter(prefix='/api/v1', tags=['工作台与任务'])
 
@@ -35,10 +37,11 @@ def tasks(q: str = '', status: str = '', kind: str = '', limit: int = 50, offset
         conditions.append(Task.kind == kind)
     if q:
         conditions.append(Task.title.contains(q, autoescape=True))
-    total = session.scalar(select(func.count()).select_from(Task).where(*conditions)) or 0
-    rows = session.scalars(select(Task).where(*conditions).order_by(Task.created_at.desc())
-                            .limit(min(max(limit, 1), 200)).offset(max(offset, 0)))
-    return {'items': [task_dict(r) for r in rows], 'total': total}
+    rows = session.scalars(select(Task).where(*conditions).order_by(Task.created_at.desc(), Task.id)
+                           .execution_options(yield_per=100))
+    visible = list(TaskService(session, actor).visible(rows))
+    begin, size = max(offset, 0), min(max(limit, 1), 200)
+    return {'items': [task_dict(r) for r in visible[begin:begin + size]], 'total': len(visible)}
 
 
 @router.get('/tasks/{id}')
@@ -111,7 +114,7 @@ def notifications(actor: Actor = Depends(require_permission('m01.read')), sessio
             try:
                 TaskService(session, actor).get(row.resource_id)
             except DomainError as exc:
-                if exc.status == 404:
+                if exc.status in {403, 404}:
                     continue
                 raise
         visible.append(row)
@@ -163,42 +166,27 @@ def scoped_count(session, name, actor, permission, *extra):
 
 @router.get('/workbench')
 def workbench(actor: Actor = Depends(require_permission('m01.read')), session: Session = Depends(get_session)):
+    pending_tasks = [*task_scope(actor), Task.status.not_in(['succeeded', 'failed', 'cancelled'])]
+    pending = list(TaskService(session, actor).visible(session.scalars(
+        select(Task).where(*pending_tasks).order_by(Task.created_at.desc(), Task.id)
+        .execution_options(yield_per=100))))
     counts = {
         'devices': scoped_count(session, 'manufacturing_devices', actor, 'm10.read'),
         'inspections': scoped_count(session, 'manufacturing_inspections', actor, 'm11.read'),
         'incidents': scoped_count(session, 'manufacturing_incidents', actor, 'm10.read'),
         'pending_reviews': 0,
-        'tasks': session.scalar(select(func.count()).select_from(Task).where(*task_scope(actor))) or 0,
+        'tasks': len(pending),
         'artifacts': RecordStore(session, actor).list('artifact', limit=1)['total'] if actor.can('m17.read') else 0,
     }
     table = Base.metadata.tables.get('manufacturing_inspections')
     if table is not None and actor.can('m11.read'):
         counts['pending_reviews'] = session.scalar(select(func.count()).select_from(table).where(
             table.c.workspace_id == actor.workspace_id, table.c.status.in_(['pending_review', 'awaiting_review', 'waiting_review']))) or 0
-    recent = session.scalars(select(Task).where(*task_scope(actor)).order_by(Task.created_at.desc()).limit(8))
-    quality_trend = []
-    if table is not None and actor.can('m11.read'):
-        grouped = session.execute(select(func.date(table.c.created_at), table.c.outcome, func.count())
-            .where(table.c.workspace_id == actor.workspace_id, table.c.archived.is_(False))
-            .group_by(func.date(table.c.created_at), table.c.outcome).order_by(func.date(table.c.created_at).desc()).limit(90)).all()
-        by_day = {}
-        for day, outcome, count in grouped:
-            item = by_day.setdefault(str(day), {'date': str(day), 'total': 0, 'passed': 0, 'failed': 0, 'pending': 0})
-            item['total'] += count
-            item[outcome if outcome in {'passed', 'failed'} else 'pending'] += count
-        for item in by_day.values():
-            completed = item['passed'] + item['failed']
-            item['pass_rate'] = 100 * item['passed'] / completed if completed else None
-        quality_trend = sorted(by_day.values(), key=lambda r: r['date'])[-30:]
-    audit_rules = [AuditEvent.workspace_id == actor.workspace_id]
-    if not actor.is_admin:
-        audit_rules.append(AuditEvent.user_id == actor.user_id)
-    activities = [{'id': r.id, 'action': r.action, 'resource_type': r.resource_type, 'resource_id': r.resource_id,
-                   'created_at': r.created_at} for r in session.scalars(select(AuditEvent).where(*audit_rules)
-                   .order_by(AuditEvent.created_at.desc()).limit(8))]
-    return {'counts': counts, 'tasks': [task_dict(r) for r in recent],
+    trend = first_inspection_trend(session, actor)
+    activities = recent_activities(session, actor)
+    return {'counts': counts, 'tasks': [task_dict(r) for r in pending[:8]],
             'recent_artifacts': RecordStore(session, actor).list('artifact', limit=6)['items'] if actor.can('m17.read') else [],
-            'quality_trend': quality_trend, 'activities': activities,
+            'quality_trend': trend['items'], 'quality_trend_status': trend['status'], 'activities': activities,
             'applications': RecordStore(session, actor).list('application', limit=8)['items'] if actor.can('m13.read') else []}
 
 

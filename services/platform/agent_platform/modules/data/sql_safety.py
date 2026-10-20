@@ -29,6 +29,7 @@ import sqlglot
 from sqlglot import Dialect, exp
 from sqlglot.errors import OptimizeError, ParseError, TokenError, UnsupportedError
 from sqlglot.optimizer.qualify import qualify
+from sqlglot.optimizer.scope import traverse_scope
 
 from agent_platform.core.errors import DomainError
 
@@ -110,6 +111,20 @@ class SafeQuery:
     max_rows: int
     dialect: str
     tables: tuple[str, ...]
+    access_scope: dict | None = None
+
+
+def physical_tables(tree):
+    """按词法作用域识别真实表；同名CTE只遮蔽其所属作用域，不替其他表授权。"""
+    result = {}
+    try:
+        for scope in traverse_scope(tree):
+            for _, source in scope.selected_sources.values():
+                if isinstance(source, exp.Table):
+                    result[id(source)] = source
+    except OptimizeError as exc:
+        raise SqlFieldValidationError("SQL 的表或别名作用域无效") from exc
+    return list(result.values())
 
 
 def _schema(tables: list[dict]) -> dict:
@@ -192,10 +207,9 @@ def authorize_sql(sql: str, *, provider: str, tables: list[dict], max_rows: int,
     parameters = parameters or {}
     tree = parse_read_query(sql, provider)
     dialect = DIALECTS[provider]
-    cte_names = {cte.alias_or_name.lower() for cte in tree.find_all(exp.CTE)}
     available = {table["tableName"].lower(): table["tableName"] for table in tables if table.get("columns")}
     used_tables = set()
-    for table in tree.find_all(exp.Table):
+    for table in physical_tables(tree):
         # 非标识符的表来源（表函数、文件、外部地址、子查询别名式动态 SQL）没有可
         # 校验的授权对象，直接拒绝而不是尝试解释。
         if not isinstance(table.this, exp.Identifier):
@@ -205,8 +219,6 @@ def authorize_sql(sql: str, *, provider: str, tables: list[dict], max_rows: int,
             # 跨库/跨 schema 会绕过表授权清单，因此只允许当前库（SQLite 只允许 main）。
             raise ValidationError("不允许跨数据库或访问其他 schema")
         table.set("db", None)
-        if name.lower() in cte_names:
-            continue
         if name.lower() not in available or name.lower().startswith(("sqlite_", "pg_", "information_schema")):
             # 系统表前缀即使出现在授权快照中也不放行，避免元数据配置失误导致越权读取。
             raise ValidationError("SQL 引用了不存在或未授权的表", table=name)
@@ -253,6 +265,10 @@ def authorize_sql(sql: str, *, provider: str, tables: list[dict], max_rows: int,
                        expand_stars=True, quote_identifiers=True, identify=True)
     except (OptimizeError, ParseError, UnsupportedError) as exc:
         raise SqlFieldValidationError("SQL 的字段、别名或关联关系无效，或引用了未授权字段") from exc
+    if provider in ("postgres", "mysql") and database:
+        # 字段限定化使用平面授权schema；完成后恢复服务端核定的命名空间，避免依赖默认搜索路径。
+        for table in physical_tables(tree):
+            table.set("db", exp.to_identifier(database, quoted=True))
     request_limit = max(1, min(10000, max_rows))
     existing = tree.args.get("limit")
     # 多取一行用于探测截断：执行层据此区分“恰好等于上限”和“还有更多行”。

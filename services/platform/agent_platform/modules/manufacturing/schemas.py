@@ -259,3 +259,67 @@ class SimulationInput(Input):
 
 class SimulationAdvance(RevisionInput):
     steps: int = Field(default=10, ge=1, le=10)
+
+
+class CategoryInput(Input):
+    name: str = Field(min_length=1, max_length=160)
+    code: str = Field(default="", max_length=80)
+    target_type: Literal["device", "product"]
+    parent_id: str | None = None
+    description: str = Field(default="", max_length=2000)
+    status: Literal["active", "inactive"] = "active"
+
+
+class CategoryPatch(CategoryInput):
+    revision: int = Field(ge=1)
+
+
+class CategoryBindingInput(Input):
+    category_id: str
+    resource_type: Literal["device", "product", "template"]
+    resource_id: str
+    revision: int | None = Field(default=None, ge=1)
+
+
+class ReinspectionInput(RevisionInput):
+    run_id: str
+    name: str = Field(min_length=1, max_length=160)
+    reason: str = Field(min_length=5, max_length=3000)
+    sample_ids: list[str] | None = Field(default=None, min_length=1, max_length=10000)
+    case_id: str | None = None
+
+
+class QualityCaseInput(RevisionInput):
+    inspection_id: str
+    run_id: str
+    name: str = Field(min_length=1, max_length=160)
+    note: str = Field(min_length=5, max_length=3000)
+
+
+class QualityCaseAction(RevisionInput):
+    action: Literal["contain", "assign", "start", "submit", "submit_reinspection", "verify", "reject", "reopen", "comment"]
+    note: str = Field(min_length=5, max_length=3000)
+    assignee_id: str | None = None
+    due_at: str | None = None
+    disposition: Literal["hold", "rework", "repair", "scrap", "return", "concession"] | None = None
+    root_cause: str | None = Field(default=None, min_length=3, max_length=3000)
+    corrective_action: str | None = Field(default=None, min_length=5, max_length=3000)
+
+
+class WorkOrderInput(RevisionInput):
+    name: str = Field(min_length=1, max_length=160)
+    note: str = Field(min_length=5, max_length=3000)
+
+
+class WorkOrderAction(RevisionInput):
+    action: Literal["assign", "start", "repair", "verify", "reject", "reopen", "comment"]
+    note: str = Field(min_length=5, max_length=3000)
+    assignee_id: str | None = None
+    due_at: str | None = None
+    root_cause: str | None = Field(default=None, min_length=3, max_length=3000)
+    evidence_query_id: str | None = None
+    verification_analysis_id: str | None = None
+    verification_query_id: str | None = None
+    value_field: str | None = None
+    time_field: str | None = None
+    unit_field: str | None = None

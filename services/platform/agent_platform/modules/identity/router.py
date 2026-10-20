@@ -198,7 +198,8 @@ def role_dict(row: Role):
 
 @router.get('/roles')
 def roles(actor: Actor = Depends(require_permission('m14.read')), session: Session = Depends(get_session)):
-    rows = list(session.scalars(select(Role).where(Role.workspace_id == actor.workspace_id)))
+    service_roles = select(ServiceIdentity.role_id).where(ServiceIdentity.workspace_id == actor.workspace_id)
+    rows = list(session.scalars(select(Role).where(Role.workspace_id == actor.workspace_id, Role.id.not_in(service_roles))))
     return {'items': [role_dict(r) for r in rows], 'total': len(rows)}
 
 
@@ -225,6 +226,8 @@ def patch_role(id: str, body: dto.RolePatch, actor: Actor = Depends(require_perm
     row = session.scalar(select(Role).where(Role.id == id, Role.workspace_id == actor.workspace_id))
     if row is None:
         raise DomainError(404, 'role_not_found', '角色不存在')
+    if session.scalar(select(ServiceIdentity.id).where(ServiceIdentity.role_id == id)):
+        raise DomainError(409, 'service_role_managed', '请在服务身份中修改权限')
     if row.revision != body.get('revision'):
         raise DomainError(409, 'revision_conflict', '角色已更新，请刷新后重试')
     validate_delegation(actor, row.permissions)
@@ -248,12 +251,16 @@ def member_dict(row: Membership, user: User):
 
 @router.get('/members')
 def members(actor: Actor = Depends(require_permission('m14.read')), session: Session = Depends(get_session)):
+    service_users = select(ServiceIdentity.user_id)
     rows = session.execute(select(Membership, User).join(User, User.id == Membership.user_id)
-                            .where(Membership.workspace_id == actor.workspace_id)).all()
+                            .where(Membership.workspace_id == actor.workspace_id, User.id.not_in(service_users))).all()
     return {'items': [member_dict(m, u) for m, u in rows], 'total': len(rows)}
 
 
 def validate_roles(session: Session, actor: Actor, ids: list):
+    # 服务角色由专用身份接口维护，不能授予人类成员或从通用角色入口改写。
+    if session.scalar(select(ServiceIdentity.id).where(ServiceIdentity.role_id.in_(ids))):
+        raise DomainError(422, 'service_role_not_assignable', '请选择成员角色')
     roles = list(session.scalars(select(Role).where(Role.workspace_id == actor.workspace_id, Role.id.in_(ids))))
     if {row.id for row in roles} != set(ids):
         raise DomainError(422, 'invalid_role_scope', '所选角色不属于当前工作区')
@@ -279,6 +286,8 @@ def create_member(body: dto.MemberCreate, actor: Actor = Depends(require_permiss
         session.flush()
     if user.organization_id != actor.organization_id:
         raise DomainError(403, 'member_organization_denied', '无法添加该账号')
+    if session.scalar(select(ServiceIdentity.id).where(ServiceIdentity.user_id == user.id)):
+        raise DomainError(409, 'service_member_managed', '请在服务身份中管理该账号')
     if session.scalar(select(Membership.id).where(Membership.workspace_id == actor.workspace_id, Membership.user_id == user.id)):
         raise DomainError(409, 'member_exists', '该账号已是当前工作区成员')
     if body.get('department_id'):
@@ -298,6 +307,8 @@ def patch_member(id: str, body: dto.MemberPatch, actor: Actor = Depends(require_
     row = session.scalar(select(Membership).where(Membership.id == id, Membership.workspace_id == actor.workspace_id))
     if row is None:
         raise DomainError(404, 'member_not_found', '成员不存在')
+    if session.scalar(select(ServiceIdentity.id).where(ServiceIdentity.user_id == row.user_id)):
+        raise DomainError(409, 'service_member_managed', '请在服务身份中管理该账号')
     if row.revision != body.get('revision'):
         raise DomainError(409, 'revision_conflict', '成员已更新，请刷新后重试')
     if row.user_id == actor.user_id and body.get('disabled'):
@@ -396,7 +407,9 @@ def delete_grant(id: str, actor: Actor = Depends(require_permission('m14.admin')
 from .credentials import router as credentials_router
 from .access import router as access_router
 from .service_accounts import router as service_accounts_router
+from .client_certificate_router import router as client_certificate_router
 
 router.include_router(credentials_router)
 router.include_router(access_router)
 router.include_router(service_accounts_router)
+router.include_router(client_certificate_router)

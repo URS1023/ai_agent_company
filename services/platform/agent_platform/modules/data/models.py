@@ -2,7 +2,7 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from sqlalchemy import DateTime, ForeignKey, Integer, JSON, String, Text
+from sqlalchemy import DateTime, ForeignKey, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from agent_platform.core.database import Base
@@ -65,3 +65,27 @@ class ProcessingJob(Entity, Base):
     operations: Mapped[list] = mapped_column(JSON)
     result: Mapped[dict] = mapped_column(JSON)
     status: Mapped[str] = mapped_column(String(30))
+
+
+class RowPolicy(Entity, Base):
+    """每张源表一个显式策略集；删除规则不等于撤销行限制。"""
+    __tablename__ = "data_row_policies"
+    datasource_id: Mapped[str] = mapped_column(ForeignKey("data_sources.id"), index=True)
+    table_name: Mapped[str] = mapped_column(String(160))
+    mode: Mapped[str] = mapped_column(String(16), default="all")
+    rules: Mapped[list] = mapped_column(JSON, default=list)
+    __table_args__ = (UniqueConstraint("workspace_id", "datasource_id", "table_name", name="uq_data_row_policy_table"),)
+
+
+class QueryAccessSnapshot(Base):
+    """查询结果的不可变授权证据；主体仅审计，协作访问比较有效行列范围。"""
+    __tablename__ = "data_query_access_snapshots"
+    query_id: Mapped[str] = mapped_column(ForeignKey("data_queries.id"), primary_key=True)
+    workspace_id: Mapped[str] = mapped_column(String(36), index=True)
+    subject_user_id: Mapped[str] = mapped_column(String(36))
+    used_tables: Mapped[list] = mapped_column(JSON)
+    field_scope: Mapped[dict] = mapped_column(JSON)
+    row_scope: Mapped[dict] = mapped_column(JSON)
+    policy_versions: Mapped[dict] = mapped_column(JSON)
+    scope_hash: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)

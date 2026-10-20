@@ -8,7 +8,15 @@ import MaterialWidget from "./MaterialWidget.vue";
 import JimuBusinessWidget from "./JimuBusinessWidget.vue";
 import { isBusinessWidgetType } from "./businessWidgetTypes";
 import { safeAssetUrl } from "../../../utils/safeContent";
-const props = defineProps<{ widget: Record<string, any>; preview?: boolean }>();
+import DataPresentationWidget from "./DataPresentationWidget.vue";
+import { presentationTypes, specialChartTypes } from "../presentation";
+import SourcePresentationWidget from "../source/SourcePresentationWidget.vue";
+import { sourcePresentationTypes } from "../sourcePresentation";
+const props = defineProps<{
+  widget: Record<string, any>;
+  preview?: boolean;
+  interactive?: boolean;
+}>();
 const emit = defineEmits<{
   "data-click": [point: any];
   drilldown: [point: any];
@@ -71,17 +79,40 @@ const textStyle = computed(() => ({
   textAlign: props.widget.config?.option?.body?.textAlign ?? "center",
 }));
 const fields = computed(() => Object.keys(first.value));
+// Canvas沿用interactive，列表缩略图沿用preview，两种入口都传递真实预览态。
+const sourceInteractive = computed(
+  () => !!(props.preview || props.interactive),
+);
 const value = computed(() => {
   const field =
     props.widget.binding?.value_field ??
     Object.keys(first.value).find((k) => typeof first.value[k] === "number");
   return field ? first.value[field] : "—";
 });
+function sourceClick(row: Record<string, any>) {
+  emit("data-click", row);
+  if (sourceInteractive.value) emit("drilldown", row);
+}
 </script>
 <template>
-  <MaterialWidget
-    v-if="['JDragBorder', 'JDragDecoration'].includes(canonical)"
+  <SourcePresentationWidget
+    v-if="sourcePresentationTypes.includes(canonical)"
     :widget="chartWidget"
+    :preview="sourceInteractive"
+    @data-click="sourceClick"
+  />
+  <MaterialWidget
+    v-else-if="['JDragBorder', 'JDragDecoration'].includes(canonical)"
+    :widget="chartWidget"
+  />
+  <DataPresentationWidget
+    v-else-if="
+      presentationTypes.includes(canonical) &&
+      !specialChartTypes.includes(canonical)
+    "
+    :widget="chartWidget"
+    :preview="preview"
+    @data-click="emit('data-click', $event)"
   />
   <JimuBusinessWidget
     v-else-if="isBusinessWidgetType(canonical)"

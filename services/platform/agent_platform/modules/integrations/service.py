@@ -38,6 +38,16 @@ WORKSPACE_MAP = "external_workspace"
 PROFILE = "model_profile"
 TOOL = "tool_connection"
 TERMINAL = {"succeeded", "failed", "cancelled"}
+LAUNCH_PERMISSIONS = {
+    "workflow": "m04.read", "agent": "m03.read", "agent_v2": "m03.read",
+    "knowledge": "m08.read", "plugins": "m12.admin", "models": "m15.read",
+    "tools": "m12.read", "admin": "m14.admin", "apps": "m13.read",
+    "chat": "m02.read", "model_chat": "m02.read",
+}
+ENGINE_TARGETS = {
+    "openwebui": {"chat", "model_chat", "models", "knowledge", "tools", "admin"},
+    "dify": {"apps", "workflow", "agent", "agent_v2", "knowledge", "plugins", "models"},
+}
 
 
 def _hash(value: Any) -> str:
@@ -189,7 +199,24 @@ class IntegrationService:
         # Dify Service API 的 end-user 本就是应用内 opaque ID，不是 Console 账号。
         return "platform-" + hashlib.sha256(f"{self.actor.workspace_id}:{self.actor.user_id}".encode()).hexdigest(), None
 
+    def native_entries(self, target: str) -> dict[str, Any]:
+        """提供按使用权限过滤的入口，不要求员工拥有连接管理权或暴露凭据引用。"""
+        permission = LAUNCH_PERMISSIONS.get(target)
+        if permission is None:
+            raise DomainError(422, "invalid_native_target", "该原生页面入口不存在")
+        self.actor.require(permission)
+        items = [
+            {"id": row["id"], "name": row["name"], "engine": row["engine"], "enabled": True}
+            for row in self.list_all(INTEGRATION)
+            if row.get("enabled", True) and target in ENGINE_TARGETS.get(row.get("engine"), set())
+        ]
+        return {"items": items, "total": len(items)}
+
     def launch(self, integration_id: str, target: str, native_id: str | None) -> dict[str, Any]:
+        permission = LAUNCH_PERMISSIONS.get(target)
+        if permission is None:
+            raise DomainError(422, "invalid_native_target", "该原生页面入口不存在")
+        self.actor.require(permission)
         integration = self.integration(integration_id)
         url = native_link(integration["engine"], integration["console_url"], target, native_id, allow_remote=self.settings.allow_remote_connections)
         return {"url": url, "requires_native_login": True, "engine": integration["engine"], "integration_id": integration_id}

@@ -18,8 +18,10 @@ from ...core.errors import DomainError
 from ...core.models import AuditEvent, ResourceRecord, Task, new_id
 from ...core.records import RecordStore
 from ...core.settings import get_settings
+from .support_router import router as support_router
 
 router = APIRouter(prefix='/api/v1', tags=['运行与运营'])
+router.include_router(support_router)
 
 
 @router.post('/engine-callbacks/{engine}')

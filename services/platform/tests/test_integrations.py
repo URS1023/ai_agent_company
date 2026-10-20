@@ -404,3 +404,54 @@ def test_owui_model_deep_link_handles_provider_slashes(environment):
     with pytest.raises(DomainError) as native:
         service.invoke(BINDING, binding["id"], InvocationInput(query="问题", idempotency_key="model-chat-one"))
     assert native.value.fields["launch_url"] == "http://127.0.0.1:13000/?model=provider%2Fmodel-one"
+
+
+def test_native_entries_use_application_permission_without_exposing_config(environment):
+    """普通员工可使用获授权的应用，但不能读取连接配置或跨原生能力入口。"""
+    service, _ = environment
+    visible = service.create(INTEGRATION, {"name": "聊天", "engine": "openwebui", "base_url": "http://127.0.0.1:13000", "console_url": "http://127.0.0.1:13000", "credential_ref": "app-ref", "enabled": True})
+    service.create(INTEGRATION, {"name": "已停用", "engine": "openwebui", "base_url": "http://127.0.0.1:13002", "console_url": "http://127.0.0.1:13002", "credential_ref": "app-ref", "enabled": False})
+    connection_and_binding(service)
+    employee = Actor("employee-one", "ws-one", frozenset({"m02.read"}))
+    employee_service = IntegrationService(service.session, employee, service.request)
+    entries = employee_service.native_entries("chat")
+    assert entries == {"items": [{"id": visible["id"], "name": "聊天", "engine": "openwebui", "enabled": True}], "total": 1}
+    assert employee_service.launch(visible["id"], "chat", None)["url"] == "http://127.0.0.1:13000/"
+    with pytest.raises(DomainError) as denied:
+        employee_service.launch(visible["id"], "admin", None)
+    assert denied.value.status == 403
+    with pytest.raises(DomainError) as invalid:
+        employee_service.native_entries("unknown")
+    assert invalid.value.status == 422
+
+
+def test_native_entries_obey_private_resource_and_workspace_scope(environment):
+    """入口目录复用资源授权，隐藏私人连接和其他工厂的配置。"""
+    service, _ = environment
+    integration = service.create(INTEGRATION, {"name": "私人聊天", "engine": "openwebui", "base_url": "http://127.0.0.1:13000", "console_url": "http://127.0.0.1:13000", "credential_ref": "app-ref", "enabled": True})
+    row = service.store._get(INTEGRATION, integration["id"])
+    row.visibility = "private"
+    service.session.flush()
+    for actor in (
+        Actor("employee-one", "ws-one", frozenset({"m02.read"})),
+        Actor("user-one", "ws-other", frozenset({"m02.read"})),
+    ):
+        restricted = IntegrationService(service.session, actor, service.request)
+        assert restricted.native_entries("chat") == {"items": [], "total": 0}
+        with pytest.raises(DomainError) as missing:
+            restricted.launch(integration["id"], "chat", None)
+        assert missing.value.status == 404
+
+
+def test_dify_model_configuration_uses_native_provider_settings_and_permission(environment):
+    service, _ = environment
+    row = service.create(INTEGRATION, {"name": "Dify", "engine": "dify",
+        "base_url": "http://127.0.0.1:13001/v1", "console_url": "http://127.0.0.1:13001",
+        "credential_ref": "app-ref", "enabled": True})
+    reader = IntegrationService(service.session, Actor("employee", "ws-one", frozenset({"m15.read"})), service.request)
+    assert reader.native_entries("models")["items"][0]["id"] == row["id"]
+    assert reader.launch(row["id"], "models", None)["url"] == "http://127.0.0.1:13001/apps?settings=provider"
+    denied = IntegrationService(service.session, Actor("employee", "ws-one", frozenset({"m02.read"})), service.request)
+    with pytest.raises(DomainError) as unavailable:
+        denied.launch(row["id"], "models", None)
+    assert unavailable.value.status == 403

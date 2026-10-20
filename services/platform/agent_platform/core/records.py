@@ -14,11 +14,14 @@ PROTECTED = {'id', 'workspace_id', 'revision', 'created_at', 'updated_at', 'owne
 SECRET_KEYS = {'password', 'password_hash', 'token', 'api_key', 'authorization', 'secret', 'encrypted_value', 'value'}
 
 
-def sanitized(value: Any) -> Any:
+def sanitized(value: Any, *, preserve_business_value: bool = False) -> Any:
+    """审计默认隐藏通用value；任务结果可保留业务值，显式凭据键仍隐藏。"""
     if isinstance(value, dict):
-        return {k: ('[已隐藏]' if k.lower() in SECRET_KEYS else sanitized(v)) for k, v in value.items()}
+        hidden = SECRET_KEYS - {'value'} if preserve_business_value else SECRET_KEYS
+        return {k: ('[已隐藏]' if k.lower() in hidden else
+                    sanitized(v, preserve_business_value=preserve_business_value)) for k, v in value.items()}
     if isinstance(value, list):
-        return [sanitized(v) for v in value]
+        return [sanitized(v, preserve_business_value=preserve_business_value) for v in value]
     return value
 
 

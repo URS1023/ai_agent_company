@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { useSession } from "../../stores/session";
 import { api, type Entity, type ListResult } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import StatusTag from "../../components/common/StatusTag.vue";
 import ObservationForm from "./ObservationForm.vue";
 import InspectionReportAction from "./InspectionReportAction.vue";
+import ReinspectionPanel from "./ReinspectionPanel.vue";
+import QualityCasePanel from "./QualityCasePanel.vue";
 const session = useSession();
 const props = defineProps<{ inspectionId: string }>();
-const emit = defineEmits<{ updated: []; back: [] }>();
+const emit = defineEmits<{ updated: []; back: []; navigate: [id: string] }>();
 const op = useOperation();
 const detail = ref<Entity | null>(null);
 const samples = ref<Entity[]>([]);
@@ -129,7 +131,7 @@ async function mutate(
   payload: Record<string, unknown>,
   success: string,
 ) {
-  await op.run(async () => {
+  const saved = await op.run(async () => {
     await api.post(`/inspections/${props.inspectionId}/${path}`, {
       ...payload,
       ...(path === "samples" ? {} : { revision: detail.value?.revision }),
@@ -139,8 +141,9 @@ async function mutate(
     reviewDialog.value = false;
     importDialog.value = false;
     emit("updated");
+    return true;
   }, success);
-  await load();
+  if (saved) await load();
 }
 async function createSample() {
   await mutate("samples", { external_ref: externalRef.value }, "样本已添加");
@@ -175,7 +178,7 @@ async function importData() {
     "数据已导入",
   );
 }
-onMounted(load);
+watch(() => props.inspectionId, load, { immediate: true });
 </script>
 <template>
   <div class="page-stack" v-loading="op.busy.value">
@@ -188,15 +191,19 @@ onMounted(load);
       <div class="row-actions">
         <InspectionReportAction v-if="detail" :inspection="detail" />
         <template v-if="session.can('m11.write')">
-          <el-button v-if="session.can('m06.read')" @click="openImport"
+          <el-button
+            v-if="session.can('m06.read') && detail?.status !== 'reviewed'"
+            @click="openImport"
             >从查询导入</el-button
           ><el-button
+            v-if="detail?.status !== 'reviewed'"
             @click="
               sampleDialog = true;
               externalRef = '';
             "
             >添加样本</el-button
           ><el-button
+            v-if="detail?.status !== 'reviewed'"
             @click="observationDialog = true"
             :disabled="!samples.length"
             >补录观测</el-button
@@ -329,7 +336,26 @@ onMounted(load);
               min-width="200"
               show-overflow-tooltip
           /></el-table> </el-tab-pane
-      ></el-tabs>
+        ><el-tab-pane label="复检记录"
+          ><ReinspectionPanel
+            v-if="detail"
+            :inspection="detail"
+            @changed="
+              load();
+              emit('updated');
+            "
+            @open-inspection="emit('navigate', $event)" /></el-tab-pane
+        ><el-tab-pane label="异常处置"
+          ><QualityCasePanel
+            v-if="detail"
+            :inspection="detail"
+            @changed="
+              load();
+              emit('updated');
+            "
+            @open-inspection="emit('navigate', $event)"
+        /></el-tab-pane>
+      </el-tabs>
     </section>
     <el-dialog v-model="sampleDialog" title="添加样本" width="520px"
       ><el-form label-position="top" @submit.prevent="createSample"

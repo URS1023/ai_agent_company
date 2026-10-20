@@ -217,3 +217,95 @@
 | 项目文档/README.md | 四份文档总入口、当前部署与六批交付摘要 | agent-1020-root（已交接后维护） | 在用 | 不可删除 | 链接03及125项验收；设计范围保留 | 2026-10-20/T-root15 |
 | 项目文档/03_开发计划与验收.md | A—F交付、17模块缺口、8项近期任务、三业务链及企业验收 | agent-1020-root（已交接后维护） | 在用 | 不可删除 | 与现有源码/本机证据核对，旧估算明确历史口径 | 2026-10-20/T-root15 |
 | 项目文档/contracts/实施验收.csv | 125项真实状态与主要后续批次；引用范围基线稳定ID | agent-1020-root | 在用 | 不可删除 | 全部ID与基线一致，人工证据表不由build_docs覆盖 | 2026-10-20/T-root15 |
+
+## R34本轮制造业务、报表与WSL增量索引（agent-1020-root，2026-10-21）
+| 项目相对路径 | 用途/关键引用与依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 核查日期/任务 |
+|---|---|---|---|---|---|---|
+| services/platform/agent_platform/modules/manufacturing/quality_lifecycle.py、quality_statistics.py、categories.py、workflow.py | 复检/不合格品整改与独立复核、首检复检分母、分类绑定、状态流转；由制造router调用 | agent-1020-domain | 在用 | 不可删除 | 新表模型与实际API/UI闭环依赖；原运行不可覆盖 | 2026-10-21/T-domain12,13 |
+| services/platform/agent_platform/modules/manufacturing/maintenance_work.py | 预警/分析派工、维修、新证据独立复核；依赖制造模型、数据权限、Task | agent-1020-domain | 在用 | 不可删除 | 业务校验测试与真实待复核UI已过，完整UI维修闭环仍待验 | 2026-10-21/T-domain12,13 |
+| services/platform/agent_platform/modules/manufacturing/energy/ | 冻结输入与来源的能耗分析、产量加权同工况比较、历史基准节能空间；DataService/Task | agent-1020-domain | 在用 | 不可删除 | 当前T-domain14实现/测试中，不宣称企业节能效果 | 2026-10-21/T-domain14 |
+| apps/web/src/modules/manufacturing/QualityCategoryWorkspace.vue、QualityCasePanel.vue、ReinspectionPanel.vue、QualityStatistics.vue | 分类、整改、复检表单与结果统计；接制造真实API，既有InspectionWorkspace/Detail调用 | agent-1020-domain | 在用 | 不可删除 | 本轮浏览器实际整改→复检→第二人关闭通过，首检50%/复检100%分开显示 | 2026-10-21/T-domain12,13 |
+| apps/web/src/modules/manufacturing/MaintenanceWorkOrderWorkspace.vue、MaintenanceWorkOrderDetail.vue、WorkOrderCreateForm.vue、WorkflowActionForm.vue、WorkflowStatus.vue | 维修列表/详情/派工与共用动作状态；维护/预警入口调用 | agent-1020-domain | 在用 | 不可删除 | 真实待复核工单UI通过；仍需完整维修效果UI验证 | 2026-10-21/T-domain12,13 |
+| services/platform/migrations/versions/20261021_02_制造业务复检与维修闭环.py | 新增7张制造闭环表，承接20261020_01；无旧业务列更新 | agent-1020-root | 在用 | 不可删除 | 版本化生产升级链及保留旧设备/幂等验证依赖 | 2026-10-21/T-root16 |
+| services/platform/migrations/versions/20261021_03_设备能耗分析.py | 新增能源分析快照表，承接02 | agent-1020-root | 在用 | 不可删除 | 5项迁移验证通过4.00秒；不能删除已发布版本链节点 | 2026-10-21/T-root17 |
+| services/platform/migrations/versions/20261021_04_系统辅助配置.py | 新增系统辅助配置与修订表，承接03 | agent-1020-root | 在用 | 不可删除 | 按web13冻结模型生成，等待其注册后运行迁移验证 | 2026-10-21/T-root19 |
+| services/platform/agent_platform/modules/workspace/quality_overview.py | 工作台最近30个上海自然日首检统计、来源权限/计划样本分母 | agent-1020-root | 在用 | 不可删除 | workspace/router引用；4项边界测试，终态Task不再算待办 | 2026-10-21/T-root16 |
+| services/platform/agent_platform/modules/integrations/business_tools.py | 按模块权限导出15个既有业务读取API的OpenAPI，不自动取企业库 | agent-1020-root | 在用 | 不可删除 | integrations/router引用，2契约测试；真实原生导入待联调 | 2026-10-21/T-root16 |
+| apps/web/src/modules/native/NativeWorkspace.vue、services/platform/agent_platform/modules/integrations/service.py | 普通员工按目标权限进入原生引擎，管理连接与日常入口权限拆开 | agent-1020-root | 在用 | 不可删除 | 33项局部回归通过；不向普通入口返回密钥配置 | 2026-10-21/T-root16 |
+| apps/web/src/modules/admin/ServiceIdentityWorkspace.vue、PermissionSelector.vue、permissionScopes.ts | 服务身份CRUD/授权矩阵/短期令牌、撤销与清空；RoleWorkspace局部tab接入 | agent-1020-web | 在用 | 不可删除 | 实际UI签发关闭撤销停用通过；复制只验内存替身，不宣称系统剪贴板实写 | 2026-10-21/T-web11,12 |
+| services/platform/agent_platform/modules/reports/presentation.py | 服务端按真实数据生成排名/进度/表格等可信展示模型；service/rendering/exports调用 | agent-1020-web | 在用 | 不可删除 | 20项新测试；缺字段阻止发布，金额/精度不交给客户端随意造值 | 2026-10-21/T-web10 |
+| apps/web/src/modules/reports/CanvasProperties.vue、DisplayProperties.vue、RichTextEditor.vue、TemplateDataBindings.vue | 画布/组件属性、富文本编辑、模板字段映射；Studio/Properties/Workspace引用 | agent-1020-web | 在用 | 不可删除 | 前端build已过，真实页面逐步验收中 | 2026-10-21/T-web10,12 |
+| apps/web/src/modules/reports/presentation.ts、specialChartOption.ts、reused/DataPresentationWidget.vue | 保留来源类型语义的新增26类组件展示；JimuWidgetRenderer调用 | agent-1020-web | 在用 | 不可删除 | 326源条目已有254可渲染，其余72没有伪启用；4项Node检查通过 | 2026-10-21/T-web10 |
+| apps/web/tests/manufacturing-lifecycle.mjs、platform-enhancements.mjs | 新本机SQLite/CSV的单浏览器验收：制造闭环、身份/报告；系统Chrome | domain/web原作者，root当前验收脚本 | 在用 | 不可删除 | 前者85HTTP/4查询/13.8秒通过；后者脚本定位问题修正中，失败收据保留 | 2026-10-21/T-domain13/T-web12/T-root18 |
+| services/platform/tests/test_manufacturing_lifecycle.py、test_reports_presentation.py、test_workspace_quality.py、test_business_tools.py | 制造状态/可信展示/首检统计/工具契约边界回归 | 原作者domain/web/root | 在用 | 不可删除 | 已执行相关小范围临时本机/纯契约验证，禁止替代企业效果验收 | 2026-10-21/T-root16/T-domain12/T-web10 |
+| services/platform/agent_platform/modules/operations/support_models.py | 系统辅助配置与修订冻结模型，04迁移依赖 | agent-1020-web | 在用 | 不可删除 | 字典/参数/公告/表单辅助T-web13实现中 | 2026-10-21/T-web13 |
+| deploy/native/wsl.py、wsl-bootstrap.sh、wsl_setup.py、wsl_sources.py、wsl_oci.py | WSL桥接、基础安装、原锁准备、来源包核对和官方预构建前端提取 | agent-1020-native | 在用 | 不可删除 | 当前专属Ubuntu实际准备依赖；storage过滤缺陷已定位定向修复中，失败历史保留 | 2026-10-21/T-native12 |
+| deploy/native/wsl_runtime.py、wsl_process.py、wsl_cgroups.py、wsl_network.py、wsl_sandbox_entry.py | Dify专属进程/数据、cgroup归属回收、任务网络和沙箱装配 | agent-1020-native | 在用 | 不可删除 | 作者静审/Mock中；真实完整启动/隔离/流程尚未验，不作已交付声明 | 2026-10-21/T-native12 |
+| deploy/native/wsl-README.md、services/platform/tests/test_wsl_runtime.py、test_wsl_sources.py、test_wsl_oci.py | WSL维护说明及来源/状态/归属离线验证；实际动态证据另存 | agent-1020-native | 在用 | 不可删除 | 最新52纯测试通过；不等于原生业务通过 | 2026-10-21/T-native12 |
+| .local/acceptance/r34-20261021/、.local/platform-backups/r34-before-20261021.sqlite3 | 本轮独立18080临时验收库/加密账号与8080升级前只读备份 | agent-1020-root | 在用 | 不可删除 | 验收与恢复证据，本轮仍使用；均Git忽略，不与原业务源混用 | 2026-10-21/T-root16,18 |
+| .local/native-linux-artifacts/、.local/wsl-native12-source-audit.json | 官方前端层/源码归档/摘要、已审uv生成文件精确核对清单 | root/native部署 | 在用 | 不可删除 | 实际WSL准备依赖；确认安装完成和恢复方式前不清理，不提交 | 2026-10-21/T-native12 |
+- 仓库外 D:/WSL/ai-agent-company 及对应Linux /opt/ai-agent-company 是本项目独立发行版与运行根。已核Ubuntu24.04、Landlock ABI7、官方Qdrant摘要；当前没有业务PG初始化/模型验收。默认Ubuntu包服务已停止禁自启，不接管默认PG数据，不删除旧Docker路径。
+
+## 2026-10-21 本轮聚合及交付索引补充（agent-1020-root）
+
+以下相对仓库根；前文历史用途保持，现状以本次关联任务和后续追加为准。所有记录均经实际读取或对应作者交接核验。
+
+| 路径 | 用途与关键依赖 | 归属 Agent | 是否仍需 | 能否删除 | 判断依据/前置条件 | 日期/任务 |
+|---|---|---|---|---|---|---|
+| deploy/native/wsl_lifetime.py、desktop.py、wsl.py | Windows统一启动与WSL精确PID前台生命周期；runtime与已启用Dify状态 | root | 在用 | 不可删除 | 实际14角色启动与复用已验，完整业务另验 | 2026-10-21/T-root23,27 |
+| deploy/native/wsl_runtime.py、wsl_process.py、wsl_sandbox_entry.py | PG/Redis迁移顺序、netns监听、前端父进程归属、私有passwd与沙箱路径适配；cgroups/network | root（native原作者已交接） | 在用 | 不可删除 | 进程归属和纯测试已验，Python/JS执行仍待验 | 2026-10-21/T-root22/native14 |
+| services/platform/tests/test_wsl_lifetime.py、test_wsl_sandbox_entry.py | 生命周期归属及私有UID映射回归；纯Mock/临时文件 | root | 在用 | 不可删除 | 用于防止误认领/宿主UID冲突，不接数据库 | 2026-10-21/T-root23,22 |
+| tools/verify_dify_native.py、apps/web/tests/dify-wsl.mjs、services/platform/tests/test_dify_native_verifier.py、apps/web/tests/dify-wsl.test.mjs | 原生setup/login/草稿/真实编辑运行验收，加密派发记录与受审续作 | native原作者；root接管 | 在用 | 不可删除 | 27Python+4Node纯测试，初始化10HTTP已通过，浏览器尚待验 | 2026-10-21/T-native13,17 |
+| services/platform/agent_platform/modules/integrations/router.py、apps/web/src/modules/native/ | 应用凭据/Schema、按引擎入口；知识导入/状态/检索引用与原件保护 | web/native原作者；root接管 | 在用 | 不可删除 | 60前端断言/7SFC及5临时库回归已过，真实索引未验 | 2026-10-21/T-web16/native15 |
+| apps/web/tests/native-integration-ui.mjs、services/platform/tests/test_knowledge_file_references.py | 原生目标/绑定Schema和文件删除引用回归 | web/native原作者；root接管 | 在用 | 不可删除 | 后续防回归依赖；不代表真实Dify调用 | 2026-10-21/T-web16/native15 |
+| services/platform/agent_platform/modules/workspace/activity.py、quality_overview.py、apps/web/src/modules/home/Workbench.vue、Announcements.vue | 当前权限内中文动态、首检趋势与已发布公告；Task/目录/辅助配置 | domain/root | 在用 | 不可删除 | 15项临时库回归、公告真实UI已过；最新动态UI待验 | 2026-10-21/T-domain18/root20 |
+| services/platform/tests/test_workspace_activity.py、test_workspace_quality.py | 有界动态查询/失权/首检趋势授权回归 | domain原作者；root接管 | 在用 | 不可删除 | 9+6项通过；旧质量夹具已补真实Task与固定标准 | 2026-10-21/T-domain18 |
+| services/platform/agent_platform/modules/operations/、apps/web/src/modules/operations/ | 字典、参数版本、公告、表单配置与静态代码导出；04迁移 | web原作者；root接管 | 在用 | 不可删除 | 真实UI70HTTP无业务源查询通过，源HTML按纯文本 | 2026-10-21/T-web13,14/root25 |
+| services/platform/agent_platform/modules/identity/client_certificate_models.py、client_certificate_crypto.py、client_certificate_service.py、client_certificate_router.py、client-certificate-README.md | 客户端公钥/轮换/撤销与标准JWT客户端认证；service_accounts、PyJWT、05迁移 | domain原作者；root接管 | 在用 | 不可删除 | 57独立用例和真实UI37HTTP通过；非mTLS或完整OAuth服务 | 2026-10-21/T-domain15,16/root21,24 |
+| apps/web/src/modules/admin/ClientCertificateForm.vue、ClientCertificateWorkspace.vue、ServiceIdentityWorkspace.vue、PermissionSelector.vue、permissionScopes.ts | 客户端与服务身份管理；权限选择和短令牌 | domain/web原作者；root接管 | 在用 | 不可删除 | 真实登记/轮换/撤权UI及权限回归已验 | 2026-10-21/T-domain15,16/web11 |
+| services/platform/migrations/versions/20261021_05_客户端证书接入.py | 3张证书/接入表与6索引，承接04；客户端模型 | root | 在用 | 不可删除 | 5项迁移验证通过，旧设备保留；不得删除已发布迁移 | 2026-10-21/T-root24 |
+| tools/verify_client_certificates_ui.py、apps/web/tests/client-certificates.mjs、services/platform/tests/test_client_certificates.py | 临时本机服务身份+内存私钥实际UI/令牌与失权验收 | domain原作者；root接管 | 在用 | 不可删除 | 实际37HTTP/0业务源/0模型，失败静态白名单历史保留 | 2026-10-21/T-domain15,16 |
+| services/platform/agent_platform/main.py、services/platform/tests/test_health_navigation.py | /health浏览器SPA与JSON探针内容协商，Vary Accept | root | 在用 | 不可删除 | 5无数据库HTTP测试及系统页真实UI通过 | 2026-10-21/T-root25 |
+| services/platform/agent_platform/modules/manufacturing/energy/、apps/web/src/modules/manufacturing/EnergyDetail.vue、EnergyForm.vue、EnergyWorkspace.vue | 同工况能耗/基准/价格/冻结证据及CSV；DataService和03迁移 | domain原作者；root接管 | 在用 | 不可删除 | 实际2新CSV查询：20%变化、40kWh/40元计算正确；非企业节能证明 | 2026-10-21/T-domain14/web14 |
+| apps/web/tests/energy-support.mjs、services/platform/tests/test_manufacturing_energy.py、test_operations_support.py | 能耗与辅助配置纯测试/真实UI验收 | domain/web原作者；root接管 | 在用 | 不可删除 | 两阶段85HTTP/2查询通过；首次health路由失败保留 | 2026-10-21/T-domain14/web13,14/root25 |
+| 项目文档/contracts/platform.openapi.json | 由tools/export_api.py从代码导出的396操作/273路径契约 | root | 在用 | 不可删除 | 实际代码联调依赖，设计基线仍227操作，数量不代表验收 | 2026-10-21/T-root27 |
+| .local/dify-native-verification/、.local/dify-delivery-connection.json | Dify加密账号/请求与派发历史、入口配置收据 | root | 在用 | 不可删除 | 在用本机证据与交付凭据，Git忽略；不能随意删除 | 2026-10-21/T-native13,17/root27 |
+| .local/platform-backups/ | 本项目8080更新前只读SQLite备份；本轮多份独立时间戳 | root | 在用 | 不可删除 | 恢复所需，Git忽略；未开展备份清理 | 2026-10-21/T-root16,27 |
+
+- 仓库外专属发行版当前已完成新PG迁移、原生初始化，14服务均运行；覆盖前文“尚未初始化”的当时状态。D:/WSL/ai-agent-company及Linux运行根属于当前部署数据，不触发任何删除。
+
+| deploy/native/wsl_sandbox_patch.py、services/platform/tests/test_wsl_sandbox_patch.py | 固定来源JS路径单行补丁与幂等/未知源/并发修改回归；wsl_setup编译前调用 | domain作者；root接管 | 在用 | 不可删除 | 5通过1软链权限跳过；实际WSL制品构建及单code重启已过，保持原seccomp | 2026-10-21/T-domain20/root22 |
+| README.md、deploy/native/README.md、deploy/native/wsl-README.md | 三套服务实际入口、账号和当前部署；旧失败统一链接共享历史 | root | 在用 | 不可删除 | 已移除把旧Docker/Windows Dify候选当当前入口的过期说明 | 2026-10-21/T-root27 |
+| 项目文档/README.md、03_开发计划与验收.md、contracts/实施验收.csv | 0.5版当前证据与125稳定范围逐项差距；引用实际API快照 | web作者；root接管 | 在用 | 不可删除 | 125唯一ID/顺序/9列/本地链接校验通过；企业及原生未验内容明确保留 | 2026-10-21/T-web17 |
+
+## 原生业务联调与行权限增量（agent-1020-root，2026-10-21）
+
+| 项目相对路径 | 用途及关键引用/依赖 | 归属 Agent | 是否仍需 | 能否删除 | 判断依据/前置条件 | 核查日期及任务 |
+|---|---|---|---|---|---|---|
+| deploy/native/wsl_sandbox_patch.py、wsl_setup.py、wsl_runtime.py | 官方沙箱来源校验、Python stat默认表补充；独立Go1.24/Node20.11.1与Node24前端并存 | domain/native作者；root当前接管Node范围 | 在用 | 不可删除 | 纠正此前JS路径索引结论：官方双层路径正确，已恢复；Python/JS实际执行成功；所有旧收据保留 | 2026-10-21/T-domain25/root32 |
+| services/platform/tests/test_wsl_sandbox_node.py | 独立Node来源/已改二进制/部分安装拒绝回归 | root | 在用 | 不可删除 | 4纯文件检查及114runtime回归通过 | 2026-10-21/T-root32 |
+| deploy/native/wsl_http_bridge.py | WSL精确IP与路由到Windows所属OWUI/平台，启动快照绑定上游PID | native作者；root接管 | 在用 | 不可删除 | 模型列表与Dify模型配置实际成功；工具认证真实配置仍在实施 | 2026-10-21/T-native24/27 |
+| deploy/native/wsl_tool_credentials.py、services/platform/tests/test_wsl_tool_credentials.py | 独立引擎证书材料密文、RFC7523短token、失败预约/撤销/轮换；依赖runtime.key及平台证书API | native作者；root接管 | 在用 | 不可删除 | 25凭据纯测试，首次认证须固定token与me核工作区，实际原生工具待验 | 2026-10-21/T-native27 |
+| services/platform/agent_platform/modules/data/row_policies.py、policy_sql.py | 结构化行策略、物理表AST过滤和历史有效范围指纹；依赖DataService及SQLGlot | domain | 在用 | 不可删除 | 新tmp本机权限回归正在收口；不得移除后使受限查询开放 | 2026-10-21/T-domain26 |
+| services/platform/migrations/versions/20261021_06_数据行权限与查询范围.py | 行策略与查询访问快照两张新表迁移 | domain | 待核实 | 暂不可删除（待核实） | 此具体文件名需最终与作者交接核准；迁移head06已通过新tmp升级检查，生产未升级 | 2026-10-21/T-domain26 |
+| apps/web/src/modules/data/DataPermissionWorkspace.vue、RowPolicyPanel.vue、RowPolicyRuleForm.vue、RowPolicyConditionForm.vue、rowPolicy.ts、useRowPolicyEditor.ts | 数据权限现有页面行权限tab及字段校验；依赖row-policy API | web作者；root接管 | 在用 | 不可删除 | 81纯断言/4SFC与类型检查通过，真实页面待验 | 2026-10-21/T-web23 |
+| services/platform/agent_platform/core/task_evidence.py、tasks.py、modules/workspace/router.py | 从不可变运行核历史任务来源权限，先过滤再分页/统计/通知 | root | 在用 | 不可删除 | 20初轮通过；领域403兼容修复后12定向含迁移通过 | 2026-10-21/T-root31 |
+| services/platform/agent_platform/modules/reports/source_presentations.py、rendering.py、capabilities.py | 12来源组件精确能力与真实HTML导出，深色文字/月历明细/卡片布局修复 | domain/web作者；root接管 | 在用 | 不可删除 | 266/326来源项；3修复截图root已目检，保持剩60未完成口径 | 2026-10-21/T-domain21/web22 |
+| tools/verify_knowledge_ui.py、apps/web/tests/knowledge-native.mjs、tests/helpers/knowledgeDownloadEvidence.mjs | 知识导入/检索/引用/真实下载验收；下载事件与route去重 | web作者；root接管 | 在用 | 不可删除 | 实际7业务检查通过，原计数失败不改写；独立review关联SHA | 2026-10-21/T-web22/root29 |
+| tools/verify_dify_native.py、apps/web/tests/dify-wsl.mjs | 原生代码节点UI、SSE输出、归属与不重复派发账本 | native/root | 在用 | 不可删除 | Python/JS实际成功；大小写定位误报修复，旧收据及截图不删除 | 2026-10-21/T-root22/32 |
+| .local/native_windows/、.local/dify-native-verification/、.local/acceptance/r34-20261021/ | 本机运行归属、加密账号/凭据、独立本机验收库与失败/成功证据 | root | 在用 | 不可删除 | 不提交Git；不是可按temp命名清理的缓存，保留回查/恢复依据 | 2026-10-21/T-root27–33 |
+
+- 索引纠正（agent-1020-root，T-root31）：上表迁移文件名未经核实，现实际目录核验为下列路径；上表含“数据行权限与查询范围”的路径不存在，不作为文件/删除判断依据。
+| services/platform/migrations/versions/20261021_06_数据行级权限.py | 新增data_row_policies/data_query_access_snapshots；依赖05迁移，不改旧表 | domain作者 | 在用 | 不可删除 | 实际文件名已核验，新tmp升级与原数据保留测试通过；本机在用库待更新 | 2026-10-21/T-domain26/root31 |
+
+| tools/configure_native_business_tools.py、services/platform/tests/test_native_business_tools_configuration.py | 原生只读工具四阶段配置、独立证书与精确组授权、失败保留；依赖wsl_tool_credentials | native作者；root接管 | 在用 | 不可删除 | 15纯检查及实际26本机HTTP配置/探测通过，0模型/企业源 | 2026-10-21/T-native28/root34 |
+| tools/verify_row_permissions_ui.py、apps/web/tests/row-permissions.mjs | 新CSV行权限UI与历史拒绝验收；复用18080隔离平台 | web作者；root接管 | 在用 | 不可删除 | 22HTTP/3CSV查询真实通过，截图已目检 | 2026-10-21/T-web24 |
+| deploy/native/wsl.py、wsl_lifetime.py | WSL归属、生命周期及JSON元数据；系统stderr以bytes处理 | root | 在用 | 不可删除 | 56纯回归及真实工具配置无乱码异常，未改变进程权限 | 2026-10-21/T-root34 |
+
+| deploy/native/wsl_bridge_startup.py、services/platform/tests/test_wsl_bridge_startup.py | desktop启动时重建所属工具代理精确规则、幂等复用与失败保留；复用runtime快照/解析/归属 | root | 在用 | 不可删除 | 6纯检查、1真实配置通过；0业务HTTP/模型，NAT原生URL仍待接入 | 2026-10-21/T-root35 |
+
+| deploy/native/wsl_agent_patch.py、services/platform/tests/test_wsl_agent_patch.py | 官方V2四文件精确摘要补丁，沿原路径配置请求次数，默认500；setup_python调用 | native作者；root接管 | 在用 | 不可删除 | 20纯回归通过，已在所属Agent包应用；实际V2 cwd问题另记I-root43 | 2026-10-21/T-native30/root37 |
+| services/platform/agent_platform/modules/data/values.py、processing.py、quality.py、metrics.py | 精提Test5 Decimal、8步处理/7类质量/固定指标；DataService授权快照 | domain作者；root接管 | 在用 | 不可删除 | 34数据联合回归通过，0实际企业源；UI待验 | 2026-10-21/T-domain27 |
+| apps/web/src/modules/data/dataPreparation.ts、ProcessingWorkspace.vue、DataQualityWorkspace.vue、BusinessMetricWorkspace.vue及相关表单组件 | 处理/质量/指标三个既有入口，消费typed DTO，结构化控件与真实导出 | web作者；root接管 | 在用 | 不可删除 | 139纯断言/14SFC/2580模块正式build通过，真实UI待验 | 2026-10-21/T-web25 |
+| services/platform/tests/test_data_transformations.py、apps/web/tests/data-preparation-controls.mjs | 数据处理/质量/指标行为与表单纯回归 | domain/web作者；root接管 | 在用 | 不可删除 | 新tmp CSV/SQLite与纯前端，不替代企业验收 | 2026-10-21/T-domain27/web25 |
+| 项目文档/contracts/platform.openapi.json | 从当前代码导出403操作/278路径；设计227操作仍独立 | root | 在用 | 不可删除 | tools/export_api.py实际导出，API数不代表全部功能完成 | 2026-10-21/T-root38 |

@@ -102,6 +102,10 @@ def numeric_chart(widget, rows):
     from .chart_data import CARTESIAN_COMPONENTS, series_data
     component = widget.get("component", widget.get("type", ""))
     component = {"line": "JLine", "bar": "JBar"}.get(component, component)
+    from .presentation import PRESENTATION_TYPES
+    if component in PRESENTATION_TYPES:
+        # 这些源类型在Office保留真实明细；不把漏斗、进度或排名偷换成柱形图。
+        return None
     if component in CARTESIAN_COMPONENTS:
         model = series_data({**widget, "component": component}, rows)
         if model["status"] != "ready" or len(model["categories"]) > 200:

@@ -3,11 +3,13 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { api, type Entity, type ListResult } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import { useSession } from "../../stores/session";
+import ServiceIdentityWorkspace from "./ServiceIdentityWorkspace.vue";
 const session = useSession();
 const op = useOperation();
 const records = ref<Entity[]>([]);
 const selected = ref<Entity | null>(null);
 const dialog = ref(false);
+const tab = ref("roles");
 const form = reactive({ name: "", all: false, permissions: [] as string[] });
 const actions = [
   { key: "read", label: "查看" },
@@ -102,41 +104,48 @@ onMounted(load);
     <div class="page-heading">
       <h2>角色权限</h2>
       <el-button
-        v-if="session.can('m14.admin')"
+        v-if="tab === 'roles' && session.can('m14.admin')"
         type="primary"
         @click="edit(null)"
         >新增角色</el-button
       >
     </div>
-    <section class="panel">
-      <el-table :data="records" stripe v-loading="op.busy.value"
-        ><el-table-column
-          prop="name"
-          label="角色名称"
-          width="180"
-        /><el-table-column label="权限" min-width="500"
-          ><template #default="{ row }"
-            ><el-tag
-              v-for="permission in row.permissions"
-              :key="permission"
-              style="margin: 4px"
-              type="info"
-              >{{ label(permission) }}</el-tag
-            ></template
-          ></el-table-column
-        ><el-table-column width="90"
-          ><template #default="{ row }"
-            ><el-button
-              v-if="session.can('m14.admin')"
-              link
-              type="primary"
-              @click="edit(row)"
-              >编辑</el-button
-            ></template
-          ></el-table-column
-        ></el-table
-      >
-    </section>
+    <el-tabs v-model="tab">
+      <el-tab-pane name="roles" label="角色">
+        <section class="panel">
+          <el-table :data="records" stripe v-loading="op.busy.value"
+            ><el-table-column
+              prop="name"
+              label="角色名称"
+              width="180"
+            /><el-table-column label="权限" min-width="500"
+              ><template #default="{ row }"
+                ><el-tag
+                  v-for="permission in row.permissions"
+                  :key="permission"
+                  style="margin: 4px"
+                  type="info"
+                  >{{ label(permission) }}</el-tag
+                ></template
+              ></el-table-column
+            ><el-table-column width="90"
+              ><template #default="{ row }"
+                ><el-button
+                  v-if="session.can('m14.admin')"
+                  link
+                  type="primary"
+                  @click="edit(row)"
+                  >编辑</el-button
+                ></template
+              ></el-table-column
+            ></el-table
+          >
+        </section>
+      </el-tab-pane>
+      <el-tab-pane name="services" label="服务身份" lazy>
+        <ServiceIdentityWorkspace v-if="tab === 'services'" />
+      </el-tab-pane>
+    </el-tabs>
     <el-dialog
       v-model="dialog"
       :title="selected ? '编辑角色' : '新增角色'"

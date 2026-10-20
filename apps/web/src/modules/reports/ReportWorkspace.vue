@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive, watch } from "vue";
+import { computed, onMounted, ref, reactive, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import { api, type Entity, type ListResult } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import ReportStudio from "./ReportStudio.vue";
 import InspectionReportView from "./InspectionReportView.vue";
+import TemplateDataBindings from "./TemplateDataBindings.vue";
 import StatusTag from "../../components/common/StatusTag.vue";
 import { useSession } from "../../stores/session";
 const session = useSession();
@@ -15,9 +16,14 @@ const props = defineProps<{ config?: string }>();
 const op = useOperation();
 const reports = ref<Entity[]>([]);
 const templates = ref<Entity[]>([]);
+const queries = ref<Entity[]>([]);
+const templateBindings = ref<Record<string, Record<string, any>>>({});
 const selected = ref<Entity | null>(null);
 const dialog = ref(false);
 const form = reactive({ name: "", template_id: "", description: "" });
+const selectedTemplate = computed(() =>
+  templates.value.find((template) => template.id === form.template_id),
+);
 let initialized = false;
 function isInspectionReport(report: Entity) {
   return report.layout?.kind === "inspection_report";
@@ -44,16 +50,31 @@ async function load() {
 }
 async function create() {
   await op.run(async () => {
-    const report = await api.post<Entity>("/reports", {
-      ...form,
-      template_id: form.template_id || undefined,
-      layout: form.template_id
-        ? undefined
+    const generating =
+      !!form.template_id && Object.keys(templateBindings.value).length > 0;
+    const report = await api.post<Entity>(
+      generating ? "/report-generations" : "/reports",
+      generating
+        ? {
+            name: form.name,
+            template_id: form.template_id,
+            bindings: templateBindings.value,
+          }
         : {
-            canvas: { width: 1440, height: 900, backgroundColor: "#07182d" },
-            widgets: [],
+            ...form,
+            template_id: form.template_id || undefined,
+            layout: form.template_id
+              ? undefined
+              : {
+                  canvas: {
+                    width: 1440,
+                    height: 900,
+                    backgroundColor: "#07182d",
+                  },
+                  widgets: [],
+                },
           },
-    });
+    );
     await selectReport(report);
     dialog.value = false;
   }, "报表已创建");
@@ -81,6 +102,19 @@ function useTemplate(template: Entity) {
   form.name = `${template.name}报表`;
   dialog.value = true;
 }
+watch(
+  () => form.template_id,
+  () => {
+    templateBindings.value = {};
+  },
+);
+watch(dialog, async (visible) => {
+  if (!visible || !session.can("m06.read")) return;
+  await op.run(async () => {
+    queries.value = (await api.get<ListResult>("/queries?limit=200"))
+      .items as Entity[];
+  });
+});
 async function remove(row: Entity) {
   try {
     await ElMessageBox.confirm(`删除“${row.name}”？`, "删除确认", {
@@ -256,9 +290,23 @@ watch(
               v-for="template in templates"
               :key="template.id"
               :value="template.id"
-              :label="template.name" /></el-select></el-form-item
-        ><el-button type="primary" native-type="submit" :loading="op.busy.value"
-          >创建设计</el-button
+              :label="template.name" /></el-select
+        ></el-form-item>
+        <TemplateDataBindings
+          v-if="selectedTemplate && session.can('m06.read')"
+          :key="selectedTemplate.id"
+          v-model="templateBindings"
+          :widgets="selectedTemplate.layout?.widgets ?? []"
+          :queries="queries"
+        />
+        <el-button
+          type="primary"
+          native-type="submit"
+          :loading="op.busy.value"
+          :disabled="!form.name.trim()"
+          >{{
+            Object.keys(templateBindings).length ? "生成报表" : "创建设计"
+          }}</el-button
         ></el-form
       ></el-dialog
     >

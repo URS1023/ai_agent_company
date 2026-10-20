@@ -9,6 +9,7 @@ import { useOperation } from "../../composables/useOperation";
 import { resources } from "./resources";
 import ResourceForm from "./ResourceForm.vue";
 import StatusTag from "../../components/common/StatusTag.vue";
+import BusinessMetricWorkspace from "../data/BusinessMetricWorkspace.vue";
 const props = defineProps<{ config?: string }>();
 const config = computed(
   () =>
@@ -89,10 +90,13 @@ function display(value: any) {
           ? JSON.stringify(value)
           : value;
 }
-onMounted(list.load);
+onMounted(() => {
+  if (props.config !== "business-metrics") list.load();
+});
 </script>
 <template>
-  <div class="page-stack">
+  <BusinessMetricWorkspace v-if="props.config === 'business-metrics'" />
+  <div v-else class="page-stack">
     <div class="panel toolbar">
       <el-input
         v-model="list.query.value"

@@ -19,6 +19,8 @@ from ..manufacturing.service import csv_content
 from . import models as m
 from .chart_data import CARTESIAN_COMPONENTS, public_series_model
 from .inspection_source import InspectionSource, is_inspection_binding, validate_binding
+from .presentation import NAMES, PRESENTATION_TYPES, STATIC_TYPES, presentation_model, sanitize_html
+from .capabilities import SOURCE_TYPES, source_supported
 
 
 SUPPORTED_COMPONENTS = {
@@ -30,8 +32,10 @@ SUPPORTED_COMPONENTS = {
     "JStackBar": "堆叠柱图", "JMultipleBar": "分组柱图", "JPercentBar": "百分比堆叠图", "JMixLineBar": "柱线组合图",
     "JMultipleLine": "多折线图", "JSmoothLine": "平滑折线图", "JStepLine": "阶梯折线图", "JNegativeBar": "正负柱图",
 }
+SUPPORTED_COMPONENTS.update(NAMES)
 ALIASES = {"text": "JText", "metric": "JStatsSummary", "line": "JLine", "bar": "JBar", "table": "JScrollBoard"}
 STATIC_COMPONENTS = {"JText", "JDragImg", "JDragBorder", "JDragDecoration", "JImg", "JCustomIcon", "text"}
+STATIC_COMPONENTS.update(STATIC_TYPES)
 
 
 def component_catalog():
@@ -42,7 +46,7 @@ def component_catalog():
         for category in group.get("categories", []):
             for source in category.get("items", []):
                 component = source.get("compType", "")
-                canonical = ALIASES.get(component, component) if component in SUPPORTED_COMPONENTS else None
+                canonical = ALIASES.get(component, component) if source_supported(source["id"], component, SUPPORTED_COMPONENTS) else None
                 if canonical:
                     dependency = None
                 elif group["key"] == "material":
@@ -107,6 +111,14 @@ def validate_layout(layout):
             raise DomainError(422, "widget_config_invalid", "组件配置格式无效")
         if "body" in config.get("option", {}) and not isinstance(config["option"]["body"], dict):
             raise DomainError(422, "widget_config_invalid", "文本组件内容配置格式无效")
+        if widget.get("component") == "JDragEditor":
+            config.setdefault("option", {}).setdefault("body", {})["text"] = sanitize_html(config.get("option", {}).get("body", {}).get("text", ""))
+        if widget.get("component") == "JCurrentTime" and config.get("option", {}).get("timezone", "Asia/Shanghai") not in {"Asia/Shanghai", "UTC"}:
+            raise DomainError(422, "clock_timezone_invalid", "请选择北京时间或UTC")
+        if "column_labels" in config:
+            labels = config["column_labels"]
+            if not isinstance(labels, dict) or len(labels) > 20 or any(not isinstance(key, str) or not isinstance(value, str) or not 1 <= len(key) <= 200 or len(value) > 200 for key, value in labels.items()):
+                raise DomainError(422, "column_labels_invalid", "列名称无效或超过20列")
         if any(key in config for key in ("sql", "datasourceId", "apiUrl", "headers", "password", "token", "apiKey")):
             raise DomainError(422, "widget_connection_not_allowed", "组件请通过已授权查询绑定数据")
         if "images" in config:
@@ -115,8 +127,14 @@ def validate_layout(layout):
                 raise DomainError(422, "carousel_images_invalid", "轮播图片列表无效或超过50张")
         widget.pop("_export_image_uri", None)
         component = widget.get("component", widget.get("type", "text"))
-        if component not in SUPPORTED_COMPONENTS:
+        if not source_supported(widget.get("source_component_id"), component, SUPPORTED_COMPONENTS):
             raise DomainError(422, "component_unsupported", "组件类型未登记", {"component": component})
+        if component in SOURCE_TYPES:
+            from .source_presentations import validate_options
+            try:
+                validate_options(widget)
+            except ValueError as exc:
+                raise DomainError(422, "component_options_invalid", str(exc), {"widget_id": widget["id"]}) from exc
         for key in ("x", "y", "w", "h"):
             value = widget.get(key, 0 if key in ("x", "y") else 100)
             if not isinstance(value, (int, float)) or not isfinite(value) or value < 0 or value > 10000:
@@ -133,7 +151,7 @@ def validate_layout(layout):
         if binding is not None:
             validate_binding(binding)
         if binding:
-            for key in ("label_field", "value_field"):
+            for key in ("label_field", "value_field", "description_field", "time_field", "unit_field", "total_field"):
                 if key in binding and (not isinstance(binding[key], str) or not 1 <= len(binding[key]) <= 200):
                     raise DomainError(422, "binding_invalid", "请选择有效的分类与数值字段")
             for key in ("value_fields", "secondary_value_fields"):
@@ -141,6 +159,8 @@ def validate_layout(layout):
                     fields = binding[key]
                     if not isinstance(fields, list) or len(fields) > 8 or (key == "value_fields" and not fields) or any(not isinstance(field, str) or not 1 <= len(field) <= 200 for field in fields) or len(set(fields)) != len(fields):
                         raise DomainError(422, "binding_invalid", "请选择不超过8个不同数值字段")
+            if "fields" in binding and (not isinstance(binding["fields"], list) or not 1 <= len(binding["fields"]) <= 20 or any(not isinstance(field, str) or not 1 <= len(field) <= 200 for field in binding["fields"]) or len(set(binding["fields"])) != len(binding["fields"])):
+                raise DomainError(422, "binding_invalid", "请选择不超过20个不同列字段")
         provenance = widget.get("data_provenance")
         if provenance is not None:
             if not isinstance(provenance, dict) or ("query_id" in provenance and (not isinstance(provenance["query_id"], str) or not 1 <= len(provenance["query_id"]) <= 100)):
@@ -308,13 +328,19 @@ class ReportService:
         service = DataService(self.session, self.actor, self.settings)
         for widget in layout["widgets"]:
             widget.pop("series_model", None)
-            if ALIASES.get(widget.get("component"), widget.get("component")) not in CARTESIAN_COMPONENTS:
+            widget.pop("presentation_model", None)
+            component = ALIASES.get(widget.get("component"), widget.get("component"))
+            if component in STATIC_TYPES:
+                widget["presentation_model"] = presentation_model(widget, [])
                 continue
+            if component not in CARTESIAN_COMPONENTS | PRESENTATION_TYPES:
+                continue
+            derive = public_series_model if component in CARTESIAN_COMPONENTS else presentation_model
             provenance = widget.get("data_provenance") or {}
             binding = widget.get("binding") or {}
             if is_inspection_binding(binding):
                 canonical = {**widget, "component": ALIASES.get(widget.get("component"), widget.get("component"))}
-                widget["series_model"] = public_series_model(canonical, widget.get("data", []))
+                widget["series_model" if component in CARTESIAN_COMPONENTS else "presentation_model"] = derive(canonical, widget.get("data", []))
                 continue
             if provenance.get("type") != "query" or not binding.get("query_id") or not provenance.get("query_id"):
                 continue
@@ -325,7 +351,7 @@ class ReportService:
             if widget.get("data") != evidence.result["rows"] or evidence.datasource_id != original.datasource_id or evidence.sql != original.sql or evidence.parameters != original.parameters:
                 continue
             canonical = {**widget, "component": ALIASES.get(widget.get("component"), widget.get("component"))}
-            widget["series_model"] = public_series_model(canonical, evidence.result["rows"])
+            widget["series_model" if component in CARTESIAN_COMPONENTS else "presentation_model"] = derive(canonical, evidence.result["rows"])
 
     def create(self, data, *, model=m.Report, _trusted_layout=False):
         layout = data.get("layout")
@@ -455,6 +481,9 @@ class ReportService:
                     cache[key] = service.get_query(key)
             evidence = cache[provenance["query_id"]]
             binding = cache[widget["binding"]["query_id"]]
+            # 截断状态以已执行查询证据为准，不能信任客户端可编辑的来源标记。
+            if evidence.result.get("truncated"):
+                raise DomainError(422, "report_data_not_ready", "查询结果不完整，请缩小范围后刷新", {"widget_id": widget["id"]})
             if evidence.datasource_id != binding.datasource_id or evidence.sql != binding.sql or evidence.parameters != binding.parameters or widget.get("data") != evidence.result["rows"]:
                 raise DomainError(422, "report_data_evidence_mismatch", "组件数据与已保存的查询证据不一致", {"widget_id": widget["id"]})
             if ALIASES.get(widget.get("component"), widget.get("component")) in CARTESIAN_COMPONENTS:
@@ -462,6 +491,10 @@ class ReportService:
                 model = public_series_model(canonical, evidence.result["rows"])
                 if model["status"] != "ready":
                     raise DomainError(422, "chart_data_not_ready", model.get("message", "当前图表没有可展示的数据"), {"widget_id": widget["id"]})
+            elif widget.get("component") in PRESENTATION_TYPES:
+                model = presentation_model(widget, evidence.result["rows"])
+                if model["status"] != "ready":
+                    raise DomainError(422, "presentation_data_not_ready", model.get("message", "当前组件没有可展示的数据"), {"widget_id": widget["id"]})
 
     def drilldown(self, row_id, widget_id, filters):
         report = self.get(row_id)
@@ -489,7 +522,8 @@ class ReportService:
             raise DomainError(422, "widget_not_found", "绑定引用了模板外组件")
         for widget in layout["widgets"]:
             if widget["id"] in data.get("bindings", {}):
-                widget["binding"] = {"query_id": data["bindings"][widget["id"]]}
+                binding = data["bindings"][widget["id"]]
+                widget["binding"] = {"query_id": binding} if isinstance(binding, str) else {key: value for key, value in binding.items() if value is not None}
         report = self.create({"name": data["name"], "template_id": template["id"], "layout": layout})
         return self.refresh(report["id"], report["revision"]) if data.get("bindings") else report
 
@@ -527,7 +561,13 @@ class ReportService:
         if format == "csv":
             rows = []
             for widget in data["layout"]["widgets"]:
-                for item in widget_rows(widget):
+                items = widget_rows(widget)
+                if widget.get("component") in PRESENTATION_TYPES:
+                    from .presentation import office_section
+                    section = office_section(widget, items)
+                    selected = section.get("rows", [])
+                    items = [dict(zip(selected[0], values)) for values in selected[1:]] if selected else []
+                for item in items:
                     rows.append({"widget_id": widget["id"], "widget": widget.get("componentName", widget.get("name", "")), **item})
             return csv_content(rows), "text/csv; charset=utf-8", "csv"
         if format in ("docx", "xlsx", "pptx"):
@@ -540,6 +580,11 @@ class ReportService:
                 if widget.get("visible") is False or widget.get("type") == "decoration":
                     continue
                 values = widget_rows(widget)
+                from .presentation import office_section
+                projected_section = office_section(widget, values)
+                if projected_section is not None:
+                    sections.append(projected_section)
+                    continue
                 fields = list(dict.fromkeys(k for row in values for k in row))
                 section = {"title": widget.get("componentName", widget.get("name", widget["id"]))}
                 if fields:

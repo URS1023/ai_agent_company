@@ -10,6 +10,7 @@ from .context import Actor
 from .errors import DomainError
 from .models import Notification, Task, TaskEvent, now_iso
 from .records import RecordStore, sanitized
+from .task_evidence import authorize_task_evidence
 
 TRANSITIONS = {
     'queued': {'running', 'cancelled', 'failed'},
@@ -23,7 +24,9 @@ TRANSITIONS = {
 
 TASK_PERMISSIONS = {'document': 'm17.read', 'graph-extraction': 'm09.read',
                     'native_workflow': 'm04.read', 'native_agent': 'm03.read',
-                    'inspection': 'm11.read', 'maintenance_analysis': 'm10.read'}
+                    'inspection': 'm11.read', 'quality_case': 'm11.read',
+                    'maintenance_analysis': 'm10.read', 'maintenance_work_order': 'm10.read',
+                    'energy_analysis': 'm10.read'}
 
 
 def required_task_permission(row: Task) -> str | None:
@@ -46,16 +49,33 @@ class TaskService:
         row = self.session.scalar(select(Task).where(Task.id == id, Task.workspace_id == self.actor.workspace_id))
         if row is None:
             raise DomainError(404, 'task_not_found', '任务不存在或已无访问权限')
+        self._authorize(row)
+        return row
+
+    def _authorize(self, row: Task) -> None:
+        if row.workspace_id != self.actor.workspace_id:
+            raise DomainError(404, 'task_not_found', '任务不存在或已无访问权限')
         permission = required_task_permission(row)
         if permission and not self.actor.can(permission) and not self.actor.is_admin and not self.actor.can('m16.admin'):
             raise DomainError(404, 'task_not_found', '任务不存在或已无访问权限')
         delegated = bool(row.access_permission and self.actor.can(row.access_permission))
         if row.user_id != self.actor.user_id and not self.actor.is_admin and not self.actor.can('m16.admin') and not delegated:
             raise DomainError(404, 'task_not_found', '任务不存在或已无访问权限')
-        return row
+        authorize_task_evidence(self.session, self.actor, row)
 
     def get(self, id: str) -> dict:
         return task_dict(self._get(id))
+
+    def visible(self, rows):
+        """列表与详情使用同一授权；先过滤再分页，避免泄露无权任务总数。"""
+        for row in rows:
+            try:
+                self._authorize(row)
+            except DomainError as exc:
+                if exc.status in {403, 404}:
+                    continue
+                raise
+            yield row
 
     def create(self, kind: str, title: str, inputs: dict | None = None,
                idempotency_key: str | None = None, engine: str = 'platform', access_permission: str | None = None) -> dict:
@@ -69,9 +89,9 @@ class TaskService:
             if row:
                 if row.input_hash != fingerprint:
                     raise DomainError(409, 'idempotency_conflict', '同一请求编号不能用于不同输入')
-                return task_dict(row)
+                return self.get(row.id)
         row = Task(workspace_id=self.actor.workspace_id, user_id=self.actor.user_id, kind=kind,
-                   title=title, engine=engine, inputs=sanitized(payload), idempotency_key=idempotency_key,
+                   title=title, engine=engine, inputs=sanitized(payload, preserve_business_value=True), idempotency_key=idempotency_key,
                    input_hash=fingerprint, access_permission=access_permission)
         self.session.add(row)
         self.session.flush()
@@ -90,7 +110,7 @@ class TaskService:
         row.status, row.updated_at = status, now_iso()
         row.revision += 1
         if outputs is not None:
-            row.outputs = sanitized(outputs)
+            row.outputs = sanitized(outputs, preserve_business_value=True)
         if error is not None:
             row.error = sanitized(error if isinstance(error, dict) else {'message': error})
         if source_run_id is not None:
@@ -105,7 +125,7 @@ class TaskService:
 
     def event(self, id: str, type: str, data: dict) -> dict:
         self._get(id)
-        row = TaskEvent(task_id=id, type=type, data=sanitized(data))
+        row = TaskEvent(task_id=id, type=type, data=sanitized(data, preserve_business_value=True))
         self.session.add(row)
         self.session.flush()
         return {'sequence': row.sequence, 'task_id': id, 'type': type, 'data': row.data, 'created_at': row.created_at}

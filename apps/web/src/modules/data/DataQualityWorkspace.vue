@@ -1,89 +1,159 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
-import { api, type Entity, type ListResult } from "../../api/client";
+import { computed, onMounted, ref } from "vue";
+import { api } from "../../api/client";
+import { useSession } from "../../stores/session";
 import { useOperation } from "../../composables/useOperation";
-import ResultTable from "../../components/common/ResultTable.vue";
+import { usePreparationQueries } from "./usePreparationQueries";
+import {
+  PreparationError,
+  newQualityRule,
+  preparationErrors,
+  qualityPayload,
+  queryLabel,
+  queryColumns,
+  type Fields,
+  type QualityDraft,
+} from "./dataPreparation";
+import DataFieldSelect from "./DataFieldSelect.vue";
+import DataQualityRuleForm from "./DataQualityRuleForm.vue";
+import QualityCheckResults from "./QualityCheckResults.vue";
+const session = useSession();
 const op = useOperation();
-const queries = ref<Entity[]>([]);
-const result = ref<any>(null);
-const form = reactive({
-  query_id: "",
-  required_fields: [] as string[],
-  unique_fields: [] as string[],
-});
-const columns = computed(() => {
-  const query = queries.value.find((x) => x.id === form.query_id);
-  return query?.columns ?? query?.result?.columns ?? [];
-});
+const sources = usePreparationQueries();
+const required = ref<string[]>([]);
+const unique = ref<string[]>([]);
+const rules = ref<QualityDraft[]>([]);
+const localErrors = ref<Fields>({});
+const errors = computed(() => ({
+  ...preparationErrors(op.fields.value, op.error.value),
+  ...localErrors.value,
+}));
+const result = ref<Record<string, any> | null>(null);
+const originalRows = ref<Record<string, any>[] | undefined>();
+const originalColumns = ref<string[]>([]);
 async function submit() {
+  localErrors.value = {};
+  let payload;
+  try {
+    payload = qualityPayload(
+      sources.queryId.value,
+      required.value,
+      unique.value,
+      rules.value,
+      sources.columns.value,
+    );
+  } catch (error) {
+    if (error instanceof PreparationError) localErrors.value = error.fields;
+    return;
+  }
   await op.run(async () => {
-    result.value = await api.post("/data-quality-checks", form);
+    result.value = await api.post("/data-quality-checks", payload);
+    originalRows.value = undefined;
   }, "质量检查已完成");
 }
-onMounted(() =>
-  op.run(async () => {
-    queries.value = (await api.get<ListResult>("/queries?limit=100"))
-      .items as Entity[];
-  }),
-);
+/** 原始行和行号下载均先重查历史结果的当前授权，不重新执行SQL。 */
+async function authorizedSource() {
+  return api.get(`/queries/${encodeURIComponent(result.value!.query_id)}`);
+}
+async function showOriginal(rowNumbers: number[]) {
+  if (!rowNumbers.length) {
+    originalRows.value = undefined;
+    return;
+  }
+  originalRows.value = undefined;
+  await op.run(async () => {
+    const query = await authorizedSource();
+    const rows = query.rows ?? query.result?.rows ?? [];
+    originalColumns.value = ["原始行号", ...queryColumns(query)];
+    originalRows.value = rowNumbers.map((n) => ({
+      ...rows[n - 1],
+      原始行号: n,
+    }));
+  });
+}
+async function downloadRows(rowNumbers: number[], name: string) {
+  await op.run(async () => {
+    await authorizedSource();
+    const url = URL.createObjectURL(
+      new Blob(["\uFEFF原始行号\r\n", rowNumbers.join("\r\n")], {
+        type: "text/csv;charset=utf-8",
+      }),
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${name.replace(/[\\/:*?"<>|]/g, "_")}-行号.csv`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+}
+onMounted(() => op.run(sources.load));
 </script>
 <template>
   <div class="page-stack">
     <section class="panel">
-      <el-form label-position="top" @submit.prevent="submit"
-        ><div class="form-grid">
-          <el-form-item
-            label="数据查询"
-            :error="op.fields.value.query_id"
-            class="full-width"
-            ><el-select v-model="form.query_id" filterable
-              ><el-option
-                v-for="query in queries"
-                :key="query.id"
-                :value="query.id"
-                :label="
-                  query.name ?? query.sql ?? query.id
-                " /></el-select></el-form-item
-          ><el-form-item label="必填字段"
-            ><el-select v-model="form.required_fields" multiple filterable
-              ><el-option
-                v-for="column in columns"
-                :key="column"
-                :value="column"
-                :label="column" /></el-select></el-form-item
-          ><el-form-item label="唯一字段"
-            ><el-select v-model="form.unique_fields" multiple filterable
-              ><el-option
-                v-for="column in columns"
-                :key="column"
-                :value="column"
-                :label="column" /></el-select
-          ></el-form-item>
+      <el-form
+        label-position="top"
+        :disabled="op.busy.value || !session.can('m06.write')"
+        @submit.prevent="submit"
+      >
+        <el-form-item label="数据查询" :error="errors.query_id"
+          ><el-select v-model="sources.queryId.value" filterable
+            ><el-option
+              v-for="query in sources.queries.value"
+              :key="query.id"
+              :value="query.id"
+              :label="queryLabel(query)" /></el-select
+        ></el-form-item>
+        <div class="form-grid">
+          <el-form-item label="必填字段" :error="errors.required_fields"
+            ><DataFieldSelect
+              :model-value="required"
+              :columns="sources.columns.value"
+              multiple
+              @update:model-value="
+                required = $event as string[]
+              " /></el-form-item
+          ><el-form-item label="唯一字段" :error="errors.unique_fields"
+            ><DataFieldSelect
+              :model-value="unique"
+              :columns="sources.columns.value"
+              multiple
+              @update:model-value="unique = $event as string[]"
+          /></el-form-item>
         </div>
-        <el-button
-          type="primary"
-          native-type="submit"
-          :loading="op.busy.value"
-          :disabled="!form.query_id"
-          >执行检查</el-button
-        ></el-form
-      >
+        <DataQualityRuleForm
+          v-for="(rule, index) in rules"
+          :key="rule.key"
+          v-model="rules[index]!"
+          :columns="sources.columns.value"
+          :index="index"
+          :errors="errors"
+          @remove="rules.splice(index, 1)"
+        />
+        <el-form-item v-if="errors.rules" :error="errors.rules" />
+        <div class="row-actions">
+          <el-button
+            :disabled="rules.length >= 50"
+            @click="rules.push(newQualityRule())"
+            >添加规则</el-button
+          ><span class="spacer" /><el-button
+            type="primary"
+            native-type="submit"
+            :loading="op.busy.value"
+            :disabled="!sources.queryId.value"
+            >执行检查</el-button
+          >
+        </div>
+      </el-form>
     </section>
-    <section v-if="result" class="panel">
-      <div class="panel-heading"><h3>检查结果</h3></div>
-      <ResultTable
-        v-if="Array.isArray(result.checks)"
-        :rows="result.checks"
-      /><el-descriptions v-else :column="2" border
-        ><el-descriptions-item
-          v-for="(value, key) in result"
-          :key="key"
-          :label="String(key)"
-          >{{
-            typeof value === "object" ? JSON.stringify(value) : value
-          }}</el-descriptions-item
-        ></el-descriptions
-      >
-    </section>
+    <QualityCheckResults
+      v-if="result"
+      :result="result"
+      :busy="op.busy.value"
+      :original-rows="originalRows"
+      :original-columns="originalColumns"
+      @original="showOriginal"
+      @download="downloadRows"
+    />
   </div>
 </template>

@@ -5,6 +5,7 @@ pydantic>=2.10,<3
 httpx>=0.28,<1
 argon2-cffi>=23.1
 cryptography>=43
+PyJWT[crypto]==2.15.1
 python-multipart>=0.0.20
 sqlglot>=26,<29
 openpyxl>=3.1

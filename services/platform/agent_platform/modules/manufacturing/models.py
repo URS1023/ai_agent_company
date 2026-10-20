@@ -192,3 +192,98 @@ class SimulationActivation(Entity, Base):
     sample_count: Mapped[int] = mapped_column(Integer, default=0)
     device_mapping: Mapped[dict] = mapped_column(JSON, default=dict)
     heartbeat_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class QualityCategory(Entity, Base):
+    __tablename__ = "manufacturing_quality_categories"
+    name: Mapped[str] = mapped_column(String(160))
+    code: Mapped[str] = mapped_column(String(80), default="")
+    target_type: Mapped[str] = mapped_column(String(20))
+    parent_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_quality_categories.id"), nullable=True)
+    description: Mapped[str] = mapped_column(Text, default="")
+    status: Mapped[str] = mapped_column(String(20), default="active")
+
+
+class QualityCategoryBinding(Entity, Base):
+    __tablename__ = "manufacturing_category_bindings"
+    __table_args__ = (UniqueConstraint("workspace_id", "device_id"), UniqueConstraint("workspace_id", "product_id"), UniqueConstraint("workspace_id", "template_id"))
+    category_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_quality_categories.id"), index=True)
+    device_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_devices.id"), nullable=True)
+    product_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_products.id"), nullable=True)
+    template_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_inspection_templates.id"), nullable=True)
+
+
+class InspectionReinspection(Entity, Base):
+    __tablename__ = "manufacturing_reinspections"
+    __table_args__ = (UniqueConstraint("child_inspection_id"),)
+    parent_inspection_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_inspections.id"), index=True)
+    source_run_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_inspection_runs.id"))
+    child_inspection_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_inspections.id"), index=True)
+    root_inspection_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_inspections.id"), index=True)
+    selected_sample_refs: Mapped[list] = mapped_column(JSON)
+    reason: Mapped[str] = mapped_column(Text)
+    created_by: Mapped[str] = mapped_column(String(36))
+
+
+class QualityCase(Entity, Base):
+    __tablename__ = "manufacturing_quality_cases"
+    __table_args__ = (UniqueConstraint("workspace_id", "source_run_id"),)
+    name: Mapped[str] = mapped_column(String(160))
+    inspection_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_inspections.id"), index=True)
+    source_run_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_inspection_runs.id"))
+    status: Mapped[str] = mapped_column(String(30), default="open")
+    disposition: Mapped[str] = mapped_column(String(30), default="hold")
+    assignee_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    root_cause: Mapped[str] = mapped_column(Text, default="")
+    corrective_action: Mapped[str] = mapped_column(Text, default="")
+    performed_by: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    reinspection_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_inspections.id"), nullable=True)
+    task_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    created_by: Mapped[str] = mapped_column(String(36))
+    closed_by: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class QualityCaseEvent(Base):
+    __tablename__ = "manufacturing_quality_case_events"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid4().hex)
+    case_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_quality_cases.id"), index=True)
+    action: Mapped[str] = mapped_column(String(40))
+    note: Mapped[str] = mapped_column(Text)
+    evidence: Mapped[dict] = mapped_column(JSON, default=dict)
+    actor_id: Mapped[str] = mapped_column(String(36))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class MaintenanceWorkOrder(Entity, Base):
+    __tablename__ = "manufacturing_work_orders"
+    __table_args__ = (UniqueConstraint("incident_id"), UniqueConstraint("analysis_id"))
+    name: Mapped[str] = mapped_column(String(160))
+    device_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_devices.id"), index=True)
+    incident_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_incidents.id"), nullable=True)
+    analysis_id: Mapped[str | None] = mapped_column(ForeignKey("manufacturing_analyses.id"), nullable=True)
+    source_snapshot: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(30), default="open")
+    assignee_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    root_cause: Mapped[str] = mapped_column(Text, default="")
+    repair_note: Mapped[str] = mapped_column(Text, default="")
+    repaired_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    performed_by: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    verified_by: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    verification_snapshot: Mapped[dict] = mapped_column(JSON, default=dict)
+    task_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    created_by: Mapped[str] = mapped_column(String(36))
+
+
+class MaintenanceWorkEvent(Base):
+    __tablename__ = "manufacturing_work_order_events"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid4().hex)
+    order_id: Mapped[str] = mapped_column(ForeignKey("manufacturing_work_orders.id"), index=True)
+    action: Mapped[str] = mapped_column(String(40))
+    note: Mapped[str] = mapped_column(Text)
+    evidence: Mapped[dict] = mapped_column(JSON, default=dict)
+    actor_id: Mapped[str] = mapped_column(String(36))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)

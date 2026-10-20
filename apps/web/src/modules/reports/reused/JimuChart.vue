@@ -38,6 +38,8 @@ import {
 } from "@/utils/aiChartOption";
 import { snapshotChartOption } from "@/utils/snapshotChartOption";
 import { seriesModelOption, usesSeriesModel } from "../seriesModelOption";
+import { specialChartOption } from "../specialChartOption";
+import { specialChartTypes } from "../presentation";
 import {
   chartPoint,
   chartValueText,
@@ -302,7 +304,9 @@ function polishSeries(series, index, theme, palette) {
 function baseOption(widget) {
   const config = widget.config || {};
   const source = sanitizeChartOption(clone(config.option || {}));
-  if (usesSeriesModel(widget)) return seriesModelOption(widget,source);
+  if (usesSeriesModel(widget)) return seriesModelOption(widget, source);
+  if (specialChartTypes.includes(widget.component))
+    return specialChartOption(widget, source);
   const data = chartData(widget);
   if (config.snapshotBinding) {
     return snapshotChartOption(widget, source, data);

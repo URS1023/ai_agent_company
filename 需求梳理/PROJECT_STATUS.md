@@ -560,3 +560,298 @@
 | PLAN-root15-08 业务对话与工具 | 未分配；待认领；root协调 | modules/integrations/、modules/files/及前端；01/04/检索 | 03第3.6节，对象不串/权限/引用/同一成果 |
 
 - 上表modules/路径均相对于services/platform/agent_platform/；详细前端文件在任务认领时限定。未来开工追加实际负责人和范围，未认领任务不构成代码锁定。
+
+## 全范围实施恢复与WSL复用（agent-1020-root，2026-10-20）
+- R-agent-1020-root-34：用户明确要求“全部完成，尽可能copy而不是重写大改，wsl已经安装了”。在既有完整范围内继续实现，优先复制/提取锁定来源的成熟代码与官方制品，局部适配；现有Windows平台/OWUI保留，Dify允许使用本机WSL Linux运行环境，不恢复Docker。用户R32不限制自设内存门槛继续有效；本地数据库边界与实际异常停止仍有效。
+- 只读核查：wsl --list --verbose显示WSL2已安装，当前仅docker-desktop且Stopped；尚无独立Ubuntu发行版。准备本项目独立D盘Linux发行版，不接管Docker管理的发行版。是否安装WSL组件与是否具备可用Ubuntu运行环境分别记录。
+- T-agent-1020-root-16：root认领本轮协调、Windows/WSL实际环境准备、共享文档/验收表、根AGENTS与部署入口整合、身份/工作台/集成剩余功能。原deploy/docker_desktop.ps1未提交改动保留。共享进度和索引由root串行追加，子Agent通过消息交记录。
+- T-agent-1020-domain-12：分配manufacturing_backend，认领services/platform/agent_platform/modules/manufacturing/、apps/web/src/modules/manufacturing/、对应制造业测试；目标设备/产品复检处置、维护分派复核、统计口径与类别资料缺口，优先复用既有实现，不动reports/integrations/共享基础。
+- T-agent-1020-native-12：分配native_backend，认领新增deploy/native/wsl*、Linux运行脚本及对应新增测试；先核锁定Dify来源与可复用原生/官方制品，补齐WSL无Docker启动方案；不启动实际服务/安装/构建，环境操作由root串行执行，不改desktop.py/windows*。
+- T-agent-1020-web-10：分配platform_web，认领apps/web/src/modules/reports/、services/platform/agent_platform/modules/reports/及对应报表测试；优先复用Test5现成组件、补未支持组件/设计器交互与模板换数缺口。先查来源与目录，避免凭空重写；不动manufacturing/全局导航/身份。
+- 上述并行任务先做静态源码和纯Mock/临时本地文件验证；实际浏览器、原生服务、企业数据库和模型请求由root统一串行安排。各负责人不覆盖其他Agent修改，完成时提供实际改动/测试/剩余缺口和交接。
+
+## R34阶段进展（agent-1020-root，2026-10-21）
+- T-root16实际环境：独立Ubuntu24.04已注册为ai-agent-company，D:/WSL/ai-agent-company；官方wsl安装一次277秒exit0。首次启动实测内核6.18.54.1-microsoft-standard-WSL2，Landlock ABI7/errno0。未启动docker-desktop、未连接业务数据库或模型。基础依赖安装正在该专用发行版串行执行，900秒总预算、无自动重试，实际日志本机.local/wsl-install/保留。
+- root补充认领apps/web/src/modules/native/NativeWorkspace.vue、integrations service/router与test_integrations.py、services/platform/migrations/versions/20261021_02_制造业务复检与维修闭环.py及test_migrations.py。原生入口修复普通员工因无m15连接管理权无法进入已授权AI应用的问题：新增只返回入口的native-apps，复用现有工作区/资源权限；连接配置与删除按钮按权限显示。33项集成测试通过（新临时SQLite/Mock，不访问原生服务）。
+- T-domain12冻结新增7张制造关联表，root已生成独立Alembic20261021_02，只新增不改旧判定run。5项迁移测试通过，包含旧版本设备记录保留/升级幂等；初次单文件测试漏PYTHONPATH导致收集失败，修正项目环境后通过，未发生数据库连接异常。
+- T-web10来源核查：Test5部分未支持组件本身是占位/模拟，按真实可验证分支提取，不能直接启用假数据宣称完成。T-native12使用官方锁定uv0.13.4制品替代上游老部署工具0.8.9来识别Python3.13.14，不重解Dify依赖锁；Ubuntu原生PG16与原上游PG15差异记录，应用新库尚未启动。
+
+## R34并行交接与实施补充（agent-1020-root，2026-10-21）
+- T-web10作者agent-1020-web已完成并释放报表前后端与对应测试；新增26组件类型/28源项，当前254/326源项受支持、72项仍依赖专用数据/协议。作者证据：新增20项后端通过、4项纯Node/ECharts通过、3项定向回归通过；12次临时SQLite取数，无外部库/浏览器/模型。root尚待统一类型与页面验收，不代写企业完成。
+- T-agent-1020-web-11：作者agent-1020-web认领apps/web/src/modules/admin/ServiceIdentityWorkspace.vue、PermissionSelector.vue（新增）及RoleWorkspace.vue局部tab；复用现有服务身份/令牌API，补新增修改停用及短期令牌签发撤销，令牌只出现一次。无后端/导航/运行修改，root串行落盘。
+- T-root16补充认领modules/workspace/quality_overview.py（新）、workspace/router.py工作台质量趋势和待办口径、apps/web/src/modules/home/Workbench.vue及对应新增测试；复用制造不可变run与授权，避免复检改写首检/把完成任务算待办。无制造目录修改。
+- T-root16新增business-tools/openapi.json投影15个已有只读业务接口，按当前角色与后续实际资源授权过滤；2项纯契约测试通过。尚未把凭据配置到实际原生引擎，不能写成原生工具调用已验收。
+- 环境证据：Ubuntu基础依赖一次604.3秒exit0；Dify官方1.17.1 Next三层72,267,301字节下载/摘要验证完成，未启动Dify。sources步骤exit1无stderr、账本仍attempted，所属复制进程已退出；保留partial约45MiB，未连接业务库。WSL日志有poweroff/reboot/unclean journal，根因待核，不能归因为OOM。先停止原copytree，改为单归档传输+已有文件SHA核对的修复方案，不扩大180秒复制预算。
+- I-agent-1020-root-21：新Ubuntu包安装虽阻止当场start，却保留systemd自启，重启后默认PG16/Redis/nginx/squid已启动。核实均属于本次新发行版/系统默认数据目录，root正在正常禁用停止；保留数据，不接管/查询默认库，不操作Windows服务。后续只启动项目/opt专属数据及端口。
+- T-root16补充认领identity/router.py与test_identity_security.py：T-web11观察到服务身份内部角色被通用角色/成员入口列出及可直接编辑，会绕开ServiceIdentity范围同步。root修复基于真实ServiceIdentity关联的隔离，不用名称前缀；服务身份仍通过已有专用API增改停用。该问题登记I-agent-1020-root-22，关联R34身份可维护性。
+- T-domain12作者agent-1020-domain已交接释放制造前后端：7表、复检/处置/维修/类别/统计及16新改前端文件。作者制造5文件22项通过22.74秒；最后新增服务身份排除/事件快照/预警原阈值分组后12项定向通过15.33秒，均新临时SQLite与Mock、无外源或模型。旧resolve/reopen现在409 maintenance_work_order_required，调用方已走有新证据与独立复核的工单，不删除原接口。实际页面待root验收。
+- T-agent-1020-domain-13：agent-1020-domain仅认领新增apps/web/tests/manufacturing-lifecycle.mjs，预算120业务HTTP/180秒/≤6业务查询/本轮单新CSV，API准备+真实UI质量处置复检独立关闭，检查设备产品各tab及维修入口。作者只编写/语法检查，root核定新本机数据归属后串行执行。
+- WSL恢复证据：tools阶段ready；源码归档138065920字节，SHA575405a4ac5d3ab2b1020197620d70e7afc244828aa6e9fd73e9d36a3c8e12a9；verify-resume核对3851个已有文件，原子补10737个缺失文件成功，保持旧attempted历史。官方Next提取9685文件并同版本GNU原生依赖适配成功，未构建页面；完整服务尚未启动。新Ubuntu默认5服务已正常disable/stop且全部inactive，数据保留，无查询。当前按uv.lock安装API与Agent Python环境，无业务库/模型请求。
+- T-web11作者agent-1020-web已交接释放admin服务身份4文件；15条权限纯断言、3份Vue脚本/模板编译及格式通过，真实CRUD待浏览器。root已修I-root22服务身份内部角色/成员隔离，20项identity测试通过27.05秒；工作台新增4项口径测试通过（先3项4.22秒，新增待办1项1.91秒）。
+- T-agent-1020-web-12预分配agent-1020-web：仅新增apps/web/tests/platform-enhancements.mjs（如需拆分service-identities/report-presentation-ui亦限定tests目录），复用本机请求/截止守卫，120业务HTTP/180秒/业务查询≤4，新CSV及新平台；真实服务身份CRUD/短令牌清空撤销和报表新组件/画布/模板换数关键操作，原文令牌不得截图/落盘。作者只写与语法检查，root确认归属后执行。
+
+## R34制造页面验收与剩余业务补齐（agent-1020-root，2026-10-21）
+- T-domain13作者交接后root在已核归属的18080/新.local/acceptance/r34-20261021/platform.sqlite3执行一次浏览器验收：13.8秒，85业务HTTP，单新CSV4次取数，0外源/模型/请求失败/页面错误；真实UI返工→复检→第二人关闭通过，首检50%与复检100%同时保留。维修仅验真实待复核工单页面，不冒充新证据关闭已浏览器验证。7张截图均已查看，页面无裁切或实现规则说明堆砌。
+- 当前8080平台已核归属停止、只读备份SQLite到.local/platform-backups/r34-before-20261021.sqlite3后启动新版；原账号/配置保留，Open WebUI未重启。前端正式build通过13.56秒（含vue-tsc），报告大chunk告警保留，不是构建失败。
+- T-agent-1020-domain-14：作者agent-1020-domain认领F-M10-06节能分析。新增manufacturing/energy/、EnergyWorkspace/EnergyForm/EnergyDetail.vue及test_manufacturing_energy.py；MaintenanceWorkspace局部tab、制造router最小include。复用maintenance同工况分箱和DataService/Task，Test5模拟泵曲线不作为实数据算法。按产量加权单位能耗，支持期间电量/功率×时长/累计表差分，缺失与负跳变/跨工况剔除计数明确，未匹配不外推。节能空间只表示历史基准可达假设，金额需完整价格证据，无数据不算比例或效益。待其冻结新EnergyAnalysis表后root补独立03迁移；不动已有02迁移。作者只用小量新本机文件库测试，不启动浏览器/外源/模型。
+
+## R34持续实施与分工（agent-1020-root，2026-10-21）
+- T-web12作者已交接platform-enhancements.mjs并释放范围，语法通过；root接管实际新本机18080验收，既定120HTTP/180秒/4查询范围，凭据只经内存环境传递，不输出。root核定owned PID/实际数据目录后执行。
+- I-agent-1020-root-23：WSL binaries阶段在plugin-daemon编译报缺本地internal/storage/baidubos包后exit1，尚未Qdrant和业务启动，没有DB/模型请求。native12负责核实源归档完整性和独立插件恢复阶段；不重跑已构建Agent目标。
+- T-agent-1020-root-17：root认领新增20261021_03能源分析迁移、现有test_migrations.py相应新版本验证，依赖domain14已冻结EnergyAnalysis结构；只追加新表、不改02迁移或旧数据。
+- T-agent-1020-web-13：作者agent-1020-web认领F-M16-08的字典/系统参数/公告/表单辅助，先静查本地qKnow原版相应模块复用形态，再在既有operations模块中增量实现，复用Entity/CRUD/权限/审计/页面组件。代码范围operations/下新增独立文件、operations/router.py最小include、apps/web/src/modules/operations/下新增组件及原系统设置入口最小接入、相关独立测试；不碰数据库迁移或root/native/domain进行中范围。先提交模型冻结供root编迁移；测试只小量临时新本机SQLite，不运行服务/浏览器/外源/模型。共享记录root串行追加，实际作者保留。
+
+## UI定位问题与修正认领（agent-1020-root，2026-10-21）
+- I-agent-1020-root-24/T-web12：首次增强页面脚本在定位“质量·查看”控件时10秒等待超时，10业务HTTP/1新CSV查询；无API失败/在途查询/模型/外源，浏览器已关闭。has条件错误嵌入了dialog祖先定位器，导致匹配不到真实子控件，不是数据库超时或运行资源异常。
+- T-agent-1020-root-18：root认领已释放platform-enhancements.mjs，修为控件相对定位并保留首次失败收据，随后按原120HTTP/180秒/4查询边界独立复验；不放宽数据源或查询预算。
+
+## 新能源迁移与辅助配置迁移（agent-1020-root，2026-10-21）
+- T-root17：独立03迁移新增manufacturing_energy_analyses；新本机临时SQLite 5项迁移/生产版本检查通过4.00秒，原设备记录保留，重复upgrade幂等。未接业务旧库。
+- T-agent-1020-root-19：root认领新增20261021_04系统辅助配置迁移及test_migrations.py头版本/表存在验证，依赖web13冻结support_models.py，仅2新表；04之后的修改另建迁移。web13负责router注册，不改迁移。
+- T-root18：第二次浏览器验收20业务HTTP/1新CSV查询，服务身份完整UI已通过；报表颜色选择器脚本仍用旧Element Plus class等待超时。已查当前组件源码改用实际panel/语义textbox与确认按钮；无API失败/在途数据库/资源异常，保留两次失败收据后独立复验。
+- I-root23补充：storage错误已定位并生成新14631文件归档；补源先被已安装uv产生的build/egg-info文件拦下，无源码写入。native12负责只读归类并保留失败历史完成定向恢复，不删除这些文件或忽略来源不明内容。
+
+## 身份与报表真实验收通过（agent-1020-root，2026-10-21）
+- T-root18/T-web12最终实际单浏览器37业务HTTP/3新CSV查询/13.7秒通过，0 API错误/页面错误/外源/模型。真实身份创建修改、5分钟签发、关闭清空、撤销停用；排名/进度/漏斗绑定刷新、画布尺寸底色、属性撤销重做；模板字段换数及实际下载HTML的UTF-8/数值/中文/标题均通过。3截图已逐张查看；令牌未截图/落盘，复制只验内存API替身。
+- 本次脚本共7次实际运行（含6次定位/断言缺陷修正），按unique prefix去重累计167HTTP/11次实际业务查询上界。早期错误为嵌套locator、Element Plus旧class、title按钮、同名组件/查询选择和中转响应文本断言；未发生业务数据库超时或资源异常，失败后当次已停。另2HTTP独立核HTML导出正确，2次只读临时验收库单SELECT均先EXPLAIN、各≤1行；最终改验真实下载文件而非中转响应，未更改产品导出内容来迎合测试。失败收据保留在忽略目录。
+- T-root19：04迁移5项临时本机SQLite检查通过3.73秒，2新表/4索引/2唯一约束，与冻结模型无差异，旧设备保留；不改旧库/远程数据源。T-root17/19在上述本机迁移范围已完成。
+- T-web12作者脚本完成与root18实际验收已闭合；root18已完成并释放脚本范围。下一步energy/support UI与原生Dify实际启动，不重复本次已经通过的全路径。
+
+## 系统公告业务入口接入（agent-1020-root，2026-10-21）
+- T-agent-1020-root-20：root认领apps/web/src/modules/home/Announcements.vue新增及Workbench.vue局部引用，消费web13既有/operations/announcement-feed；只显示当前工作区已发布且未过期公告，点击查看正文。无公告不占空面板，失败提供重试，不渲染任意HTML或业务规则说明。operations源范围仍归web13，不重叠修改。
+- WSL source-storage-repair已ready：核对14571已有源码、补48缺失文件（storage与已存在dev-proxy/dist），业务源码差异0；703个已核构建/配置额外项逐路径/类型/权限/SHA保留，原失败history完整。5个已构建Agent ELF身份核对通过；两venv按原锁修包并核storage安装文件SHA通过，无DB/模型。插件独立构建正在执行；Qdrant1.19.2固定官方摘要已通过，未启动。
+
+## 客户端证书接入与最后缺项认领（agent-1020-root，2026-10-21）
+- T-domain14作者已完成并释放energy目录、3个Energy Vue、MaintenanceWorkspace局部、制造router及专属测试。13整文件测试通过1.95秒，随后新增半分四舍五入与2金额相关测试3通过0.84秒；仅新4行CSV单源查询，不接旧库。root接管后续构建/真实UI与文档验收，不将模拟节能空间称为企业收益。
+- T-agent-1020-domain-15：作者agent-1020-domain认领F-M14-08客户端证书与接入授权。优先复用qKnow客户端/证书界面形态、平台已有服务身份和短令牌，采用标准JWT客户端认证库，不自建密码学协议、不冒充mTLS。范围identity/新增client_certificate相关文件、service_accounts.py最小证书逐请求约束及router.py最小include、apps/web/src/modules/admin/新增ClientCertificate相关组件及已交接ServiceIdentityWorkspace.vue局部入口、相关独立测试；不改迁移/requirements锁或全局设置，先报依赖和冻结模型由root接入。用户授权完整接入功能已持续有效；只用纯密码学/新临时本机库测试，不运行原服务或旧库/外源/模型。root串行写共享，保留作者署名。
+
+## 原生Dify验收工具认领（agent-1020-root，2026-10-21）
+- T-native12作者正式交接并释放全部WSL脚本；56项纯Mock/临时文件通过1.20秒，9入口编译通过。root接管实际prepare/init-data/start及必要定位。完整原生功能待验，任务仍待验收。
+- T-agent-1020-native-13：作者agent-1020-native认领新增tools/verify_dify_native.py、apps/web/tests/dify-wsl.mjs及独立相关测试，仅编写可审阅的实际验收入口，不自行执行服务/DB/浏览器/模型。按本地锁定Dify控制器/API契约复用真实流程，无LLM固定开始→Python/JS代码→结束两条流程为第一组；预算120业务HTTP/180秒/400静态、2流程/0模型，新本机专属Dify库且先核runtime/PID/端口/新数据归属。原生账号只本机加密存储，不回显密码；登录/工作流创建编辑运行结果实际UI截图须无秘密。模型/知识验收独立后续预算，不混进本组。root继续负责部署，不与工具范围重叠。
+
+## 原生初始化范围与证书依赖（agent-1020-root，2026-10-21）
+- 插件与官方0.2.15代码沙箱构建均已ready，6个Go程序/沙箱ELF摘要核验完成；WSL doctor返回missing=[]、Landlock7、ready_to_prepare=true，没有开始数据库业务或模型验收。root准备依次prepare（180秒，仅本项目目录/用户/密文）、init-data（420秒，只本项目新PG25432/dify+dify_plugin与上游迁移，失败finally回收所属PG）、start（每角色既有45/180秒，总900秒、失败回收本轮所属cgroup）。本地默认服务不接管，模型请求0。
+- T-agent-1020-root-21：root认领services/platform/requirements.txt、requirements.lock.txt和core/settings.py的最小PyJWT2.15.1依赖/固定客户端断言aud配置，关联domain15。仅安装本仓库.venv，不升级cryptography等既有依赖、不改全局Python。aud由服务器显式配置，不从Host/转发头推导。
+
+## WSL新库初始化认领（agent-1020-root，2026-10-21）
+- prepare实际成功，runtime_id=31eed25a8a634c0bb1567940f0f36831，程序归root只读、各新数据目录按服务UID分离、密文生成完成；无业务服务或数据库初始化。下一步严格使用该runtime/PG25432和/opt/ai-agent-company/data/postgres。
+- T-agent-1020-root-22：root接管已交接wsl_runtime.py的实际部署和必要故障定位；先为原生迁移保存脱敏受限日志，并设置本次PG会话statement_timeout120秒/lock_timeout10秒，整体既有300秒迁移/420秒初始化预算不扩大。仅新库初始化，无旧库/模型；异常由现有finally停止所属PG，保留错误和部分新库，不删除重建。
+
+## 原生迁移前置依赖问题与定向修复（agent-1020-root，2026-10-21）
+- I-agent-1020-root-25：专属Ubuntu在无前台WSL任务后重启，首次init-data在boot核验即拒绝、数据库0操作；核旧进程/cgroup/网络全消失后reconcile-boot已保留历史并完成。第二次init-data成功创建本项目PG16集群、dify_app及dify/dify_plugin两个空库；原生flask upgrade-db在获取Redis迁移锁时发现26379尚未启动，ConnectionRefusedError后停止，没有进入业务表迁移。脱敏日志logs/init-data-migration.log已保存。finally所属PG已停止；随后WSL再次空闲重启，无在途查询或模型。
+- 本次为缺失本地启动依赖的配置错误，未发生数据库查询超时、已有连接中断或资源异常；不删除/重建新库，不盲目重发。保留失败历史，先修Redis启动顺序及可审核的仅空库迁移恢复，再在用户持续授权的新本机部署范围内执行。
+- T-agent-1020-native-14：root正式释放wsl_runtime.py（含本轮新增脱敏迁移日志）给agent-1020-native修init-data前置Redis与独立受控恢复，并完善相应test_wsl_runtime.py纯Mock；不实际启动/连接DB。恢复必须核相同runtime/固定PGdata/库/用户、旧进程已停及最初空库状态，不重执行initdb/CREATE ROLE/DATABASE；仅允许已核这类缺Redis失败，失败历史不抹除，不自动循环/换库/扩大预算。T-native13验收工具继续归原作者，先解决前置14。
+- T-agent-1020-root-23：root认领新增deploy/native/wsl_lifetime.py及wsl.py/desktop.py的本机WSL前台生命周期接入，保留Windows平台与OWUI；不改全局idleTimeout。Windows与Linux两侧精确PID/出生时间/boot/runtime核对、正常停止所属服务后结束keeper。与native14 runtime源文件不重叠。
+
+## 证书迁移与剩余界面验收认领（agent-1020-root，2026-10-21）
+- T-agent-1020-root-24：root认领新增20261021_05客户端证书迁移及test_migrations.py头版本/新表检查，依据domain15已冻结3模型，仅追加表与索引、不改旧业务数据；临时本机SQLite迁移验证。
+- T-agent-1020-web-14：作者agent-1020-web认领新增apps/web/tests/energy-support.mjs（必要纯helper限tests/），覆盖新CSV同工况能耗分析/导出与系统辅助配置真实UI，公告需在工作台可见、参数版本恢复、表单校验/导出。复用已有本机归属/请求预算守卫，120业务HTTP/180秒/至多6次新CSV业务查询/模型0；作者只编写、静态检查，不启动/查询/执行浏览器，由root串行运行。已完成operations代码如发现问题只报告，由root协调新范围。
+
+- T-root23前台lifetime 9项纯进程替身测试通过0.08秒；核旧boot无进程/cgroup后reconcile保留历史，实际前台keeper启动成功，runtime仍31eed25a8a634c0bb1567940f0f36831；不改全局WSL或Docker。
+- T-root24首轮05迁移2失败/3通过：离线生成时未加载已有身份模型，3个外键列产生NullType，属于生成代码错误；未使用业务库。已核既有ServiceIdentity/ServiceAccess主键均String36并纠正新迁移，保留失败记录后定向重验。
+
+- T-native14作者已交接runtime/tests，52纯Mock测试通过0.46秒。root审阅明确恢复仅同runtime/PG16空库，先3本机连接/22系统目录语句/25秒（每SELECT先EXPLAIN），再单次原300秒上游迁移，Redis/PG finally反序回收；执行总预算仍420秒，不用作者示例480秒扩大。旧失败日志按SHA bc4241172effdba44b6d6780cd35f52f9416ef6d894e760e7e5222ad72d4139b归档，绝不重initdb/建库；现在root接管实际恢复。
+- T-root24纠正后5项迁移测试通过3.43秒，03/04/05累积升级、已有设备保留、重复升级和开发库显式接管均通过新tmp SQLite。05已完成本机迁移范围。
+- T-domain15作者已正式交接：证书管理/标准JWT认证/最新权限与证书逐请求检查，57个独立用例均执行通过（56/31.17秒+1/1.85秒），最新Vue类型通过9.14秒；仅临时SQLite/本机签名，实际UI待验。
+
+- I-agent-1020-root-26：受控恢复在Redis已监听后因native_process_ownership_not_ready退出，发生在预检之前，0SQL/迁移/模型；Redis及PG的专属cgroup全部停止。日志显示Redis默认修改进程标题，初步怀疑环境标记被setproctitle改变，需修正本项目配置并验证，不能降低PID/UID/cgroup归属要求。
+- T-native14 root再次释放runtime/tests给原作者核该配置问题和仅已审阅、无SQL的前置失败续作；保持原日志SHA与恢复失败历史。root不同时修改该范围。
+- T-agent-1020-domain-16：作者agent-1020-domain认领新apps/web/tests/client-certificates.mjs及必要tools/verify_client_certificates_ui.py，用当前18080已核新本机SQLite；编写真实UI登记/改名/停用/轮换/撤销、公钥导出与本机断言换令牌/禁重放/撤权验证，原私钥断言令牌只内存不落盘截图，120业务HTTP/180秒/0业务源查询/0模型。只编写静态检查，root核归属后执行。不得改其他进行中代码。
+
+- T-native14作者再次交接：本机Redis7配置文档确认默认改进程标题，本项目stdin关闭set-proc-title；其他归属核验完全保留。新增精确--reviewed-failed-launch只允许上次redis spawn已完整回收且尚未任何SQL的失败，旧恢复记录追加history，任何preflight尝试/第二次history均拒绝。59纯Mock/FS通过0.45秒；root审阅同launch72de...、原SHA不变后单次继续，仍420秒/300秒，失败不自动重跑。
+
+- I-root26 Redis配置修复实际通过。随后empty预检仅首个系统目录查询便因empty_recovery_server_identity_changed停止（1连接，EXPLAIN+SELECT共2语句，0业务SQL/迁移）；root已核PostgreSQL16官方文档inet::text会附/32，原脚本期待纯127.0.0.1是SQL显示口径错误。已改host(inet_server_addr())并让Mock按真实inet语义区分，相关70项纯测试通过0.46秒。
+- root审阅并准备.local/reviewed-empty-migration.py单次修正续作：固定runtime31eed.../failed launch1ccf.../原日志SHA/新PGdata/停止归属，保留原recovery与history，新增独立attempted收据；先同3连接22元数据预检再单次原300秒迁移，总420秒。不删除/重建新库、不扩大数据库范围。前次是断言失败，无超时/连接中断/资源异常。
+- 平台最新正式build通过13.45秒，Vue类型/2498模块构建通过；现存报表及公共包>500kB提醒保留待性能优化，不把提醒隐藏。
+
+- Dify受审恢复已实际成功：同runtime/专属PG25432，3本机连接22系统目录语句全部通过，原生flask upgrade-db完成，databases_initialized=true；PG/Redis finally已停止，0外部库/模型。原init/recovery失败与独立reviewed_inet_migration收据全部保留。I-root25/26的已知初始化问题已解决，后续业务功能仍待验。
+- 18080验收平台已核旧PID/data后更新到最新build与全部新增表，新owned PID5600，账号/新验收数据保持，access.enc及ownership同步更新，无外源查询。下一步root执行wsl.py start，总900秒/每角色45或180秒，失败仅回收本轮cgroup；已确认前台keeper持续，无Docker。
+
+- I-agent-1020-root-27：首次完整启动到Qdrant时因快照默认相对路径./snapshots/tmp位于只读程序根而PermissionDenied退出；本轮Qdrant/Redis/PG均verified停止，无业务HTTP/查询/模型。root已定位日志并将Qdrant工作目录与snapshots显式放回既有agentapp专属data/qdrant，不放宽源码或全局权限；补现有规格测试后继续新单次启动。
+- T-web14作者交接energy-support.mjs，格式/语法通过，未执行。root接管按120HTTP/180秒/≤6单新CSV查询（实际计划2）、0模型在已更新owned18080执行；每次收据独立保存。
+
+- T-agent-1020-web-15：作者agent-1020-web只读核既有native业务聚合链：平台OpenWebUI工具导入、Dify服务连接/应用绑定/固定流程调用/知识配置，明确当前实际API/UI契约、root完成本机原生验收后最少需要接入的步骤。范围仅阅读integrations/、native前端、现有测试与本地锁定上游调用契约，不编辑、不发HTTP/DB/模型；成果由root串行追加。
+
+- I-agent-1020-root-28：energy-support首次UI实际能耗保存/40kWh与40元/CSV全部通过，15HTTP/2新CSV查询/0API或页面错误；进入系统配置时GET /health返回后端健康JSON，导致等不到页面tab。为既有SPA路由与健康探针同路径冲突，刷新页面也受影响，非数据库超时。浏览器已结束、无在途查询，失败收据保留。
+- T-agent-1020-root-25：root认领main.py的/health内容协商兼容及独立test_health_navigation.py，并接管已释放energy-support.mjs必要定位。浏览器文档请求返回既有SPA入口，默认/API请求仍返回健康JSON，使用Vary Accept；不改既有菜单URL或健康探针契约。无数据库的HTTP层回归后更新owned18080，仅复验未完成系统配置UI，已通过能耗不机械重复。
+
+- I-agent-1020-root-29：下一次启动的Qdrant与两代理均已就绪，shellctl日志明确0.0.0.0:15004已服务，但控制器用宿主网络空间psutil连接表检查隔离netns，45秒未识别端口，触发启动守卫。不是查询或模型超时；所有6项本轮cgroup已verified停止、无业务请求。root接管namespace监听识别：从精确PID的/proc/PID/net/tcp与其fd socket inode交叉核对，不放宽归属/网络隔离或增加45秒预算，补纯文本与归属测试后才能继续。
+- T-domain16验收脚本作者已交接，Python/Node静态通过，尚未实跑；root串行负责后续真实证书UI。
+
+- T-web15只读结论由作者确认：平台工具登记不等同原生安装；OWUI需tool_servers与model meta.toolIds，短Bearer还需续签方案；Dify绑定须AppKey/DatasetKey分别Vault引用，发布后读取真实workflow UUID。当前NativeBindingForm漏凭据/input_schema，部分原生target选择不匹配引擎，知识仅深链无平台导入/检索控件。Dify与Windows业务工具仍需实核桥接。激活现仅enabled，不是后台调度；15GET只读已存结果，不代表写入闭环。
+- T-agent-1020-web-16：作者agent-1020-web认领NativeBindingForm.vue、NativeWorkspace.vue、同目录新增独立KnowledgeOperations.vue（如需要）及相关纯前端测试，补表单已存在DTO字段credential_ref/input_schema、按引擎和app_mode选择有效深链target、知识已有API的文件导入/文档状态/检索引用控件。仅消费现有后端契约并复用SecretPicker/文件选择/表单交互，不重写原生引擎或新增无用说明文案；不改后端与其他Agent文件。作者可类型/编译静检，不服务/浏览器/DB/模型。
+
+- T-agent-1020-domain-17：作者agent-1020-domain只读审阅WSL剩余服务启动规格与锁定上游真实入口，重点code/plugin/agent/api/worker/beat/web/gateway的环境变量、写路径、UID/exec链和监听判断；输出明确证据与最小修复建议，不编辑runtime、不启动/连接/发HTTP。root正在修netns监听检查，避免重复。
+
+- T-root25修复/health内容协商5项无数据库HTTP测试通过1.56秒；真实系统配置定向验收70HTTP/0业务查询/9.6秒通过：字典消费、参数v1→v2→恢复v3、公告工作台纯文本、3类表单字段校验与Schema/Vue导出、四类软删、OpenAPI导出均通过，0API/页面/网络错误。能耗先前已15HTTP/2查询通过，两阶段合计85HTTP/2业务查询，不重跑已通过能耗。
+- I-agent-1020-root-30：修netns检测后shellctl就绪通过，代码沙箱初始化useradd因PATH缺/usr/sbin而exit127；已正常回收7项cgroup，无业务调用。domain17只读确认上游sandbox UID65537未占用，现有agent用户互异。root补prepare固定UID双向核验及显式useradd --no-log-init，补PATH并避免私有/var里隐式建用户；2个UID冲突回归待跑，再仅补本次专属账户（不重prepare/不改数据）。
+- T-agent-1020-root-26：root认领adapters/native.py、integrations/service.py两处Dify models深链装配与test_integrations.py定向用例，配合web16。来源为锁定Dify原生/apps?settings=provider，继续m15.read权限；不改web16前端范围。
+
+- T-domain17只读审阅已交接：明确补UV_PATH复用tooling uv、禁API/Beat默认遥测、沙箱UID池写/etc/passwd仅放私有mount副本；现有应用缓存/HOME权限正确无需放宽程序目录。root已补代码，sandbox65537经同runtime+无live进程核验显式创建，已更新单个control shim并保存前后SHA。实际代码隔离效果仍待验，Nginx改标题归属疑点待动态确认。
+- I-agent-1020-root-31：证书UI首次4HTTP/0业务源/0模型，验收脚本白名单漏现有/navbar-bg.jpg，主动拦截后连带取消页面请求；不是产品API或数据库失败。root接管已释放脚本，白名单补本机jpg/jpeg静态扩展，不扩大业务接口/数据范围，原收据保留，按原120HTTP/180秒独立复验。
+
+- T-domain16真实验收已完成37HTTP/3.6秒，3次成功证书认证及8个预期401/403拒绝、真实登记改名/停启/轮换/撤销/公钥下载/最新权限缩减均通过，0业务源/模型；先前4请求白名单失败历史保留。7张energy/support/certificate实际截图均已查看，未见裁切或密钥；工作台仍显示技术audit action，另行补可读动态。
+- T-agent-1020-domain-18：作者agent-1020-domain认领apps/web/src/modules/home/Workbench.vue的近期动态显示、workspace新增activity.py/既有router.py最小投影与独立测试，必要operations/support_service.py仅审计新增name/kind元数据。root释放Workbench当前修改给此任务；Announcements.vue不改。将operation_support.update等实现细节替换成有业务对象和动作的中文动态，未知/无有用信息的事件不凑数；时间本地化，保持权限范围，不展示无权对象名称，不额外放业务规则说明。只小量新临时SQLite/纯单测，不实际服务/浏览器/外源/模型；共享root串行。
+
+- I-agent-1020-root-32：代码沙箱及全部前置7服务当前已正常到监听，随后插件拒绝LOG_LEVEL=warn（上游只收大写DEBUG/INFO/WARN/ERROR），8项cgroup已verified停止，0业务调用；root改为WARN，保留失败日志，无依赖或数据库重建。
+- T-agent-1020-native-15：作者agent-1020-native认领integrations/router.py文档导入的最小ResourceReference登记与独立相关测试，保持已有Dify接口/文档来源SHA；引用与knowledge_document同事务，文件删除保护能看到已导入原件，失败不能留下半条本地引用。只小量新tmp SQLite+Mock上游，不启动/查询实际服务/外源/模型，不改web16前端、root的service.py/adapters/native.py或其他接口。root串行共享记录。
+
+## 原生剩余配置与知识导入保护（agent-1020-root，2026-10-21）
+- T-native15作者已正式交接router导入局部和test_knowledge_file_references.py：知识文档+原件引用同本地事务；5项新tmp SQLite/Mock上游测试1.79秒通过，包含删除409、上游失败/元信息缺失/引用写入故障回滚、跨工作区不可见。未回填历史，未称本地回滚能撤销已被上游接受的文件。
+- T-agent-1020-native-16：作者agent-1020-native只读复核已交接Dify真实UI验收工具契约、静态资源和代码节点，不发实际HTTP/DB/模型，不修改源文件；root负责运行。
+- T-root22补充：基于domain17上游改进程标题证据，为web/gateway加入持有归属标签的父进程，仍在原UID/独占cgroup下执行并核子树监听，不放宽归属。73项runtime/lifetime纯测试通过0.47秒；已在同runtime且全部角色停止时更新唯一control/wsl_process.py，前后SHA保存在process-supervision-compatibility.json。下一次启动使用已修WARN/UV_PATH/遥测/UID私有挂载配置，预算未扩大，不启动Docker。
+
+- T-root22原生启动已成功：launch 9cf4c1046abd406e88a0faf11b16e6c6，14角色全部owned/running，数分钟后二次状态仍一致；本机用户入口http://127.0.0.1:13001。Windows生命周期已记录Dify启用，启动系统.cmd后续复用三套服务。此结论仅进程/监听就绪，尚无业务HTTP/模型，full_native_verified保持false。
+- T-native13由root接管实际验收，离线prepare已创建dify-native-20261021-01加密账本，0HTTP/DB/模型；按原180秒/120业务HTTP/400静态/2固定无LLM流程，核全部服务与新本机PG归属后执行。失败不重复派发，保留收据。
+
+- T-domain18作者正式交接：中文业务动态/当前权限过滤/64扫8返/同动作去重/空区块折叠完成；9动态+6质量15项新临时库回归通过8.76秒，Vue类型/格式通过。首次旧质量夹具缺真实Task+标准快照版本曾1失败，按root新增授权修夹具并补失权边界，未放宽生产授权或原期望。0业务源/真实服务/模型。
+- T-web16作者正式交接11文件：应用凭据与输入Schema、按引擎原生入口、知识文档导入/状态/检索引用界面；60纯断言+7SFC编译、全局类型/格式通过，0实际HTTP/索引/模型。后端原件引用已由native15闭合。
+- I-agent-1020-root-33：Dify原生10HTTP已成功setup/login/创建两应用并保存草稿，0工作流派发/0模型；打开浏览器前工具错误引用windows.TOOLS（应LOCAL_BINARIES）触发AttributeError，无API/DB失败。原加密账本及草稿保留，绝不重建账号/应用或重复派发。
+- T-agent-1020-native-17：作者agent-1020-native接管verify_dify_native.py及独立测试修路径，新增仅此次明确失败条件的browser-only受审续作，核同runtime与两草稿、0dispatch/无browser进程、保留历史/累计HTTP/新输出目录，继续原180秒/120总业务HTTP/2固定无模型流程；作者不执行真实操作。
+- T-agent-1020-domain-19：作者agent-1020-domain只读核code-sandbox首次UID池、Python/JS chroot与动态依赖兼容，不执行代码/HTTP/DB/模型、不修改。
+- T-agent-1020-web-17：作者agent-1020-web认领项目文档README、03及实施验收.csv，按已证据更新125项状态，不改范围或把上游源码计为验收；root保留01/02/API导出和共享追加。
+
+- root最新导出实际契约396操作/273路径；设计227操作/125功能/75页面不变。统一前端Vue类型+2517模块构建通过12.59秒，公共包与报表>500kB现存提醒保留。
+- T-agent-1020-root-27：root认领本机交付收口：核8080平台归属并新建只读SQLite备份，单次更新本项目平台/18080隔离验收平台到已检查代码，保持OWUI/WSL进程；更新根README、本机README及WSL说明的过期启动状态、账号加密交付和平台Dify入口。仅本项目自有平台配置，不查询任何企业数据源/模型，不删除历史备份/数据。
+
+- T-root27本机交付已更新：8080所属平台在新只读SQLite备份后单次重启成功；18080隔离验收平台更新至PID12712，0业务源/模型。3本机HTTP将Dify13001入口加入平台，已初始化Dify账号并入本机加密交付文件，查看本机账号.cmd可显示三套账号；未创建重复账号或读取企业数据。
+- I-agent-1020-root-34：domain19只读确认官方0.2.15的nodejs.go将脚本路径拼成node_temp/node_temp/test.js，而嵌入文件仅node_temp/test.js，实际JS派发前必遇ENOENT。首次UID池还晚于Python chroot的passwd复制，私有副本需提前包含上游10000..10999身份；两项尚未派发业务代码，非执行失败/重试。
+- T-agent-1020-domain-20：作者agent-1020-domain认领新增wsl_sandbox_patch.py、wsl_setup.py的setup_sandbox最小接入及专属纯测试。仅固定原SHA到一行JS路径修复后SHA、保留commit/archive、patch可审且重复校验，不改seccomp；作者不改WSL实际source、不编译/启动。root负责实际制品修复及code角色精确重启。
+- T-root22追加shim及新test_wsl_sandbox_entry.py范围：在私有passwd中预登记与上游一致的1000个UID，发现宿主同名/同UID不同映射即拒绝；只私有mount生效，宿主不改。root使用受管Python确认math是built-in且sqrt1764=42，不把未找到独立.so当缺模块。
+
+- T-native17作者正式释放工具：27纯Mock/FS测试通过0.80秒，LOCAL_BINARIES修正、同失败ID一次浏览器续作、原10HTTP累计/两只读YAML核图与mode/GET CSRF、禁止再setup/建应用、原历史加密保留；仅允许已受审code角色归属变化，其余13不变，仍待实际执行。
+- T-agent-1020-native-18：作者agent-1020-native只读核Dify原生插件/模型凭据/默认embedding/Dataset及Key最短配置契约，找本地可复用包；不读取真实密钥、不下载/连接/模型，不编辑。
+
+- T-domain20作者已释放3文件；5项临时文件测试通过、1项Windows不能创建软链而明确跳过。root实际只停code角色，在同runtime核源码/原二进制SHA后应用精确一行patch，用既有Go cache禁网络单独构建成功；原binary保留，收据保留来源/旧SHA。同步UID私有shim后code独立启动成功launch0b506f8a52184e189fb5486accd5ec8c，其余13角色未重启，0业务HTTP/模型。
+- T-web17作者完成并交接三文档：0.5/396实际操作273路径；125范围未改，78部分实现、31原生待联调、16本机范围已验证。新状态不等于125整项已交付，企业样本/72来源报表/原生聚合缺口继续保留。
+- I-agent-1020-root-35：Dify浏览器续作两次只读DSL核验成功；浏览器登录页匿名profile请求触发原生POST refresh-token，被验收白名单当未知写拦截。原收据累计15业务请求计数、41静态、0流程/模型/页面错误。独立只读诊断仅GET页面与资源、阻断全部POST，确定refresh-token为原生刷新Cookie流程（7请求观察含1拦截/41静态，0写/流程/模型）。不是原生API故障或数据库超时；未重新setup/创建应用。
+- T-agent-1020-native-19：作者agent-1020-native接管dify-wsl.mjs与纯测试，核原生refresh-token空body协议后精确放行并限制次数，增加失败method/path脱敏记录；不放行其他写请求。root另行审阅只有本次白名单失败、0派发的浏览器继续，保持已建账号和草稿，原失败记录完整保留。
+- T-agent-1020-web-18：作者agent-1020-web只读余72来源报表，与Test5/Jimu源按直接复用/协议适配/新业务分组，不改源码或虚标enabled。native18只读确认正式compatible/SiliconFlow插件包本地缺失，测试夹具不能替代；provider凭据保存会自动调用模型验证，后续应计真实请求。
+
+- T-native19作者已交接JS/7项纯测试通过118ms；精确只放行原生Cookie空body同源refresh-token且最多2次，无主动重试，未知写仍拦截并记录method/path脱敏。root审阅.local/reviewed-dify-cookie-ui.py：仅原recovery9d548...白名单错误、两草稿0派发、原浏览器已退出、14归属完全相同才继续；原失败完整入加密history，新输出目录，累计15+独立诊断7=22请求上界继续原120总预算，单次180秒/2流程/0模型。不重新setup或创建应用、不改数据库范围。
+
+- I-agent-1020-root-36：Cookie修复后的浏览器已登录并进入原生工作流加载；75累计请求计数/236静态/0工作流/0模型/0页面错误，模型目录API返回500而主动停止。脱敏日志定位插件新库缺ai_model_installations/install_tasks，SQLSTATE42P01；Dify主库迁移正常，插件子库迁移缺失。无查询超时/连接中断；为停止插件后台对缺表的重复检查，root已按原launch精确停止plugin并确认cgroup无存活，其他角色未重启。
+- T-agent-1020-native-20：作者agent-1020-native只读核插件原生迁移开关/入口和本机新子库初始化步骤，不手写DDL、不删库、不实际连接或启动；root负责审阅执行和补版本化部署入口。
+- T-web18已交接余72精确只读：A18展示可提取、B28字段/依赖适配、C26实际业务/交互/3D；material无余项，205已全覆盖。SUPPORTED按compType会将同名变体误启用，需要按source_component_id能力判定。
+- T-agent-1020-web-19：作者agent-1020-web认领reports前端最小新增/既有renderer/business/属性与纯测试，落实12来源项（胶囊/背景柱/两仪表/历程/三日历/三滚动卡片/一轮播），先与domain21对齐真实字段合同。复用Test5源码/CSS，去假数据，原生月份/滚动交互；不改后端或自行启用源目录。
+- T-agent-1020-domain-21：作者agent-1020-domain认领reports后端最小能力/Schema/绑定/HTML导出及独立测试，对应web19精确12 source IDs；保留已有254条，按变体启用不夸大整组。仅新临时本机库/纯计算，不业务源/服务/模型；作者与web先对齐，不覆盖其他代码。shared仍root串行。
+
+## 插件迁移补齐与报表扩展（agent-1020-root，2026-10-21）
+- T-agent-1020-native-21：作者agent-1020-native已交接并释放wsl_runtime.py/wsl_setup.py/wsl.py及test_wsl_runtime.py；87项纯Mock/FS通过0.60秒。按官方0.6.10 CLI迁移新dify_plugin，独立初始化状态，预检2本机连接16元数据语句，120秒单次CLI，240秒入口；fresh安装600秒总预算已按新增CLI阶段确认，主库迁移仍300秒。0实际DB/HTTP/模型。
+- root已实际构建官方plugin-commandline0.6.10，保留原go.sum及官方校验；初次离线构建缺CLI专用依赖明确失败，补官方依赖的独立构建通过，收据SHA a13b804c0a5db0ddf7c1ec85f2f5a27fc327aefa5394062d42e1472cd7f9feba。native只读确认DB_EXTRAS由官方buildDSN包装为options参数，当前timeout值有效。root接管按已核本机PG/插件停机状态执行一次init-plugin-data，不重迁主库。
+- T-domain21扩展：作者agent-1020-domain经root协调补服务端evidence.result.truncated权威检查及防伪回归，防止客户端修改截断标记使部分结果被发布；保持既有权限与正常254项行为。作者已报告65项针对性测试通过12.48秒，12精确来源组件等待最终交接与实际UI验证，暂不提高产品完成统计。
+- root已从官方marketplace代理取得并校验openai_api_compatible0.0.68与siliconflow0.0.61原始difypkg，保存官方unique identifier/压缩包SHA/manifest；官方R2直链TLS失败历史保留，未关闭TLS或签名验证。尚未安装/配置/发送Dify模型请求，密钥不写共享文档。
+- 插件独立迁移已实际成功：官方CLI退出0，同本机PG25432/dify_plugin，2连接16元数据语句核验通过；未重建主库、账号或两草稿。plugin_database_initialized=true。按受审精确范围仅启动plugin，launch f2d6919a4a2f4a958bd243426c78220c/PID46363，其余13角色归属完全不变。
+- root接管原生UI迁移修复后新阶段：仅原两草稿/已初始化账号/0历史派发，保留原75累计业务请求上界及失败历史；本新阶段单独120业务HTTP/400静态/180秒/2无模型流程，总累计另记。原失败为缺表42P01、非数据库超时或连接中断。先核原草稿DSL及14归属，任何已派发流程不再重复派发；脚本.local/reviewed-dify-migrated-ui.py只允许此次明确已修根因。
+- I-agent-1020-root-37：插件缺表500已解决，原生UI实际登录、Python代码编辑/自动保存与截图成功；本阶段70业务HTTP/244静态/1Python流程派发/0模型，代码节点失败。随后仅3GET核同原生run85ec334a-69d7-449e-9138-19a77de933c3为failed、total_tokens=0、code错误operation not permitted，沙箱日志SIGSYS。无在途执行、JavaScript尚未派发；不重复执行该流程。native正核官方sandbox要求的Python运行时与seccomp兼容，保留隔离。
+- T-domain21作者已完成并交接8文件；最终68项通过13.58秒，包含28新增与40回归。原254+精确12=266来源组件，截断证据权威检查已加；3条新tmpCSV业务SQL，0实际HTTP/模型，前端及视觉仍待验。
+- T-agent-1020-domain-22：作者agent-1020-domain认领新增apps/web/tests/report-source-components.mjs及tools/verify_report_sources_ui.py，复用已有ownership/停止helper，准备12组件真实UI/HTML导出验收；现owned18080隔离新库，1新CSV/至多3单查询/120HTTP/180秒/0模型。作者只写与静态检查，root核前端交接后执行。
+- T-agent-1020-root-28：root认领本机Dify官方模型插件安装/聚合，先保持官方签名验证上传已锁两包并完成安装，不配置密钥或发模型请求。原生兼容插件未暴露extra_headers且Dify过滤未知字段，OpenCode Go接入方式先核已有OWUI代理复用；不假称直接填写能用。安装阶段独立20业务HTTP/180秒，任务失败不重装循环。
+- 官方模型插件实际安装通过：5业务HTTP、2包签名verified=true、安装任务success/2完成，openai_api_compatible0.0.68与siliconflow0.0.61；0模型请求。独立收据保留签名、唯一标识和原包SHA，不改包、不关签名。
+- T-agent-1020-native-22：作者agent-1020-native认领wsl_sandbox_patch.py及专属tests、wsl_setup.py仅sandbox工具链接入。依据本次内核audit=syscall4，只对固定来源Python seccomp默认表补SYS_STAT元数据查询；保留其余默认及网络条件，禁止用ALLOWED_SYSCALLS覆盖整表。sandbox单独复用官方构建Go1.24.13，避免1.25+Go运行时新增prctl的已知不兼容；plugin继续原1.26.10。作者只纯测，root实际下载/构建/单code重启；不重跑失败流程、不改其他服务。
+- T-web19作者交接前端12文件：190纯断言/10SFC/类型/格式通过，12真实来源交互已实现，实际UI留给domain22。root执行项目check及2536模块构建通过12.36秒，现存公共包/报表体积提示仍保留；18080隔离平台更新到owned PID21768。
+- T-agent-1020-web-21：作者agent-1020-web认领verify_knowledge_ui.py/knowledge-native.mjs，准备实际平台导入→状态→检索→原文引用验证；复用归属helper，专属验收dataset/小中文txt，100HTTP/180秒/至多2向量调用/0LLM/0业务源。作者不实际执行，root先建专属dataset并绑定凭据。
+- 指定bge-m3已在Dify官方SiliconFlow插件实际配置成功：4本机HTTP，保存模型凭据引发1次ping向量校验、0LLM；默认text-embedding读回BAAI/bge-m3。未使用会验证其他LLM的provider级凭据入口。密钥只从原加密配置内存读取，经原生API加密保存。
+- T-native22作者交接3文件，96通过1软链权限跳过/0.65秒。root已取官方Go1.24.13/78,709,986bytes并核SHA，执行独立sandbox重建；只停止当前code角色、备份原四制品、精确stat补丁、官方Go构建，其他13服务不变，0业务派发/模型。构建360秒、单code就绪180秒，不重跑原已失败流程。
+- T-agent-1020-native-24：作者agent-1020-native认领deploy/native/wsl_http_bridge.py、新test_wsl_http_bridge.py、desktop.py桥生命周期最小接入及wsl.py必要只读网络归属helper；root不同时修改这些文件。已核专属WSL eth0=172.24.81.83/20、gateway172.24.80.1，Windows虚拟NIC46/Preferred与该gateway一致。仅该Windows虚拟地址13002监听、只专属distro源IP，2条OWUI标准模型API及平台既有15GET工具/schema精确白名单，上游Bearer/当前授权保留。每次启动重核网络，禁止全局监听/转发/防火墙修改，作者不实际启动或发HTTP/模型。
+- 沙箱第一次专用Go构建因旧c-shared生成python.h属主权限失败，0执行/SQL/模型；历史build.log保留。root审后将所有输出放到专属可写cache再原子安装，未放宽源码目录权限。相同360秒构建预算的独立续作成功，官方Go1.24.13；新code launch13ccafa8ee924a30909ec9bffc0d803d，仅stat4补充，其余13角色未变。
+- 报表UI首轮25HTTP/2新CSV查询，实际PATCH403后脚本等待刷新超时；root实核验收进程漏18080的allowed origin配置，已仅该隔离进程显式设置http://127.0.0.1:18080并单次更新至PID29396。不删除Origin/CSRF、不修改产品默认。domain22接管两工具补真实错误早停和同源API准备，原失败收据保留。
+- root接管已释放dify-wsl.mjs小修：锁定上游无输入流程点击Test Run立即派发，不存在Start Run；此前流程实际失败已单次GET确认，新增验收在点击前监听SSE，不重复派发旧run。原生新阶段将用独立两无模型草稿与原账号，保持旧失败和历史总数。
+
+## 原生执行、报表与知识联调继续（agent-1020-root，2026-10-21）
+- T-root22新增固定流程阶段：Python原生代码节点实际成功，run f09cf742-e9cf-4aff-a7e5-7abcb1e734f0/value42/0token，74HTTP；浏览器结果文本定位失败保留收据。独立受审只继续原未派发JavaScript，65HTTP/1派发/0token，截图确认MODULE_NOT_FOUND/Node24.21.0，未重复Python或JS。此前Python验证夹具按实际两个流程修正后27纯测试和7Node测试通过。
+- T-domain22作者已释放两个验收工具，修正编辑态适配画布后进入预览。root实际仅原收据受审续作成功30HTTP/0SQL/6.9秒，原26HTTP/3SQL/14.5秒保留；该夹具累计56HTTP/3SQL/21.4秒。12来源/3报告真实交互与HTML导出通过，6截图待root目检，未重复创建/刷新。
+- T-web21作者已交接knowledge-native.mjs及verify_knowledge_ui.py，静态检查通过；模型调用只限制入口操作，不能以计划2次等同上游实际HTTP计数，native_retry_policy_verified=false。root继续准备专属本机dataset/凭据/平台空间及一次真实导入检索。
+- T-agent-1020-root-29：root认领实际知识联调配置与新.local/prepare-knowledge-fixture.py；仅同专属WSL已核PG/新空dataset及18080隔离平台新SQLite，准备阶段至多12本机HTTP/0模型，密钥仅原生存储和本地加密。后续web21单次100HTTP/180秒/1导入/1检索/0LLM，失败先确认原生索引停止，不重复导入。
+- T-domain23作者仅只读行级ACL与缓存授权缺口，不修改或查询数据库。T-agent-1020-domain-24由作者agent-1020-domain随后只读核上述JS MODULE_NOT_FOUND及锁定sandbox节点依赖，允许源码/本项目日志，禁止执行/HTTP/DB/构建/修改；root串行共享。native24继续拥有桥及desktop/wsl入口最小范围。
+- T-domain22补充目检（root本人观察）：6截图已查看；实际页面预览正常，但HTML导出仪表/历程/卡片出现深色前景配深色背景、日历侧栏裁切。上述56HTTP仅证明数据与操作链通过，视觉交付尚未通过；已通知web作者定位，不能沿用自动收据passed替代目检。
+- T-root29知识准备8本机HTTP/0模型成功，新Dify dataset60d5c9b5-0b3a-4ccf-97d4-76b4a0b0ee08，空库+默认bge-m3/无rerank/无summary；dataset Key限定此库并加密后放平台Vault。真实UI24HTTP/1上传1导入1检索/13.4秒：索引completed、语义命中0.8206、引用/原文/下载字节一致、原件删除409保护全部通过。最后验收脚本总计断言失败，原receipt保留passed=false；无在途索引/检索，不重复导入或检索，root与web核计数器。外部embedding HTTP实际次数未知，不把入口上限2写成真实次数。
+- root接管T-native24相关旧test_wsl_lifetime.py单一夹具，补T21已引入plugin_database_initialized=true，以继续测试partial_services拒绝；生产代码和其他断言不改。作者native24保持桥/desktop/wsl所有权直到正式交接。
+- T-agent-1020-native-25：作者agent-1020-native在T24正式交接后认领wsl_runtime.py主Squid最小精确例外及test_wsl_runtime.py相关纯测。仅同runtime/boot/keeper/currentNAT核验的Windows虚拟IP/32+13002+GET用于15只读业务工具，保留私网/Safe_ports拒绝且agent-squid不放宽；作者不实际部署/重启/发HTTP。root先串行更新收据，作者开工前复核范围。
+- T-agent-1020-root-30：root认领本机OWUI→Dify原生模型聚合实际配置：先核OWUI独立Python/完整argv/本项目SQLite归属，创建专属普通user及仅APIKey能力group，保留其他用户和全局端点限制原值。阶段最多12本机HTTP/120秒/0模型，原配置与新账号/Key只加密持久化；桥正式交接后才运行。后续Dify只配置指定deepseek-v4.1-flash，复用OWUI已验Go路由，不新增付费模型或重写推理内核。
+- T-root29补充：1次可选Console索引状态GET未取得200，脚本断言未保存状态码，缺乏定位证据；停止该诊断，不修改原已完成索引/检索记录，不重新向量化。前述UI已明确原生completed和真实检索成功；额外分段数仍未知。
+- I-agent-1020-root-38：web21作者只读确认知识验收最后download计数遗漏：Chromium下载管理器未经过context.route，但真实download事件/逐字节一致已通过。原24为已计平台API，另已完成下载1次，保守业务HTTP上界25；原失败收据不重写，新增独立审阅关联SHA即可，不重导入/检索。
+- T-agent-1020-web-22：作者agent-1020-web认领apps/web/tests/knowledge-native.mjs下载计数/固定错误码小修及独立纯测试；另认领reports/rendering.py仅来源组件缺省前景色、source_presentations.py静态日历布局及对应纯导出回归。只修已目检问题，保留显式颜色/原254组件/SQL/能力范围；纯HTML离线渲染与测试可执行，不实际API/索引/SQL/模型。root继续实际原生聚合，不同时改此范围。
+- I-agent-1020-root-39：domain24作者纠正其T19/T20结论：TempDirRunner先mkdir dst/node_temp再cp -r source/node_temp到该目录，实际每请求为双层，官方nodejs.go双层脚本路径正确；先前单行改成单层导致koffi require MODULE_NOT_FOUND。依赖本身完整。root采纳最小撤回此路径补丁，保留stat兼容/官方Go1.24.13，不改通用复制或放宽隔离。
+- T-agent-1020-domain-25：作者agent-1020-domain认领wsl_sandbox_patch.py及test_wsl_sandbox_patch.py纠正JS源识别：固定已知错误补丁SHA回退到原官方SHA，新安装原源码不再路径patch，保留纠正历史与stat补丁。若wsl_setup调用合同必须小改先通知协调；native25仅runtime代理，不重叠。只纯测/源码，不实际WSL修改/编译/重启/执行，root负责实际修复后单独新JS固定流程，旧失败不重跑。
+- T-domain25追加经root协调的wsl_setup.py最小范围：移除错误JS单层patch导入/默认调用，仅保留Python stat补丁和Go1.24.13；已有source可显式按已知SHA恢复官方JS原路径，历史不抹掉。native25不改setup，双方范围不重叠。
+- T-native24作者已交接34桥+87runtime+11lifetime共132项纯检查通过；root实际桥启动成功，仅已核WSL虚拟IP13002，业务待验。T-root30已成功创建普通账号/专属APIKey组与密钥，9HTTP0模型；末尾models为空引发断言。单次诊断GET确认200/data[]，已定位官方OWUI未配置模型访问授权默认只admin可见。root只补该模型对专属组read权限，保留现有授权，不重建账号或Key。
+- T-native25作者已释放runtime及测试，159纯测试通过；主代理精确例外待root实际配置，不先开其他服务或私网。
+- T-agent-1020-native-26：作者agent-1020-native只读长期工具鉴权已确认：Dify自定义OpenAPI仅静态APIKey，OWUI OpenAPI也不具备平台client_credentials自动续期，不能把短token存入后称长期可用。平台已有RFC7523证书换≤600秒短token可复用；后续方案需独立可撤销本机集成凭据与按需换token，不存后台admin登录。
+- T-root30原生模型联调实际成功：专属普通账号补仅目标模型组read权限4HTTP，WSL经过桥GET模型1HTTP返回指定deepseek-v4.1-flash，Dify官方插件保存凭据真实验证成功、默认LLM已设置。该配置6本机HTTP/1模型验证入口，插件上游HTTP次数未观测。新会话GET知识索引确认completed/1分段已完成/1总段/error=null，未重导入或检索。
+- T-domain25作者已正式交接，root实际纠正JS路径并只编译server成功，launchcf41ea5b6cd0478a8af0d3cfbbc04be0，其他13角色不变，原path补丁和失败收据保留，新node-runner-correction独立记录。root现按180秒/120HTTP/400静态/1无模型新JavaScript草稿验收，不重跑旧失败流程；结果面板切原生RESULT以避免虚拟滚动区文本未加载。
+- T-agent-1020-native-27：作者agent-1020-native认领新增deploy/native/wsl_tool_credentials.py及test_wsl_tool_credentials.py、wsl_http_bridge.py仅/platform凭据/来源接入及对应桥纯测试。复用现13002；模型仍仅WSL，WSL bridgeKey仅dify、本机bind_ip仅OWUI bridgeKey，旧WSL平台Bearer兼容。独立engine/workspace/identity/cert/scope/revision，加密私钥与opaqueKey、索引hash，按需现有RFC7523短token内存缓存、无管理员凭据、失败不重发；CLI prepare/import/revoke/rotate只本机记录且输出无密钥。作者不实际配置/HTTP/DB/模型；不改平台权限内核、runtime代理、desktop及其他Agent代码。root串行共享。
+- JavaScript官方路径恢复后新草稿73HTTP/1派发/0token，已进入代码执行但原生run终态failed/operation not permitted；图片确认非缺koffi。root只读内核audit定位具体syscall，不关闭seccomp、不重复派发。Python此前实际成功保留。
+- T-agent-1020-domain-26：作者agent-1020-domain认领数据行级权限核心与业务消费回归：data新增row_policies.py/policy_sql.py及独立测试，既有models/schemas/service/router/sql_safety最小接入，并新增20261021_06行权限迁移（只有新增2表与索引，不改旧业务数据）。稳定策略集/显式全部或规则，匹配规则OR/条件AND，未匹配零行；以当前服务端主体及字段/行scope指纹授权历史结果，同scope可协作、不同scope403且不重跑。作用域级物理表过滤保持CTE/LEFT JOIN，自有参数前缀拒碰撞；受限ES先明确拒绝，不能绕过。无旧行快照遇新限制拒绝，查询目录先过滤再分页。作者先冻结DTO/2模型给root/web，允许小量新tmpSQLite/CSV及Mock纯验收，禁止现有服务/外部库/实际HTTP/模型。root独立负责core/tasks.py/workspace/router.py源证据摘要，不与作者重叠。其他制造/报告代码只读回归发现缺口先协调，不改web22 rendering/source_presentations。
+- T-agent-1020-root-31：root认领core/tasks.py/workspace/router.py及必要workspace/activity.py的现有数据证据授权投影和专属回归，依赖domain26提供中央get_query授权合同；避免TaskService.get与authorize_run递归。暂先只读等待合同，不改domain26数据文件。行为明确：撤权后历史结果及任务摘要不可绕过来源权限；不重跑业务SQL、不改变已发生事实。
+
+- T-web22作者已正式交接9文件：知识下载按票据保守计数、路由去重且实际download URL/字节验证；41纯报表、4下载纯测试通过，3离线图已由作者目检。原知识末尾计数失败和报表初轮裁切失败收据保留，不重跑实际导入/查询。root待复核截图。
+- T-agent-1020-web-23：作者agent-1020-web认领现有DataPermissionWorkspace及必要拆分组件/纯测试，增加数据行权限配置；沿用qknow设计、现有导航不增加菜单。依赖domain26已冻结DTO；以表选择、全部/按规则、用户或角色、字段/运算/值控件直接完成任务，不常驻堆规则文案。只前端纯测/类型/构建，不实际服务/数据/模型。root串行记录，其他Agent文件不覆盖。
+- I-agent-1020-root-40：JS最新失败的内核审计为Node MainThread syscall426(io_uring_enter)/SIGSYS。不会把io_uring加入默认允许表；正在核官方沙箱所用Node版本与libuv行为，以独立代码运行时适配，不改Next所用Node24，不重跑已失败run。
+
+- T-agent-1020-root-32：root认领wsl_setup.py新增沙箱专用Node校验/安装、wsl_runtime.py仅code NODEJS_PATH与专属纯测试。锁定官方sandbox0.2.15 production模板所用Node20.11.1，独立目录及官方SHA，不改Next/插件Node24；保留seccomp。实际先下载/解包校验（0业务请求），再只停启动code核其他13归属，新单JS阶段1派发/0模型；旧失败不可重复。Node旧版仅上游代码兼容基线，发布前升级兼容验收列入维护问题。
+
+- T-root32已完成118纯检查；实际独立安装官方Node20.11.1及SHA核验，code launch04d780956e294058b3152e0d175b94e4，其余13服务未重启。新JS草稿69HTTP/1派发/0token真实成功，run b2c9bb26-e691-45e4-adce-663ec2184026，原生SSE与root截图目检均为SUCCESS/value42/指定marker。收据最后大小写Success选择器误报失败，原收据保留；root改验收器正则，不再重复执行，独立审阅记录待落盘。
+- T-root31追加明确新路径core/task_evidence.py与test_task_evidence.py；以不可变InspectionRun/工单source_snapshot/能耗来源及维护分析provenance直接核get_query，避免调用authorize_run递归。详情/事件/通知/列表/待办统一授权，列表先过滤再分页，不重查源SQL。现在执行新临时SQLite定向回归。
+
+- T-agent-1020-root-33：root认领真实发布调用验收，仅已有成功Python草稿1ec4b006-01e4-444b-a302-97e5de533a58，先核三节点无模型/业务源，再发布并获取专属应用Key加密存储；18080新本机验收平台建绑定，单次派发已发布版本并核任务/原生run回流，重复同幂等键只读原结果不得再次执行。预算20本机HTTP/180秒/1无模型流程/0业务SQL，失败不重发；.local/verify-published-workflow.py独占收据。
+- T-root31已通过20项新临时SQLite定向检查15.81秒，覆盖撤权详情/事件/通知、分页前过滤、固定历史运行、能耗执行证据、管理员不绕过，兼容原工作台质量与动态。0业务SQL/实际服务/模型。
+
+- I-agent-1020-root-41：发布流程真实链路11HTTP/1无模型流程成功，release1294c9fd-bf51-494f-ad77-f33b36ed0be1，native run9b740fb5-7ef9-4c12-8929-b3b12805733d，平台run/task均已回流；同幂等键返回同run。最后task.outputs.value核验失败，源码定位通用sanitized将value一律隐藏，原生结果value42实际正常。原收据保留failed，不重新执行原流程；root认领core/records.py最小可选业务值保留参数、core/tasks.py调用及专属纯测，审计/凭据默认遮蔽行为不变。
+
+- T-native27作者正式释放4文件；195纯检查通过4.91秒（25凭据/45桥/114runtime/11lifetime），NIC46本机只读核验通过，0HTTP/DB/模型。长期工具凭据独立引擎/工作区/证书，密钥及私钥仅一份本机密文，平台短token仅内存；每次新签发2固定本机HTTP核/me，认证失败跨进程保留，需人工核查并新revision，不自动重试。真实原生工具配置仍待root。
+- T-agent-1020-native-28：作者agent-1020-native认领新tools/configure_native_business_tools.py及独立纯测试，封装已授权本机15只读工具的两服务身份/证书/原生配置。只准备可审工具并Mock，不实际运行；复用T27独占账本、逐操作记录/加密reveal-once、不重复注册、保留OWUI已有配置及精确group grant。root负责实际归属/已启动桥更新与Proxy核验后执行。root当前保持records/tasks及runtime code Node范围。
+
+- T-web23作者正式释放7文件，81纯断言/4SFC/全局Vue类型通过；行权限本地tab保留列权限，字段反馈、动态值、CAS、切表未保存确认已实现，真实页面待验。
+- T-agent-1020-web-24：作者agent-1020-web认领new tools/verify_row_permissions_ui.py与apps/web/tests/row-permissions.mjs。复用18080归属helper，准备1本机CSV两产线4行/最多3取数/80HTTP/180秒/0模型的UI联调。核现用户显式规则A取两行、规则变B后历史A/原不受限结果403且列表不可见、B新取两行；读已有query不重跑。先UI保存与刷新，现有列权限保持；不创建真实企业源。作者仅准备/纯检，root统一更新owned平台后单次运行。
+
+- T-domain26作者正式交接9文件：28新增行权限用例全部通过；联合51通过44.42秒，新增窗口计数1通过1.20秒、字段错误契约/任务/正式报告7定向通过7.86秒。PG/MySQL核定schema/database已保留且3纯驱动绑定验证，无真实PG/MySQL连接。06新增两表已核迁移，不改旧数据源绑定。
+- T-root27交付更新阶段：全项目check及2547模块构建通过21.82秒，保留既有公共包/报表大chunk提示。root现核8080/18080归属，分别只读有界备份当前自有SQLite，再单次更新这两个平台和Windows窄桥；不重启OWUI/WSL、不连接企业源，不恢复Docker。
+- T-root31兼容复验：原50项中49通过/1领域403被转404失败已记录；改为明确证据拒绝403、列表过滤403/404后12定向任务/领域/迁移通过8.60秒。通用任务业务value修复新增纯回归通过，凭据键及审计默认遮蔽保持。
+
+- T-agent-1020-domain-27：作者agent-1020-domain认领F-M05-04/F-M06-04/F-M06-05的数据处理与质量规则后端补齐：优先检索Test5与现有实现复用，先冻结DTO给web；既有data/service.py仅处理/质量/指标调用点及必要schemas/router，新小模块拆职责，不改已交接行权限语义。目标让数据库结果可完成明确的过滤/转换/聚合与质量行定位，指标口径引用可执行定义；不提供任意脚本eval。仅新tmpSQLite/CSV/纯回归，不实际服务/企业源/模型；不能将声明的业务指标执行变成任意SQL或绕过get_query。先回报可复用源与具体范围，root串行共享。
+- T-root27实际更新成功：两自有SQLite独立备份后8080/18080/bridge均就绪，验收平台PID1212。0业务源/模型；OWUI及WSL14服务未重启。Windows taskkill中文输出在-X utf8父进程发生3条解码线程告警，停止归属与就绪结果已核成功；该输出编码兼容将另行修复，不重复启动。
+
+- T-root33任务value修复后的独立验收：复用已有绑定/发布版本/凭据，新的幂等键仅派发1次无模型固定流程；至多6本机HTTP/90秒，随后同键及GET确认value42从原生到Task完整。原native成功run与平台误隐藏历史保留，不重放旧执行、不重建绑定/密钥、不查询业务源。
+
+- T-web24由root实际单次验收成功：22HTTP/3新CSV查询/7.7秒，真实页面先A后B并刷新、窗口计数4→2→2、旧full/A历史403及目录total隐藏通过；0模型/企业源/在途查询。两张截图root已查看。账号为当前验收admin但规则仍生效，没有全行绕过。
+- T-root33修复后的独立发布调用成功：5HTTP/1无模型流程/0业务查询，native run24c62db4-12ef-49cc-99df-1ca1ce603aef，Task完整保存marker及value42；同幂等键返回同run，发布版本未漂移。原native成功/Task误遮蔽历史保留。
+- 原生停止日志定位纠正（root）：前述称taskkill为初步误判，windows.stop实际使用psutil；异常来自WSL系统命令stderr的非UTF8中文在subprocess读线程解码。root追加认领wsl.py/wsl_lifetime.py仅元数据读改为bytes，stdout仍严格JSON解析，stderr不再隐式解码；对应纯检查，不重启或重复派发。
+
+- T-agent-1020-web-25：作者agent-1020-web认领ProcessingWorkspace现有处理/质量入口与business-metrics目录的专用可执行口径编辑/运行界面，必要data新组件/工具及CatalogWorkspace仅指标分支接入；先读domain27冻结合同。保留原3步与既有目录行为，优先复用已有组件，不给普通用户JSON/eval脚本框，不增加导航/常驻规则文案。与domain协调错误fields.path、Decimal空值和前20示例截断的任务信息。允许纯前端类型/必要测试，不真实源/API/模型；shared仍root串行。
+
+- T-native28作者正式释放初始化器与15纯测试，3.63秒通过；真实阶段待root执行。root已实际补WSL元数据bytes解析，非UTF8 stderr不再触发解码线程异常，不改变stdout JSON/归属校验。
+- T-agent-1020-native-29：作者agent-1020-native只读核锁定Dify Agent V2创建/配置/发布/调用的原生合同，复用本机现有DS模型与已安装Agent/shellctl；准备最短可审验收计划与明确迭代/输出token上限。禁止实际创建/执行/HTTP/模型/DB，不保存管理员会话，不以传统Agent代替V2。先给具体source/API证据再决定实现，root仍负责T28实际执行与proxy配置。
+
+- T-root34（agent-1020-root，2026-10-21）：原生15只读业务工具prepare为0HTTP、register为7本机HTTP成功，两个独立服务身份/证书已加密记录，无模型/企业源。root接管已释放T25代理精确规则配置与T28实际native-config/probe；只重载所属主Squid，核14角色身份，Agent代理不改。每阶段原有180秒/25HTTP预算，不重复登记、不重试失败阶段。
+- WSL元数据编码修复56项纯回归通过1.76秒，实际工具prepare/register未再出现解码线程告警；仅stdout JSON解析变化，无服务重启。
+
+- T-root34实际完成：主Squid精确目的IP/13002/16GET路径配置并归属重载，14角色记录与进程保持、Agent代理未改；0HTTP/模型。T28 native-config为11主HTTP+4认证，两个原生引擎均登记15只读业务工具；probe为4HTTP+0新增认证，WSL Dify/Windows OWUI分别取schema及设备列表成功。连同register合计26本机HTTP，0模型/企业源；尚不等同LLM自主选工具已验。四阶段独立加密收据保留。
+
+- I-agent-1020-root-42：日常重启会生成新bridge快照，Linux代理旧快照被有意判失效，当前desktop.start未自动重配；NAT变化还需更新原生连接URL。影响是本轮配置成功不保证重启后工具继续可用，不能隐藏为已交付。
+- T-agent-1020-root-35：root认领新增deploy/native/wsl_bridge_startup.py与独立纯测试、desktop.py桥启动后最小接入。复用已校验快照与既有configure_tool_bridge，只在已登记工具时更新精确规则并归属重载主proxy；相同快照/代理配置复用，失败状态不自动重试；0业务HTTP/DB/模型。NAT变化原生URL适配另交native，模块不修改原生账号/凭据/模型。
+
+- T-root35：6项纯文件/Mock回归通过0.16秒；初轮2失败来自Windows测试缺SIGHUP替身，已仅修测试。真实单次入口协调通过3.1秒，精确配置主代理、0业务HTTP/DB/模型；后续相同proof与proxy launch无需重载，失败保留不自动重试。desktop已接入；WSL NAT变化后原生URL仍须补协调，未宣称整机重启已验。
+
+- T-native29只读已交接：V2复用Dify当前默认DS模型，mode=agent；90秒为原生run_timeout设置、max_tokens为每次输出设置，请求次数却硬编码500。config层强制依赖shell，不能称清空工具即禁shell；正式发布/API可避免Build模式初始化提示，消息详情有过程及usage但task_id不等于底层run_id。
+- T-agent-1020-native-30：作者agent-1020-native认领deploy/native新增wsl_agent_patch.py、wsl_setup.py仅Agent源准备接入、独立纯回归。对锁定官方source做小型可审补丁：ServerSettings.run_request_limit默认500/ge1，沿timeout既有路径传至runner UsageLimits；保持默认及原生shell能力，不重写执行器。提供原/目标SHA、幂等/未知源拒绝与原路径参数回归。可读source但不改.local实际部署、不重启/HTTP/DB/模型。root实际按受控临时2请求/每次128输出/90秒验收，结束恢复产品默认。请同时交接trace元数据最小补充建议，暂不修改API内部数据结构。共享由root串行。
+
+- T-agent-1020-root-36：root接管web17已释放的项目文档README、03与实施验收.csv，按原生代码/知识/发布调用/工具配置、行权限、来源报表实际证据更新。保留125稳定ID及未验项；状态统计由表计算，不用接口数量或源码存在宣告完成。API快照等domain27合同稳定再导出。
+
+- T-agent-1020-root-37：root认领本机V2独立原生验收.local/verify-agent-v2.py，两阶段各≤20本机HTTP/180秒，先新建一个mode=agent应用、读取默认DS、保存每次128输出/空业务资产、发布并加密专属Key；配置阶段0模型。执行阶段须核T30实际patch与临时所属agent进程2请求/90秒配置，仅1次正式chat派发，关闭自动标题；保存SSE/消息过程与真实usage，不把task_id当run_id。保留原生shell并检查实际工具调用，不以prompt宣称禁用。未知运行不重放，不访问企业源。
+
+- T-domain27作者已正式释放8文件，34联合用例8.12秒通过、追溯元数据16新定向复验2.65秒通过；保留旧3步骤与required/unique合同，新增8类处理/7类质量及可执行聚合/比率指标。只复用已授权完整query快照，处理不重查源；无迁移。新增处理历史列表/CSV导出/指标执行3API。Decimal三函数精提Test5，不任意eval。
+- T-agent-1020-domain-28：作者agent-1020-domain认领new tools/verify_data_processing_ui.py及apps/web/tests/data-processing.mjs，复用18080归属与加密账号helper；1新CSV/计划1取数（上限2）、80HTTP/180秒/0模型。真实UI覆盖cast→derive→aggregate/CSV、7质量规则完整行号、ratio零分母null/口径编辑不改历史；末尾仅API加行策略核历史403与目录隐藏，不再次取源。作者只准备/纯静检，不实跑；root统一build/update后执行。
+- T-native30作者已释放预算补丁/源码准备接入/Windows30秒独立阶段/纯测试四路径，20纯检查0.58秒及语法通过；4文件固定SHA、默认500/shell不改。未触实际部署。root接管实际安装包和源的verify/apply，并仅所属Agent临时2请求/90秒验收后恢复默认。
+- T-agent-1020-native-31：作者agent-1020-native只读NAT变化的原生URL协调合同，查精确ID更新/凭据验证副作用及稳定局部地址方案；不跨库写内部表、不改宿主hosts/全局网络、不发实际HTTP/DB/模型。root保持T35代理与T37Agent实际验收归属。
+- T-domain28追加归属（root协调、作者domain）：允许new apps/web/tests/helpers/boundedLocalUi.mjs作为仅新验收器使用的同源白名单/计数/失败停止/收据基础；旧脚本不改。复用Python verified_access/stop_verifier_tree，避免import旧顶层脚本产生实际执行。
+- T-root37配置阶段实际8HTTP/0模型通过：新V2 agent01a15ae3-f6ff-724a-b2a3-18c436a13f5b，appaf4803af-f3f3-4857-a05e-6ec5e44144fb，发布快照01a15ae3-f896-7a3a-b140-12015f455801；指定DS默认模型/128输出/空业务资产已回读，专属Key仅密文保存。当前实际应用T30小补丁并仅更新Agent进程，其余13角色不动。
+
+- T-web25作者正式交接20文件：8类处理/7类质量/专用指标CRUD执行、真实CSV/原始失败行，139纯断言与14SFC、全局Vue类型、20文件格式通过；0实际HTTP/源/模型。query选择当前前100条，历史目录UI未挂，不虚标完成。root接管统一build与正式部署。
+- I-agent-1020-root-43：T37 V2第一次正式派发2HTTP/1dispatch后SSE终态completion_request_error，invalid_cwd指向本项目jobs/workspace/01a15ae7-9db3-72e6-a2fd-405965fc170d；底层run fa9b9376-4e3d-4713-ace0-095311493b36由错误消息实际给出，非猜task ID。原收据failed及加密events保留，不重放。没有业务源查询/查询超时；模型调用数先记未知，待原生run证据。root只读目录/namespace/进程归属定位，native协助核上游创建链。
+
+- R-agent-1021-root-38（用户明确，2026-10-21）：立即把当前项目推送到既有GitHub仓库URS1023/ai_agent_company；沿用main，保留此前数据包/参考项目整库不推、真实凭据与本机运行依赖不推范围。原全项目开发目标保留，当前优先交付代码快照，不把未验项登记完成。
+- T-agent-1021-root-38（root认领，进行中）：停止新功能扩展、收口已交接代码和文档、核Git范围/敏感内容/远端main，再正常提交推送。参考基线a86ef7c8与远端main一致，无需覆盖远端历史；既有deploy/docker_desktop.ps1修改与当前原生交付无关，暂留本地不夹带。
+- 推送前证据：全项目check与2580模块正式build通过17.57秒，保留公共包/报表>500kB提醒；实际OpenAPI已导出403操作/278路径。T28验收器/共享helper尚未落盘，本轮不将其计作交付；T31稳定地址为只读建议未实施。数据处理真实UI、V2 invalid_cwd、NAT变化连接协调及原全范围缺口仍保留。
+- T-root37收尾：为本次GitHub快照交付撤销Agent验收临时2请求/90秒override，所属Agent已恢复官方500请求/3600秒默认，launch a57132939813429fbb7144cc2d36a1a0；其余13服务身份保持、0业务HTTP/模型。四文件兼容补丁保留，未重放失败对话。
+- T-root38提交前检查：733个可跟踪文件约52.3MB，未发现被禁止的运行/整库路径、>50MB单文件或扫描规则命中的真实令牌/私钥；现有构建与模块测试结果见上述交接。准备提交当前快照并推送main，最终远端SHA另行核对。

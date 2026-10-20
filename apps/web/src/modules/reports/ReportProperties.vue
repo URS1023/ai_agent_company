@@ -1,7 +1,19 @@
 <script setup lang="ts">
 import { computed, watch } from "vue";
 import MaterialProperties from "./MaterialProperties.vue";
+import DisplayProperties from "./DisplayProperties.vue";
+import CanvasProperties from "./CanvasProperties.vue";
+import SourceWidgetProperties from "./source/SourceWidgetProperties.vue";
+import { sourceTextTypes } from "./sourcePresentation";
+import {
+  tableTypes,
+  listTypes,
+  numberTypes,
+  staticTypes,
+} from "./presentation";
 const widget = defineModel<Record<string, any> | null>({ required: true });
+const canvas = defineModel<Record<string, any>>("canvas");
+const emit = defineEmits<{ "interaction-start": [] }>();
 const props = defineProps<{ queries: Record<string, any>[] }>();
 const inspectionSource = computed(
   () => widget.value?.binding?.source_type === "inspection_run",
@@ -32,6 +44,7 @@ function invalidateSeries() {
   widget.value.data = [];
   delete widget.value.data_provenance;
   delete widget.value.series_model;
+  delete widget.value.presentation_model;
   if (widget.value.config) widget.value.config.chartDataParsed = [];
 }
 
@@ -46,6 +59,16 @@ watch(
         binding?.value_field ?? null,
         binding?.value_fields ?? [],
         binding?.secondary_value_fields ?? [],
+        binding?.fields ?? [],
+        binding?.description_field ?? null,
+        binding?.time_field ?? null,
+        binding?.unit_field ?? null,
+        binding?.total_field ?? null,
+        widget.value?.config?.column_labels ?? {},
+        widget.value?.config?.option?.max ?? null,
+        widget.value?.config?.option?.min ?? null,
+        widget.value?.config?.option?.gauge_stops ?? [],
+        widget.value?.config?.option?.calendar ?? null,
       ]),
     };
   },
@@ -63,6 +86,11 @@ function bindQuery(id: string) {
   else delete widget.value.binding;
   invalidateSeries();
 }
+function setField(key: string, value?: string) {
+  if (!widget.value?.binding || inspectionSource.value) return;
+  if (value) widget.value.binding[key] = value;
+  else delete widget.value.binding[key];
+}
 function setTitle(value: string) {
   if (widget.value) {
     widget.value.title = value;
@@ -77,7 +105,7 @@ function setTitle(value: string) {
 }
 </script>
 <template>
-  <aside class="report-properties">
+  <aside class="report-properties" @focusin="emit('interaction-start')">
     <template v-if="widget"
       ><h3>组件属性</h3>
       <el-form label-position="top"
@@ -122,6 +150,7 @@ function setTitle(value: string) {
           v-if="
             !inspectionSource &&
             widget.type !== 'decoration' &&
+            !staticTypes.includes(widget.component) &&
             ![
               'JText',
               'JImg',
@@ -143,12 +172,27 @@ function setTitle(value: string) {
               :label="
                 query.name ?? query.sql ?? query.id
               " /></el-select></el-form-item
-        ><MaterialProperties :key="widget.id" v-model="widget" /><template
-          v-if="!inspectionSource && widget.binding?.query_id"
-          ><el-form-item label="维度字段"
+        ><MaterialProperties :key="widget.id" v-model="widget" />
+        <DisplayProperties
+          :key="`display-${widget.id}`"
+          v-model="widget"
+          :columns="columns.map(String)"
+          :source-readonly="inspectionSource" />
+        <SourceWidgetProperties
+          :key="`source-${widget.id}`"
+          v-model="widget"
+          :columns="columns.map(String)"
+          :source-readonly="inspectionSource" />
+        <template v-if="!inspectionSource && widget.binding?.query_id"
+          ><el-form-item
+            v-if="
+              !tableTypes.includes(widget.component) &&
+              !numberTypes.includes(widget.component)
+            "
+            label="维度字段"
             ><el-select
-              v-model="widget.binding.label_field"
-              allow-create
+              :model-value="widget.binding.label_field"
+              @change="setField('label_field', $event)"
               filterable
               clearable
               ><el-option
@@ -158,10 +202,17 @@ function setTitle(value: string) {
                 :key="String(column)"
                 :value="String(column)"
                 :label="String(column)" /></el-select></el-form-item
-          ><el-form-item v-if="!multipleSeries" label="数值字段"
+          ><el-form-item
+            v-if="
+              !multipleSeries &&
+              !tableTypes.includes(widget.component) &&
+              !listTypes.includes(widget.component) &&
+              !sourceTextTypes.includes(widget.component)
+            "
+            label="数值字段"
             ><el-select
-              v-model="widget.binding.value_field"
-              allow-create
+              :model-value="widget.binding.value_field"
+              @change="setField('value_field', $event)"
               filterable
               clearable
               ><el-option
@@ -172,7 +223,7 @@ function setTitle(value: string) {
                 :value="String(column)"
                 :label="String(column)" /></el-select
           ></el-form-item>
-          <el-form-item v-else label="系列字段">
+          <el-form-item v-if="multipleSeries" label="系列字段">
             <el-select
               v-model="widget.binding.value_fields"
               multiple
@@ -204,7 +255,11 @@ function setTitle(value: string) {
               />
             </el-select>
           </el-form-item> </template></el-form></template
-    ><el-empty v-else description="选择组件" :image-size="70" />
+    ><CanvasProperties v-else-if="canvas" v-model="canvas" /><el-empty
+      v-else
+      description="选择组件"
+      :image-size="70"
+    />
   </aside>
 </template>
 <style scoped>

@@ -32,7 +32,7 @@
 | `/inspections/{id}/reviews`、`/deviations` | POST | revision、outcome、note；证据不全不能复核通过 |
 | `/maintenance-analyses` | GET/POST | 数据源/SQL、设备、值/时间/负荷/两期字段、分箱与覆盖门槛 |
 | `/alert-rules/{id}/dry-runs`、`/evaluations` | POST | 实测值/单位/含时区时间；试算不创建预警，执行可按窗口去重 |
-| `/incidents/{id}/actions` | POST | acknowledge/resolve/reopen/comment，状态校验与追加处置记录 |
+| `/incidents/{id}/actions` | POST | acknowledge/comment；解决与重新打开由维修工单承担，不允许空记录直接关闭 |
 
 数据库质检映射示例：
 
@@ -64,3 +64,26 @@
 接口：`POST /data-generators/{id}/activations`；`GET /data-generator-activations/{id}`；`POST /data-generator-activations/{id}/advances`和`/cancellations`。
 
 `POST /alert-rules/{id}/source-evaluations`重跑已授权查询，按映射字段取得最新含时区观测，验证单位再判定。预警保存query来源；重复读取同一时间同一值不累加次数，不同时间在窗口内合并并追加事件。手填试算继续标记manual。
+
+## 复检、质量处置与维修闭环（T-domain12）
+
+`quality_lifecycle.py`复用现有检验、样本和运行，只新增关系/处置表。`maintenance_work.py`复用预警、同工况分析和统一Task；`workflow.py`负责同工作区有效人员、历史运行授权及固定标准核验。事务由请求会话统一提交，revision比较更新失败返回409；不在内部提交半个业务结果或自动重试。
+
+| 路径 | 输入/结果 |
+|---|---|
+| `POST /inspections/{id}/reinspections` | `revision,run_id,name,reason,sample_ids?,case_id?`；父任务须已复核，固定父标准，不复制测量结果。省略sample_ids复检异常与缺失；显式选择须为原运行样本。返回新Inspection。 |
+| `GET /inspections/{id}/lineage` | 完整首检与后续复检`items/links/total`；全部来源重授权，不默默截断。 |
+| `GET/POST /quality-cases` | 创建含`inspection_id,run_id,revision,name,note`；一运行一处置单。列表支持`target_type,inspection_id,status,limit,offset`。 |
+| `GET /quality-cases/{id}`、`POST /quality-cases/{id}/actions` | 详情含人员名和追加events；动作含`revision,action,note`及当前动作所需字段。 |
+| `POST /incidents/{id}/work-orders`、`POST /maintenance-analyses/{id}/work-orders` | `revision,name,note`；一来源一工单，分析须有attention证据。固定原预警标准，缺快照须重新评估。 |
+| `GET /maintenance-work-orders`、`/{id}`、`POST /{id}/actions` | 列表支持`q,status,device_id,limit,offset`；详情含events、source_snapshot、verification_snapshot。Incident/Analysis投影work_order_id便于直接进入。 |
+| `GET /manufacturing-assignees?area=quality或maintenance` | 当前组织/工作区未停用且具m11.write或m10.write的人员，仅返回id/name。 |
+| `GET /quality-statistics` | `target_type,start_at,end_at`；首检用原任务首run，复检用子任务末run，按样本计数。缺样本留分母，让步/报废不改写系统合格率。日期先筛再预算；超过2000任务明确报错。 |
+| `/quality-categories`、`/{id}` | GET/POST/PATCH/DELETE；target_type区分设备/产品，parent_id树拒绝循环，关联对象或子类别未移出不能删。 |
+| `/quality-category-resources`、`POST /quality-category-bindings` | 资源类型device/product/template；设置类别含`category_id,resource_type,resource_id,revision?`，已有绑定须带版本。DELETE绑定软删，重新绑定仍校验原版本。 |
+
+质量状态：open→contained（可选）→assigned→in_progress→awaiting_reinspection（返工/维修）或awaiting_review（报废/退回/让步）→closed。返工/维修必须关联复检全部完整合格且已复核，才能提交到待复核；失败复检可再建，旧链不删除。复核退回in_progress；重新打开建新Task保留旧Task与事件。
+
+维修状态：open→assigned→in_progress→awaiting_review→resolved。责任人执行开始和提交维修；另一名有m10.publish的人员复核。预警复测使用维修后生成的完整授权查询，观测也须晚于维修、单位相同、满足原阈值恢复；原来源是数据库查询时数据源和指标映射不可变。维护分析复测须同设备、维修后新normal分析、同指标与工况比较口径。数据不足不能关闭。
+
+质量verify/reject需要m11.publish，维修verify/reject需要m10.publish；执行人员即使管理员也不能复核自己的处置。所有历史来源每次读、操作、列表及统计重授权，撤权记录从可见列表与total排除；真正损坏的证据仍反馈错误。关键验证在`test_manufacturing_lifecycle.py`，全部使用新临时SQLite/显式Mock。

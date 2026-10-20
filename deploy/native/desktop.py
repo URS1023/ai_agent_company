@@ -1,4 +1,4 @@
-"""Windows 本机双服务入口：沿用所属进程与数据，服务成功启动后持续供用户使用。"""
+"""本机统一入口：平台和对话运行于Windows，已装配的Dify运行于专属WSL。"""
 
 from __future__ import annotations
 
@@ -74,7 +74,35 @@ def start() -> dict:
     else:
         windows.start(ROOT, 'openwebui', ack_resource_incident=True, startup_seconds=180, limit_memory=False)
     platform = start_platform()
-    return {'platform': platform, 'chat': CHAT_URL}
+    result = {'platform': platform, 'chat': CHAT_URL}
+    if windows.load(ROOT).get('dify_wsl', {}).get('enabled'):
+        import wsl
+        result['automation'] = wsl.start_runtime()
+        import wsl_http_bridge
+        result['bridge'] = wsl_http_bridge.start_bridge(ROOT)
+        import wsl_bridge_startup
+        result['tool_proxy'] = wsl_bridge_startup.reconcile_windows(ROOT)
+    return result
+
+
+def stop() -> list[dict]:
+    """只回收登记的本项目服务；单项异常保留结果，其余所属服务仍正常停止。"""
+    results = []
+    import wsl_http_bridge
+    try:
+        results.append(wsl_http_bridge.stop_bridge(ROOT))
+    except Exception as error:
+        results.append({'component': 'wsl-http-bridge', 'stopped': False, 'error_type': type(error).__name__})
+    if windows.load(ROOT).get('dify_wsl', {}).get('enabled'):
+        import wsl
+        try:
+            results.append({'component': 'dify', **wsl.stop_runtime()})
+        except Exception as error:
+            results.append({'component': 'dify', 'stopped': False, 'error_type': type(error).__name__,
+                            'message': 'Dify停止未完成，请检查本机日志；发行版与数据已保留'})
+    for name in ['platform', 'openwebui']:
+        results.append(windows.stop(ROOT, name))
+    return results
 
 
 def accounts() -> None:
@@ -95,6 +123,8 @@ if __name__ == '__main__':
     if args.action == 'accounts':
         accounts()
     elif args.action == 'stop':
-        print(json.dumps([windows.stop(ROOT, name) for name in ['platform', 'openwebui']], ensure_ascii=False))
+        result = stop()
+        print(json.dumps(result, ensure_ascii=False))
+        raise SystemExit(1 if any(item.get('stopped') is False for item in result) else 0)
     else:
         print(json.dumps(start(), ensure_ascii=False))

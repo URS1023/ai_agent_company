@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, shallowRef } from "vue";
 import { useSession } from "../../stores/session";
 import { api, type Entity } from "../../api/client";
 import { useCollection } from "../../composables/useCollection";
@@ -8,11 +8,17 @@ import MaintenanceForm from "./MaintenanceForm.vue";
 import StatusTag from "../../components/common/StatusTag.vue";
 import ResultTable from "../../components/common/ResultTable.vue";
 import TrendChart from "./TrendChart.vue";
+import WorkOrderCreateForm from "./WorkOrderCreateForm.vue";
+import MaintenanceWorkOrderDetail from "./MaintenanceWorkOrderDetail.vue";
+import EnergyWorkspace from "./EnergyWorkspace.vue";
 const session = useSession();
 const list = useCollection(() => "/maintenance-analyses");
 const op = useOperation();
 const dialog = ref(false);
 const detail = ref<Entity | null>(null);
+const creation = ref(false);
+const selectedOrder = ref("");
+const active = shallowRef("maintenance");
 const result = computed(() => detail.value?.result ?? {});
 const bins = computed(() =>
   (result.value.bins ?? []).map((row: any) => ({
@@ -41,9 +47,34 @@ function number(value: unknown, suffix = "") {
   return typeof value === "number" ? `${value.toFixed(2)}${suffix}` : "—";
 }
 onMounted(list.load);
+async function createOrder(data: Record<string, unknown>) {
+  if (!detail.value) return;
+  await op.run(async () => {
+    const row = await api.post<Entity>(
+      `/maintenance-analyses/${detail.value!.id}/work-orders`,
+      { ...data, revision: detail.value!.revision },
+    );
+    selectedOrder.value = row.id;
+    creation.value = false;
+    detail.value = await api.get(`/maintenance-analyses/${detail.value!.id}`);
+  }, "维修工单已创建");
+}
 </script>
 <template>
-  <div class="page-stack">
+  <section class="panel" style="padding: 0 18px; margin-bottom: 16px">
+    <el-tabs v-model="active"
+      ><el-tab-pane label="维护分析" name="maintenance" /><el-tab-pane
+        label="节能分析"
+        name="energy"
+    /></el-tabs>
+  </section>
+  <EnergyWorkspace v-if="active === 'energy'" />
+  <MaintenanceWorkOrderDetail
+    v-else-if="selectedOrder"
+    :order-id="selectedOrder"
+    @back="selectedOrder = ''"
+  />
+  <div v-else class="page-stack">
     <div class="page-heading">
       <h2>预测性维护</h2>
       <div>
@@ -60,6 +91,20 @@ onMounted(list.load);
       ><section class="panel">
         <div class="panel-heading">
           <h3>{{ detail.name }}</h3>
+          <el-button
+            v-if="detail.work_order_id"
+            type="primary"
+            @click="selectedOrder = detail.work_order_id"
+            >进入维修工单</el-button
+          >
+          <el-button
+            v-else-if="
+              session.can('m10.write') && result.status === 'attention'
+            "
+            type="primary"
+            @click="creation = true"
+            >创建维修工单</el-button
+          >
           <StatusTag :value="result.status ?? detail.status" />
         </div>
         <div class="detail-grid">
@@ -198,6 +243,19 @@ onMounted(list.load);
         :errors="op.fields.value"
         @submit="create"
         @cancel="dialog = false"
+    /></el-dialog>
+    <el-dialog
+      v-model="creation"
+      title="创建维修工单"
+      width="600px"
+      destroy-on-close
+      ><WorkOrderCreateForm
+        v-if="detail"
+        :name="detail.name || '维护分析'"
+        :busy="op.busy.value"
+        :errors="op.fields.value"
+        @submit="createOrder"
+        @cancel="creation = false"
     /></el-dialog>
   </div>
 </template>

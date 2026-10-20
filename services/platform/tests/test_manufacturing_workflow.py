@@ -116,10 +116,11 @@ def test_alert_dedup_and_state_transition(context):
     assert second["incident"]["id"] == first["incident"]["id"]
     assert second["incident"]["occurrences"] == 2
     incident = second["incident"]
-    resolved = service.incident_action(incident["id"], {"revision": incident["revision"], "action": "resolve", "note": "已现场检修"})
-    assert resolved["status"] == "resolved"
-    with pytest.raises(DomainError):
-        service.incident_action(incident["id"], {"revision": resolved["revision"], "action": "acknowledge", "note": "重复受理"})
+    with pytest.raises(DomainError) as error:
+        service.incident_action(incident["id"], {"revision": incident["revision"], "action": "resolve", "note": "已现场检修"})
+    assert error.value.code == "maintenance_work_order_required"
+    accepted = service.incident_action(incident["id"], {"revision": incident["revision"], "action": "acknowledge", "note": "现场已受理"})
+    assert accepted["status"] == "acknowledged"
 
 
 def test_new_evidence_invalidates_execution_but_keeps_run(context):

@@ -5,9 +5,31 @@ import { api } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import StatusTag from "../../components/common/StatusTag.vue";
 import TrendChart from "../manufacturing/TrendChart.vue";
+import Announcements from "./Announcements.vue";
+import { useSession } from "../../stores/session";
 const op = useOperation();
 const router = useRouter();
+const session = useSession();
 const data = ref<any>(null);
+const activities = computed(() =>
+  (data.value?.activities ?? []).filter(
+    (event: { message?: string }) =>
+      typeof event.message === "string" && event.message.trim(),
+  ),
+);
+const activityFormatter = new Intl.DateTimeFormat("zh-CN", {
+  timeZone: "Asia/Shanghai",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
+function activityTime(value: string) {
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "" : activityFormatter.format(parsed);
+}
 const metrics = computed(() => [
   { name: "设备总数", value: data.value?.counts.devices ?? 0 },
   { name: "检测任务", value: data.value?.counts.inspections ?? 0 },
@@ -34,11 +56,28 @@ onMounted(load);
       </article>
     </div>
     <div class="entry-strip">
-      <button @click="router.push('/device-check')">设备质检 →</button
-      ><button @click="router.push('/maintenance')">预测性维护 →</button
-      ><button @click="router.push('/product-check')">产品质检 →</button>
+      <button
+        v-if="session.can('m11.read')"
+        @click="router.push('/device-check')"
+      >
+        设备质检 →</button
+      ><button
+        v-if="session.can('m10.read')"
+        @click="router.push('/maintenance')"
+      >
+        预测性维护 →</button
+      ><button
+        v-if="session.can('m11.read')"
+        @click="router.push('/product-check')"
+      >
+        产品质检 →
+      </button>
     </div>
-    <div class="two-columns">
+    <Announcements />
+    <div
+      class="two-columns"
+      :class="{ 'without-activities': !activities.length }"
+    >
       <section class="panel">
         <div class="panel-heading">
           <h3>我的待办</h3>
@@ -67,21 +106,30 @@ onMounted(load);
           ></el-table
         >
       </section>
-      <section class="panel">
+      <section v-if="activities.length" class="panel">
         <div class="panel-heading"><h3>近期动态</h3></div>
-        <el-timeline v-if="data?.activities?.length"
+        <el-timeline
           ><el-timeline-item
-            v-for="event in data.activities"
+            v-for="event in activities"
             :key="event.id"
-            :timestamp="event.created_at"
-            >{{ event.message ?? event.action }}</el-timeline-item
+            :timestamp="activityTime(event.created_at)"
+            >{{ event.message }}</el-timeline-item
           ></el-timeline
-        ><el-empty v-else description="暂无动态" :image-size="80" />
+        >
       </section>
     </div>
-    <section class="panel">
-      <div class="panel-heading"><h3>质量趋势</h3></div>
+    <section v-if="session.can('m11.read')" class="panel">
+      <div class="panel-heading"><h3>近30天首检样本合格率</h3></div>
+      <el-empty
+        v-if="data?.quality_trend_status === 'scope_too_large'"
+        description="请按时间或类别查看质量统计"
+      >
+        <el-button @click="router.push('/product-check')"
+          >查看质量统计</el-button
+        >
+      </el-empty>
       <TrendChart
+        v-else
         :rows="data?.quality_trend ?? []"
         x-field="date"
         y-field="pass_rate"
@@ -90,3 +138,9 @@ onMounted(load);
     </section>
   </div>
 </template>
+
+<style scoped>
+.without-activities {
+  grid-template-columns: minmax(0, 1fr);
+}
+</style>

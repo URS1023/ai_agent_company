@@ -40,10 +40,24 @@ class DrilldownInput(Input):
     filters: dict = Field(default_factory=dict)
 
 
+class GenerationQueryBinding(Input):
+    """模板换数保留显式字段映射，不能混入检验来源或客户端业务事实。"""
+    query_id: str = Field(min_length=1, max_length=100)
+    label_field: str | None = Field(default=None, min_length=1, max_length=200)
+    value_field: str | None = Field(default=None, min_length=1, max_length=200)
+    value_fields: list[str] | None = Field(default=None, min_length=1, max_length=8)
+    secondary_value_fields: list[str] | None = Field(default=None, max_length=7)
+    fields: list[str] | None = Field(default=None, min_length=1, max_length=20)
+    description_field: str | None = Field(default=None, min_length=1, max_length=200)
+    time_field: str | None = Field(default=None, min_length=1, max_length=200)
+    unit_field: str | None = Field(default=None, min_length=1, max_length=200)
+    total_field: str | None = Field(default=None, min_length=1, max_length=200)
+
+
 class GenerationInput(Input):
     name: str = Field(min_length=1, max_length=160)
     template_id: str
-    bindings: dict[str, str] = Field(default_factory=dict)
+    bindings: dict[str, str | GenerationQueryBinding] = Field(default_factory=dict)
 
 
 class InspectionReportGenerationInput(Input):

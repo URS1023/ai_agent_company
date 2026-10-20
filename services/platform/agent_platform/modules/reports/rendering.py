@@ -148,10 +148,14 @@ def render_html(report):
         from .inspection_document import render_html as render_document
         return render_document(report)
     from .materials import material_styles, render_material
+    from .presentation import render_presentation, presentation_styles
+    from .source_presentations import source_document_detail, render_source_details, source_styles
+    from .capabilities import SOURCE_TYPES
     layout = report["layout"]
     canvas = layout.get("canvas", {})
     width, height = canvas.get("width", 1440), canvas.get("height", 900)
     widgets = []
+    document_details = {}
     for order, widget in enumerate(layout["widgets"]):
         if widget.get("visible") is False:
             continue
@@ -162,12 +166,18 @@ def render_html(report):
         config = widget.get("config", {})
         title = str(widget.get("componentName", widget.get("name", "")))
         x, y, w, h = widget.get("x", 24), widget.get("y", 24 + order * 330), widget.get("w", 640), widget.get("h", 300)
-        color = _css(skin.get("textColor", config.get("color")), "#173758" if not skin else "#eaf8ff")
+        # 来源组件沿用Test5深色展示主题；缺省前景不能继承普通白底组件的深蓝文字。
+        default_color = "#eaf8ff" if skin or component in SOURCE_TYPES else "#173758"
+        color = _css(skin.get("textColor", config.get("color")), default_color)
         background = _css(skin.get("surface", skin.get("background", config.get("background"))), "transparent" if skin else "#ffffff")
         font = min(max(float(skin.get("fontSize", config.get("fontSize", 14))), 8), 160)
         sample = config.get("referenceSample", False) and not widget.get("binding")
         asset = _asset(skin.get("asset"))
         body = render_material(widget, rows, _asset, _css)
+        if body is None:
+            palette = config.get("option", {}).get("color", PALETTE)
+            palette = [_css(value, PALETTE[index % len(PALETTE)]) for index, value in enumerate(palette)] if isinstance(palette, list) else PALETTE
+            body = render_presentation(widget, rows, color, palette or PALETTE)
         if asset and (skin.get("kind") == "backdrop" or sample):
             body = _reference_image(widget, asset, backdrop=skin.get("kind") == "backdrop")
         elif body is not None:
@@ -190,9 +200,20 @@ def render_html(report):
             if not body:
                 columns = list(dict.fromkeys(key for row in rows for key in row))
                 body = '<table><thead><tr>' + ''.join('<th>' + html.escape(k) + '</th>' for k in columns) + '</tr></thead><tbody>' + ''.join('<tr>' + ''.join('<td>' + html.escape(str(row.get(k, ""))) + '</td>' for k in columns) + '</tr>' for row in rows) + '</tbody></table>'
-        heading = '<h2>' + html.escape(title) + '</h2>' if not skin and component not in ("JText", "JStatsSummary", "JDragImg", "JDragBorder", "JDragDecoration", "JImg", "JCustomIcon", "JCarousel") else ""
+        heading = '<h2>' + html.escape(title) + '</h2>' if not skin and component not in ("JText", "JStatsSummary", "JDragImg", "JDragBorder", "JDragDecoration", "JImg", "JCustomIcon", "JCarousel", "JCurrentTime", "JDragEditor", "JNumber", "JCountTo") else ""
+        if component in SOURCE_TYPES:
+            # 源类型名只是编辑器标识，业务卡片/月历已呈现对象；只保留用户显式填写的标题。
+            heading = '<h2 style="position:relative;height:20px">' + html.escape(str(widget["title"])) + '</h2>' if widget.get("title") else ""
+            if heading:
+                body = '<div style="height:calc(100% - 36px)">' + body + '</div>'
         style = f"left:{float(x)}px;top:{float(y)}px;width:{float(w)}px;height:{float(h)}px;z-index:{int(widget.get('orderNum', order))};transform:rotate({float(widget.get('rotation', 0))}deg);font-size:{font}px;color:{color};background:{background};"
         widgets.append(f'<section data-widget="{html.escape(str(widget["id"]), quote=True)}" style="{style}">{heading}{body}</section>')
+        detail = source_document_detail(widget, rows)
+        if detail:
+            # 相同月份/事实只输出一份完整日程，多个样式月历的锚点都指向该事实表。
+            existing = document_details.setdefault(detail.pop("key"), detail)
+            if existing is not detail:
+                existing["anchors"].extend(detail["anchors"])
     background = _css(canvas.get("backgroundColor"), "#f4f7fb")
     title = html.escape(report["name"])
-    return '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="Content-Security-Policy" content="default-src \'none\';img-src data:;style-src \'unsafe-inline\'"><title>' + title + '</title><style>html,body{margin:0;font-family:"Microsoft YaHei",Arial,sans-serif}main{position:relative;overflow:hidden}section{position:absolute;box-sizing:border-box;overflow:hidden}section>svg,section>img{display:block;width:100%;height:100%}h2{position:absolute;margin:8px;font-size:16px;z-index:2}.text,.metric{display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;height:100%;line-height:1.15;overflow-wrap:anywhere}.metric small{font-size:.45em;margin-left:.3em}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:inherit}th,td{padding:.5em;text-align:left;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid #ffffff20}th{font-weight:600}figure{margin:0;flex:1;min-width:0}figure img{width:100%;height:85%;object-fit:contain}figcaption{text-align:center}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}' + material_styles() + '</style><main aria-label="' + html.escape(report["name"], quote=True) + f'" style="width:{float(width)}px;height:{float(height)}px;background:{background}">' + ''.join(widgets) + '</main></html>'
+    return '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="Content-Security-Policy" content="default-src \'none\';img-src data:;style-src \'unsafe-inline\'"><title>' + title + '</title><style>html,body{margin:0;font-family:"Microsoft YaHei",Arial,sans-serif}main{position:relative;overflow:hidden}section{position:absolute;box-sizing:border-box;overflow:hidden}section>svg,section>img{display:block;width:100%;height:100%}h2{position:absolute;margin:8px;font-size:16px;z-index:2}.text,.metric{display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;height:100%;line-height:1.15;overflow-wrap:anywhere}.metric small{font-size:.45em;margin-left:.3em}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:inherit}th,td{padding:.5em;text-align:left;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid #ffffff20}th{font-weight:600}figure{margin:0;flex:1;min-width:0}figure img{width:100%;height:85%;object-fit:contain}figcaption{text-align:center}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}' + material_styles() + presentation_styles() + source_styles() + '</style><main aria-label="' + html.escape(report["name"], quote=True) + f'" style="width:{float(width)}px;height:{float(height)}px;background:{background}">' + ''.join(widgets) + '</main>' + render_source_details(document_details.values(), width) + '</html>'

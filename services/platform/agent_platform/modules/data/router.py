@@ -11,6 +11,7 @@ from agent_platform.core.settings import get_settings
 from ..manufacturing.service import csv_content
 from . import models as m, schemas as s
 from .service import DataService, view
+from .row_policies import RowPolicyService
 
 router = APIRouter(prefix="/api/v1", tags=["数据接入与分析"])
 
@@ -39,14 +40,20 @@ def source(id: str, session=Depends(get_session), actor=Depends(require_permissi
 
 @router.patch("/datasources/{id}")
 def patch_source(id: str, data: s.SourcePatch, session=Depends(get_session), actor=Depends(require_permission("m05.write"))):
-    return DataService(session, actor).patch_source(id, data.model_dump(exclude_unset=True))
+    service = DataService(session, actor)
+    result = service.patch_source(id, data.model_dump(exclude_unset=True))
+    result["schema_snapshot"] = service.metadata(id)["tables"]
+    return result
 
 
 @router.delete("/datasources/{id}")
 def delete_source(id: str, revision: int = Query(ge=1), session=Depends(get_session), actor=Depends(require_permission("m05.delete"))):
     service = DataService(session, actor)
+    tables = service.metadata(id)["tables"]
     # 软删除不移除原始导入文件，审计和历史查询仍保留恢复依据。
-    return service.update(m.DataSource, id, {"archived": True}, revision)
+    result = service.update(m.DataSource, id, {"archived": True}, revision)
+    result["schema_snapshot"] = tables
+    return result
 
 
 @router.post("/datasources/{id}/connection-checks")
@@ -76,7 +83,7 @@ def recover_source(id: str, data: s.SourceRecovery, session=Depends(get_session)
 
 @router.get("/datasets")
 def datasets(q: str = "", limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m06.read"))):
-    return DataService(session, actor).list(m.Dataset, q=q, limit=limit, offset=offset)
+    return DataService(session, actor).visible_datasets(q=q, limit=limit, offset=offset)
 
 
 @router.post("/datasets", status_code=201)
@@ -86,17 +93,24 @@ def import_dataset(data: s.DatasetInput, session=Depends(get_session), actor=Dep
 
 @router.get("/datasets/{id}")
 def dataset(id: str, session=Depends(get_session), actor=Depends(require_permission("m06.read"))):
-    return view(DataService(session, actor).get(m.Dataset, id))
+    return DataService(session, actor).dataset_view(id)
 
 
 @router.patch("/datasets/{id}")
 def patch_dataset(id: str, data: s.DatasetPatch, session=Depends(get_session), actor=Depends(require_permission("m06.write"))):
-    return DataService(session, actor).update(m.Dataset, id, data.model_dump(), data.revision)
+    service = DataService(session, actor)
+    service.dataset_view(id)
+    service.update(m.Dataset, id, data.model_dump(), data.revision)
+    return service.dataset_view(id)
 
 
 @router.delete("/datasets/{id}")
 def delete_dataset(id: str, revision: int = Query(ge=1), session=Depends(get_session), actor=Depends(require_permission("m06.delete"))):
-    return DataService(session, actor).update(m.Dataset, id, {"archived": True}, revision)
+    service = DataService(session, actor)
+    visible = service.dataset_view(id)
+    result = service.update(m.Dataset, id, {"archived": True}, revision)
+    result.update(columns=visible["columns"], row_count=visible["row_count"])
+    return result
 
 
 @router.post("/queries", status_code=201)
@@ -113,17 +127,7 @@ def natural_query(data: s.NaturalQueryInput, request: Request, session=Depends(g
 
 @router.get("/queries")
 def queries(q: str = "", limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m06.read"))):
-    service = DataService(session, actor)
-    result = service.list(m.QueryRecord, q=q, limit=limit, offset=offset)
-    visible = []
-    for item in result["items"]:
-        try:
-            service.get_query(item["id"])
-            visible.append(item)
-        except DomainError as exc:
-            if exc.status not in (403, 404, 422):
-                raise
-    return {"items": visible, "total": len(visible)}
+    return DataService(session, actor).visible_queries(q=q, limit=limit, offset=offset)
 
 
 @router.get("/queries/{id}")
@@ -154,6 +158,18 @@ def processing_job(id: str, session=Depends(get_session), actor=Depends(require_
     return view(DataService(session, actor).get_processing(id))
 
 
+@router.get("/data-processing-jobs")
+def processing_jobs(q: str = "", metric_id: str | None = None, limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission("m06.read"))):
+    return DataService(session, actor).visible_processing(q=q, metric_id=metric_id, limit=limit, offset=offset)
+
+
+@router.post("/data-processing-jobs/{id}/exports")
+def export_processing(id: str, session=Depends(get_session), actor=Depends(require_permission("m06.read"))):
+    row = DataService(session, actor).get_processing(id)
+    RecordStore(session, actor).audit("export", "processing_job", row.id)
+    return Response(csv_content(row.result["rows"]), media_type="text/csv; charset=utf-8", headers={"Content-Disposition": f'attachment; filename="processing-{id}.csv"'})
+
+
 def _metadata_routes(path, kind, permission):
     """元数据目录复用仓储，查询执行和制造实体仍使用各自领域服务。"""
     def listing(q: str = "", limit: int = 50, offset: int = 0, session=Depends(get_session), actor=Depends(require_permission(permission + ".read"))):
@@ -161,6 +177,9 @@ def _metadata_routes(path, kind, permission):
     def creating(data: s.MetadataResource, session=Depends(get_session), actor=Depends(require_permission(permission + ".write"))):
         if data.datasource_id:
             DataService(session, actor).get_source(data.datasource_id)
+        if kind == "business_metric" and data.definition.get("version") == 1:
+            from .metrics import validate_definition
+            validate_definition(data.definition)
         return RecordStore(session, actor).create(kind, data.model_dump(exclude={"revision"}))
     def getting(id: str, session=Depends(get_session), actor=Depends(require_permission(permission + ".read"))):
         return RecordStore(session, actor).get(kind, id)
@@ -169,6 +188,9 @@ def _metadata_routes(path, kind, permission):
             raise DomainError(422, "revision_required", "请提交当前版本号")
         if data.datasource_id:
             DataService(session, actor).get_source(data.datasource_id)
+        if kind == "business_metric" and data.definition.get("version") == 1:
+            from .metrics import validate_definition
+            validate_definition(data.definition)
         return RecordStore(session, actor).update(kind, id, data.model_dump(exclude={"revision"}), data.revision)
     def deleting(id: str, revision: int = Query(ge=1), session=Depends(get_session), actor=Depends(require_permission(permission + ".delete"))):
         return RecordStore(session, actor).delete(kind, id, revision)
@@ -179,3 +201,32 @@ def _metadata_routes(path, kind, permission):
 _metadata_routes("/business-metrics", "business_metric", "m05")
 _metadata_routes("/data-relations", "data_relation", "m05")
 _metadata_routes("/query-templates", "query_template", "m06")
+
+
+@router.post("/business-metrics/{id}/executions", status_code=201)
+def execute_metric(id: str, data: s.MetricExecutionInput, session=Depends(get_session), actor=Depends(require_permission("m06.write"))):
+    from .metrics import MetricService
+    return MetricService(session, actor).execute(id, data.model_dump())
+
+
+@router.get("/datasources/{id}/row-policies")
+def row_policies(id: str, session=Depends(get_session), actor=Depends(require_permission("m05.admin"))):
+    service = RowPolicyService(session, actor)
+    service.source(id)
+    rows = service.policies(id)
+    return {"items": [view(row) for row in rows], "total": len(rows)}
+
+
+@router.get("/datasources/{id}/row-policy-subjects")
+def row_policy_subjects(id: str, session=Depends(get_session), actor=Depends(require_permission("m05.admin"))):
+    return RowPolicyService(session, actor).subjects(id)
+
+
+@router.post("/datasources/{id}/row-policies", status_code=201)
+def create_row_policy(id: str, data: s.RowPolicyInput, session=Depends(get_session), actor=Depends(require_permission("m05.admin"))):
+    return view(RowPolicyService(session, actor).create(id, data.model_dump()))
+
+
+@router.patch("/row-policies/{id}")
+def patch_row_policy(id: str, data: s.RowPolicyPatch, session=Depends(get_session), actor=Depends(require_permission("m05.admin"))):
+    return view(RowPolicyService(session, actor).patch(id, data.model_dump()))

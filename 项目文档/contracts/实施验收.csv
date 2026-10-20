@@ -1,6 +1,6 @@
 功能编号,模块,功能,状态,实现入口,当前证据与未达标准,核查日期,记录者,后续交付批次
-F-M01-01,首页任务,角色工作台,部分实现,modules/workspace/,工作台已接真实汇总；按角色自定义布局待补,2026-10-20,agent-1020-root,A
-F-M01-02,首页任务,任务统一回查,部分实现,modules/workspace/,统一Task/事件/原生run索引已实现；原生详情跳转待实机,2026-10-20,agent-1020-root,A
+F-M01-01,首页任务,角色工作台,部分实现,modules/workspace/,工作台真实汇总、首检趋势与权限内中文动态已实现；15项动态/质量回归通过，公告实际工作台入口已验；角色自定义布局待补,2026-10-21,agent-1020-web,A
+F-M01-02,首页任务,任务统一回查,部分实现,modules/workspace/,已发布Dify流程真实回流平台run/Task，业务value42完整；同幂等键不重复派发。历史任务来源失权同步拒绝，列表先过滤后分页；更多原生类型待验,2026-10-21,agent-1020-root,A
 F-M01-03,首页任务,待办与人工审批,部分实现,modules/workspace/,质检/抽取复核可执行；通用审批处理器仍按实际动作接入,2026-10-20,agent-1020-root,B
 F-M01-04,首页任务,通知与订阅,部分实现,modules/workspace/,任务通知与已读、撤权过滤已实现；订阅投递待补,2026-10-20,agent-1020-root,C
 F-M01-05,首页任务,全局资源搜索,部分实现,modules/workspace/,权限内目录搜索已实现；强业务实体全量索引待补,2026-10-20,agent-1020-root,E
@@ -8,58 +8,58 @@ F-M01-06,首页任务,工厂行业切换,部分实现,modules/workspace/,工作�
 F-M01-07,首页任务,个人偏好与快捷入口,部分实现,modules/workspace/,偏好保存可用；收藏与所有入口联动待补,2026-10-20,agent-1020-root,E
 F-M02-01,AI对话,原生流式多轮对话,部分实现,modules/integrations/ + 原生OpenWebUI,Windows完整前端/登录/真实单轮回复已浏览器验证；原生发送阶段29业务HTTP、215静态、1次64-token请求、0页面错误；多轮连续性/流式中断/刷新恢复仍待验,2026-10-20,agent-1020-root,A
 F-M02-02,AI对话,业务上下文与助手选择,原生待联调,modules/integrations/ + 原生OpenWebUI,上下文与助手绑定已有适配，原生带入对象待联调,2026-10-20,agent-1020-root,D
-F-M02-03,AI对话,工具与子Agent执行,原生待联调,modules/integrations/ + 原生OpenWebUI,真实工具协议/幂等适配完成，原生Agent链待联调,2026-10-20,agent-1020-root,D
+F-M02-03,AI对话,工具与子Agent执行,部分实现,modules/integrations/ + 原生OpenWebUI,两个原生引擎均已登记15只读工具，独立证书身份换短token；四阶段26本机HTTP完成配置/schema/设备列表读取，0模型/企业源；模型选工具、写工具和子Agent仍待验,2026-10-21,agent-1020-root,D
 F-M02-04,AI对话,附件与多模态对话,原生待联调,modules/integrations/ + 原生OpenWebUI,授权文件与原生入口保留；多模态效果未验收,2026-10-20,agent-1020-root,D
 F-M02-05,AI对话,知识引用与可核对回答,原生待联调,modules/integrations/ + 原生OpenWebUI,Dify召回引用协议已验证Mock；原文端到端待联调,2026-10-20,agent-1020-root,D
 F-M02-06,AI对话,停止断线与恢复,原生待联调,modules/integrations/ + 原生OpenWebUI,停止只确认上游终态，断线状态unknown已Mock；原生流待验收,2026-10-20,agent-1020-root,A
 F-M02-07,AI对话,成果并排查看与继续修改,原生待联调,modules/integrations/ + 原生OpenWebUI,成果资源/真实文件可用；对话并排继续编辑未完成,2026-10-20,agent-1020-root,D
 F-M02-08,AI对话,历史分享记忆与个人任务,原生待联调,modules/integrations/ + 原生OpenWebUI,原生功能保留，未将代码存在计为可用,2026-10-20,agent-1020-root,D
 F-M02-09,AI对话,原生工作区与专业能力保留,原生待联调,modules/integrations/ + 原生OpenWebUI,原生完整专业能力清单待实际运行逐项验收,2026-10-20,agent-1020-root,D
-F-M03-01,Agent应用开发,应用创建导入与复制,原生待联调,modules/integrations/ + 原生Dify,原生创建/DSL/复制入口已有，运行构建中,2026-10-20,agent-1020-root,D
+F-M03-01,Agent应用开发,应用创建导入与复制,部分实现,modules/integrations/ + 原生Dify,原生Workflow应用创建、代码草稿保存及原生画布执行已验；DSL导入/复制及其他应用类型创建待验,2026-10-21,agent-1020-root,D
 F-M03-02,Agent应用开发,对话应用与传统Agent配置,原生待联调,modules/integrations/ + 原生Dify,原生编辑器保留，提示词/参数发布一致性未验收,2026-10-20,agent-1020-root,D
-F-M03-03,Agent应用开发,Agent V2完整保留,环境阻塞,modules/integrations/ + 原生Dify,AgentV2依赖tmux及Linux隔离，Windows原生不等价，仍阻塞,2026-10-20,agent-1020-root,C
-F-M03-04,Agent应用开发,调试追踪与样例回放,原生待联调,modules/integrations/ + 原生Dify,运行索引和错误脱敏已有，原生调试/回放待实机,2026-10-20,agent-1020-root,D
-F-M03-05,Agent应用开发,版本发布与回滚,原生待联调,modules/integrations/ + 原生Dify,固定release_id与快照幂等适配通过，原生发布/回滚待实机,2026-10-20,agent-1020-root,D
-F-M03-06,Agent应用开发,API发布与平台调用,原生待联调,modules/integrations/ + 原生Dify,API适配与密钥引用完成，跨平台同资源调用待联调,2026-10-20,agent-1020-root,C
+F-M03-03,Agent应用开发,Agent V2完整保留,原生待联调,modules/integrations/ + 原生Dify,V2原生创建/配置/发布8HTTP通过，DS模型和128输出快照已回读；首轮执行2HTTP/1派发在workspace cwd校验失败，原收据保留，未宣称回复/隔离/工具完成。4文件请求预算小补丁默认500，实际执行待修目录链。,2026-10-21,agent-1020-root,C
+F-M03-04,Agent应用开发,调试追踪与样例回放,部分实现,modules/integrations/ + 原生Dify,Python与JavaScript原生SSE和结果面板实际成功；JS最后选择器大小写误报有独立review及截图，未重复执行；全部节点回放待验,2026-10-21,agent-1020-root,D
+F-M03-05,Agent应用开发,版本发布与回滚,部分实现,modules/integrations/ + 原生Dify,原生发布Python固定流程、读取发布ID并由平台钉住版本调用已验；原生回滚及多版本切换待验,2026-10-21,agent-1020-root,D
+F-M03-06,Agent应用开发,API发布与平台调用,部分实现,modules/integrations/ + 原生Dify,原生专属AppKey加密引用、平台绑定发布版本、真实调用/任务回流/同键复用已验；5HTTP独立复验value42通过。更多应用类型及输入Schema实际链待验,2026-10-21,agent-1020-root,C
 F-M03-07,Agent应用开发,应用日志反馈与运营,原生待联调,modules/integrations/ + 原生Dify,真实运行/用量统计可用，原生反馈待联调,2026-10-20,agent-1020-root,F
 F-M03-08,Agent应用开发,提示词样例与模板,原生待联调,modules/integrations/ + 原生Dify,依赖原生模板/变量完整流程验收,2026-10-20,agent-1020-root,D
-F-M04-01,工作流自动化,Workflow和Chatflow编排,原生待联调,modules/integrations/ + 原生Dify,原生画布/DSL保留，等待本机真实运行,2026-10-20,agent-1020-root,C
-F-M04-02,工作流自动化,原生节点能力完整保留,原生待联调,modules/integrations/ + 原生Dify,节点源码保留；Windows代码沙箱/插件依赖仍待解决,2026-10-20,agent-1020-root,C
-F-M04-03,工作流自动化,手动定时事件触发,原生待联调,modules/integrations/ + 原生Dify,手动与事件幂等可用；后台定时触发未完成,2026-10-20,agent-1020-root,C
-F-M04-04,工作流自动化,调试日志与运行回查,原生待联调,modules/integrations/ + 原生Dify,真实运行/任务关联可用，原生节点追踪待实机,2026-10-20,agent-1020-root,C
-F-M04-05,工作流自动化,发布回滚与环境配置,原生待联调,modules/integrations/ + 原生Dify,平台固定版本绑定可用；原生环境发布/回滚待实机,2026-10-20,agent-1020-root,C
+F-M04-01,工作流自动化,Workflow和Chatflow编排,部分实现,modules/integrations/ + 原生Dify,两种代码Workflow在原生画布派发与输出实际通过，正式发布后平台调用已验；Chatflow及完整编排操作待验,2026-10-21,agent-1020-root,C
+F-M04-02,工作流自动化,原生节点能力完整保留,部分实现,modules/integrations/ + 原生Dify,Python与JavaScript代码节点实际成功且保留默认seccomp；JS沿用官方独立Node20.11.1，前端Node24不变。其他节点组合与隔离负向验证待验,2026-10-21,agent-1020-root,C
+F-M04-03,工作流自动化,手动定时事件触发,部分实现,modules/integrations/ + 原生Dify,原生UI手动执行和平台调用已发布流程已验；定时/事件后台触发仍待实现联调，启用配置不等于调度,2026-10-21,agent-1020-root,C
+F-M04-04,工作流自动化,调试日志与运行回查,部分实现,modules/integrations/ + 原生Dify,原生代码SSE输出/终态、平台run/Task/发布ID真实对应且value42回流；原生失败收据保留，完整节点与Agent过程待验,2026-10-21,agent-1020-root,C
+F-M04-05,工作流自动化,发布回滚与环境配置,部分实现,modules/integrations/ + 原生Dify,平台钉住原生release_id真实调用已验；原生回滚/环境切换仍待验,2026-10-21,agent-1020-root,C
 F-M04-06,工作流自动化,人工步骤与失败处置,原生待联调,modules/integrations/ + 原生Dify,人工复核、unknown不重放已实现；原生人工节点待联调,2026-10-20,agent-1020-root,C
 F-M04-07,工作流自动化,固定业务流程模板,原生待联调,modules/integrations/ + 原生Dify,三个业务平台闭环可用；Dify三模板尚未完成真实发布,2026-10-20,agent-1020-root,C
-F-M04-08,工作流自动化,并发预算与调用幂等,原生待联调,modules/integrations/ + 原生Dify,幂等预约、预算和取消适配通过；跨原生并发队列未验收,2026-10-20,agent-1020-root,C
+F-M04-08,工作流自动化,并发预算与调用幂等,部分实现,modules/integrations/ + 原生Dify,发布固定流程以相同幂等键调用返回同平台run/native run/Task；2个独立验收阶段各仅1次派发；跨原生并发队列与取消待验,2026-10-21,agent-1020-root,C
 F-M05-01,数据源语义,数据源连接与能力登记,部分实现,modules/data/,SQLite/CSV已本机验证；PG/MySQL/HTTP及ES受控SQL/Mapping已适配并Mock；ES离线控件4项16 API通过，真实ES连接/查询未验收,2026-10-20,agent-1020-root,B
 F-M05-02,数据源语义,本地测试目标核验,部分实现,modules/data/,目标只读、用途/服务归属/范围/有效期校验及提交确认4项16 API通过；仅保存批准元数据并按revision软删，未验证ES服务归属或实际连接,2026-10-20,agent-1020-root,B
 F-M05-03,数据源语义,结构同步与字段映射,部分实现,modules/data/,权限过滤元数据与同步可用；依赖影响完整分析待补,2026-10-20,agent-1020-root,B
-F-M05-04,数据源语义,指标与业务口径管理,部分实现,modules/data/,指标口径目录可编辑；统一计算解释器未完成,2026-10-20,agent-1020-root,B
-F-M05-05,数据源语义,行列权限与只读约束,部分实现,modules/data/,当前字段权限与旧快照重授权通过；行级权限未完成,2026-10-20,agent-1020-root,B
+F-M05-04,数据源语义,指标与业务口径管理,部分实现,modules/data/,已实现结构化aggregate/ratio口径及版本冻结执行，零分母null有状态；34数据联合测试通过，139前端断言及14SFC/正式build通过；真实指标UI仍待验。,2026-10-21,agent-1020-root,B
+F-M05-05,数据源语义,行列权限与只读约束,部分实现,modules/data/,行策略/列权限/历史范围指纹已实现，SQL物理表过滤先于聚合，当前admin不绕过。真实22HTTP/3CSV查询验证4→2→2、旧结果403与目录隐藏；受限ES明确拒绝，PG/MySQL仅Mock,2026-10-21,agent-1020-root,B
 F-M05-06,数据源语义,查询计划与预算,本机范围已验证,modules/data/,AST/EXPLAIN/限量/异常隔离已本机验证，外部仅Mock,2026-10-20,agent-1020-root,B
 F-M05-07,数据源语义,HTTP接口数据接入,部分实现,modules/data/,固定GET/凭据引用/无重定向/响应预算已Mock，真实接口待授权,2026-10-20,agent-1020-root,B
 F-M06-01,数据分析处理,自然语言受控查询,部分实现,modules/data/,候选SQL→同AST层已Mock；模型短连通通过不等于真实NL2SQL验收,2026-10-20,agent-1020-root,B
 F-M06-02,数据分析处理,SQL编辑与结果探索,本机范围已验证,modules/data/,SQLite编辑/计划/数据/导出已本机与浏览器验证,2026-10-20,agent-1020-root,B
 F-M06-03,数据分析处理,数据集保存与复用,部分实现,modules/data/,数据集/查询/来源版本可回查；原生Dify复用待联调,2026-10-20,agent-1020-root,B
-F-M06-04,数据分析处理,清洗转换与固定处理,部分实现,modules/data/,选择/去空/去重可重复执行；任意转换/聚合模板待扩展,2026-10-20,agent-1020-root,C
-F-M06-05,数据分析处理,数据质量规则,部分实现,modules/data/,必填/唯一性和行定位可用；更多规则待扩展,2026-10-20,agent-1020-root,B
+F-M06-04,数据分析处理,清洗转换与固定处理,部分实现,modules/data/,保留3旧步骤并补filter/rename/cast/derive/aggregate，Decimal精提Test5，固定结构化计算/行追溯/服务端CSV；34联合回归与139前端断言通过，真实UI待验。,2026-10-21,agent-1020-root,C
+F-M06-05,数据分析处理,数据质量规则,部分实现,modules/data/,7类质量规则：必填/唯一/范围/枚举/类型/长度/字段比较，完整行号及最多20原值示例；前后端回归与build通过，真实UI仍待验。,2026-10-21,agent-1020-root,B
 F-M06-06,数据分析处理,导入导出与大结果处理,部分实现,modules/data/,小CSV/中文/真实导出可用；大文件异步未实现,2026-10-20,agent-1020-root,B
 F-M06-07,数据分析处理,任务失败取消与恢复,本机范围已验证,modules/data/,超预算停止/异常源阻断可用；无自动重试/换库,2026-10-20,agent-1020-root,C
-F-M07-01,报表大屏模板,模板和组件完整迁移,部分实现,modules/reports/ + apps/web/src/modules/reports/,20模板后端换数通过；326源目录当前支持226项，其余100项继续迁移；8图表有真实ECharts行为证据，完整资产视觉验收未完成,2026-10-20,agent-1020-root,E
+F-M07-01,报表大屏模板,模板和组件完整迁移,部分实现,modules/reports/ + apps/web/src/modules/reports/,20模板后端换数通过；326来源项支持266项，剩60项仍保留。新增12来源控件已有UI/导出证据；全部资产逐项视觉验收待完成,2026-10-21,agent-1020-root,E
 F-M07-02,报表大屏模板,自然语言生成报表,部分实现,modules/reports/ + apps/web/src/modules/reports/,手选/关键词匹配/空画布可用；真正模型规划尚未完成,2026-10-20,agent-1020-root,E
-F-M07-03,报表大屏模板,可视化设计与组件复用,部分实现,modules/reports/ + apps/web/src/modules/reports/,205素材浏览器4项210请求、上传授权/另存模板/恢复4项13请求通过；8图表实际option验证通过；其余专用组件与完整设计行为继续验收,2026-10-20,agent-1020-root,E
-F-M07-04,报表大屏模板,数据绑定与替换验证,部分实现,modules/reports/ + apps/web/src/modules/reports/,真实SQL绑定/权限/刷新及可信series_model已验证；8图表堆叠/占比/双轴/平滑/阶梯/缺值通过；全部模板极值视觉回归待补,2026-10-20,agent-1020-root,E
+F-M07-03,报表大屏模板,可视化设计与组件复用,部分实现,modules/reports/ + apps/web/src/modules/reports/,画布尺寸/底色/适配、落点插入、属性撤销与安全富文本已实现；37HTTP/3新CSV查询验收含画布设置、撤销重做、排名/进度/漏斗，未覆盖全部设计交互,2026-10-21,agent-1020-web,E
+F-M07-04,报表大屏模板,数据绑定与替换验证,部分实现,modules/reports/ + apps/web/src/modules/reports/,逐组件真实字段映射与可信展示投影已实现；37HTTP/3新CSV查询验收含模板换数、刷新与实际HTML下载内容，20套模板逐一UI对照仍待验,2026-10-21,agent-1020-web,E
 F-M07-05,报表大屏模板,筛选联动钻取与刷新,部分实现,modules/reports/ + apps/web/src/modules/reports/,刷新/筛选钻取接口已有；跨组件联动全面验收待补,2026-10-20,agent-1020-root,E
-F-M07-06,报表大屏模板,大屏展示与适配,部分实现,modules/reports/ + apps/web/src/modules/reports/,独立画布缩放和离线导出可用；周期刷新/最后数据策略待补,2026-10-20,agent-1020-root,E
+F-M07-06,报表大屏模板,大屏展示与适配,部分实现,modules/reports/ + apps/web/src/modules/reports/,画布尺寸/底色/视口适配真实UI已验，沿用版本保存；定时刷新和最近数据策略未完成，全部尺寸布局仍待回归,2026-10-21,agent-1020-web,E
 F-M07-07,报表大屏模板,发布版本与导出,部分实现,modules/reports/ + apps/web/src/modules/reports/,普通报表真实多格式/版本发布/恢复已本机验证；正式质检报告改名/刷新/发布/HTML预览/DOCX下载通过；25样本PDF全部5页视觉通过，Office桌面未验,2026-10-20,agent-1020-root,E
-F-M07-08,报表大屏模板,真实预览与视觉回归,部分实现,modules/reports/ + apps/web/src/modules/reports/,205素材、8图表和正式HTML有有效浏览器截图；25样本正式PDF已完整分页、文本末行及精度核验，全部5页视觉通过；20模板双视觉回归未完成,2026-10-20,agent-1020-root,E
-F-M08-01,知识文档RAG,知识库创建和资产管理,原生待联调,modules/integrations/ + 原生Dify,原生知识空间/目录映射，待本机原生创建联调,2026-10-20,agent-1020-root,D
-F-M08-02,知识文档RAG,文档上传解析与版本,原生待联调,modules/integrations/ + 原生Dify,授权导入/版本协议已Mock；实际解析页码和效果待验收,2026-10-20,agent-1020-root,D
-F-M08-03,知识文档RAG,分段元数据与索引维护,原生待联调,modules/integrations/ + 原生Dify,原生分段/重建协议保留，索引维护未实机验收,2026-10-20,agent-1020-root,D
-F-M08-04,知识文档RAG,检索配置和效果测试,原生待联调,modules/integrations/ + 原生Dify,bge-m3短连通成功；不等于知识召回效果通过,2026-10-20,agent-1020-root,D
+F-M07-08,报表大屏模板,真实预览与视觉回归,部分实现,modules/reports/ + apps/web/src/modules/reports/,205素材/既有图表/正式文档及12来源控件有截图与HTML导出证据；仪表深色字/月历完整月份/卡片4行修复3离线图已目检。266项支持不等于逐项视觉验收，20模板与33来源资产对照待补,2026-10-21,agent-1020-root,E
+F-M08-01,知识文档RAG,知识库创建和资产管理,部分实现,modules/integrations/ + 原生Dify,原生Dify知识库创建、平台知识空间绑定和bge-m3默认向量配置已实际完成；批量资产管理与各角色权限待验,2026-10-21,agent-1020-root,D
+F-M08-02,知识文档RAG,文档上传解析与版本,部分实现,modules/integrations/ + 原生Dify,1份UTF8原件实际导入/索引completed，原文下载字节与SHA一致，引用文件删除409；7业务检查通过，原下载计数误报有独立review。PDF页码/替换版本等待验,2026-10-21,agent-1020-root,D
+F-M08-03,知识文档RAG,分段元数据与索引维护,部分实现,modules/integrations/ + 原生Dify,实际文本1总段/1完成段、error为空；前端状态可回查。分段参数编辑、重建与失败恢复待验,2026-10-21,agent-1020-root,D
+F-M08-04,知识文档RAG,检索配置和效果测试,部分实现,modules/integrations/ + 原生Dify,指定bge-m3实际索引并单次语义检索得到引用，得分0.8206；合计最多25本机HTTP/1导入/1索引/1检索，0LLM，实际向量HTTP未观测。企业召回评测与混合检索待验,2026-10-21,agent-1020-root,D
 F-M08-05,知识文档RAG,RAG Pipeline完整保留,原生待联调,modules/integrations/ + 原生Dify,完整原生RAG Pipeline保留源码，尚未运行验收,2026-10-20,agent-1020-root,D
-F-M08-06,知识文档RAG,跨入口检索引用适配,原生待联调,modules/integrations/ + 原生Dify,召回citation协议已Mock；跨三个入口及原文权限待验收,2026-10-20,agent-1020-root,D
-F-M08-07,知识文档RAG,知识生命周期与权限,原生待联调,modules/integrations/ + 原生Dify,停用/引用/密钥分离已有；原生撤权/删除影响待实机,2026-10-20,agent-1020-root,D
+F-M08-06,知识文档RAG,跨入口检索引用适配,部分实现,modules/integrations/ + 原生Dify,平台真实检索/引用/原件下载已通过，引用与SHA可核对；聊天/Agent入口及跨入口撤权一致性待验,2026-10-21,agent-1020-root,D
+F-M08-07,知识文档RAG,知识生命周期与权限,原生待联调,modules/integrations/ + 原生Dify,停用/引用/密钥分离及原件删除保护已有；真实原生撤权/删除/索引失效影响待验,2026-10-21,agent-1020-web,D
 F-M09-01,本体抽取图谱,本体建模与版本,部分实现,modules/graph/,本体类型/方向/版本/固定快照已验证；变更影响分析待补,2026-10-20,agent-1020-root,E
 F-M09-02,本体抽取图谱,文档结构化抽取,部分实现,modules/graph/,结构化/词表候选+原文行/位置可用；模型NER未实现,2026-10-20,agent-1020-root,E
 F-M09-03,本体抽取图谱,人工标注与合并消歧,部分实现,modules/graph/,人工候选批准、同类型合并保留来源已实现；别名/复杂消歧待补,2026-10-20,agent-1020-root,E
@@ -67,26 +67,26 @@ F-M09-04,本体抽取图谱,图谱探索与路径查询,本机范围已验证,mo
 F-M09-05,本体抽取图谱,图谱数据导入导出,本机范围已验证,modules/graph/,JSON预校验/同实体复用/导出已本机测试,2026-10-20,agent-1020-root,E
 F-M09-06,本体抽取图谱,图谱检索与业务工具,部分实现,modules/graph/,已登记graph.search并有鉴权API；对话工具接入待联调,2026-10-20,agent-1020-root,E
 F-M09-07,本体抽取图谱,图谱运营与质量检查,部分实现,modules/graph/,孤点/同名质量检查可返回实体ID；运营UI待补,2026-10-20,agent-1020-root,E
-F-M10-01,设备维护预警,设备类别台账与资料关联,部分实现,modules/manufacturing/,设备/测点/资料可编辑，类别独立模型与完整维修资料待补,2026-10-20,agent-1020-root,B
+F-M10-01,设备维护预警,设备类别台账与资料关联,部分实现,modules/manufacturing/,新增设备/产品类别树及资源绑定，循环/CAS/重新绑定测试通过；设备产品类别页已浏览器加载；完整维修资料关联仍需企业验证,2026-10-21,agent-1020-root,B
 F-M10-02,设备维护预警,测点工况与时间序列,部分实现,modules/manufacturing/,DB字段/单位/时间/工况映射已浏览器验证,2026-10-20,agent-1020-root,B
 F-M10-03,设备维护预警,设备维护分析,部分实现,modules/manufacturing/,同工况分箱/覆盖/不足原因可复算；三类别企业实数据未验收,2026-10-20,agent-1020-root,B
-F-M10-04,设备维护预警,预警规则与事件,部分实现,modules/manufacturing/,阈值/缺值/恢复/去重及来源评估已本机测试,2026-10-20,agent-1020-root,B
-F-M10-05,设备维护预警,维修记录与闭环处置,部分实现,modules/manufacturing/,预警ack/resolve/reopen/comment可用；完整分派复核链待补,2026-10-20,agent-1020-root,B
-F-M10-06,设备维护预警,节能分析与建议,待实现,modules/manufacturing/,未实现可核验的节能估算/建议，不输出伪效益,2026-10-20,agent-1020-root,E
+F-M10-04,设备维护预警,预警规则与事件,部分实现,modules/manufacturing/,新增原预警operator/rule_revision快照，规则变化不合并旧事件；阈值/去重/来源评估本机测试通过,2026-10-21,agent-1020-root,B
+F-M10-05,设备维护预警,维修记录与闭环处置,部分实现,modules/manufacturing/,新增来源工单→分派→维修→不同人员按原阈值/同工况新证据复核；业务及撤权测试通过，浏览器已验真实待复核工单，完整关闭UI待验；旧resolve/reopen返回409引导工单,2026-10-21,agent-1020-root,B
+F-M10-06,设备维护预警,节能分析与建议,部分实现,modules/manufacturing/,产量加权同工况能耗与基准差额已实现；实际UI15HTTP/2新CSV查询验证2→2.4kWh/单位及40kWh/40元假设空间、保存与CSV；功率/累计表UI、类别知识建议、Dify流程和企业效果待验,2026-10-21,agent-1020-web,E
 F-M10-07,设备维护预警,持续数据生成环境,部分实现,modules/manufacturing/,76字段8设备有限生成/取消/重入已测；随环境连续后台调度待补,2026-10-20,agent-1020-root,C
-F-M10-08,设备维护预警,维护效果复核与经验沉淀,部分实现,modules/manufacturing/,处置记录可回查；建议准确性反馈/经验入库待补,2026-10-20,agent-1020-root,E
+F-M10-08,设备维护预警,维护效果复核与经验沉淀,部分实现,modules/manufacturing/,维修复核固定原阈值/原比较口径、要求维修后新授权数据；事件保留重开前状态；本机行为回归通过，经验入知识库待联调,2026-10-21,agent-1020-root,E
 F-M11-01,设备及产品质检,质检标准与判定规则,本机范围已验证,modules/manufacturing/,版本固定/Decimal/缺值单位/历史run与标准已验证,2026-10-20,agent-1020-root,B
 F-M11-02,设备及产品质检,设备固定质检,本机范围已验证,modules/manufacturing/,数据库映射→逐指标判定→人工复核已浏览器验证,2026-10-20,agent-1020-root,B
 F-M11-03,设备及产品质检,产品批次与抽样质检,本机范围已验证,modules/manufacturing/,产品/批次/样本计划及三维判定已浏览器验证,2026-10-20,agent-1020-root,B
 F-M11-04,设备及产品质检,图像与结构化检测,部分实现,modules/manufacturing/,数值/成分/外部外观检测结果可判定；图像缺陷模型未部署,2026-10-20,agent-1020-root,B
 F-M11-05,设备及产品质检,人工复核与修订,本机范围已验证,modules/manufacturing/,追加复核/原因/并发版本和证据变更失效已验证,2026-10-20,agent-1020-root,B
-F-M11-06,设备及产品质检,不合格处置与复检,部分实现,modules/manufacturing/,偏差/复检限制可用；完整新复检任务关联UI待补,2026-10-20,agent-1020-root,B
+F-M11-06,设备及产品质检,不合格处置与复检,本机范围已验证,modules/manufacturing/,固定标准新复检不复制观测，处置/分派/返工/独立复核关闭及血缘已实现；一次真实UI闭环通过（整体制造脚本85HTTP/4新CSV取数/13.8秒），7图已核,2026-10-21,agent-1020-root,B
 F-M11-07,设备及产品质检,质检报告与追溯,部分实现,modules/manufacturing/ + modules/reports/ + apps/web/src/modules/reports/,按不可变run生成正式报告，固定标准/三维样本/精度/复核及来源授权；浏览器4项35 API通过，含无质检写权限生成/发布/DOCX/深链；Dify流程版本链未验,2026-10-20,agent-1020-root,B
-F-M11-08,设备及产品质检,质量统计与改善,部分实现,modules/manufacturing/,工作台真实趋势已有；复检分母和质量改善专题待补,2026-10-20,agent-1020-root,B
-F-M12-01,工具MCP技能插件,工具接口注册与Schema,部分实现,modules/catalog/ + modules/integrations/,Schema/固定协议注册已实现；副作用工具实际调用未开放,2026-10-20,agent-1020-root,D
+F-M11-08,设备及产品质检,质量统计与改善,部分实现,modules/manufacturing/,首检首run与复检末run分开统计，缺样本留分母，日期先筛后预算；浏览器首检50%/复检100%并存通过；长期改善专题及企业效果待验,2026-10-21,agent-1020-root,B
+F-M12-01,工具MCP技能插件,工具接口注册与Schema,部分实现,modules/catalog/ + modules/integrations/,工具Schema注册及按角色导出15GET业务OpenAPI已有、2契约测试通过；原生工具导入/模型授权与实际调用未验，副作用工具未开放,2026-10-21,agent-1020-web,D
 F-M12-02,工具MCP技能插件,MCP服务接入,部分实现,modules/catalog/ + modules/integrations/,MCP initialize/initialized/DELETE与1MB预算已Mock，不执行tools/call,2026-10-20,agent-1020-root,D
 F-M12-03,工具MCP技能插件,按设备类别管理Skill,部分实现,modules/catalog/ + modules/integrations/,类别Skill绑定/Schema目录已有；多实例业务Skill模板待补,2026-10-20,agent-1020-root,D
-F-M12-04,工具MCP技能插件,插件安装升级和停用,部分实现,modules/catalog/ + modules/integrations/,Dify原生插件管理保留；Windows daemon构建曾因资源失败，R25已允许Docker改走Linux配套镜像，尚未验收,2026-10-20,agent-1020-root,D
+F-M12-04,工具MCP技能插件,插件安装升级和停用,部分实现,modules/catalog/ + modules/integrations/,Dify专用WSL插件进程已核归属且运行，取代旧Windows构建/Docker等待；实际插件安装/升级/停用及调用仍未验,2026-10-21,agent-1020-web,D
 F-M12-05,工具MCP技能插件,Skills与Snippets完整保留,部分实现,modules/catalog/ + modules/integrations/,保留原生能力，待各自完整运行验收,2026-10-20,agent-1020-root,D
 F-M12-06,工具MCP技能插件,工具测试与权限审批,部分实现,modules/catalog/ + modules/integrations/,服务端授权已有；具体参数审批与工具执行完整链待补,2026-10-20,agent-1020-root,D
 F-M12-07,工具MCP技能插件,能力依赖与停用影响,部分实现,modules/catalog/ + modules/integrations/,原生配置删除依赖预检已有；升级回退与运行版本保留待联调,2026-10-20,agent-1020-root,D
@@ -100,24 +100,24 @@ F-M14-01,用户组织权限,统一登录与身份映射,部分实现,modules/ide
 F-M14-02,用户组织权限,组织岗位与工厂范围,部分实现,modules/identity/ + core/context.py,组织/工作区/部门/岗位/成员与即时角色生效已API验证,2026-10-20,agent-1020-root,A
 F-M14-03,用户组织权限,角色菜单和操作授权,本机范围已验证,modules/identity/ + core/context.py,菜单权限+服务端拒绝+最小角色浏览器/19安全测试通过,2026-10-20,agent-1020-root,A
 F-M14-04,用户组织权限,数据文档与成果权限,部分实现,modules/identity/ + core/context.py,私有对象/文件grant与撤权检查可用；所有领域行级范围待补,2026-10-20,agent-1020-root,A
-F-M14-05,用户组织权限,服务身份与外部调用方,部分实现,modules/identity/ + core/context.py,短期服务Bearer/scopes/负责人/撤销已验证；调用配额待补,2026-10-20,agent-1020-root,F
+F-M14-05,用户组织权限,服务身份与外部调用方,部分实现,modules/identity/ + core/context.py,服务身份创建/改名、5分钟令牌签发、关闭清空、撤销/停用真实UI通过（增强脚本37HTTP）；复制仅验内存替身，调用配额/全链调用方接入待补,2026-10-21,agent-1020-web,F
 F-M14-06,用户组织权限,全链路审计,部分实现,modules/identity/ + core/context.py,审计不可由普通用户改写；跨所有原生/模型链关联待联调,2026-10-20,agent-1020-root,F
 F-M14-07,用户组织权限,租户组织隔离与撤权验证,部分实现,modules/identity/ + core/context.py,工作区/下载/原生映射/即时撤权已测；生产完整矩阵待补,2026-10-20,agent-1020-root,A
-F-M14-08,用户组织权限,客户端证书与接入授权,待实现,modules/identity/ + core/context.py,客户端证书签发/吊销/过期接入未实现,2026-10-20,agent-1020-root,F
-F-M15-01,模型凭据,对话向量视觉模型配置,部分实现,modules/integrations/ + core/secrets.py + core/provider_settings.py,chat/embedding等profile可配置，指定DS4.1及bge-m3已短连通,2026-10-20,agent-1020-root,D
+F-M14-08,用户组织权限,客户端证书与接入授权,本机范围已验证,modules/identity/ + core/context.py,公钥证书登记/轮换/停启/撤销、到期与最新权限逐请求检查57项回归通过；真实UI及本机签名换令牌37HTTP含3成功/8预期拒绝；私钥不上传，不宣称mTLS或企业CA签发,2026-10-21,agent-1020-web,F
+F-M15-01,模型凭据,对话向量视觉模型配置,部分实现,modules/integrations/ + core/secrets.py + core/provider_settings.py,指定DS4.1在OWUI真实回复已验，Dify官方compatible经普通OWUI身份桥配置验证成功并设默认；SiliconFlow bge-m3实际知识索引/召回已验；视觉待验,2026-10-21,agent-1020-root,D
 F-M15-02,模型凭据,密钥存储轮换与授权,本机范围已验证,modules/integrations/ + core/secrets.py + core/provider_settings.py,加密/历史版本/CAS/一次轮换票据与引用影响已安全测试,2026-10-20,agent-1020-root,F
 F-M15-03,模型凭据,能力测试与诊断,部分实现,modules/integrations/ + core/secrets.py + core/provider_settings.py,模型目录适配与真实短连通通过；视觉/工具等能力矩阵待验收,2026-10-20,agent-1020-root,D
 F-M15-04,模型凭据,路由回退和版本绑定,部分实现,modules/integrations/ + core/secrets.py + core/provider_settings.py,固定配置不自动切模型；能力路由/回退规则尚未完成,2026-10-20,agent-1020-root,D
 F-M15-05,模型凭据,额度成本与限流,部分实现,modules/integrations/ + core/secrets.py + core/provider_settings.py,真实usage/未知cost为空；配额/限流完整策略待补,2026-10-20,agent-1020-root,F
 F-M15-06,模型凭据,本地与私有模型部署接入,部分实现,modules/integrations/ + core/secrets.py + core/provider_settings.py,平台与Open WebUI已Windows本机运行，当前使用指定外部模型服务；本地推理模型与私有模型端点接入效果尚未验收，不把应用本机部署算作本地模型已部署,2026-10-20,agent-1020-root,D
-F-M16-01,运行运营系统,跨引擎运行追踪,部分实现,modules/operations/ + deploy/native/,Task/native run索引和关联已有；真实跨引擎失败链待联调,2026-10-20,agent-1020-root,C
+F-M16-01,运行运营系统,跨引擎运行追踪,部分实现,modules/operations/ + deploy/native/,已发布固定流程真实关联release/platform run/native run/Task，value42回流且同键复用；跨引擎失败/Agent底层run关联仍待补,2026-10-21,agent-1020-root,C
 F-M16-02,运行运营系统,健康检查与资源监控,部分实现,modules/operations/ + deploy/native/,平台存活/依赖未验证状态真实；worker资源监控阈值未完成,2026-10-20,agent-1020-root,F
 F-M16-03,运行运营系统,队列取消与失败隔离,部分实现,modules/operations/ + deploy/native/,取消委托真实上游、unknown和DB失败隔离已测；通用队列待补,2026-10-20,agent-1020-root,C
-F-M16-04,运行运营系统,版本配置与部署清单,部分实现,modules/operations/ + deploy/native/,独立本机准备/固定来源版本在做；全部服务启停验收待完成,2026-10-20,agent-1020-root,F
+F-M16-04,运行运营系统,版本配置与部署清单,部分实现,modules/operations/ + deploy/native/,Windows平台/OWUI及WSL Dify固定来源部署可运行，Dify数据库迁移/14角色归属与二次状态通过；原生功能、全部重启/恢复与升级矩阵待验,2026-10-21,agent-1020-web,F
 F-M16-05,运行运营系统,备份恢复与保留,部分实现,modules/operations/ + deploy/native/,自有SQLite有界备份/新文件恢复演练通过；文件及原生全量恢复未完成,2026-10-20,agent-1020-root,F
 F-M16-06,运行运营系统,用量运营与服务质量,部分实现,modules/operations/ + deploy/native/,真实Task终态分母/用量可核查；全量运营钻取待补,2026-10-20,agent-1020-root,F
 F-M16-07,运行运营系统,运维配置与受控诊断,部分实现,modules/operations/ + deploy/native/,显式诊断/回调/依赖状态已有；一键脱敏诊断包待补,2026-10-20,agent-1020-root,F
-F-M16-08,运行运营系统,字典参数公告与辅助开发工具,待实现,modules/operations/ + deploy/native/,字典/公告/表单生成等qKnow辅助功能尚未实现,2026-10-20,agent-1020-root,F
+F-M16-08,运行运营系统,字典参数公告与辅助开发工具,本机范围已验证,modules/operations/ + deploy/native/,字典/参数/公告/表单CRUD、启停/作用域/审计/历史恢复及字段校验已实现；真实UI70HTTP/0业务查询验证工作台公告、Schema/Vue/OpenAPI导出及软删；不直接修改生产结构,2026-10-21,agent-1020-web,F
 F-M17-01,文件文档成果,统一文件上传和归属,本机范围已验证,modules/files/ + core/files.py,中文上传/归属/路径/限量/私有下载及撤权已API测试,2026-10-20,agent-1020-root,A
 F-M17-02,文件文档成果,WordExcelPPT真实交付,部分实现,modules/files/ + core/files.py + modules/reports/,真实DOCX表格/XLSX单元格/PPT图表表格及正式质检25行末行已后端验证；正式DOCX浏览器下载通过；25样本PDF文本与5页视觉通过，Office桌面视觉未验,2026-10-20,agent-1020-root,E
 F-M17-03,文件文档成果,预览版本与继续编辑,部分实现,modules/files/ + core/files.py,报表版本/恢复可用；通用文档继续编辑与版本尚未完成,2026-10-20,agent-1020-root,E

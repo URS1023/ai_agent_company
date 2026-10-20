@@ -7,13 +7,17 @@
 <template>
   <div class="scroll-board" :class="{ compact }">
     <div v-if="headers.length" class="scroll-board__head">
+      <span v-if="ranking" aria-label="名次">#</span>
       <span v-for="header in headers" :key="header" class="scroll-board__cell">
         {{ header }}
       </span>
     </div>
 
     <div class="scroll-board__viewport">
-      <div class="scroll-board__track" :class="{ animated }">
+      <div
+        class="scroll-board__track"
+        :class="{ animated: animated && rows.length >= 4 }"
+      >
         <div
           v-for="(row, index) in renderedRows"
           :key="`${row.id || row.name}-${index}`"
@@ -27,7 +31,7 @@
             {{ (index % rows.length) + 1 }}
           </span>
           <span v-for="field in fields" :key="field" class="scroll-board__cell">
-            {{ row[field] }}
+            {{ row[field] ?? "—" }}
           </span>
           <span
             v-if="row.progress !== undefined"
@@ -92,13 +96,13 @@ const renderedRows = computed(() => {
   flex: none;
   padding: 0 10px 8px;
   color: #6ed7ff;
-  font-size: 11px;
+  font-size: 14px;
   border-bottom: 1px solid rgba(77, 213, 255, 0.09);
 }
 
 .scroll-board__viewport {
   min-height: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .scroll-board__track {
@@ -126,7 +130,7 @@ const renderedRows = computed(() => {
     rgba(77, 213, 255, 0.07),
     rgba(77, 213, 255, 0.02)
   );
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .compact .scroll-board__row {

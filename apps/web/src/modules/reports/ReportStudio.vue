@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cloneDto } from "../../utils/cloneDto";
-import { computed, onMounted, provide, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, provide, ref, watch } from "vue";
 import { api, type Entity, type ListResult } from "../../api/client";
 import { useOperation } from "../../composables/useOperation";
 import JimuCanvas from "./reused/JimuCanvas.vue";
@@ -49,15 +49,18 @@ const dataDetail = ref<{
   total: number;
   truncated: boolean;
 } | null>(null);
-async function chooseComponent(item: Record<string, any>) {
+async function chooseComponent(
+  item: Record<string, any>,
+  point?: { x: number; y: number },
+) {
   await op.run(async () => {
     // 每个源素材保留工厂返回的独立样式，不能按组件类型重建通用实例。
     const widget = await api.post<Record<string, any>>(
       "/report-component-instances",
       {
         source_id: item.id,
-        x: 80,
-        y: 80,
+        x: Math.min(10000, Math.max(0, point?.x ?? 80)),
+        y: Math.min(10000, Math.max(0, point?.y ?? 80)),
         order_num: layout.value.widgets.length,
       },
     );
@@ -77,7 +80,9 @@ const layout = computed(
     },
 );
 const page = computed(() => ({
+  ...layout.value.canvas,
   design: layout.value.canvas,
+  sourceCanvas: layout.value.canvas,
   widgets: layout.value.widgets,
   theme: draft.value.theme,
 }));
@@ -207,6 +212,27 @@ function redo() {
   history.value.push(JSON.stringify(layout.value));
   draft.value.layout = JSON.parse(item);
 }
+function onHistoryKey(event: KeyboardEvent) {
+  if (
+    !canWrite.value ||
+    preview.value ||
+    event.defaultPrevented ||
+    !(event.ctrlKey || event.metaKey)
+  )
+    return;
+  if (
+    event.target instanceof Element &&
+    event.target.closest('input,textarea,[contenteditable="true"],.el-select')
+  )
+    return;
+  const key = event.key.toLowerCase();
+  if (key !== "z" && key !== "y") return;
+  event.preventDefault();
+  if (key === "y" || event.shiftKey) redo();
+  else undo();
+}
+onMounted(() => window.addEventListener("keydown", onHistoryKey));
+onBeforeUnmount(() => window.removeEventListener("keydown", onHistoryKey));
 async function save(silent = false) {
   const saved = await op.run(
     async () => {
@@ -345,16 +371,21 @@ watch(
           @select="canvasActions.select"
           @area-select="canvasActions.areaSelect"
           @context-action="canvasActions.contextAction"
-          @drop-component="chooseComponent($event.item)"
+          @drop-component="chooseComponent($event.item, $event.point)"
           @drilldown="showData($event.widget.id)"
           @update-widget="updateWidget"
           @update-widgets="updateWidgets"
           @interaction-start="checkpoint"
           @zoom-change="zoom = $event"
-          @fit="zoom = 0.6"
         />
       </div>
-      <ReportProperties v-if="!preview" v-model="selected" :queries="queries" />
+      <ReportProperties
+        v-if="!preview"
+        v-model="selected"
+        v-model:canvas="layout.canvas"
+        :queries="queries"
+        @interaction-start="checkpoint"
+      />
     </div>
     <el-dialog
       v-model="catalogDialog"

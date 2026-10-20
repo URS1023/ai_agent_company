@@ -17,6 +17,8 @@ from ...core.database import get_session
 from ...core.errors import DomainError
 from ...core.models import LoginSession, Membership, Role, User
 from ...core.records import RecordStore
+# 服务Bearer也可用于未启用身份管理页面的部署，必须在建库前注册关联模型。
+from . import client_certificate_models as _client_certificate_models
 from .models import ServiceAccess, ServiceIdentity
 from .schemas import IdentityInput, RevisionInput
 from .security import PERMISSION_UNIVERSE, validate_delegation
@@ -38,6 +40,9 @@ def resolve_service_actor(session, login: LoginSession, actor: Actor, bearer: bo
         raise DomainError(401, 'service_token_revoked', '服务令牌已过期或撤销')
     if token.workspace_id != login.workspace_id or identity.workspace_id != login.workspace_id or identity.user_id != actor.user_id:
         raise DomainError(403, 'service_workspace_denied', '服务令牌只能用于签发工作区')
+    # 本地导入避免路由装配循环；证书到期/停用/撤销每次请求重新生效。
+    from .client_certificate_service import validate_certificate_binding
+    validate_certificate_binding(session, token, identity)
     identity_actor = replace(actor, permissions=frozenset(identity.permissions))
     scope_actor = replace(actor, permissions=frozenset(token.scopes))
     permissions = frozenset(p for p in PERMISSION_UNIVERSE if actor.can(p) and identity_actor.can(p) and scope_actor.can(p))
@@ -77,6 +82,22 @@ def service_get(session, actor, id):
     if row is None:
         raise DomainError(404, 'service_identity_missing', '服务身份不存在')
     return row
+
+
+def mint_service_token(session, actor, identity, scopes, name, expires):
+    """复用同一短令牌持久化路径；调用方先验证授权，事务由请求依赖统一提交。"""
+    token = 'service_' + secrets.token_urlsafe(40)
+    login = LoginSession(user_id=identity.user_id, workspace_id=identity.workspace_id,
+        token_hash=sha256(token.encode()).hexdigest(), csrf_token=secrets.token_urlsafe(32), expires_at=expires)
+    session.add(login)
+    session.flush()
+    row = ServiceAccess(workspace_id=identity.workspace_id, identity_id=identity.id, session_id=login.id,
+        name=name[:120], scopes=scopes, expires_at=expires, created_by=actor.user_id)
+    session.add(row)
+    session.flush()
+    RecordStore(session, actor).audit('service_token.create', 'service_identity', identity.id,
+        {'token_id': row.id, 'expires_at': expires})
+    return token, row
 
 
 @router.get('/service-identities')
@@ -147,17 +168,8 @@ def issue_token(id: str, body: TokenCreate, actor: Actor = Depends(require_permi
     validate_delegation(actor, identity.permissions)
     scopes = validate_delegation(actor, body.scopes if body.scopes is not None else identity.permissions)
     validate_delegation(replace(actor, permissions=frozenset(identity.permissions)), scopes)
-    token = 'service_' + secrets.token_urlsafe(40)
     expires = (datetime.now(timezone.utc) + timedelta(minutes=body.ttl_minutes)).isoformat()
-    login = LoginSession(user_id=identity.user_id, workspace_id=actor.workspace_id,
-        token_hash=sha256(token.encode()).hexdigest(), csrf_token=secrets.token_urlsafe(32), expires_at=expires)
-    session.add(login)
-    session.flush()
-    row = ServiceAccess(workspace_id=actor.workspace_id, identity_id=id, session_id=login.id,
-        name=body.name, scopes=scopes, expires_at=expires, created_by=actor.user_id)
-    session.add(row)
-    session.flush()
-    RecordStore(session, actor).audit('service_token.create', 'service_identity', id, {'token_id': row.id, 'expires_at': expires})
+    token, row = mint_service_token(session, actor, identity, scopes, body.name, expires)
     return {**token_dict(row), 'token': token, 'token_type': 'Bearer'}
 
 

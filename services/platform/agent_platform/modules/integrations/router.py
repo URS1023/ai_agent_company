@@ -14,6 +14,7 @@ from agent_platform.core.context import Actor, get_actor, require_permission
 from agent_platform.core.database import get_session
 from agent_platform.core.errors import DomainError
 from agent_platform.core.files import FileService
+from agent_platform.core.models import ResourceReference
 from agent_platform.core.records import RecordStore
 from agent_platform.core.settings import get_settings
 
@@ -75,9 +76,18 @@ _crud("/tool-bindings", TOOL, "m12", dto.ToolCreate, dto.ToolPatch)
 
 @router.post("/integrations/{id}/launches")
 def launch(id: str, body: dto.LaunchInput, request: Request, actor: Actor = Depends(get_actor), session: Session = Depends(get_session)):
-    targets = {"workflow": "m04.read", "agent": "m03.read", "agent_v2": "m03.read", "knowledge": "m08.read", "plugins": "m12.admin", "models": "m15.read", "tools": "m12.read", "admin": "m14.admin", "apps": "m13.read"}
-    actor.require(targets.get(body.target, "m02.read"))
     return IntegrationService(session, actor, request).launch(id, body.target, body.native_id)
+
+
+@router.get("/native-apps")
+def native_apps(request: Request, target: str = Query(...), actor: Actor = Depends(get_actor), session: Session = Depends(get_session)):
+    return IntegrationService(session, actor, request).native_entries(target)
+
+
+@router.get("/business-tools/openapi.json")
+def business_tools(request: Request, actor: Actor = Depends(require_permission("m02.read"))):
+    from .business_tools import business_tool_spec
+    return business_tool_spec(request.app.openapi(), actor)
 
 
 @router.post("/integration-instances/{id}/checks")
@@ -219,7 +229,12 @@ def import_document(id: str, body: dto.ImportInput, request: Request, actor: Act
     document = result.get("document", {})
     if not document.get("id"):
         raise DomainError(502, "native_document_missing", "原生服务没有返回文档标识")
-    return service.store.create("knowledge_document", {"space_id": id, "native_document_id": document["id"], "file_id": body.file_id, "name": document.get("name", metadata["name"]), "source_sha256": metadata.get("sha256"), "source_revision": metadata.get("revision"), "batch": result.get("batch"), "native": document})
+    saved = service.store.create("knowledge_document", {"space_id": id, "native_document_id": document["id"], "file_id": body.file_id, "name": document.get("name", metadata["name"]), "source_sha256": metadata.get("sha256"), "source_revision": metadata.get("revision"), "batch": result.get("batch"), "native": document})
+    # 文档与原件引用共用请求事务；任一本地写入失败均回滚，删除预检才能可靠保护导入原件。
+    session.add(ResourceReference(workspace_id=actor.workspace_id, source_type="knowledge_document",
+        source_id=saved["id"], target_type="file", target_id=body.file_id))
+    session.flush()
+    return saved
 
 
 @router.get("/knowledge-spaces/{id}/documents")

@@ -70,6 +70,34 @@ def login(app, username, password=PASSWORD):
     return client
 
 
+def test_service_internal_roles_and_members_are_only_managed_through_service_identity(site):
+    app, admin, _ = site
+    created = post(admin, "/service-identities", {
+        "name": "设备查询集成", "permissions": ["m02.read", "m10.read"], "caller_kind": "integration",
+    })
+    assert created.status_code == 201
+    identity = created.json()
+    with app.state.database.sessions() as session:
+        service_member = session.scalar(select(Membership).where(Membership.user_id == identity["user_id"]))
+        service_role_id = service_member.role_ids[0]
+        member_id, member_revision = service_member.id, service_member.revision
+    assert service_role_id not in {row["id"] for row in admin.get("/api/v1/roles").json()["items"]}
+    assert identity["user_id"] not in {row["user_id"] for row in admin.get("/api/v1/members").json()["items"]}
+    assert patch(admin, "/roles/" + service_role_id, {"revision": 1, "permissions": ["*"]}).json()["error"]["code"] == "service_role_managed"
+    assert patch(admin, "/members/" + member_id, {"revision": member_revision, "disabled": True}).json()["error"]["code"] == "service_member_managed"
+    assigned = post(admin, "/members", {
+        "username": "person", "display_name": "正常成员", "password": PASSWORD, "role_ids": [service_role_id],
+    })
+    assert assigned.status_code == 422
+    assert assigned.json()["error"]["code"] == "service_role_not_assignable"
+    changed = patch(admin, "/service-identities/" + identity["id"], {
+        "revision": identity["revision"], "permissions": ["m02.read"],
+    })
+    assert changed.status_code == 200
+    with app.state.database.sessions() as session:
+        assert session.get(Role, service_role_id).permissions == ["m02.read"]
+
+
 def test_setup_claim_is_persistent_and_repeat_initialization_cannot_overwrite(site):
     app, admin, original = site
     repeated = admin.post('/api/v1/auth/setup', json={'username': 'otheradmin', 'password': PASSWORD,

@@ -22,6 +22,8 @@ class Settings:
         'http://127.0.0.1:5173', 'http://localhost:5173',
     )
     enabled_modules: tuple[str, ...] = ()
+    # 客户端签名断言必须匹配管理员配置的接收方，不能信任请求Host或代理头。
+    client_assertion_audience: str = 'http://127.0.0.1:8080/api/v1/client-auth/token'
 
     def __post_init__(self):
         self.data_dir = Path(self.data_dir).resolve()
@@ -47,6 +49,9 @@ class Settings:
             allowed_origins=tuple(x.strip() for x in os.environ.get(
                 'AGENT_ALLOWED_ORIGINS', ','.join(defaults.allowed_origins)).split(',') if x.strip()),
             enabled_modules=tuple(x.strip() for x in os.environ.get('AGENT_ENABLED_MODULES', '').split(',') if x.strip()),
+            client_assertion_audience=os.environ.get(
+                'AGENT_CLIENT_ASSERTION_AUDIENCE', defaults.client_assertion_audience
+            ).strip(),
         )
 
 

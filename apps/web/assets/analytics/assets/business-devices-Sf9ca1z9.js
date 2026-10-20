@@ -1,1 +1,0 @@
-import{af as a}from"./index-qkBkPucq.js";const s=(o,e)=>`/${o==="alert"?"alerts":"quality"}/devices/${encodeURIComponent(e)}/workflow`,c={open:(o,e,t)=>a("/api/v1/workflows/device-entry",{deviceId:o,domain:e},{signal:t})};export{s as a,c as d};

@@ -1,0 +1,79 @@
+{
+  "checks": [
+    "45 navigation entries render",
+    {
+      "filterIds": [
+        {
+          "id": "pv-device",
+          "options": [
+            "PMP-002",
+            "CMP-001",
+            "FAN-003",
+            "PMP-004",
+            "CMP-005",
+            "FAN-006"
+          ]
+        },
+        {
+          "id": "pv-period",
+          "options": [
+            "近7天",
+            "近24小时",
+            "近30天"
+          ]
+        },
+        {
+          "id": "pv-condition",
+          "options": [
+            "额定负荷",
+            "低负荷",
+            "高负荷"
+          ]
+        }
+      ]
+    },
+    {
+      "validation": "请填写至少5个字的检查记录"
+    },
+    {
+      "records": 1
+    },
+    {
+      "persistedRecords": 1
+    },
+    {
+      "layout": {
+        "sidebar": null,
+        "header": null,
+        "main": {
+          "x": 210,
+          "y": 94,
+          "w": 1390,
+          "h": 906,
+          "scroll": 906,
+          "client": 906
+        },
+        "work-tag": {
+          "x": 225,
+          "y": 63.5,
+          "w": 81,
+          "h": 26,
+          "scroll": 24,
+          "client": 24
+        }
+      }
+    },
+    {
+      "workflowButtons": 3
+    },
+    {
+      "footer": false,
+      "bodyScroll": {
+        "h": 1000,
+        "c": 1000
+      }
+    }
+  ],
+  "errors": [],
+  "externalRequests": []
+}

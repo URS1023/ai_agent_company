@@ -1,1 +1,0 @@
-import{x as r}from"./index-1_9T6250.js";const a=(o,e)=>`/${o==="alert"?"alerts":"quality"}/devices/${encodeURIComponent(e)}/workflow`,c={open:(o,e,t)=>r("/api/v1/workflows/device-entry",{deviceId:o,domain:e},{signal:t})};export{a,c as d};

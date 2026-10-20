@@ -1,0 +1,29 @@
+{
+  "deviceChange": true,
+  "runDisabled": true,
+  "runReenabled": true,
+  "sampleModalOpened": true,
+  "fixedShell": true,
+  "before": {
+    "side": 60,
+    "header": 0,
+    "tag": 63.5,
+    "main": 0,
+    "body": 0,
+    "left": 0
+  },
+  "after": {
+    "side": 60,
+    "header": 0,
+    "tag": 63.5,
+    "main": 500,
+    "body": 0,
+    "left": 0
+  },
+  "menu": {
+    "scroll": 654,
+    "client": 540,
+    "overflow": "auto"
+  },
+  "errors": []
+}

@@ -1,0 +1,158 @@
+{
+  "status": "规划基线，未实施",
+  "module_count": 17,
+  "feature_count": 125,
+  "page_count": 75,
+  "api_count": 227,
+  "api_paths": 173,
+  "feature_phases": {
+    "P1": 74,
+    "P2": 48,
+    "P3": 3
+  },
+  "page_phases": {
+    "P1": 50,
+    "P2": 24,
+    "P3": 1
+  },
+  "api_implementation_types": {
+    "新增聚合或业务实现": 98,
+    "复用适配": 129
+  },
+  "api_owners": {
+    "平台业务服务": 98,
+    "Open WebUI适配器": 3,
+    "Dify适配器": 17,
+    "Test5数据适配器": 21,
+    "Test5报表模块": 21,
+    "Dify知识适配器": 9,
+    "qKnow领域服务": 14,
+    "平台身份适配器": 22,
+    "平台模型适配器": 6,
+    "平台凭据服务": 4,
+    "平台文件服务": 10,
+    "Test5文档提取模块": 2
+  },
+  "modules": [
+    {
+      "id": "M01",
+      "name": "首页任务",
+      "features": 7,
+      "pages": 4,
+      "apis": 13
+    },
+    {
+      "id": "M02",
+      "name": "AI对话",
+      "features": 9,
+      "pages": 4,
+      "apis": 3
+    },
+    {
+      "id": "M03",
+      "name": "Agent应用开发",
+      "features": 8,
+      "pages": 5,
+      "apis": 6
+    },
+    {
+      "id": "M04",
+      "name": "工作流自动化",
+      "features": 8,
+      "pages": 5,
+      "apis": 8
+    },
+    {
+      "id": "M05",
+      "name": "数据源语义",
+      "features": 7,
+      "pages": 4,
+      "apis": 15
+    },
+    {
+      "id": "M06",
+      "name": "数据分析处理",
+      "features": 7,
+      "pages": 5,
+      "apis": 14
+    },
+    {
+      "id": "M07",
+      "name": "报表大屏模板",
+      "features": 8,
+      "pages": 5,
+      "apis": 21
+    },
+    {
+      "id": "M08",
+      "name": "知识文档RAG",
+      "features": 7,
+      "pages": 5,
+      "apis": 10
+    },
+    {
+      "id": "M09",
+      "name": "本体抽取图谱",
+      "features": 7,
+      "pages": 4,
+      "apis": 14
+    },
+    {
+      "id": "M10",
+      "name": "设备维护预警",
+      "features": 8,
+      "pages": 5,
+      "apis": 24
+    },
+    {
+      "id": "M11",
+      "name": "设备及产品质检",
+      "features": 8,
+      "pages": 6,
+      "apis": 23
+    },
+    {
+      "id": "M12",
+      "name": "工具MCP技能插件",
+      "features": 7,
+      "pages": 4,
+      "apis": 10
+    },
+    {
+      "id": "M13",
+      "name": "应用行业方案",
+      "features": 6,
+      "pages": 4,
+      "apis": 8
+    },
+    {
+      "id": "M14",
+      "name": "用户组织权限",
+      "features": 8,
+      "pages": 4,
+      "apis": 21
+    },
+    {
+      "id": "M15",
+      "name": "模型凭据",
+      "features": 6,
+      "pages": 3,
+      "apis": 10
+    },
+    {
+      "id": "M16",
+      "name": "运行运营系统",
+      "features": 8,
+      "pages": 4,
+      "apis": 15
+    },
+    {
+      "id": "M17",
+      "name": "文件文档成果",
+      "features": 6,
+      "pages": 4,
+      "apis": 12
+    }
+  ],
+  "counting_rule": "功能为有验收结果的能力；页面为逻辑入口；接口为平台method+path。完整保留上游功能另按固定版本目录记录，不与本数直接相加。"
+}

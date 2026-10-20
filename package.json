@@ -1,35 +1,10 @@
 {
+  "name": "ai-agent-company-preview",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "ui:check": "node tests/ui/chat_shell.js",
-    "ui:management": "node tests/ui/business_management.js",
-    "ui:quality-catalog": "node tests/ui/quality_catalog_notice.js",
-    "ui:quality-position": "node tests/ui/quality_defect_position.js",
-    "ui:artifact": "node tests/ui/chat_artifact_markdown.js",
-    "ui:business-ai": "node tests/ui/ai_business_workbench.js",
-    "ui:analytics": "node tests/ui/analytics_platform.js",
-    "ui:analytics-ai": "node tests/ui/analytics_ai_parity.js",
-    "ui:analytics-quality": "node tests/ui/analytics_quality_export.js",
-    "ui:variantorm": "node tests/ui/variantorm_real_analysis.js",
-    "ui:template-lifecycle": "node tests/ui/template_lifecycle.js",
-    "ui:crypto-compat": "node tests/ui/crypto_uuid_compatibility.js",
-    "ui:knowledge": "node tests/ui/knowledge_workspace.js",
-    "ui:content": "node tests/ui/content_governance_workspace.js",
-    "ui:assets": "node tests/ui/asset_catalog_workspace.js",
-    "ui:capabilities": "node tests/ui/capabilities_workspace.js",
-    "ui:workflow-nodes": "node tests/ui/workflow_node_catalog.js",
-    "ui:models": "node tests/ui/model_configuration.js",
-    "ui:audit": "node tests/ui/customer_experience_audit.js",
-    "ui:usability": "node tests/ui/usability_regression.js",
-    "ui:workflow-usability": "node tests/ui/workflow_usability.js",
-    "ui:analytics-usability": "node tests/ui/analytics_query_usability.js",
-    "ui:repeat-readonly": "node tests/ui/repeat_browser_acceptance.js"
-  },
-  "dependencies": {
-    "dsh-opencode-session": "^0.1.1",
-    "dsh-opencode-session-header": "^0.1.0",
-    "puppeteer-core": "^25.8.0"
-  },
-  "devDependencies": {
-    "axe-core": "^4.13.0"
+    "start": "node tools/serve.mjs",
+    "build": "python tools/build_preview.py",
+    "check": "node --check frontend/preview.js && node --check tools/serve.mjs"
   }
 }

@@ -1,58 +1,18 @@
-# Local configuration and credentials
-.env
-.env.*
-!.env.example
-
-# Python
+.git/
+node_modules/
 .venv*/
+venv/
 __pycache__/
-*.py[cod]
+*.pyc
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.coverage
-coverage.xml
-htmlcov/
-
-# Node
-node_modules/
-npm-debug.log*
-*.log
-
-# Runtime and generated output
-storage/
-shots/
-**/auth-state.json
-tmp/
-.tmp/
-.implementation/
-*.db
-*.sqlite
-*.sqlite3
-backend/*.log
-backend/*_out.txt
-backend/*_err.txt
-
-# External reference repositories (kept locally, not vendored into this repository)
-需求文档/细分需求/ppt生成/AiPPT/
-需求文档/细分需求/ppt生成/ppt-master/
-
-# IDE / OS
-.idea/
-.vscode/
+.next/
+.cache/
+.env.local
+.env
+*.pfx
+*.p12
 .DS_Store
 Thumbs.db
-
-# Local historical evidence archives and generated browser reports
-/docs/audit/archives/*.zip
-/ui_test_report/
-
-# 本机生成产物和审查原始记录，保留在本地而不提交
-/artifacts/
-/docs/audit/review_20260917/comment_baseline/
-/docs/audit/review_20260917/soak/*.jsonl
-/docs/audit/review_20260917/soak/status.json
-
-# 云端部署验收记录含基础设施地址与运行环境信息，只保留在本机
-/docs/deployment/
-services/openwebui/upstream/
+upload-audit.local.json

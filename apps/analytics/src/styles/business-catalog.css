@@ -1,8 +1,0 @@
-.catalog-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; align-items: stretch; }
-.workflow-ui.device-entry-page,.workflow-ui.quality-products { max-width: none; width: 100%; box-sizing: border-box; padding: 22px 24px 30px; background: #fdfdfd; font-family: Arial, 'Microsoft YaHei', sans-serif; }
-.device-entry-heading { padding: 0 0 16px; margin-bottom: 18px; gap: 16px; }
-.quality-products .quality-heading { padding-bottom: 18px; }
-.device-entry-page .device-entry-heading h1,.quality-products .quality-heading h1 { font-size: 24px; margin: 0 0 6px; }
-@media(max-width:1450px) { .catalog-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; } }
-@media(max-width:1120px) { .catalog-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; } }
-@media(max-width:720px) { .catalog-grid { grid-template-columns: 1fr; gap: 18px; }.workflow-ui.device-entry-page,.workflow-ui.quality-products { padding: 18px 14px 30px; } }

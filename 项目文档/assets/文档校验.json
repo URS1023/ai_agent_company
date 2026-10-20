@@ -1,0 +1,11 @@
+{
+  "duplicate_ids": 0,
+  "missing_feature_page_refs": 0,
+  "missing_api_modules": 0,
+  "module_count": 17,
+  "feature_count": 125,
+  "page_count": 75,
+  "api_count": 227,
+  "checked_at": "2026-10-20",
+  "boundary": "文档结构检查；不是运行、数据库、接口或性能验收"
+}

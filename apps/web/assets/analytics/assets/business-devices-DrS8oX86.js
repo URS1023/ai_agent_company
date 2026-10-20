@@ -1,1 +1,0 @@
-import{L as r}from"./index-BdMODGah.js";const a=(o,e)=>`/${o==="alert"?"alerts":"quality"}/devices/${encodeURIComponent(e)}/workflow`,c={open:(o,e,t)=>r("/api/v1/workflows/device-entry",{deviceId:o,domain:e},{signal:t})};export{a,c as d};

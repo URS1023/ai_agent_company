@@ -1,9 +1,0 @@
-{
-  "name": "@company/deepseek-harness-runtime",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "engines": { "node": "^22.19.0 || >=24.0.0" },
-  "scripts": { "build": "node build.mjs", "start": "node launch.mjs", "test": "node --test tests/*.test.mjs" },
-  "companyHarness": { "upstreamVersion": "0.1.7-alpha.2", "profile": "company-runtime", "protocolVersion": 1 }
-}

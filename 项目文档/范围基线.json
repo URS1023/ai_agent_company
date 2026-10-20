@@ -1,0 +1,3405 @@
+{
+  "version": "0.1-draft",
+  "status": "规划待评审",
+  "modules": [
+    {
+      "id": "M01",
+      "name": "首页任务",
+      "nav": "工作台",
+      "owner": "平台产品组",
+      "features": [
+        {
+          "id": "F-M01-01",
+          "name": "角色工作台",
+          "role": "业务人员、管理人员",
+          "trigger": "登录或切换工厂",
+          "inputs": "身份、所属工厂、岗位",
+          "outputs": "待办、常用应用、异常摘要",
+          "acceptance": "仅出现授权工厂数据；能从待办直达原业务对象",
+          "implementation": "平台聚合API+qKnow卡片与列表；按角色配置布局",
+          "phase": "P1",
+          "source": "建议",
+          "page_ids": [
+            "P-M01-01"
+          ]
+        },
+        {
+          "id": "F-M01-02",
+          "name": "任务统一回查",
+          "role": "业务人员",
+          "trigger": "打开任务中心",
+          "inputs": "用户、业务对象、上游run_id",
+          "outputs": "跨引擎任务列表及详情",
+          "acceptance": "显示来源、开始结束时间、终态与成果；可跳转原生运行详情",
+          "implementation": "平台运行索引关联Open WebUI/Dify和业务任务，不重造执行引擎",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M01-02",
+            "P-M01-03"
+          ]
+        },
+        {
+          "id": "F-M01-03",
+          "name": "待办与人工审批",
+          "role": "班组长、复核员",
+          "trigger": "任务到达待复核或待确认步骤",
+          "inputs": "任务、候选操作、审批权限",
+          "outputs": "审批记录及后续执行状态",
+          "acceptance": "未确认不执行需授权操作；拒绝原因可见；重复确认不重复执行",
+          "implementation": "统一审批记录映射原生工具审批和业务复核接口",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M01-01",
+            "P-M01-03"
+          ]
+        },
+        {
+          "id": "F-M01-04",
+          "name": "通知与订阅",
+          "role": "业务人员",
+          "trigger": "订阅异常或任务完成事件",
+          "inputs": "事件类型、范围、接收方式",
+          "outputs": "站内通知及已读状态",
+          "acceptance": "通知能定位对象；无权限人员不收到对象敏感内容",
+          "implementation": "业务事件+通知服务，外部渠道由插件扩展",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M01-04"
+          ]
+        },
+        {
+          "id": "F-M01-05",
+          "name": "全局资源搜索",
+          "role": "业务人员",
+          "trigger": "输入设备、批次、文档、报告名称",
+          "inputs": "关键词、资源类型、当前权限",
+          "outputs": "分类命中与直达链接",
+          "acceptance": "只命中授权资源；显示类型、更新时间和归属",
+          "implementation": "统一资源目录全文索引，不跨库直接扫业务表",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M01-01"
+          ]
+        },
+        {
+          "id": "F-M01-06",
+          "name": "工厂行业切换",
+          "role": "多工厂用户",
+          "trigger": "切换当前工作空间",
+          "inputs": "行业、工厂、租户授权",
+          "outputs": "当前上下文和导航",
+          "acceptance": "切换后列表、AI上下文及新任务默认范围一致；旧任务归属不变",
+          "implementation": "会话上下文携带tenant_id/factory_id，后端逐次鉴权",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M01-01"
+          ]
+        },
+        {
+          "id": "F-M01-07",
+          "name": "个人偏好与快捷入口",
+          "role": "业务人员",
+          "trigger": "收藏应用或调整偏好",
+          "inputs": "常用应用、通知、显示偏好",
+          "outputs": "个性化入口",
+          "acceptance": "收藏不授予权限；权限撤回后入口同步失效",
+          "implementation": "平台偏好表关联统一资源ID",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M01-01",
+            "P-M01-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M01-01",
+          "name": "我的工作台",
+          "route": "/home",
+          "kind": "工作台",
+          "roles": [
+            "业务人员",
+            "管理人员"
+          ],
+          "owner": "平台产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M01-01",
+            "F-M01-03",
+            "F-M01-05",
+            "F-M01-06",
+            "F-M01-07"
+          ]
+        },
+        {
+          "id": "P-M01-02",
+          "name": "任务中心",
+          "route": "/tasks",
+          "kind": "列表",
+          "roles": [
+            "业务人员",
+            "运维人员"
+          ],
+          "owner": "平台产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M01-02"
+          ]
+        },
+        {
+          "id": "P-M01-03",
+          "name": "任务详情",
+          "route": "/tasks/:id",
+          "kind": "详情",
+          "roles": [
+            "业务人员",
+            "运维人员"
+          ],
+          "owner": "平台产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M01-02",
+            "F-M01-03"
+          ]
+        },
+        {
+          "id": "P-M01-04",
+          "name": "通知中心",
+          "route": "/notifications",
+          "kind": "列表",
+          "roles": [
+            "业务人员"
+          ],
+          "owner": "平台产品组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M01-04",
+            "F-M01-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M02",
+      "name": "AI对话",
+      "nav": "AI工作台",
+      "owner": "Open WebUI适配组",
+      "features": [
+        {
+          "id": "F-M02-01",
+          "name": "原生流式多轮对话",
+          "role": "业务人员",
+          "trigger": "发送问题或继续追问",
+          "inputs": "消息、会话、模型、业务上下文",
+          "outputs": "流式回答及持久化消息树",
+          "acceptance": "刷新后历史一致；支持编辑、重试、分支和停止；无重复消息",
+          "implementation": "完整保留Open WebUI前后端和消息事件机制，微调主题",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-02"
+          ]
+        },
+        {
+          "id": "F-M02-02",
+          "name": "业务上下文与助手选择",
+          "role": "业务人员",
+          "trigger": "从设备或批次页面发起对话",
+          "inputs": "对象ID、时间窗、已发布助手",
+          "outputs": "带权限边界的会话上下文",
+          "acceptance": "页面进入自动带入对象；用户能看见并修改时间范围",
+          "implementation": "业务上下文卡片+原生模型/助手选择，服务端验证对象权限",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M02-01"
+          ]
+        },
+        {
+          "id": "F-M02-03",
+          "name": "工具与子Agent执行",
+          "role": "业务人员",
+          "trigger": "提出需要取数或多步处理的任务",
+          "inputs": "目标、可用工具、授权范围",
+          "outputs": "真实工具结果与执行摘要",
+          "acceptance": "可查每次工具输入摘要/状态；子Agent结果有来源；禁止伪造成功",
+          "implementation": "使用Open WebUI原生工具循环、子Agent、审批恢复；桥接业务工具",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-03"
+          ]
+        },
+        {
+          "id": "F-M02-04",
+          "name": "附件与多模态对话",
+          "role": "业务人员、质检员",
+          "trigger": "添加文件或图像",
+          "inputs": "文件、图片、模型能力",
+          "outputs": "解析内容、视觉分析与引用",
+          "acceptance": "不支持的格式明确提示；只读取授权附件；图像判断进入复核流程",
+          "implementation": "保留Open WebUI原生附件与多模态，复用统一文件服务",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-03"
+          ]
+        },
+        {
+          "id": "F-M02-05",
+          "name": "知识引用与可核对回答",
+          "role": "业务人员",
+          "trigger": "询问规程或故障原因",
+          "inputs": "知识范围、问题、检索结果",
+          "outputs": "带文档段落与版本的回答",
+          "acceptance": "点击引用能定位授权原文；无依据部分有明确说明",
+          "implementation": "保留原生引用界面，Dify检索适配器统一来源映射",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-03"
+          ]
+        },
+        {
+          "id": "F-M02-06",
+          "name": "停止断线与恢复",
+          "role": "业务人员",
+          "trigger": "停止任务或网络恢复",
+          "inputs": "conversation_id、run_id、事件游标",
+          "outputs": "已确认停止或恢复后的真实状态",
+          "acceptance": "停止后等待上游确认；断线重连不重放有副作用操作；结果已落盘才显示成功",
+          "implementation": "复用原生取消/事件机制；适配平台状态与幂等约束",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-03"
+          ]
+        },
+        {
+          "id": "F-M02-07",
+          "name": "成果并排查看与继续修改",
+          "role": "业务人员",
+          "trigger": "打开报表文件或要求修改",
+          "inputs": "artifact_id、版本、修改要求",
+          "outputs": "预览及新的成果版本",
+          "acceptance": "打开与编辑的是同一资源；修改不覆盖已发布版本；可下载真实文件",
+          "implementation": "Open WebUI Artifacts与统一成果API，引用Test5报表编辑器",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-03"
+          ]
+        },
+        {
+          "id": "F-M02-08",
+          "name": "历史分享记忆与个人任务",
+          "role": "业务人员",
+          "trigger": "管理历史、记忆或个人自动任务",
+          "inputs": "会话、记忆项、计划、分享范围",
+          "outputs": "历史搜索、分享及自动任务",
+          "acceptance": "原生功能保留；分享受权限限制；个人任务与工业固定流程区分来源",
+          "implementation": "保留原生历史、记忆、分享、自动任务和相关设置，适配统一身份",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M02-02",
+            "P-M02-04"
+          ]
+        },
+        {
+          "id": "F-M02-09",
+          "name": "原生工作区与专业能力保留",
+          "role": "业务人员、应用开发者",
+          "trigger": "打开原生工作区或使用专业能力",
+          "inputs": "提示词、模型工作区、语音/联网/终端等原生配置",
+          "outputs": "上游原生能力和明确依赖状态",
+          "acceptance": "上游清单功能逐项映射；语音/终端/代码等依赖未部署时明确状态；不静默删除",
+          "implementation": "保留Open WebUI原生页面和后端，终端/Jupyter等依赖独立配置并验收",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M02-01",
+            "P-M02-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M02-01",
+          "name": "AI对话工作台",
+          "route": "/ai",
+          "kind": "工作台",
+          "roles": [
+            "业务人员",
+            "分析人员"
+          ],
+          "owner": "Open WebUI适配组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M02-01",
+            "F-M02-02",
+            "F-M02-03",
+            "F-M02-04",
+            "F-M02-05",
+            "F-M02-06",
+            "F-M02-07",
+            "F-M02-09"
+          ]
+        },
+        {
+          "id": "P-M02-02",
+          "name": "历史会话与搜索",
+          "route": "/ai/history",
+          "kind": "列表",
+          "roles": [
+            "业务人员"
+          ],
+          "owner": "Open WebUI适配组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M02-01",
+            "F-M02-08"
+          ]
+        },
+        {
+          "id": "P-M02-03",
+          "name": "对话成果与工具详情",
+          "route": "/ai/chats/:id/results",
+          "kind": "详情",
+          "roles": [
+            "业务人员"
+          ],
+          "owner": "Open WebUI适配组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M02-03",
+            "F-M02-04",
+            "F-M02-05",
+            "F-M02-06",
+            "F-M02-07"
+          ]
+        },
+        {
+          "id": "P-M02-04",
+          "name": "会话设置与个人记忆",
+          "route": "/ai/settings",
+          "kind": "管理",
+          "roles": [
+            "业务人员"
+          ],
+          "owner": "Open WebUI适配组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M02-08",
+            "F-M02-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M03",
+      "name": "Agent应用开发",
+      "nav": "开发中心",
+      "owner": "Dify集成组",
+      "features": [
+        {
+          "id": "F-M03-01",
+          "name": "应用创建导入与复制",
+          "role": "应用开发者",
+          "trigger": "创建或导入应用",
+          "inputs": "应用类型、DSL、基础配置",
+          "outputs": "可编辑应用及版本",
+          "acceptance": "Dify原生应用类型、导入导出和复制均可用；敏感配置不裸导出",
+          "implementation": "保留Dify应用目录、DSL和原生存储；平台登记资源",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-01",
+            "P-M03-02"
+          ]
+        },
+        {
+          "id": "F-M03-02",
+          "name": "对话应用与传统Agent配置",
+          "role": "应用开发者",
+          "trigger": "编辑提示词模型工具",
+          "inputs": "模型、提示词、变量、工具",
+          "outputs": "可调试的应用",
+          "acceptance": "提示词、上下文、工具和模型参数在调试与发布运行一致",
+          "implementation": "Dify原生应用编排与Agent运行能力完整保留",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-02"
+          ]
+        },
+        {
+          "id": "F-M03-03",
+          "name": "Agent V2完整保留",
+          "role": "应用开发者",
+          "trigger": "创建或配置Agent V2",
+          "inputs": "原生Agent配置、工具、上下文",
+          "outputs": "Agent V2应用及执行结果",
+          "acceptance": "Agent V2相关服务部署并通过原生关键流程；不以传统Agent代替",
+          "implementation": "保留本地dify-agent及dify-agent-runtime依赖，接口版本适配",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-01",
+            "P-M03-05"
+          ]
+        },
+        {
+          "id": "F-M03-04",
+          "name": "调试追踪与样例回放",
+          "role": "应用开发者",
+          "trigger": "运行调试或检查失败",
+          "inputs": "测试输入、应用版本、会话",
+          "outputs": "节点/调用追踪与错误定位",
+          "acceptance": "可区分模型错误、工具失败和业务不通过；敏感内容按权限显示",
+          "implementation": "Dify原生调试追踪+平台业务对象关联",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-02",
+            "P-M03-04"
+          ]
+        },
+        {
+          "id": "F-M03-05",
+          "name": "版本发布与回滚",
+          "role": "应用开发者、发布管理员",
+          "trigger": "发布应用新版本",
+          "inputs": "版本、变更说明、发布权限",
+          "outputs": "固定版本可用入口",
+          "acceptance": "生产执行绑定已发布版本；回滚后新请求使用目标版本，旧run可追溯",
+          "implementation": "使用Dify原生发布能力；平台资源目录标记环境和版本",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-03"
+          ]
+        },
+        {
+          "id": "F-M03-06",
+          "name": "API发布与平台调用",
+          "role": "应用开发者、集成方",
+          "trigger": "配置访问并调用应用",
+          "inputs": "应用密钥、调用方、输入Schema",
+          "outputs": "原生API入口及平台工具入口",
+          "acceptance": "平台与Open WebUI可调用同一发布资源；凭据不送到浏览器",
+          "implementation": "Dify服务API+服务端代理；记录调用方与上游run_id",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-03"
+          ]
+        },
+        {
+          "id": "F-M03-07",
+          "name": "应用日志反馈与运营",
+          "role": "运营人员",
+          "trigger": "检查应用使用效果",
+          "inputs": "时间范围、应用、反馈",
+          "outputs": "用量、耗时、反馈和失败统计",
+          "acceptance": "可以从失败统计直达实际运行；统计口径和时间范围可见",
+          "implementation": "保留Dify日志/反馈；平台只聚合可核对指标",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M03-04"
+          ]
+        },
+        {
+          "id": "F-M03-08",
+          "name": "提示词样例与模板",
+          "role": "应用开发者",
+          "trigger": "复用经过审核的提示词",
+          "inputs": "提示词模板、变量、行业",
+          "outputs": "可版本化的配置",
+          "acceptance": "模板适用模型与变量校验清楚；更新不静默改变已发布应用",
+          "implementation": "Dify原生提示词能力+行业资源目录",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M03-01",
+            "P-M03-02"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M03-01",
+          "name": "Agent应用目录",
+          "route": "/studio/apps",
+          "kind": "列表",
+          "roles": [
+            "应用开发者",
+            "管理员"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M03-01",
+            "F-M03-03",
+            "F-M03-08"
+          ]
+        },
+        {
+          "id": "P-M03-02",
+          "name": "应用构建与调试",
+          "route": "/studio/apps/:id/build",
+          "kind": "编辑器",
+          "roles": [
+            "应用开发者"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M03-01",
+            "F-M03-02",
+            "F-M03-04",
+            "F-M03-08"
+          ]
+        },
+        {
+          "id": "P-M03-03",
+          "name": "应用发布与访问",
+          "route": "/studio/apps/:id/publish",
+          "kind": "管理",
+          "roles": [
+            "应用开发者",
+            "管理员"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M03-05",
+            "F-M03-06"
+          ]
+        },
+        {
+          "id": "P-M03-04",
+          "name": "应用运行日志与反馈",
+          "route": "/studio/apps/:id/logs",
+          "kind": "工作台",
+          "roles": [
+            "应用开发者",
+            "运营人员"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M03-04",
+            "F-M03-07"
+          ]
+        },
+        {
+          "id": "P-M03-05",
+          "name": "Agent V2工作台",
+          "route": "/studio/agents-v2/:id",
+          "kind": "编辑器",
+          "roles": [
+            "应用开发者"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M03-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M04",
+      "name": "工作流自动化",
+      "nav": "开发中心",
+      "owner": "Dify集成组",
+      "features": [
+        {
+          "id": "F-M04-01",
+          "name": "Workflow和Chatflow编排",
+          "role": "流程开发者",
+          "trigger": "创建或编辑流程",
+          "inputs": "节点、连线、变量、模型",
+          "outputs": "可运行流程和校验结果",
+          "acceptance": "原生画布、变量、调试和DSL可用；非法连线与缺参可定位",
+          "implementation": "保留Dify完整前端和执行引擎，不重写节点状态机",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M04-01",
+            "P-M04-02"
+          ]
+        },
+        {
+          "id": "F-M04-02",
+          "name": "原生节点能力完整保留",
+          "role": "流程开发者",
+          "trigger": "添加和配置节点",
+          "inputs": "原生节点Schema、输入、输出",
+          "outputs": "节点配置及执行结果",
+          "acceptance": "按上游节点清单验收；包含条件、循环、迭代、代码、HTTP、知识等，内部节点单独标识",
+          "implementation": "保留上游节点实现和版本，新增业务能力通过工具/插件节点",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M04-02",
+            "P-M04-03"
+          ]
+        },
+        {
+          "id": "F-M04-03",
+          "name": "手动定时事件触发",
+          "role": "流程开发者",
+          "trigger": "发布计划或注册事件",
+          "inputs": "计划、时区、事件、签名密钥",
+          "outputs": "触发记录和持久运行任务",
+          "acceptance": "关掉浏览器仍能执行；时区正确；重复事件不重复业务落库",
+          "implementation": "Dify原生Scheduler/Celery/Webhook/插件触发，平台登记",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M04-04",
+            "P-M04-03"
+          ]
+        },
+        {
+          "id": "F-M04-04",
+          "name": "调试日志与运行回查",
+          "role": "流程开发者、运维人员",
+          "trigger": "运行流程或检查故障",
+          "inputs": "输入、版本、run_id",
+          "outputs": "逐步输入输出与耗时",
+          "acceptance": "失败节点和原因可查；脱敏；能关联质检和数据处理结果",
+          "implementation": "保留Dify运行日志与追踪，平台只建运行索引",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M04-03"
+          ]
+        },
+        {
+          "id": "F-M04-05",
+          "name": "发布回滚与环境配置",
+          "role": "发布管理员",
+          "trigger": "发布或回滚固定流程",
+          "inputs": "DSL版本、环境变量、凭据引用",
+          "outputs": "可调用的固定版本",
+          "acceptance": "开发和生产配置分离；版本及依赖有清单；不直接改生产节点",
+          "implementation": "Dify原生发布版本+平台环境映射",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M04-05"
+          ]
+        },
+        {
+          "id": "F-M04-06",
+          "name": "人工步骤与失败处置",
+          "role": "复核员、流程开发者",
+          "trigger": "流程等待审批或执行失败",
+          "inputs": "审批内容、错误、可恢复状态",
+          "outputs": "拒绝/确认/终止及处置记录",
+          "acceptance": "需人工决定的步骤不跳过；不明结果不自动重放；数据库异常停止",
+          "implementation": "优先原生节点与事件；缺失的人审通过业务任务接口实现",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M04-03"
+          ]
+        },
+        {
+          "id": "F-M04-07",
+          "name": "固定业务流程模板",
+          "role": "工艺员、质检主管",
+          "trigger": "安装或运行质检/处理模板",
+          "inputs": "行业、对象、标准、数据绑定",
+          "outputs": "设备质检、产品质检、数据处理流程",
+          "acceptance": "三类模板都有真实步骤、结果保存及失败分支，不仅是示例画布",
+          "implementation": "Dify DSL+M10/M11/M06业务API与输入校验",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M04-01",
+            "P-M04-02",
+            "P-M04-03"
+          ]
+        },
+        {
+          "id": "F-M04-08",
+          "name": "并发预算与调用幂等",
+          "role": "运维人员、开发者",
+          "trigger": "配置运行额度",
+          "inputs": "并发、超时、唯一请求键",
+          "outputs": "受限执行与预算记录",
+          "acceptance": "超额请求排队或明确拒绝；取消释放资源；业务动作不重复执行",
+          "implementation": "保留Dify队列能力，在业务适配层实现幂等和领域超时",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M04-03",
+            "P-M04-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M04-01",
+          "name": "工作流目录",
+          "route": "/studio/workflows",
+          "kind": "列表",
+          "roles": [
+            "流程开发者"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M04-01",
+            "F-M04-07"
+          ]
+        },
+        {
+          "id": "P-M04-02",
+          "name": "工作流与Chatflow画布",
+          "route": "/studio/workflows/:id/edit",
+          "kind": "编辑器",
+          "roles": [
+            "流程开发者"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M04-01",
+            "F-M04-02",
+            "F-M04-07"
+          ]
+        },
+        {
+          "id": "P-M04-03",
+          "name": "流程调试与运行详情",
+          "route": "/studio/workflows/:id/runs/:runId",
+          "kind": "工作台",
+          "roles": [
+            "流程开发者",
+            "运维人员"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M04-02",
+            "F-M04-03",
+            "F-M04-04",
+            "F-M04-06",
+            "F-M04-07",
+            "F-M04-08"
+          ]
+        },
+        {
+          "id": "P-M04-04",
+          "name": "触发计划与事件",
+          "route": "/studio/triggers",
+          "kind": "管理",
+          "roles": [
+            "流程开发者",
+            "管理员"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M04-03",
+            "F-M04-08"
+          ]
+        },
+        {
+          "id": "P-M04-05",
+          "name": "发布版本与访问",
+          "route": "/studio/workflows/:id/releases",
+          "kind": "管理",
+          "roles": [
+            "流程开发者",
+            "管理员"
+          ],
+          "owner": "Dify集成组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M04-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M05",
+      "name": "数据源语义",
+      "nav": "数据中心",
+      "owner": "数据服务组",
+      "features": [
+        {
+          "id": "F-M05-01",
+          "name": "数据源连接与能力登记",
+          "role": "数据管理员",
+          "trigger": "创建连接",
+          "inputs": "主机、端口、库名、凭据引用",
+          "outputs": "连接元数据及能力状态",
+          "acceptance": "支持迁移范围内MySQL/PostgreSQL/SQLite/Elasticsearch和HTTP；不虚称MongoDB已实现",
+          "implementation": "提取Test5 providers与受控查询接口；凭据服务端保存",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M05-01"
+          ]
+        },
+        {
+          "id": "F-M05-02",
+          "name": "本地测试目标核验",
+          "role": "开发者、测试人员",
+          "trigger": "发起任何数据库测试",
+          "inputs": "实际主机端口库名、服务归属、代理/隧道证据",
+          "outputs": "核验记录与允许/拒绝结果",
+          "acceptance": "位置不确定不连接；localhost转发外部库不算本地；不自动回退远程",
+          "implementation": "测试环境接入门禁和人工核查记录；执行前校验目标",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M05-01",
+            "P-M05-04"
+          ]
+        },
+        {
+          "id": "F-M05-03",
+          "name": "结构同步与字段映射",
+          "role": "数据管理员",
+          "trigger": "刷新表结构或绑定业务对象",
+          "inputs": "表、字段、主键、单位、设备/批次映射",
+          "outputs": "版本化数据模型",
+          "acceptance": "结构变化能发现受影响报表/流程；不会静默改已发布映射",
+          "implementation": "Test5 schema提取+平台语义模型和依赖索引",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M05-02"
+          ]
+        },
+        {
+          "id": "F-M05-04",
+          "name": "指标与业务口径管理",
+          "role": "工艺员、分析人员",
+          "trigger": "定义产量能耗合格率等指标",
+          "inputs": "表达式、单位、时间粒度、适用范围",
+          "outputs": "可引用指标版本",
+          "acceptance": "相同指标在AI、报表和流程计算一致；分母和空值规则明确",
+          "implementation": "指标定义服务+受控查询编译，版本随成果记录",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M05-03"
+          ]
+        },
+        {
+          "id": "F-M05-05",
+          "name": "行列权限与只读约束",
+          "role": "安全管理员",
+          "trigger": "给用户或应用授权",
+          "inputs": "组织、数据集、字段、行范围",
+          "outputs": "查询可用范围",
+          "acceptance": "前端、AI和自动流程使用相同权限；高权限账号不替代用户身份",
+          "implementation": "业务服务端查询计划鉴权、字段脱敏和只读账户",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M05-04"
+          ]
+        },
+        {
+          "id": "F-M05-06",
+          "name": "查询计划与预算",
+          "role": "分析人员、测试人员",
+          "trigger": "提交查询前预检",
+          "inputs": "SQL、目标、时间窗、行数、超时",
+          "outputs": "计划摘要或拒绝原因",
+          "acceptance": "先评估执行计划；本地测试从单条小范围开始；超时立即停止且不重试",
+          "implementation": "受控SQL校验器+查询预算，生产策略由管理员配置",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M05-04"
+          ]
+        },
+        {
+          "id": "F-M05-07",
+          "name": "HTTP接口数据接入",
+          "role": "数据管理员",
+          "trigger": "配置业务HTTP数据源",
+          "inputs": "URL、协议字段、鉴权、字段映射",
+          "outputs": "受控数据集",
+          "acceptance": "连接凭据不返回浏览器；响应格式改变有明确错误；可限制域名与超时",
+          "implementation": "保留Test5 HTTP provider，统一Schema及鉴权",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M05-01",
+            "P-M05-02"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M05-01",
+          "name": "数据源与连接",
+          "route": "/data/sources",
+          "kind": "管理",
+          "roles": [
+            "数据管理员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M05-01",
+            "F-M05-02",
+            "F-M05-07"
+          ]
+        },
+        {
+          "id": "P-M05-02",
+          "name": "表字段与语义映射",
+          "route": "/data/sources/:id/schema",
+          "kind": "编辑器",
+          "roles": [
+            "数据管理员",
+            "分析人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M05-03",
+            "F-M05-07"
+          ]
+        },
+        {
+          "id": "P-M05-03",
+          "name": "指标口径与词汇",
+          "route": "/data/metrics",
+          "kind": "管理",
+          "roles": [
+            "工艺员",
+            "分析人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M05-04"
+          ]
+        },
+        {
+          "id": "P-M05-04",
+          "name": "数据访问与查询审计",
+          "route": "/data/access",
+          "kind": "工作台",
+          "roles": [
+            "数据管理员",
+            "安全管理员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M05-02",
+            "F-M05-05",
+            "F-M05-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M06",
+      "name": "数据分析处理",
+      "nav": "数据中心",
+      "owner": "数据服务组",
+      "features": [
+        {
+          "id": "F-M06-01",
+          "name": "自然语言受控查询",
+          "role": "业务人员、分析人员",
+          "trigger": "输入业务问题",
+          "inputs": "问题、数据源、语义、权限、时间窗",
+          "outputs": "查询结果、SQL摘要与口径",
+          "acceptance": "提问能返回可解释数据；缺范围先补充；无权限字段不查询",
+          "implementation": "提取Test5 NL2SQL和受控查询；Open WebUI通过工具调用",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M06-01",
+            "P-M06-02"
+          ]
+        },
+        {
+          "id": "F-M06-02",
+          "name": "SQL编辑与结果探索",
+          "role": "分析人员",
+          "trigger": "编辑或运行受控查询",
+          "inputs": "只读SQL、参数、行数限制",
+          "outputs": "表格图表与查询记录",
+          "acceptance": "语法或权限错误可定位；超时停止；可以检查实际数据来源",
+          "implementation": "Test5分析编辑器+统一查询服务",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M06-01",
+            "P-M06-02"
+          ]
+        },
+        {
+          "id": "F-M06-03",
+          "name": "数据集保存与复用",
+          "role": "分析人员",
+          "trigger": "保存查询为数据集",
+          "inputs": "查询、参数、Schema、口径",
+          "outputs": "版本化数据集",
+          "acceptance": "报表、AI和Dify复用同一dataset_id；数据与定义版本可追溯",
+          "implementation": "数据集定义独立存储，查询结果按保留规则缓存",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M06-02"
+          ]
+        },
+        {
+          "id": "F-M06-04",
+          "name": "清洗转换与固定处理",
+          "role": "分析人员",
+          "trigger": "配置或运行处理流程",
+          "inputs": "字段规则、输入集、Dify流程",
+          "outputs": "处理结果及错误明细",
+          "acceptance": "能重复执行清洗/转换/聚合；写入动作需单独授权且幂等",
+          "implementation": "Dify编排+数据处理业务API，代码在受限执行环境",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M06-03",
+            "P-M06-04"
+          ]
+        },
+        {
+          "id": "F-M06-05",
+          "name": "数据质量规则",
+          "role": "数据管理员、工艺员",
+          "trigger": "配置完整性或范围检查",
+          "inputs": "空值、重复、范围、单位、规则版本",
+          "outputs": "质量结果与异常样本",
+          "acceptance": "每项规则可回查受影响行和时间窗；缺数据不算正常",
+          "implementation": "数据质量服务+受控查询，支持Dify定时调用",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M06-05"
+          ]
+        },
+        {
+          "id": "F-M06-06",
+          "name": "导入导出与大结果处理",
+          "role": "分析人员",
+          "trigger": "上传或导出数据",
+          "inputs": "CSV/XLSX、Schema、参数",
+          "outputs": "导入预览或异步导出文件",
+          "acceptance": "先预览字段错误；导出保留单位与中文；大文件异步且权限有效",
+          "implementation": "统一文件服务+分批处理任务，不由浏览器拉取全量",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M06-01",
+            "P-M06-02",
+            "P-M06-03"
+          ]
+        },
+        {
+          "id": "F-M06-07",
+          "name": "任务失败取消与恢复",
+          "role": "分析人员、运维人员",
+          "trigger": "取消处理或检查失败",
+          "inputs": "job_id、run_id、执行状态",
+          "outputs": "确认状态与可用中间结果",
+          "acceptance": "取消后核对实际查询停止；失败无自动扩时或换库；恢复需明确动作",
+          "implementation": "关联Dify run与数据库查询句柄，业务层处理幂等",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M06-03"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M06-01",
+          "name": "免写SQL分析工作台",
+          "route": "/data/analysis",
+          "kind": "工作台",
+          "roles": [
+            "分析人员",
+            "业务人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M06-01",
+            "F-M06-02",
+            "F-M06-06"
+          ]
+        },
+        {
+          "id": "P-M06-02",
+          "name": "查询与数据集详情",
+          "route": "/data/datasets/:id",
+          "kind": "详情",
+          "roles": [
+            "分析人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M06-01",
+            "F-M06-02",
+            "F-M06-03",
+            "F-M06-06"
+          ]
+        },
+        {
+          "id": "P-M06-03",
+          "name": "数据处理任务",
+          "route": "/data/jobs",
+          "kind": "列表",
+          "roles": [
+            "分析人员",
+            "运维人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M06-04",
+            "F-M06-06",
+            "F-M06-07"
+          ]
+        },
+        {
+          "id": "P-M06-04",
+          "name": "数据处理配置",
+          "route": "/data/jobs/:id/edit",
+          "kind": "编辑器",
+          "roles": [
+            "分析人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M06-04"
+          ]
+        },
+        {
+          "id": "P-M06-05",
+          "name": "数据质量检查",
+          "route": "/data/quality",
+          "kind": "工作台",
+          "roles": [
+            "数据管理员",
+            "分析人员"
+          ],
+          "owner": "数据服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M06-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M07",
+      "name": "报表大屏模板",
+      "nav": "数据中心",
+      "owner": "报表产品组",
+      "features": [
+        {
+          "id": "F-M07-01",
+          "name": "模板和组件完整迁移",
+          "role": "设计人员、分析人员",
+          "trigger": "打开模板库或组件库",
+          "inputs": "20目标模板、33来源快照、组件资产及依赖",
+          "outputs": "可用模板预览和组件目录",
+          "acceptance": "两类集合分开登记；目标20套按原参照逐项比较；全资产不丢失",
+          "implementation": "提取Test5设计器、JSON协议、渲染器、字体地图皮肤及必要后端",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M07-02",
+            "P-M07-03"
+          ]
+        },
+        {
+          "id": "F-M07-02",
+          "name": "自然语言生成报表",
+          "role": "业务人员",
+          "trigger": "提出报表需求",
+          "inputs": "业务问题、数据集、样式/模板意图",
+          "outputs": "持久化报表及可编辑版本",
+          "acceptance": "自然语言指定/手选/自动匹配/无模板四种路径明确；不固定用首项兜底",
+          "implementation": "Test5生成链路，Dify/Open WebUI调用同一report API",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M07-01",
+            "P-M07-02",
+            "P-M07-03",
+            "P-M07-04"
+          ]
+        },
+        {
+          "id": "F-M07-03",
+          "name": "可视化设计与组件复用",
+          "role": "分析人员、设计人员",
+          "trigger": "拖拽或编辑报表",
+          "inputs": "组件、布局、样式、事件、数据绑定",
+          "outputs": "可编辑报表定义",
+          "acceptance": "撤销重做、保存、复制组件和属性设置可用；编辑后预览一致",
+          "implementation": "保留Test5原生设计与渲染协议，组件可登记复用",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M07-03",
+            "P-M07-04"
+          ]
+        },
+        {
+          "id": "F-M07-04",
+          "name": "数据绑定与替换验证",
+          "role": "分析人员",
+          "trigger": "替换模板数据",
+          "inputs": "dataset_id、参数、字段、单位",
+          "outputs": "真实绑定报表",
+          "acceptance": "所有数据区域可追溯；长中文/空值/极值不破版；裁片装饰不得冒充动态数据",
+          "implementation": "字段映射校验+版本化数据绑定，参考裁片与重绘分层标记",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M07-03",
+            "P-M07-04"
+          ]
+        },
+        {
+          "id": "F-M07-05",
+          "name": "筛选联动钻取与刷新",
+          "role": "业务人员",
+          "trigger": "筛选或点击图表",
+          "inputs": "筛选条件、权限、时间窗",
+          "outputs": "联动结果和可分享状态",
+          "acceptance": "筛选作用范围明确；钻取返回可恢复；只刷新受影响组件",
+          "implementation": "Test5交互与查询服务，筛选状态存URL或会话",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M07-04"
+          ]
+        },
+        {
+          "id": "F-M07-06",
+          "name": "大屏展示与适配",
+          "role": "管理人员、值班人员",
+          "trigger": "进入全屏或设置轮播",
+          "inputs": "显示比例、页面、刷新策略",
+          "outputs": "可运行的大屏",
+          "acceptance": "目标分辨率无裁切；刷新失败保留最后数据并标注时间；浏览器缩放可用",
+          "implementation": "Test5渲染器与独立展示路由，受控定时查询",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M07-01",
+            "P-M07-04"
+          ]
+        },
+        {
+          "id": "F-M07-07",
+          "name": "发布版本与导出",
+          "role": "分析人员、管理员",
+          "trigger": "发布报表或导出文件",
+          "inputs": "报表版本、访问范围、格式",
+          "outputs": "固定发布版本、PDF/图片/数据等成果",
+          "acceptance": "下载真实文件；预览/导出内容与权限一致；发布与编辑草稿分离",
+          "implementation": "Test5导出能力迁移并验证，统一成果服务保存引用",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M07-05",
+            "P-M07-04"
+          ]
+        },
+        {
+          "id": "F-M07-08",
+          "name": "真实预览与视觉回归",
+          "role": "设计人员、测试人员",
+          "trigger": "保存模板或升级组件",
+          "inputs": "模板版本、参照图、替换数据样例",
+          "outputs": "实际页面缩略图和比较记录",
+          "acceptance": "缩略图来自实际页面；20模板原始及换数据两类验收，不以静态截图替代编辑",
+          "implementation": "固定渲染环境生成预览，视觉差异人工核查",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M07-02",
+            "P-M07-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M07-01",
+          "name": "报表与大屏目录",
+          "route": "/reports",
+          "kind": "列表",
+          "roles": [
+            "业务人员",
+            "分析人员"
+          ],
+          "owner": "报表产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M07-02",
+            "F-M07-06"
+          ]
+        },
+        {
+          "id": "P-M07-02",
+          "name": "模板与组件库",
+          "route": "/reports/templates",
+          "kind": "工作台",
+          "roles": [
+            "分析人员",
+            "设计人员"
+          ],
+          "owner": "报表产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M07-01",
+            "F-M07-02",
+            "F-M07-08"
+          ]
+        },
+        {
+          "id": "P-M07-03",
+          "name": "报表设计器",
+          "route": "/reports/:id/edit",
+          "kind": "编辑器",
+          "roles": [
+            "分析人员",
+            "设计人员"
+          ],
+          "owner": "报表产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M07-01",
+            "F-M07-02",
+            "F-M07-03",
+            "F-M07-04"
+          ]
+        },
+        {
+          "id": "P-M07-04",
+          "name": "报表预览与查看",
+          "route": "/reports/:id/view",
+          "kind": "详情",
+          "roles": [
+            "业务人员"
+          ],
+          "owner": "报表产品组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M07-02",
+            "F-M07-03",
+            "F-M07-04",
+            "F-M07-05",
+            "F-M07-06",
+            "F-M07-07",
+            "F-M07-08"
+          ]
+        },
+        {
+          "id": "P-M07-05",
+          "name": "发布导出与版本",
+          "route": "/reports/:id/releases",
+          "kind": "管理",
+          "roles": [
+            "分析人员",
+            "管理员"
+          ],
+          "owner": "报表产品组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M07-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M08",
+      "name": "知识文档RAG",
+      "nav": "知识中心",
+      "owner": "知识服务组",
+      "features": [
+        {
+          "id": "F-M08-01",
+          "name": "知识库创建和资产管理",
+          "role": "知识管理员",
+          "trigger": "创建库或配置范围",
+          "inputs": "行业、目录、文档来源、索引配置",
+          "outputs": "企业知识库及资源ID",
+          "acceptance": "Dify知识能力完整保留；归属、行业和可用范围清楚",
+          "implementation": "Dify作为企业RAG主源，平台目录映射原生dataset_id",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M08-01",
+            "P-M08-05"
+          ]
+        },
+        {
+          "id": "F-M08-02",
+          "name": "文档上传解析与版本",
+          "role": "知识管理员",
+          "trigger": "上传或替换文档",
+          "inputs": "PDF/Word等文档、元数据、版本",
+          "outputs": "解析状态和可检索内容",
+          "acceptance": "正规资料可阅读可检索；失败有页码/原因；新版本不破坏旧报告引用",
+          "implementation": "保留Dify文档解析索引，统一file/document/version映射",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M08-02"
+          ]
+        },
+        {
+          "id": "F-M08-03",
+          "name": "分段元数据与索引维护",
+          "role": "知识管理员",
+          "trigger": "校正分段或重建索引",
+          "inputs": "分段、标签、设备类别、版本",
+          "outputs": "带元数据的索引",
+          "acceptance": "可预览、编辑和重建；变更状态清楚；检索不混用未完成版本",
+          "implementation": "Dify原生分段、索引和元数据能力",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M08-02",
+            "P-M08-03"
+          ]
+        },
+        {
+          "id": "F-M08-04",
+          "name": "检索配置和效果测试",
+          "role": "知识管理员、应用开发者",
+          "trigger": "测试一个业务问题",
+          "inputs": "检索方式、top_k、阈值、重排、测试集",
+          "outputs": "命中片段和引用",
+          "acceptance": "显示命中来源与参数；同一配置可在Agent/对话/流程复现",
+          "implementation": "Dify检索测试与统一检索适配器",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M08-03"
+          ]
+        },
+        {
+          "id": "F-M08-05",
+          "name": "RAG Pipeline完整保留",
+          "role": "知识管理员、应用开发者",
+          "trigger": "配置数据处理流水线",
+          "inputs": "数据源、解析、转换、索引节点",
+          "outputs": "发布的知识处理流水线",
+          "acceptance": "原生创建、调试、发布和运行可用；不缩减为单一上传功能",
+          "implementation": "保留Dify RAG Pipeline画布、节点及后端依赖",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M08-04"
+          ]
+        },
+        {
+          "id": "F-M08-06",
+          "name": "跨入口检索引用适配",
+          "role": "业务人员、应用开发者",
+          "trigger": "在Open WebUI或Dify使用知识",
+          "inputs": "用户身份、知识范围、query",
+          "outputs": "统一来源ID的检索结果",
+          "acceptance": "引用可回原文且检查权限；不默认复制成三份事实源",
+          "implementation": "Dify检索API适配Open WebUI工具；qKnow图谱补充关联",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M08-03",
+            "P-M08-05"
+          ]
+        },
+        {
+          "id": "F-M08-07",
+          "name": "知识生命周期与权限",
+          "role": "知识管理员、安全管理员",
+          "trigger": "下架资料或调整权限",
+          "inputs": "文档版本、权限、保留规则",
+          "outputs": "生效状态和依赖提示",
+          "acceptance": "撤权后新检索不可命中；已发布成果按保留权限回查；删除显示引用影响",
+          "implementation": "平台依赖索引+域内授权映射，不直接共用原生表",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M08-02",
+            "P-M08-05"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M08-01",
+          "name": "知识库目录",
+          "route": "/knowledge",
+          "kind": "列表",
+          "roles": [
+            "知识管理员",
+            "业务人员"
+          ],
+          "owner": "知识服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M08-01"
+          ]
+        },
+        {
+          "id": "P-M08-02",
+          "name": "文档与解析管理",
+          "route": "/knowledge/:id/documents",
+          "kind": "管理",
+          "roles": [
+            "知识管理员"
+          ],
+          "owner": "知识服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M08-02",
+            "F-M08-03",
+            "F-M08-07"
+          ]
+        },
+        {
+          "id": "P-M08-03",
+          "name": "分段索引与检索测试",
+          "route": "/knowledge/:id/retrieval",
+          "kind": "工作台",
+          "roles": [
+            "知识管理员",
+            "应用开发者"
+          ],
+          "owner": "知识服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M08-03",
+            "F-M08-04",
+            "F-M08-06"
+          ]
+        },
+        {
+          "id": "P-M08-04",
+          "name": "RAG Pipeline编辑器",
+          "route": "/knowledge/:id/pipeline",
+          "kind": "编辑器",
+          "roles": [
+            "知识管理员",
+            "应用开发者"
+          ],
+          "owner": "知识服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M08-05"
+          ]
+        },
+        {
+          "id": "P-M08-05",
+          "name": "知识权限与发布",
+          "route": "/knowledge/:id/settings",
+          "kind": "管理",
+          "roles": [
+            "知识管理员",
+            "安全管理员"
+          ],
+          "owner": "知识服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M08-01",
+            "F-M08-06",
+            "F-M08-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M09",
+      "name": "本体抽取图谱",
+      "nav": "知识中心",
+      "owner": "图谱产品组",
+      "features": [
+        {
+          "id": "F-M09-01",
+          "name": "本体建模与版本",
+          "role": "知识工程师",
+          "trigger": "定义设备故障等类型",
+          "inputs": "实体类型、属性、关系、约束",
+          "outputs": "本体版本和校验结果",
+          "acceptance": "字段类型/关系方向明确；变更可识别受影响抽取任务",
+          "implementation": "参考qKnow原生建模UI，复用可用领域实现并补版本管理",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M09-01"
+          ]
+        },
+        {
+          "id": "F-M09-02",
+          "name": "文档结构化抽取",
+          "role": "知识工程师",
+          "trigger": "对文档运行抽取",
+          "inputs": "文档版本、本体、模型、抽取规则",
+          "outputs": "候选实体关系及来源片段",
+          "acceptance": "每项候选有原文定位和置信信息；模型输出不直接当已确认事实",
+          "implementation": "qKnow抽取需求+Dify处理流程+图谱写入API",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M09-02"
+          ]
+        },
+        {
+          "id": "F-M09-03",
+          "name": "人工标注与合并消歧",
+          "role": "知识工程师、复核员",
+          "trigger": "复核候选或合并重复实体",
+          "inputs": "候选、实体、合并规则",
+          "outputs": "审核记录和已确认图谱",
+          "acceptance": "合并保留来源；可追踪前后实体ID；未确认关系有状态",
+          "implementation": "图谱领域服务+qKnow标注交互",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M09-02",
+            "P-M09-04"
+          ]
+        },
+        {
+          "id": "F-M09-04",
+          "name": "图谱探索与路径查询",
+          "role": "业务人员、知识工程师",
+          "trigger": "搜索故障或设备并展开关系",
+          "inputs": "关键词、实体、关系、深度",
+          "outputs": "交互子图与路径",
+          "acceptance": "展开有限额；图谱筛选和详情联动；路径节点可查来源",
+          "implementation": "qKnow关系探索UI+图谱查询API",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M09-03",
+            "P-M09-04"
+          ]
+        },
+        {
+          "id": "F-M09-05",
+          "name": "图谱数据导入导出",
+          "role": "知识工程师",
+          "trigger": "批量导入结构化关系",
+          "inputs": "CSV/JSON、映射、校验规则",
+          "outputs": "预览、冲突及导入记录",
+          "acceptance": "先校验后写入；重复导入不重复建实体；错误可定位行",
+          "implementation": "领域导入任务+统一文件服务，不直接导生产图存储",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M09-01",
+            "P-M09-02"
+          ]
+        },
+        {
+          "id": "F-M09-06",
+          "name": "图谱检索与业务工具",
+          "role": "应用开发者、业务人员",
+          "trigger": "Agent查询关联原因或案例",
+          "inputs": "实体、问题、用户权限",
+          "outputs": "可引用关系和路径",
+          "acceptance": "AI能调用且返回来源；权限过滤在服务端",
+          "implementation": "统一图谱检索工具适配Open WebUI/Dify",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M09-03",
+            "P-M09-04"
+          ]
+        },
+        {
+          "id": "F-M09-07",
+          "name": "图谱运营与质量检查",
+          "role": "知识工程师",
+          "trigger": "检查无来源或冲突关系",
+          "inputs": "本体版本、图谱范围、规则",
+          "outputs": "冲突、孤点、来源缺失清单",
+          "acceptance": "统计可下钻到问题实体；不能只有静态看板",
+          "implementation": "补齐qKnow运营预留后端，基于真实领域查询",
+          "phase": "P3",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M09-02",
+            "P-M09-03"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M09-01",
+          "name": "本体与模型管理",
+          "route": "/graph/ontologies",
+          "kind": "编辑器",
+          "roles": [
+            "知识工程师"
+          ],
+          "owner": "图谱产品组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M09-01",
+            "F-M09-05"
+          ]
+        },
+        {
+          "id": "P-M09-02",
+          "name": "抽取任务与标注",
+          "route": "/graph/extractions",
+          "kind": "工作台",
+          "roles": [
+            "知识工程师",
+            "复核员"
+          ],
+          "owner": "图谱产品组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M09-02",
+            "F-M09-03",
+            "F-M09-05",
+            "F-M09-07"
+          ]
+        },
+        {
+          "id": "P-M09-03",
+          "name": "实体关系探索",
+          "route": "/graph/explore",
+          "kind": "工作台",
+          "roles": [
+            "业务人员",
+            "知识工程师"
+          ],
+          "owner": "图谱产品组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M09-04",
+            "F-M09-06",
+            "F-M09-07"
+          ]
+        },
+        {
+          "id": "P-M09-04",
+          "name": "图谱数据与来源",
+          "route": "/graph/entities/:id",
+          "kind": "详情",
+          "roles": [
+            "知识工程师",
+            "业务人员"
+          ],
+          "owner": "图谱产品组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M09-03",
+            "F-M09-04",
+            "F-M09-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "name": "设备维护预警",
+      "nav": "制造业务",
+      "owner": "制造业务组",
+      "features": [
+        {
+          "id": "F-M10-01",
+          "name": "设备类别台账与资料关联",
+          "role": "设备工程师",
+          "trigger": "登记或打开设备",
+          "inputs": "类别、实例、工厂、文档、维修记录",
+          "outputs": "设备主档及关联资料",
+          "acceptance": "国内常用设备中文信息；类别和实例分开；能回查维修与说明书",
+          "implementation": "新业务设备服务，参考qKnow列表/详情，沿用已检查数据结构",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M10-01",
+            "P-M10-02"
+          ]
+        },
+        {
+          "id": "F-M10-02",
+          "name": "测点工况与时间序列",
+          "role": "设备工程师、操作员",
+          "trigger": "查看设备时间窗口",
+          "inputs": "开停机、电压、电流/频率、振动、温度、工况",
+          "outputs": "趋势和数据质量状态",
+          "acceptance": "单位、时区、采样和缺口可见；来自已授权数据库；不要求先做采集硬件",
+          "implementation": "语义映射+受控查询/聚合接口+qKnow趋势交互",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M10-02"
+          ]
+        },
+        {
+          "id": "F-M10-03",
+          "name": "设备维护分析",
+          "role": "设备工程师",
+          "trigger": "选设备和时间窗运行分析",
+          "inputs": "设备类别Skill、时间序列、手册、维修工单",
+          "outputs": "异常特征、候选原因、趋势、维修建议与引用",
+          "acceptance": "三类各一台真实执行可回查；结论有窗口和证据；不把候选当确诊",
+          "implementation": "Open WebUI原生Agent按每类Skill调用计算沙箱/知识/维修检索，不以训练预测模型为前置",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M10-03",
+            "P-M10-04"
+          ]
+        },
+        {
+          "id": "F-M10-04",
+          "name": "预警规则与事件",
+          "role": "设备工程师、班组长",
+          "trigger": "配置规则或收到事件",
+          "inputs": "阈值、持续时间、工况、静默期、版本",
+          "outputs": "预警与关联证据",
+          "acceptance": "阈值/缺数据/恢复状态分开；去重与恢复记录可追溯",
+          "implementation": "Dify定时流程+预警领域规则服务；qKnow预留页面补真实API",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M10-05",
+            "P-M10-02"
+          ]
+        },
+        {
+          "id": "F-M10-05",
+          "name": "维修记录与闭环处置",
+          "role": "设备工程师、班组长",
+          "trigger": "确认预警或记录维修",
+          "inputs": "故障、措施、备件、工时、复核",
+          "outputs": "处置时间线和知识关联",
+          "acceptance": "能分派、确认、处理、复核；追加记录不覆盖原判断",
+          "implementation": "新处置业务API，允许与外部EAM/CMMS接口扩展",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M10-02",
+            "P-M10-04",
+            "P-M10-05"
+          ]
+        },
+        {
+          "id": "F-M10-06",
+          "name": "节能分析与建议",
+          "role": "能源管理人员、设备工程师",
+          "trigger": "分析负荷和能耗",
+          "inputs": "设备能力、负荷、运行约束、能耗口径",
+          "outputs": "建议、前提、估算与证据",
+          "acceptance": "只给建议；实际停机另设授权与控制项目；估算假设明确",
+          "implementation": "受控计算+类别Skill与文档检索；Dify固定分析模板",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M10-03",
+            "P-M10-04"
+          ]
+        },
+        {
+          "id": "F-M10-07",
+          "name": "持续数据生成环境",
+          "role": "开发者、测试人员",
+          "trigger": "启动专用验证环境",
+          "inputs": "行业配置、随机种子、速率、已核验本地目标",
+          "outputs": "持续数据与运行记录",
+          "acceptance": "随环境启停；重启不重复初始化；不改变在用工作流绑定",
+          "implementation": "独立可关闭数据程序；生产包默认关闭；遵守数据库测试限制",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M10-01",
+            "P-M10-02"
+          ]
+        },
+        {
+          "id": "F-M10-08",
+          "name": "维护效果复核与经验沉淀",
+          "role": "设备工程师、管理人员",
+          "trigger": "维修完成或对照分析",
+          "inputs": "预测建议、实际故障、执行结果",
+          "outputs": "复核结论和可入库案例",
+          "acceptance": "建议准确性有人工反馈；无数据不能声称节能或故障率提升",
+          "implementation": "关联分析/维修/资料版本，人工审核后进入知识库",
+          "phase": "P3",
+          "source": "建议",
+          "page_ids": [
+            "P-M10-04",
+            "P-M10-05"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M10-01",
+          "name": "设备台账与类别",
+          "route": "/equipment",
+          "kind": "列表",
+          "roles": [
+            "设备工程师",
+            "班组长"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M10-01",
+            "F-M10-07"
+          ]
+        },
+        {
+          "id": "P-M10-02",
+          "name": "设备详情与测点趋势",
+          "route": "/equipment/:id",
+          "kind": "详情",
+          "roles": [
+            "设备工程师",
+            "操作员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M10-01",
+            "F-M10-02",
+            "F-M10-04",
+            "F-M10-05",
+            "F-M10-07"
+          ]
+        },
+        {
+          "id": "P-M10-03",
+          "name": "维护分析工作台",
+          "route": "/equipment/analysis",
+          "kind": "工作台",
+          "roles": [
+            "设备工程师"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M10-03",
+            "F-M10-06"
+          ]
+        },
+        {
+          "id": "P-M10-04",
+          "name": "维护分析报告",
+          "route": "/equipment/analyses/:id",
+          "kind": "详情",
+          "roles": [
+            "设备工程师",
+            "管理人员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M10-03",
+            "F-M10-05",
+            "F-M10-06",
+            "F-M10-08"
+          ]
+        },
+        {
+          "id": "P-M10-05",
+          "name": "预警规则与处置",
+          "route": "/equipment/alerts",
+          "kind": "工作台",
+          "roles": [
+            "设备工程师",
+            "班组长"
+          ],
+          "owner": "制造业务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M10-04",
+            "F-M10-05",
+            "F-M10-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M11",
+      "name": "设备及产品质检",
+      "nav": "制造业务",
+      "owner": "制造业务组",
+      "features": [
+        {
+          "id": "F-M11-01",
+          "name": "质检标准与判定规则",
+          "role": "质检主管、工艺员",
+          "trigger": "配置或修订标准",
+          "inputs": "指标、上下限、方法、单位、抽样规则",
+          "outputs": "已审核标准版本",
+          "acceptance": "历史任务绑定当时标准；缺值/待测/超限/执行失败分开",
+          "implementation": "质检领域规则服务+Dify流程输入，法规标准需由企业确认",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M11-02",
+            "P-M11-03",
+            "P-M11-06"
+          ]
+        },
+        {
+          "id": "F-M11-02",
+          "name": "设备固定质检",
+          "role": "质检员、设备工程师",
+          "trigger": "选设备运行设备检查",
+          "inputs": "设备、标准、测点、人工项目",
+          "outputs": "项目实测值与判定、异常记录",
+          "acceptance": "逐项有测值或人工证据；检查失败不算设备不合格或合格",
+          "implementation": "Dify设备质检流程+受控取数/规则判定/结果API",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M11-01",
+            "P-M11-02",
+            "P-M11-05"
+          ]
+        },
+        {
+          "id": "F-M11-03",
+          "name": "产品批次与抽样质检",
+          "role": "质检员、工艺员",
+          "trigger": "创建批次检测任务",
+          "inputs": "产品、批次、样本、标准、来源",
+          "outputs": "样本结果与批次判定建议",
+          "acceptance": "可追溯批次样本；样本数量不足不自动整批合格",
+          "implementation": "批次/样本领域服务+Dify产品质检流程",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M11-01",
+            "P-M11-03",
+            "P-M11-05"
+          ]
+        },
+        {
+          "id": "F-M11-04",
+          "name": "图像与结构化检测",
+          "role": "质检员",
+          "trigger": "提交图像或检测数据",
+          "inputs": "图像、仪器结果、适用模型/算法",
+          "outputs": "缺陷候选、测值、定位与置信",
+          "acceptance": "图像不适用或低置信进入人工复核；检出效果按实际标注样本验收",
+          "implementation": "视觉模型/规则/检测插件作为Dify节点工具，统一结果Schema",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M11-03",
+            "P-M11-04"
+          ]
+        },
+        {
+          "id": "F-M11-05",
+          "name": "人工复核与修订",
+          "role": "复核员",
+          "trigger": "确认或驳回候选结论",
+          "inputs": "样本证据、原判定、修改原因",
+          "outputs": "复核结论和审计时间线",
+          "acceptance": "修改保留原判定；记录操作者、原因和版本；并发修改提示冲突",
+          "implementation": "业务乐观锁与追加审核记录，页面并排原图/结果",
+          "phase": "P1",
+          "source": "建议",
+          "page_ids": [
+            "P-M11-04",
+            "P-M11-05"
+          ]
+        },
+        {
+          "id": "F-M11-06",
+          "name": "不合格处置与复检",
+          "role": "质检主管、工艺员",
+          "trigger": "对异常批次发起处置",
+          "inputs": "结果、不合格项、处置方式",
+          "outputs": "隔离/返工建议、复检任务与关联",
+          "acceptance": "复检产生新任务且关联原任务；不覆盖原不合格证据",
+          "implementation": "领域任务与人审；生产放行或设备控制不默认自动执行",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M11-01",
+            "P-M11-04",
+            "P-M11-05"
+          ]
+        },
+        {
+          "id": "F-M11-07",
+          "name": "质检报告与追溯",
+          "role": "质检员、管理人员",
+          "trigger": "查看或导出检测报告",
+          "inputs": "任务、标准版本、样本、执行记录",
+          "outputs": "报告文件和追溯链",
+          "acceptance": "从报告可回查样本/标准/流程版本；下载与页面判定一致",
+          "implementation": "Test5模板+统一成果服务，关联Dify run与质检对象",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M11-05"
+          ]
+        },
+        {
+          "id": "F-M11-08",
+          "name": "质量统计与改善",
+          "role": "质量主管",
+          "trigger": "分析一段时间质量表现",
+          "inputs": "工厂、产品、缺陷、时间、班次",
+          "outputs": "合格率、缺陷分布和趋势",
+          "acceptance": "分母/复检统计口径明确；可钻取到实际任务",
+          "implementation": "指标服务+Test5报表，禁用无来源收益比例",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M11-01",
+            "P-M11-05"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M11-01",
+          "name": "质检任务与待复核",
+          "route": "/inspection",
+          "kind": "列表",
+          "roles": [
+            "质检员",
+            "复核员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M11-02",
+            "F-M11-03",
+            "F-M11-06",
+            "F-M11-08"
+          ]
+        },
+        {
+          "id": "P-M11-02",
+          "name": "设备质检标准与任务",
+          "route": "/inspection/equipment",
+          "kind": "工作台",
+          "roles": [
+            "质检员",
+            "设备工程师"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M11-01",
+            "F-M11-02"
+          ]
+        },
+        {
+          "id": "P-M11-03",
+          "name": "产品批次质检",
+          "route": "/inspection/products",
+          "kind": "工作台",
+          "roles": [
+            "质检员",
+            "工艺员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M11-01",
+            "F-M11-03",
+            "F-M11-04"
+          ]
+        },
+        {
+          "id": "P-M11-04",
+          "name": "样本缺陷与人工复核",
+          "route": "/inspection/tasks/:id/review",
+          "kind": "编辑器",
+          "roles": [
+            "质检员",
+            "复核员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M11-04",
+            "F-M11-05",
+            "F-M11-06"
+          ]
+        },
+        {
+          "id": "P-M11-05",
+          "name": "质检结果与报告",
+          "route": "/inspection/tasks/:id",
+          "kind": "详情",
+          "roles": [
+            "质检员",
+            "管理人员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M11-02",
+            "F-M11-03",
+            "F-M11-05",
+            "F-M11-06",
+            "F-M11-07",
+            "F-M11-08"
+          ]
+        },
+        {
+          "id": "P-M11-06",
+          "name": "标准与模板版本",
+          "route": "/inspection/standards",
+          "kind": "管理",
+          "roles": [
+            "质检主管",
+            "工艺员"
+          ],
+          "owner": "制造业务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M11-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M12",
+      "name": "工具MCP技能插件",
+      "nav": "开发中心",
+      "owner": "能力集成组",
+      "features": [
+        {
+          "id": "F-M12-01",
+          "name": "工具接口注册与Schema",
+          "role": "应用开发者",
+          "trigger": "注册HTTP或代码工具",
+          "inputs": "输入输出Schema、权限、超时、幂等标记",
+          "outputs": "可版本化工具资源",
+          "acceptance": "缺参可定位；工具声明只读或副作用；执行身份可追溯",
+          "implementation": "统一能力目录，适配各原生引擎工具格式",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M12-01",
+            "P-M12-04"
+          ]
+        },
+        {
+          "id": "F-M12-02",
+          "name": "MCP服务接入",
+          "role": "应用开发者、管理员",
+          "trigger": "配置MCP服务",
+          "inputs": "服务地址、传输、鉴权引用、工具范围",
+          "outputs": "可发现工具与状态",
+          "acceptance": "各引擎支持的传输独立验证；不把配置存在当可用",
+          "implementation": "保留Open WebUI/Dify/qKnow相关能力，分别实现连接适配",
+          "phase": "P1",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M12-01",
+            "P-M12-04"
+          ]
+        },
+        {
+          "id": "F-M12-03",
+          "name": "按设备类别管理Skill",
+          "role": "设备工程师、应用开发者",
+          "trigger": "创建或绑定类别Skill",
+          "inputs": "设备类别、说明、计算方法、知识范围、工具",
+          "outputs": "可复用Skill版本",
+          "acceptance": "一个类别Skill用于多个实例；实例ID和时间窗作为输入",
+          "implementation": "保留原生Skills能力；平台记录归属并做格式适配，不直接拷贝Schema",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M12-02"
+          ]
+        },
+        {
+          "id": "F-M12-04",
+          "name": "插件安装升级和停用",
+          "role": "管理员",
+          "trigger": "安装或升级原生插件",
+          "inputs": "包、版本、签名/来源、凭据引用",
+          "outputs": "插件状态与依赖记录",
+          "acceptance": "Dify原生插件、市场、安装/升级/删除等保留；升级有回退记录",
+          "implementation": "保留Dify插件服务及Open WebUI相应扩展机制",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M12-03"
+          ]
+        },
+        {
+          "id": "F-M12-05",
+          "name": "Skills与Snippets完整保留",
+          "role": "应用开发者",
+          "trigger": "编辑技能或代码片段",
+          "inputs": "原生Skill/Snippet配置",
+          "outputs": "可调用资源",
+          "acceptance": "Dify和Open WebUI各自原生能力保留；能力差异明确标注",
+          "implementation": "原生实现优先；统一目录只映射，不伪造统一执行语义",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M12-02",
+            "P-M12-03"
+          ]
+        },
+        {
+          "id": "F-M12-06",
+          "name": "工具测试与权限审批",
+          "role": "应用开发者、安全管理员",
+          "trigger": "测试工具或批准副作用",
+          "inputs": "测试参数、身份、审批范围",
+          "outputs": "调用结果与审计",
+          "acceptance": "每次调用鉴权；审批绑定具体参数及有效期；失败不重放写入",
+          "implementation": "工具网关+原生工具审批，沙箱限制资源与网络",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M12-04"
+          ]
+        },
+        {
+          "id": "F-M12-07",
+          "name": "能力依赖与停用影响",
+          "role": "管理员",
+          "trigger": "停用工具或删除版本",
+          "inputs": "资源依赖、运行引用",
+          "outputs": "受影响Agent/流程清单",
+          "acceptance": "已发布依赖不允许无提示破坏；正在运行版本保留到终态",
+          "implementation": "资源依赖索引和版本保留策略",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M12-01",
+            "P-M12-02",
+            "P-M12-03"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M12-01",
+          "name": "工具与MCP目录",
+          "route": "/capabilities/tools",
+          "kind": "管理",
+          "roles": [
+            "应用开发者",
+            "管理员"
+          ],
+          "owner": "能力集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M12-01",
+            "F-M12-02",
+            "F-M12-07"
+          ]
+        },
+        {
+          "id": "P-M12-02",
+          "name": "技能与提示词资源",
+          "route": "/capabilities/skills",
+          "kind": "编辑器",
+          "roles": [
+            "应用开发者",
+            "设备工程师"
+          ],
+          "owner": "能力集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M12-03",
+            "F-M12-05",
+            "F-M12-07"
+          ]
+        },
+        {
+          "id": "P-M12-03",
+          "name": "插件市场与安装",
+          "route": "/capabilities/plugins",
+          "kind": "工作台",
+          "roles": [
+            "管理员",
+            "应用开发者"
+          ],
+          "owner": "能力集成组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M12-04",
+            "F-M12-05",
+            "F-M12-07"
+          ]
+        },
+        {
+          "id": "P-M12-04",
+          "name": "工具调试与调用记录",
+          "route": "/capabilities/tools/:id/test",
+          "kind": "工作台",
+          "roles": [
+            "应用开发者",
+            "安全管理员"
+          ],
+          "owner": "能力集成组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M12-01",
+            "F-M12-02",
+            "F-M12-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M13",
+      "name": "应用行业方案",
+      "nav": "应用中心",
+      "owner": "行业方案组",
+      "features": [
+        {
+          "id": "F-M13-01",
+          "name": "业务应用入口与收藏",
+          "role": "业务人员",
+          "trigger": "选择已发布应用",
+          "inputs": "角色、工厂、应用目录",
+          "outputs": "可直接操作的业务入口",
+          "acceptance": "入口进入真实可用功能；未部署依赖明确状态；不显示空占位宣称完成",
+          "implementation": "qKnow应用广场视觉+统一资源目录和权限",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M13-01"
+          ]
+        },
+        {
+          "id": "F-M13-02",
+          "name": "行业方案包",
+          "role": "管理员、业务负责人",
+          "trigger": "安装行业包",
+          "inputs": "食品/化工/纺织方案、模型、数据映射",
+          "outputs": "知识/Skill/Agent/流程/报表的安装计划",
+          "acceptance": "三行业配置和业务内容有区别；缺依赖阻止发布；安装不重复创建",
+          "implementation": "声明式行业包manifest+各领域安装适配",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M13-02",
+            "P-M13-03"
+          ]
+        },
+        {
+          "id": "F-M13-03",
+          "name": "应用参数和数据绑定",
+          "role": "管理员、应用开发者",
+          "trigger": "为工厂配置方案",
+          "inputs": "工厂数据源、设备类别、指标、凭据",
+          "outputs": "可运行的应用实例",
+          "acceptance": "安装模板与工厂配置分离；不含真实密码；可校验完整性",
+          "implementation": "资源引用+配置校验，发布前预检",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M13-03"
+          ]
+        },
+        {
+          "id": "F-M13-04",
+          "name": "应用发布停用和升级",
+          "role": "管理员",
+          "trigger": "发布或升级方案",
+          "inputs": "包版本、兼容要求、迁移说明",
+          "outputs": "可用版本及回退点",
+          "acceptance": "可预览差异；升级不覆盖企业自行修改配置；停用保留成果",
+          "implementation": "安装清单和资源所有权，版本化迁移",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M13-02",
+            "P-M13-03"
+          ]
+        },
+        {
+          "id": "F-M13-05",
+          "name": "运营看板真实数据化",
+          "role": "运营人员、业务负责人",
+          "trigger": "查看应用效果",
+          "inputs": "调用、成功率、耗时、反馈、业务结果",
+          "outputs": "可钻取统计",
+          "acceptance": "qKnow原预留看板接真实数据；成功定义和样本量可见",
+          "implementation": "运行索引+业务统计API，Test5可视化",
+          "phase": "P3",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M13-04"
+          ]
+        },
+        {
+          "id": "F-M13-06",
+          "name": "业务使用说明与样例",
+          "role": "业务人员",
+          "trigger": "首次打开应用",
+          "inputs": "角色、行业、可用对象",
+          "outputs": "输入示例、操作引导、结果说明",
+          "acceptance": "用户不需要懂Agent或SQL；例子来自适用行业；可直接替换对象执行",
+          "implementation": "应用包内帮助与样例，角色化展示",
+          "phase": "P1",
+          "source": "建议",
+          "page_ids": [
+            "P-M13-01",
+            "P-M13-02"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M13-01",
+          "name": "应用与解决方案广场",
+          "route": "/apps",
+          "kind": "工作台",
+          "roles": [
+            "业务人员",
+            "管理员"
+          ],
+          "owner": "行业方案组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M13-01",
+            "F-M13-06"
+          ]
+        },
+        {
+          "id": "P-M13-02",
+          "name": "行业方案详情与安装",
+          "route": "/solutions/:id",
+          "kind": "详情",
+          "roles": [
+            "管理员",
+            "业务负责人"
+          ],
+          "owner": "行业方案组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M13-02",
+            "F-M13-04",
+            "F-M13-06"
+          ]
+        },
+        {
+          "id": "P-M13-03",
+          "name": "应用资源配置",
+          "route": "/apps/:id/configure",
+          "kind": "编辑器",
+          "roles": [
+            "管理员",
+            "应用开发者"
+          ],
+          "owner": "行业方案组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M13-02",
+            "F-M13-03",
+            "F-M13-04"
+          ]
+        },
+        {
+          "id": "P-M13-04",
+          "name": "应用运营与反馈",
+          "route": "/apps/:id/operations",
+          "kind": "工作台",
+          "roles": [
+            "运营人员",
+            "业务负责人"
+          ],
+          "owner": "行业方案组",
+          "phase": "P3",
+          "feature_ids": [
+            "F-M13-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M14",
+      "name": "用户组织权限",
+      "nav": "平台管理",
+      "owner": "平台安全组",
+      "features": [
+        {
+          "id": "F-M14-01",
+          "name": "统一登录与身份映射",
+          "role": "管理员",
+          "trigger": "首次登录或同步用户",
+          "inputs": "企业身份、用户、原生账号映射",
+          "outputs": "单一登录体验与域内身份",
+          "acceptance": "进入原生应用不要求重复输入账号；不是共享管理员代跑所有人",
+          "implementation": "企业OIDC优先；各引擎按支持方式接入，技术预研验证",
+          "phase": "P1",
+          "source": "建议",
+          "page_ids": [
+            "P-M14-01",
+            "P-M14-03"
+          ]
+        },
+        {
+          "id": "F-M14-02",
+          "name": "组织岗位与工厂范围",
+          "role": "管理员",
+          "trigger": "维护组织或分配岗位",
+          "inputs": "企业、工厂、部门、岗位、用户",
+          "outputs": "组织和成员关系",
+          "acceptance": "人员调岗后新请求权限生效；历史操作者不丢失",
+          "implementation": "统一组织服务映射域内团队/成员",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M14-01",
+            "P-M14-03"
+          ]
+        },
+        {
+          "id": "F-M14-03",
+          "name": "角色菜单和操作授权",
+          "role": "安全管理员",
+          "trigger": "配置角色",
+          "inputs": "资源、操作、角色、范围",
+          "outputs": "可执行权限集",
+          "acceptance": "隐藏入口与服务端拒绝同时有效；授权边界可测试",
+          "implementation": "统一RBAC+领域资源鉴权；保留引擎域内限制",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M14-02"
+          ]
+        },
+        {
+          "id": "F-M14-04",
+          "name": "数据文档与成果权限",
+          "role": "安全管理员",
+          "trigger": "给对象设置访问范围",
+          "inputs": "设备、数据集、文档、报告、用户/组",
+          "outputs": "资源级读写范围",
+          "acceptance": "AI、页面和流程一致；下载和引用也检查权限",
+          "implementation": "授权服务+文件签名与域内权限映射",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M14-02"
+          ]
+        },
+        {
+          "id": "F-M14-05",
+          "name": "服务身份与外部调用方",
+          "role": "管理员、安全管理员",
+          "trigger": "登记集成调用方",
+          "inputs": "服务身份、scope、凭据有效期",
+          "outputs": "最小权限访问和撤销能力",
+          "acceptance": "Dify/Agent工具以可识别身份执行；外部调用有负责人和限额",
+          "implementation": "服务端短期令牌/密钥引用与调用方登记",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M14-02",
+            "P-M14-03"
+          ]
+        },
+        {
+          "id": "F-M14-06",
+          "name": "全链路审计",
+          "role": "审计员、安全管理员",
+          "trigger": "回查用户或业务动作",
+          "inputs": "actor、resource、run_id、trace_id",
+          "outputs": "可检索操作时间线",
+          "acceptance": "能串联入口、工具、查询、审批和成果；脱敏且不能由普通用户改写",
+          "implementation": "结构化审计事件+统一运行关联ID",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M14-04"
+          ]
+        },
+        {
+          "id": "F-M14-07",
+          "name": "租户组织隔离与撤权验证",
+          "role": "安全管理员、测试人员",
+          "trigger": "建立企业或撤销授权",
+          "inputs": "租户、工厂、角色、数据范围",
+          "outputs": "隔离与撤权结果",
+          "acceptance": "首发单企业内组织/工厂/工作区隔离；跨上游租户ID访问被拒；撤权后缓存/搜索/下载不绕过授权；完整多客户SaaS另行立项",
+          "implementation": "租户上下文强制传递+集成行为测试",
+          "phase": "P1",
+          "source": "建议",
+          "page_ids": [
+            "P-M14-02",
+            "P-M14-03",
+            "P-M14-04"
+          ]
+        },
+        {
+          "id": "F-M14-08",
+          "name": "客户端证书与接入授权",
+          "role": "安全管理员",
+          "trigger": "登记客户端或管理证书",
+          "inputs": "客户端、接入范围、证书、到期时间",
+          "outputs": "客户端授权与证书状态",
+          "acceptance": "qKnow客户端/证书功能意图保留；到期撤销生效；秘密材料不回显",
+          "implementation": "优先企业身份和网关能力；qKnow原生辅助页按接入方案适配",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M14-03",
+            "P-M14-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M14-01",
+          "name": "用户组织与岗位",
+          "route": "/admin/organization",
+          "kind": "管理",
+          "roles": [
+            "管理员"
+          ],
+          "owner": "平台安全组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M14-01",
+            "F-M14-02"
+          ]
+        },
+        {
+          "id": "P-M14-02",
+          "name": "角色与资源授权",
+          "route": "/admin/permissions",
+          "kind": "管理",
+          "roles": [
+            "安全管理员"
+          ],
+          "owner": "平台安全组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M14-03",
+            "F-M14-04",
+            "F-M14-05",
+            "F-M14-07"
+          ]
+        },
+        {
+          "id": "P-M14-03",
+          "name": "工作空间与身份映射",
+          "route": "/admin/workspaces",
+          "kind": "管理",
+          "roles": [
+            "管理员"
+          ],
+          "owner": "平台安全组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M14-01",
+            "F-M14-02",
+            "F-M14-05",
+            "F-M14-07",
+            "F-M14-08"
+          ]
+        },
+        {
+          "id": "P-M14-04",
+          "name": "操作审计与权限检查",
+          "route": "/admin/audit",
+          "kind": "工作台",
+          "roles": [
+            "安全管理员",
+            "审计员"
+          ],
+          "owner": "平台安全组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M14-06",
+            "F-M14-07",
+            "F-M14-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M15",
+      "name": "模型凭据",
+      "nav": "平台管理",
+      "owner": "模型与运维组",
+      "features": [
+        {
+          "id": "F-M15-01",
+          "name": "对话向量视觉模型配置",
+          "role": "模型管理员",
+          "trigger": "添加服务或模型",
+          "inputs": "provider、模型ID、能力、上下文、参数",
+          "outputs": "可用模型及能力标签",
+          "acceptance": "三种能力均可配置；参数按实际模型校验；不沿用历史密钥",
+          "implementation": "保留各引擎模型配置，平台目录映射能力与环境",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M15-01"
+          ]
+        },
+        {
+          "id": "F-M15-02",
+          "name": "密钥存储轮换与授权",
+          "role": "安全管理员",
+          "trigger": "保存或轮换凭据",
+          "inputs": "密钥、归属、可用范围、有效期",
+          "outputs": "凭据引用及轮换状态",
+          "acceptance": "不在文档、日志、浏览器回显；轮换可定位受影响应用",
+          "implementation": "独立密钥存储/加密配置，域内凭据同步使用适配器",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M15-02"
+          ]
+        },
+        {
+          "id": "F-M15-03",
+          "name": "能力测试与诊断",
+          "role": "模型管理员",
+          "trigger": "执行小样本测试",
+          "inputs": "模型、文本/图像/向量样例",
+          "outputs": "连通、能力、耗时及错误",
+          "acceptance": "不支持视觉/工具等能力明确报错；测试内容和用量可查",
+          "implementation": "独立诊断任务；不把仅连通视为业务质量通过",
+          "phase": "P1",
+          "source": "建议",
+          "page_ids": [
+            "P-M15-01",
+            "P-M15-03"
+          ]
+        },
+        {
+          "id": "F-M15-04",
+          "name": "路由回退和版本绑定",
+          "role": "模型管理员、开发者",
+          "trigger": "设置模型使用策略",
+          "inputs": "应用、模型、能力、预算、回退规则",
+          "outputs": "明确的模型选择",
+          "acceptance": "不能静默换成不支持能力的模型；实际调用模型随结果记录",
+          "implementation": "各引擎原生路由优先，适配层只执行显式策略",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M15-01"
+          ]
+        },
+        {
+          "id": "F-M15-05",
+          "name": "额度成本与限流",
+          "role": "运维人员、管理人员",
+          "trigger": "设置配额或检查用量",
+          "inputs": "用户/应用、token、并发、费用口径",
+          "outputs": "用量与超额状态",
+          "acceptance": "有统计时间范围；未知单价不估成确定费用；超额有清楚反馈",
+          "implementation": "原生用量+统一计量记录，不重复计工具调用",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M15-03"
+          ]
+        },
+        {
+          "id": "F-M15-06",
+          "name": "本地与私有模型部署接入",
+          "role": "模型管理员",
+          "trigger": "接入企业批准模型服务",
+          "inputs": "服务URL、协议、网络范围、证书",
+          "outputs": "可验证私有模型配置",
+          "acceptance": "内网/离线部署能力按实际依赖清单确认；不承诺所有插件离线可用",
+          "implementation": "OpenAI兼容等原生provider接法，配套镜像/模型资产清单",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M15-01",
+            "P-M15-02"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M15-01",
+          "name": "模型服务与能力",
+          "route": "/admin/models",
+          "kind": "管理",
+          "roles": [
+            "模型管理员"
+          ],
+          "owner": "模型与运维组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M15-01",
+            "F-M15-03",
+            "F-M15-04",
+            "F-M15-06"
+          ]
+        },
+        {
+          "id": "P-M15-02",
+          "name": "凭据与环境绑定",
+          "route": "/admin/credentials",
+          "kind": "管理",
+          "roles": [
+            "安全管理员",
+            "管理员"
+          ],
+          "owner": "模型与运维组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M15-02",
+            "F-M15-06"
+          ]
+        },
+        {
+          "id": "P-M15-03",
+          "name": "模型测试额度与用量",
+          "route": "/admin/models/usage",
+          "kind": "工作台",
+          "roles": [
+            "模型管理员",
+            "运维人员"
+          ],
+          "owner": "模型与运维组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M15-03",
+            "F-M15-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M16",
+      "name": "运行运营系统",
+      "nav": "平台管理",
+      "owner": "平台运维组",
+      "features": [
+        {
+          "id": "F-M16-01",
+          "name": "跨引擎运行追踪",
+          "role": "运维人员、开发者",
+          "trigger": "排查任务或异常",
+          "inputs": "platform_run_id、upstream_run_id、trace_id",
+          "outputs": "端到端状态和依赖调用",
+          "acceptance": "能从业务结果追到上游错误；日志不过度暴露模型输入和密钥",
+          "implementation": "运行索引+结构化日志/指标/追踪，不替代原生运行数据",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M16-01"
+          ]
+        },
+        {
+          "id": "F-M16-02",
+          "name": "健康检查与资源监控",
+          "role": "运维人员",
+          "trigger": "打开健康页或收到告警",
+          "inputs": "API、worker、队列、存储、模型依赖",
+          "outputs": "真实健康状态和资源趋势",
+          "acceptance": "API可用但worker停机时不能报全绿；阈值有配置和通知",
+          "implementation": "容器健康探针+服务指标+告警规则",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M16-02"
+          ]
+        },
+        {
+          "id": "F-M16-03",
+          "name": "队列取消与失败隔离",
+          "role": "运维人员",
+          "trigger": "检查积压或停止异常任务",
+          "inputs": "队列、run_id、取消权限",
+          "outputs": "队列状态及确认结果",
+          "acceptance": "单任务取消不影响其他会话；数据库异常立即停止后续测试；失败可定位",
+          "implementation": "使用上游队列/取消API，平台限制预算和执行身份",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M16-01"
+          ]
+        },
+        {
+          "id": "F-M16-04",
+          "name": "版本配置与部署清单",
+          "role": "发布管理员",
+          "trigger": "打包部署或检查差异",
+          "inputs": "四方源版本、镜像、配置、数据/流程manifest",
+          "outputs": "可重复部署包和差异清单",
+          "acceptance": "本地/交付版本可对照；三行业可分别启停；无重复初始化",
+          "implementation": "版本锁定与容器编排、迁移脚本、启停及健康脚本",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M16-03"
+          ]
+        },
+        {
+          "id": "F-M16-05",
+          "name": "备份恢复与保留",
+          "role": "运维人员",
+          "trigger": "备份或演练恢复",
+          "inputs": "数据库、对象文件、原生配置、版本",
+          "outputs": "备份记录与恢复验证",
+          "acceptance": "数据库和文件引用一致；恢复不自动重放已执行业务动作",
+          "implementation": "域内备份+全平台一致性检查，RPO/RTO按场景冻结",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M16-04"
+          ]
+        },
+        {
+          "id": "F-M16-06",
+          "name": "用量运营与服务质量",
+          "role": "管理人员、运维人员",
+          "trigger": "查看平台运行效果",
+          "inputs": "请求、时延、错误、模型/应用用量",
+          "outputs": "真实统计与趋势",
+          "acceptance": "成功定义可核对；原生与平台统计避免重复；可钻取失败",
+          "implementation": "统一运行事件聚合+Test5可视化",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M16-01",
+            "P-M16-02"
+          ]
+        },
+        {
+          "id": "F-M16-07",
+          "name": "运维配置与受控诊断",
+          "role": "运维人员",
+          "trigger": "修改配置或生成诊断包",
+          "inputs": "配置版本、操作权限、脱敏规则",
+          "outputs": "配置变更和诊断文件",
+          "acceptance": "危险配置变更明确范围；诊断包无凭据；保留回退方式",
+          "implementation": "配置中心/环境文件版本化，追加审计",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M16-03",
+            "P-M16-04"
+          ]
+        },
+        {
+          "id": "F-M16-08",
+          "name": "字典参数公告与辅助开发工具",
+          "role": "管理员、开发者",
+          "trigger": "维护平台字典或使用开发工具",
+          "inputs": "字典、参数、公告、表单、接口文档、生成配置",
+          "outputs": "版本化配置与开发辅助入口",
+          "acceptance": "qKnow原生系统辅助清单逐项映射；代码生成/表单/接口门户面向开发者，禁止直接改生产结构",
+          "implementation": "复用可用系统管理能力；开发工具隔离到开发环境；接口目录由契约生成",
+          "phase": "P2",
+          "source": "用户明确",
+          "page_ids": [
+            "P-M16-03",
+            "P-M16-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M16-01",
+          "name": "运行监控与队列",
+          "route": "/operations/runs",
+          "kind": "工作台",
+          "roles": [
+            "运维人员",
+            "开发者"
+          ],
+          "owner": "平台运维组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M16-01",
+            "F-M16-03",
+            "F-M16-06"
+          ]
+        },
+        {
+          "id": "P-M16-02",
+          "name": "健康检查与依赖",
+          "route": "/operations/health",
+          "kind": "工作台",
+          "roles": [
+            "运维人员"
+          ],
+          "owner": "平台运维组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M16-02",
+            "F-M16-06"
+          ]
+        },
+        {
+          "id": "P-M16-03",
+          "name": "发布环境与版本",
+          "route": "/operations/releases",
+          "kind": "管理",
+          "roles": [
+            "运维人员",
+            "发布管理员"
+          ],
+          "owner": "平台运维组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M16-04",
+            "F-M16-07",
+            "F-M16-08"
+          ]
+        },
+        {
+          "id": "P-M16-04",
+          "name": "备份恢复与系统配置",
+          "route": "/operations/system",
+          "kind": "管理",
+          "roles": [
+            "运维人员",
+            "安全管理员"
+          ],
+          "owner": "平台运维组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M16-05",
+            "F-M16-07",
+            "F-M16-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M17",
+      "name": "文件文档成果",
+      "nav": "成果中心",
+      "owner": "成果服务组",
+      "features": [
+        {
+          "id": "F-M17-01",
+          "name": "统一文件上传和归属",
+          "role": "业务人员",
+          "trigger": "上传文件或工具生成文件",
+          "inputs": "文件、类型、用户、租户、来源run",
+          "outputs": "file_id和解析状态",
+          "acceptance": "支持中文文件名；所有文件有归属、大小/格式限制和下载权限",
+          "implementation": "对象存储+元数据服务，映射原生引擎文件ID",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M17-01",
+            "P-M17-02"
+          ]
+        },
+        {
+          "id": "F-M17-02",
+          "name": "WordExcelPPT真实交付",
+          "role": "业务人员",
+          "trigger": "要求生成业务文档",
+          "inputs": "内容、数据、模板、引用",
+          "outputs": "可打开的DOCX/XLSX/PPTX文件",
+          "acceptance": "不是Markdown假链接；文档有标题表格和来源；表格公式/页面渲染按类型检查",
+          "implementation": "专用文档生成工具+受限执行环境+成果服务，复用成熟库",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M17-03",
+            "P-M17-02"
+          ]
+        },
+        {
+          "id": "F-M17-03",
+          "name": "预览版本与继续编辑",
+          "role": "业务人员、分析人员",
+          "trigger": "打开成果或修改内容",
+          "inputs": "artifact_id、版本、修改要求",
+          "outputs": "预览及新草稿版本",
+          "acceptance": "原会话/业务页打开同一资源；修改保留历史；发布版本不可静默覆盖",
+          "implementation": "统一成果模型；报表跳Test5，文档走对应生成/编辑工具",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M17-02"
+          ]
+        },
+        {
+          "id": "F-M17-04",
+          "name": "成果引用与来源链",
+          "role": "业务人员、审计员",
+          "trigger": "核对报告结论",
+          "inputs": "数据集、查询、文档、标准、run_id、版本",
+          "outputs": "可回查的来源列表",
+          "acceptance": "每个关键数值或判断能定位依据；无依据结论明确提示",
+          "implementation": "成果元数据保存引用快照和版本，不在正文泄露凭据",
+          "phase": "P1",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M17-02"
+          ]
+        },
+        {
+          "id": "F-M17-05",
+          "name": "分享导出与访问有效期",
+          "role": "成果负责人",
+          "trigger": "分享或导出文件",
+          "inputs": "接收范围、有效期、下载权限",
+          "outputs": "可撤销访问和真实文件",
+          "acceptance": "撤权后链接失效；跨租户无效；下载仍检查文件权限",
+          "implementation": "服务端签名/鉴权下载+分享记录",
+          "phase": "P2",
+          "source": "历史需求",
+          "page_ids": [
+            "P-M17-04",
+            "P-M17-02"
+          ]
+        },
+        {
+          "id": "F-M17-06",
+          "name": "保留归档与删除影响",
+          "role": "成果负责人、管理员",
+          "trigger": "归档或申请删除",
+          "inputs": "保留规则、业务引用、合规范围",
+          "outputs": "归档状态和依赖提示",
+          "acceptance": "有业务引用时明确阻止或保留；删除不留下可访问孤儿链接",
+          "implementation": "依赖索引+对象生命周期；默认不自动清理未核实资产",
+          "phase": "P2",
+          "source": "建议",
+          "page_ids": [
+            "P-M17-01",
+            "P-M17-04"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "P-M17-01",
+          "name": "文件与成果目录",
+          "route": "/artifacts",
+          "kind": "列表",
+          "roles": [
+            "业务人员",
+            "分析人员"
+          ],
+          "owner": "成果服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M17-01",
+            "F-M17-06"
+          ]
+        },
+        {
+          "id": "P-M17-02",
+          "name": "成果预览与版本",
+          "route": "/artifacts/:id",
+          "kind": "详情",
+          "roles": [
+            "业务人员",
+            "分析人员"
+          ],
+          "owner": "成果服务组",
+          "phase": "P1",
+          "feature_ids": [
+            "F-M17-01",
+            "F-M17-02",
+            "F-M17-03",
+            "F-M17-04",
+            "F-M17-05"
+          ]
+        },
+        {
+          "id": "P-M17-03",
+          "name": "文档生成与模板",
+          "route": "/artifacts/documents/new",
+          "kind": "编辑器",
+          "roles": [
+            "业务人员",
+            "分析人员"
+          ],
+          "owner": "成果服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M17-02"
+          ]
+        },
+        {
+          "id": "P-M17-04",
+          "name": "成果分享与保留",
+          "route": "/artifacts/:id/access",
+          "kind": "管理",
+          "roles": [
+            "成果负责人",
+            "管理员"
+          ],
+          "owner": "成果服务组",
+          "phase": "P2",
+          "feature_ids": [
+            "F-M17-05",
+            "F-M17-06"
+          ]
+        }
+      ]
+    }
+  ],
+  "upstream_scopes": [
+    {
+      "engine": "Open WebUI",
+      "policy": "完整保留",
+      "evidence": "../需求梳理/OpenWebUI_界面源码索引_20261020.csv"
+    },
+    {
+      "engine": "Dify",
+      "policy": "完整保留",
+      "evidence": "../需求梳理/Dify_界面源码索引_20261020.csv"
+    },
+    {
+      "engine": "qKnow界面与功能参考",
+      "policy": "完整保留",
+      "evidence": "../需求梳理/qKnow_界面源码索引_20261020.csv"
+    },
+    {
+      "engine": "Test5分析报表及组件模板范围",
+      "policy": "完整保留",
+      "evidence": "../需求梳理/Test5_报表组件模板清单_20261020.csv"
+    }
+  ],
+  "api_catalog": "contracts/接口基线.json"
+}

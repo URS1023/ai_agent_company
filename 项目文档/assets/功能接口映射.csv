@@ -1,0 +1,126 @@
+﻿功能ID,功能,页面ID,实现,平台接口ID,operationId,原生或前端承载,映射级别
+F-M01-01,角色工作台,P-M01-01,平台聚合API+qKnow卡片与列表；按角色配置布局,A-M01-01,platform_m01_workbench_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M01-02,任务统一回查,P-M01-02;P-M01-03,平台运行索引关联Open WebUI/Dify和业务任务，不重造执行引擎,A-M01-02;A-M01-03;A-M01-06,platform_m01_tasks_get;platform_m01_tasks_id_get;platform_m01_tasks_id_events_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M01-03,待办与人工审批,P-M01-01;P-M01-03,统一审批记录映射原生工具审批和业务复核接口,A-M01-07;A-M01-05,platform_m01_confirmations_id_decisions_post;platform_m01_tasks_id_inputs_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M01-04,通知与订阅,P-M01-04,业务事件+通知服务，外部渠道由插件扩展,A-M01-08;A-M01-09,platform_m01_notifications_get;platform_m01_notifications_id_receipts_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M01-05,全局资源搜索,P-M01-01,统一资源目录全文索引，不跨库直接扫业务表,A-M01-10,platform_m01_resource_searches_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M01-06,工厂行业切换,P-M01-01,会话上下文携带tenant_id/factory_id，后端逐次鉴权,A-M14-01;A-M01-11,platform_m14_me_get;platform_m01_workspace_selections_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M01-07,个人偏好与快捷入口,P-M01-01;P-M01-04,平台偏好表关联统一资源ID,A-M01-12;A-M01-13,platform_m01_preferences_get;platform_m01_preferences_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-01,原生流式多轮对话,P-M02-01;P-M02-02,完整保留Open WebUI前后端和消息事件机制，微调主题,,,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-02,业务上下文与助手选择,P-M02-01,业务上下文卡片+原生模型/助手选择，服务端验证对象权限,A-M02-01,platform_m02_chat_context_get,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-03,工具与子Agent执行,P-M02-01;P-M02-03,使用Open WebUI原生工具循环、子Agent、审批恢复；桥接业务工具,A-M02-02,platform_m02_chat_tool_invocations_post,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-04,附件与多模态对话,P-M02-01;P-M02-03,保留Open WebUI原生附件与多模态，复用统一文件服务,A-M17-03,platform_m17_file_upload_sessions_post,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-05,知识引用与可核对回答,P-M02-01;P-M02-03,保留原生引用界面，Dify检索适配器统一来源映射,A-M08-07;A-M08-08,platform_m08_knowledge_searches_post;platform_m08_knowledge_documents_id_citations_get,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-06,停止断线与恢复,P-M02-01;P-M02-03,复用原生取消/事件机制；适配平台状态与幂等约束,A-M01-04;A-M01-06,platform_m01_tasks_id_cancellations_post;platform_m01_tasks_id_events_get,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-07,成果并排查看与继续修改,P-M02-01;P-M02-03,Open WebUI Artifacts与统一成果API，引用Test5报表编辑器,A-M02-03;A-M17-07,platform_m02_conversations_id_resources_get;platform_m17_artifacts_id_get,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-08,历史分享记忆与个人任务,P-M02-02;P-M02-04,保留原生历史、记忆、分享、自动任务和相关设置，适配统一身份,,,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M02-09,原生工作区与专业能力保留,P-M02-01;P-M02-04,保留Open WebUI原生页面和后端，终端/Jupyter等依赖独立配置并验收,,,Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-01,应用创建导入与复制,P-M03-01;P-M03-02,保留Dify应用目录、DSL和原生存储；平台登记资源,A-M03-02,platform_m03_agent_app_bindings_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-02,对话应用与传统Agent配置,P-M03-02,Dify原生应用编排与Agent运行能力完整保留,A-M03-04,platform_m03_agent_app_bindings_id_patch,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-03,Agent V2完整保留,P-M03-01;P-M03-05,保留本地dify-agent及dify-agent-runtime依赖，接口版本适配,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-04,调试追踪与样例回放,P-M03-02;P-M03-04,Dify原生调试追踪+平台业务对象关联,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-05,版本发布与回滚,P-M03-03,使用Dify原生发布能力；平台资源目录标记环境和版本,A-M03-05,platform_m03_agent_app_bindings_id_releases_get,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-06,API发布与平台调用,P-M03-03,Dify服务API+服务端代理；记录调用方与上游run_id,A-M03-06,platform_m03_agent_app_bindings_id_invocations_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-07,应用日志反馈与运营,P-M03-04,保留Dify日志/反馈；平台只聚合可核对指标,A-M16-12,platform_m16_operational_dashboards_get,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M03-08,提示词样例与模板,P-M03-01;P-M03-02,Dify原生提示词能力+行业资源目录,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-01,Workflow和Chatflow编排,P-M04-01;P-M04-02,保留Dify完整前端和执行引擎，不重写节点状态机,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-02,原生节点能力完整保留,P-M04-02;P-M04-03,保留上游节点实现和版本，新增业务能力通过工具/插件节点,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-03,手动定时事件触发,P-M04-04;P-M04-03,Dify原生Scheduler/Celery/Webhook/插件触发，平台登记,A-M04-02;A-M04-05;A-M04-08,platform_m04_automations_post;platform_m04_automations_id_activations_post;platform_m04_workflow_events_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-04,调试日志与运行回查,P-M04-03,保留Dify运行日志与追踪，平台只建运行索引,A-M04-07;A-M01-06,platform_m04_automations_id_runs_get;platform_m01_tasks_id_events_get,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-05,发布回滚与环境配置,P-M04-05,Dify原生发布版本+平台环境映射,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-06,人工步骤与失败处置,P-M04-03,优先原生节点与事件；缺失的人审通过业务任务接口实现,A-M01-05;A-M01-07,platform_m01_tasks_id_inputs_post;platform_m01_confirmations_id_decisions_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-07,固定业务流程模板,P-M04-01;P-M04-02;P-M04-03,Dify DSL+M10/M11/M06业务API与输入校验,A-M04-01;A-M04-06,platform_m04_automations_get;platform_m04_automations_id_invocations_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M04-08,并发预算与调用幂等,P-M04-03;P-M04-04,保留Dify队列能力，在业务适配层实现幂等和领域超时,A-M04-06;A-M04-08,platform_m04_automations_id_invocations_post;platform_m04_workflow_events_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-01,数据源连接与能力登记,P-M05-01,提取Test5 providers与受控查询接口；凭据服务端保存,A-M05-01;A-M05-02;A-M05-04,platform_m05_datasources_get;platform_m05_datasources_post;platform_m05_datasources_id_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-02,本地测试目标核验,P-M05-01;P-M05-04,测试环境接入门禁和人工核查记录；执行前校验目标,A-M05-06,platform_m05_datasources_id_connection_checks_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-03,结构同步与字段映射,P-M05-02,Test5 schema提取+平台语义模型和依赖索引,A-M05-07;A-M05-08,platform_m05_datasources_id_metadata_get;platform_m05_datasources_id_metadata_syncs_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-04,指标与业务口径管理,P-M05-03,指标定义服务+受控查询编译，版本随成果记录,A-M05-09;A-M05-10;A-M05-13;A-M05-14,platform_m05_business_metrics_get;platform_m05_business_metrics_post;platform_m05_data_relations_get;platform_m05_data_relations_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-05,行列权限与只读约束,P-M05-04,业务服务端查询计划鉴权、字段脱敏和只读账户,A-M05-04;A-M14-10;A-M14-11,platform_m05_datasources_id_patch;platform_m14_resource_grants_get;platform_m14_resource_grants_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-06,查询计划与预算,P-M05-04,受控SQL校验器+查询预算，生产策略由管理员配置,A-M06-01,platform_m06_queries_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M05-07,HTTP接口数据接入,P-M05-01;P-M05-02,保留Test5 HTTP provider，统一Schema及鉴权,A-M05-02,platform_m05_datasources_post,Test5迁移模块的内部设计器、渲染或查询协议,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-01,自然语言受控查询,P-M06-01;P-M06-02,提取Test5 NL2SQL和受控查询；Open WebUI通过工具调用,A-M06-01;A-M06-03,platform_m06_queries_post;platform_m06_queries_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-02,SQL编辑与结果探索,P-M06-01;P-M06-02,Test5分析编辑器+统一查询服务,A-M06-01,platform_m06_queries_post,Test5迁移模块的内部设计器、渲染或查询协议,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-03,数据集保存与复用,P-M06-02,数据集定义独立存储，查询结果按保留规则缓存,A-M06-11;A-M06-12;A-M06-14,platform_m06_datasets_get;platform_m06_datasets_post;platform_m06_datasets_id_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-04,清洗转换与固定处理,P-M06-03;P-M06-04,Dify编排+数据处理业务API，代码在受限执行环境,A-M06-09;A-M06-10,platform_m06_data_processing_jobs_post;platform_m06_data_processing_jobs_id_get,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-05,数据质量规则,P-M06-05,数据质量服务+受控查询，支持Dify定时调用,A-M06-08,platform_m06_data_quality_checks_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-06,导入导出与大结果处理,P-M06-01;P-M06-02;P-M06-03,统一文件服务+分批处理任务，不由浏览器拉取全量,A-M06-04;A-M17-03,platform_m06_queries_id_exports_post;platform_m17_file_upload_sessions_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M06-07,任务失败取消与恢复,P-M06-03,关联Dify run与数据库查询句柄，业务层处理幂等,A-M01-04;A-M01-06,platform_m01_tasks_id_cancellations_post;platform_m01_tasks_id_events_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-01,模板和组件完整迁移,P-M07-02;P-M07-03,提取Test5设计器、JSON协议、渲染器、字体地图皮肤及必要后端,A-M07-12;A-M07-17,platform_m07_report_templates_get;platform_m07_report_components_get,Test5迁移模块的内部设计器、渲染或查询协议,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-02,自然语言生成报表,P-M07-01;P-M07-02;P-M07-03;P-M07-04,Test5生成链路，Dify/Open WebUI调用同一report API,A-M07-06,platform_m07_report_generations_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-03,可视化设计与组件复用,P-M07-03;P-M07-04,保留Test5原生设计与渲染协议，组件可登记复用,A-M07-02;A-M07-04,platform_m07_reports_post;platform_m07_reports_id_patch,Test5迁移模块的内部设计器、渲染或查询协议,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-04,数据绑定与替换验证,P-M07-03;P-M07-04,字段映射校验+版本化数据绑定，参考裁片与重绘分层标记,A-M07-03;A-M07-04;A-M07-10,platform_m07_reports_id_get;platform_m07_reports_id_patch;platform_m07_reports_id_data_refreshes_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-05,筛选联动钻取与刷新,P-M07-04,Test5交互与查询服务，筛选状态存URL或会话,A-M07-11;A-M07-10,platform_m07_reports_id_drilldowns_post;platform_m07_reports_id_data_refreshes_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-06,大屏展示与适配,P-M07-01;P-M07-04,Test5渲染器与独立展示路由，受控定时查询,A-M07-03,platform_m07_reports_id_get,纯前端交互，调用所在资源接口，不另造业务API,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-07,发布版本与导出,P-M07-05;P-M07-04,Test5导出能力迁移并验证，统一成果服务保存引用,A-M07-09;A-M07-07;A-M07-08;A-M07-21,platform_m07_reports_id_publications_post;platform_m07_reports_id_revisions_get;platform_m07_reports_id_restorations_post;platform_m07_reports_id_exports_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M07-08,真实预览与视觉回归,P-M07-02;P-M07-04,固定渲染环境生成预览，视觉差异人工核查,A-M07-12;A-M07-17,platform_m07_report_templates_get;platform_m07_report_components_get,Test5迁移模块的内部设计器、渲染或查询协议,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-01,知识库创建和资产管理,P-M08-01;P-M08-05,Dify作为企业RAG主源，平台目录映射原生dataset_id,A-M08-01;A-M08-02,platform_m08_knowledge_spaces_get;platform_m08_knowledge_spaces_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-02,文档上传解析与版本,P-M08-02,保留Dify文档解析索引，统一file/document/version映射,A-M08-05;A-M08-06,platform_m08_knowledge_spaces_id_document_imports_post;platform_m08_knowledge_spaces_id_documents_get,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-03,分段元数据与索引维护,P-M08-02;P-M08-03,Dify原生分段、索引和元数据能力,A-M08-09,platform_m08_knowledge_documents_id_reindex_jobs_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-04,检索配置和效果测试,P-M08-03,Dify检索测试与统一检索适配器,A-M08-07,platform_m08_knowledge_searches_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-05,RAG Pipeline完整保留,P-M08-04,保留Dify RAG Pipeline画布、节点及后端依赖,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-06,跨入口检索引用适配,P-M08-03;P-M08-05,Dify检索API适配Open WebUI工具；qKnow图谱补充关联,A-M08-07;A-M08-08,platform_m08_knowledge_searches_post;platform_m08_knowledge_documents_id_citations_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M08-07,知识生命周期与权限,P-M08-02;P-M08-05,平台依赖索引+域内授权映射，不直接共用原生表,A-M08-10;A-M14-11,platform_m08_knowledge_governance_get;platform_m14_resource_grants_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-01,本体建模与版本,P-M09-01,参考qKnow原生建模UI，复用可用领域实现并补版本管理,A-M09-01;A-M09-02;A-M09-04,platform_m09_ontologies_get;platform_m09_ontologies_post;platform_m09_ontologies_id_patch,qKnow领域接口及参考功能待补协议；进入需求卡时冻结,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-02,文档结构化抽取,P-M09-02,qKnow抽取需求+Dify处理流程+图谱写入API,A-M09-06;A-M09-07,platform_m09_extraction_jobs_post;platform_m09_extraction_jobs_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-03,人工标注与合并消歧,P-M09-02;P-M09-04,图谱领域服务+qKnow标注交互,A-M09-08;A-M09-13,platform_m09_extraction_jobs_id_reviews_post;platform_m09_graphs_id_entities_entity_id_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-04,图谱探索与路径查询,P-M09-03;P-M09-04,qKnow关系探索UI+图谱查询API,A-M09-12,platform_m09_graphs_id_queries_post,qKnow领域接口及参考功能待补协议；进入需求卡时冻结,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-05,图谱数据导入导出,P-M09-01;P-M09-02,领域导入任务+统一文件服务，不直接导生产图存储,A-M09-10,platform_m09_graphs_post,qKnow领域接口及参考功能待补协议；进入需求卡时冻结,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-06,图谱检索与业务工具,P-M09-03;P-M09-04,统一图谱检索工具适配Open WebUI/Dify,A-M09-12,platform_m09_graphs_id_queries_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M09-07,图谱运营与质量检查,P-M09-02;P-M09-03,补齐qKnow运营预留后端，基于真实领域查询,A-M09-09;A-M16-12,platform_m09_graphs_get;platform_m16_operational_dashboards_get,qKnow领域接口及参考功能待补协议；进入需求卡时冻结,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-01,设备类别台账与资料关联,P-M10-01;P-M10-02,新业务设备服务，参考qKnow列表/详情，沿用已检查数据结构,A-M10-01;A-M10-02;A-M10-04,platform_m10_devices_get;platform_m10_devices_post;platform_m10_devices_id_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-02,测点工况与时间序列,P-M10-02,语义映射+受控查询/聚合接口+qKnow趋势交互,A-M10-07;A-M10-08;A-M10-05,platform_m10_measurement_points_get;platform_m10_measurement_points_post;platform_m10_devices_id_telemetry_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-03,设备维护分析,P-M10-03;P-M10-04,Open WebUI原生Agent按每类Skill调用计算沙箱/知识/维修检索，不以训练预测模型为前置,A-M10-18;A-M10-20;A-M10-21,platform_m10_maintenance_analyses_create;platform_m10_maintenance_analyses_id_get;platform_m10_maintenance_analyses_id_exports_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-04,预警规则与事件,P-M10-05;P-M10-02,Dify定时流程+预警领域规则服务；qKnow预留页面补真实API,A-M10-11;A-M10-14;A-M10-15,platform_m10_alert_rules_post;platform_m10_alert_rules_id_dry_runs_post;platform_m10_incidents_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-05,维修记录与闭环处置,P-M10-02;P-M10-04;P-M10-05,新处置业务API，允许与外部EAM/CMMS接口扩展,A-M10-06;A-M10-17,platform_m10_devices_id_maintenance_cases_get;platform_m10_incidents_id_actions_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-06,节能分析与建议,P-M10-03;P-M10-04,受控计算+类别Skill与文档检索；Dify固定分析模板,A-M10-18;A-M10-20,platform_m10_maintenance_analyses_create;platform_m10_maintenance_analyses_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-07,持续数据生成环境,P-M10-01;P-M10-02,独立可关闭数据程序；生产包默认关闭；遵守数据库测试限制,A-M10-22;A-M10-23;A-M10-24,platform_m10_data_generators_get;platform_m10_data_generators_id_activations_post;platform_m10_data_generators_id_status_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M10-08,维护效果复核与经验沉淀,P-M10-04;P-M10-05,关联分析/维修/资料版本，人工审核后进入知识库,A-M10-17;A-M10-20,platform_m10_incidents_id_actions_post;platform_m10_maintenance_analyses_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-01,质检标准与判定规则,P-M11-02;P-M11-03;P-M11-06,质检领域规则服务+Dify流程输入，法规标准需由企业确认,A-M11-05;A-M11-06;A-M11-08,platform_m11_inspection_templates_get;platform_m11_inspection_templates_post;platform_m11_inspection_templates_id_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-02,设备固定质检,P-M11-01;P-M11-02;P-M11-05,Dify设备质检流程+受控取数/规则判定/结果API,A-M11-10;A-M11-12;A-M11-21;A-M11-22;A-M11-23,platform_m11_inspections_post;platform_m11_inspections_id_runs_post;platform_m11_inspections_id_samples_get;platform_m11_inspections_id_samples_post;platform_m11_inspections_id_samples_sample_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-03,产品批次与抽样质检,P-M11-01;P-M11-03;P-M11-05,批次/样本领域服务+Dify产品质检流程,A-M11-01;A-M11-02;A-M11-10;A-M11-12;A-M11-18;A-M11-19;A-M11-20;A-M11-21;A-M11-22;A-M11-23,platform_m11_products_get;platform_m11_products_post;platform_m11_inspections_post;platform_m11_inspections_id_runs_post;platform_m11_product_batches_get;platform_m11_product_batches_post;platform_m11_product_batches_id_get;platform_m11_inspections_id_samples_get;platform_m11_inspections_id_samples_post;platform_m11_inspections_id_samples_sample_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-04,图像与结构化检测,P-M11-03;P-M11-04,视觉模型/规则/检测插件作为Dify节点工具，统一结果Schema,A-M11-17;A-M11-13;A-M11-21;A-M11-22;A-M11-23,platform_m11_inspections_id_results_post;platform_m11_inspections_id_results_get;platform_m11_inspections_id_samples_get;platform_m11_inspections_id_samples_post;platform_m11_inspections_id_samples_sample_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-05,人工复核与修订,P-M11-04;P-M11-05,业务乐观锁与追加审核记录，页面并排原图/结果,A-M11-14;A-M11-21;A-M11-22;A-M11-23,platform_m11_inspections_id_reviews_post;platform_m11_inspections_id_samples_get;platform_m11_inspections_id_samples_post;platform_m11_inspections_id_samples_sample_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-06,不合格处置与复检,P-M11-01;P-M11-04;P-M11-05,领域任务与人审；生产放行或设备控制不默认自动执行,A-M11-15;A-M11-12,platform_m11_inspections_id_deviations_post;platform_m11_inspections_id_runs_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-07,质检报告与追溯,P-M11-05,Test5模板+统一成果服务，关联Dify run与质检对象,A-M11-11;A-M11-16;A-M11-20;A-M11-21;A-M11-23,platform_m11_inspections_id_get;platform_m11_inspections_id_exports_post;platform_m11_product_batches_id_get;platform_m11_inspections_id_samples_get;platform_m11_inspections_id_samples_sample_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M11-08,质量统计与改善,P-M11-01;P-M11-05,指标服务+Test5报表，禁用无来源收益比例,A-M16-12,platform_m16_operational_dashboards_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-01,工具接口注册与Schema,P-M12-01;P-M12-04,统一能力目录，适配各原生引擎工具格式,A-M12-01;A-M12-04,platform_m12_capabilities_get;platform_m12_tool_bindings_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-02,MCP服务接入,P-M12-01;P-M12-04,保留Open WebUI/Dify/qKnow相关能力，分别实现连接适配,A-M12-04,platform_m12_tool_bindings_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-03,按设备类别管理Skill,P-M12-02,保留原生Skills能力；平台记录归属并做格式适配，不直接拷贝Schema,A-M12-07;A-M12-08;A-M12-09,platform_m12_skill_bindings_get;platform_m12_skill_bindings_post;platform_m12_skill_bindings_id_patch,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-04,插件安装升级和停用,P-M12-03,保留Dify插件服务及Open WebUI相应扩展机制,A-M12-10,platform_m12_extension_validations_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-05,Skills与Snippets完整保留,P-M12-02;P-M12-03,原生实现优先；统一目录只映射，不伪造统一执行语义,,,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-06,工具测试与权限审批,P-M12-04,工具网关+原生工具审批，沙箱限制资源与网络,A-M12-06;A-M01-07,platform_m12_tool_bindings_id_test_runs_post;platform_m01_confirmations_id_decisions_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M12-07,能力依赖与停用影响,P-M12-01;P-M12-02;P-M12-03,资源依赖索引和版本保留策略,A-M16-10;A-M12-01,platform_m16_extension_registry_get;platform_m12_capabilities_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M13-01,业务应用入口与收藏,P-M13-01,qKnow应用广场视觉+统一资源目录和权限,A-M13-01,platform_m13_applications_get,纯前端交互，调用所在资源接口，不另造业务API,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M13-02,行业方案包,P-M13-02;P-M13-03,声明式行业包manifest+各领域安装适配,A-M13-06;A-M13-08,platform_m13_industry_packages_get;platform_m13_industry_package_installations_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M13-03,应用参数和数据绑定,P-M13-03,资源引用+配置校验，发布前预检,A-M13-04;A-M13-02,platform_m13_applications_id_patch;platform_m13_applications_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M13-04,应用发布停用和升级,P-M13-02;P-M13-03,安装清单和资源所有权，版本化迁移,A-M13-05;A-M13-08,platform_m13_applications_id_publications_post;platform_m13_industry_package_installations_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M13-05,运营看板真实数据化,P-M13-04,运行索引+业务统计API，Test5可视化,A-M16-12,platform_m16_operational_dashboards_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M13-06,业务使用说明与样例,P-M13-01;P-M13-02,应用包内帮助与样例，角色化展示,A-M13-03,platform_m13_applications_id_get,纯前端交互，调用所在资源接口，不另造业务API,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-01,统一登录与身份映射,P-M14-01;P-M14-03,企业OIDC优先；各引擎按支持方式接入，技术预研验证,A-M14-01;A-M14-02,platform_m14_me_get;platform_m14_app_launches_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-02,组织岗位与工厂范围,P-M14-01;P-M14-03,统一组织服务映射域内团队/成员,A-M14-14;A-M14-15;A-M14-16;A-M14-17;A-M14-18;A-M14-19;A-M14-04,platform_m14_departments_get;platform_m14_departments_post;platform_m14_departments_id_patch;platform_m14_positions_get;platform_m14_positions_post;platform_m14_positions_id_patch;platform_m14_members_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-03,角色菜单和操作授权,P-M14-02,统一RBAC+领域资源鉴权；保留引擎域内限制,A-M14-07;A-M14-08;A-M14-09;A-M14-20;A-M14-21,platform_m14_roles_get;platform_m14_roles_post;platform_m14_roles_id_patch;platform_m14_permissions_get;platform_m14_navigation_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-04,数据文档与成果权限,P-M14-02,授权服务+文件签名与域内权限映射,A-M14-10;A-M14-11;A-M14-12,platform_m14_resource_grants_get;platform_m14_resource_grants_post;platform_m14_resource_grants_id_delete,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-05,服务身份与外部调用方,P-M14-02;P-M14-03,服务端短期令牌/密钥引用与调用方登记,A-M14-04;A-M14-05,platform_m14_members_get;platform_m14_members_post,企业身份服务及受限服务账号管理协议,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-06,全链路审计,P-M14-04,结构化审计事件+统一运行关联ID,A-M16-04;A-M16-05,platform_m16_audit_events_get;platform_m16_audit_events_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-07,租户组织隔离与撤权验证,P-M14-02;P-M14-03;P-M14-04,租户上下文强制传递+集成行为测试,A-M14-03;A-M14-13;A-M14-01,platform_m14_session_revocations_post;platform_m14_permission_previews_post;platform_m14_me_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M14-08,客户端证书与接入授权,P-M14-03;P-M14-04,优先企业身份和网关能力；qKnow原生辅助页按接入方案适配,,,qKnow领域接口及参考功能待补协议；进入需求卡时冻结,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M15-01,对话向量视觉模型配置,P-M15-01,保留各引擎模型配置，平台目录映射能力与环境,A-M15-01;A-M15-02;A-M15-04,platform_m15_model_profiles_get;platform_m15_model_profiles_post;platform_m15_model_profiles_id_patch,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M15-02,密钥存储轮换与授权,P-M15-02,独立密钥存储/加密配置，域内凭据同步使用适配器,A-M15-07;A-M15-10;A-M15-08,platform_m15_secret_references_post;platform_m15_secret_references_id_rotations_post;platform_m15_secret_references_id_delete,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M15-03,能力测试与诊断,P-M15-01;P-M15-03,独立诊断任务；不把仅连通视为业务质量通过,A-M15-05,platform_m15_model_profiles_id_checks_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M15-04,路由回退和版本绑定,P-M15-01,各引擎原生路由优先，适配层只执行显式策略,A-M15-04,platform_m15_model_profiles_id_patch,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M15-05,额度成本与限流,P-M15-03,原生用量+统一计量记录，不重复计工具调用,A-M15-09,platform_m15_model_usage_get,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M15-06,本地与私有模型部署接入,P-M15-01;P-M15-02,OpenAI兼容等原生provider接法，配套镜像/模型资产清单,A-M15-02,platform_m15_model_profiles_post,Dify原生应用、知识、流程或插件协议；按锁定版本保留;Open WebUI原生对话、工具、管理或执行协议；按锁定版本保留,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-01,跨引擎运行追踪,P-M16-01,运行索引+结构化日志/指标/追踪，不替代原生运行数据,A-M01-02;A-M16-06;A-M01-06,platform_m01_tasks_get;platform_m16_integration_bindings_get;platform_m01_tasks_id_events_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-02,健康检查与资源监控,P-M16-02,容器健康探针+服务指标+告警规则,A-M16-02;A-M16-01,platform_m16_operations_dependencies_get;platform_m16_operations_overview_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-03,队列取消与失败隔离,P-M16-01,使用上游队列/取消API，平台限制预算和执行身份,A-M01-04;A-M16-08,platform_m01_tasks_id_cancellations_post;platform_m16_integration_reconciliations_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-04,版本配置与部署清单,P-M16-03,版本锁定与容器编排、迁移脚本、启停及健康脚本,A-M16-10;A-M16-06,platform_m16_extension_registry_get;platform_m16_integration_bindings_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-05,备份恢复与保留,P-M16-04,域内备份+全平台一致性检查，RPO/RTO按场景冻结,A-M16-13;A-M16-14;A-M16-15,platform_m16_backups_get;platform_m16_backup_jobs_post;platform_m16_restore_drills_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-06,用量运营与服务质量,P-M16-01;P-M16-02,统一运行事件聚合+Test5可视化,A-M16-03;A-M16-12,platform_m16_operations_usage_get;platform_m16_operational_dashboards_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-07,运维配置与受控诊断,P-M16-03;P-M16-04,配置中心/环境文件版本化，追加审计,A-M16-02;A-M16-08,platform_m16_operations_dependencies_get;platform_m16_integration_reconciliations_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M16-08,字典参数公告与辅助开发工具,P-M16-03;P-M16-04,复用可用系统管理能力；开发工具隔离到开发环境；接口目录由契约生成,,,qKnow领域接口及参考功能待补协议；进入需求卡时冻结,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M17-01,统一文件上传和归属,P-M17-01;P-M17-02,对象存储+元数据服务，映射原生引擎文件ID,A-M17-03;A-M17-04;A-M17-01,platform_m17_file_upload_sessions_post;platform_m17_file_upload_sessions_id_completions_post;platform_m17_files_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M17-02,WordExcelPPT真实交付,P-M17-03;P-M17-02,专用文档生成工具+受限执行环境+成果服务，复用成熟库,A-M17-08,platform_m17_document_jobs_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M17-03,预览版本与继续编辑,P-M17-02,统一成果模型；报表跳Test5，文档走对应生成/编辑工具,A-M17-09;A-M17-07,platform_m17_document_jobs_id_previews_get;platform_m17_artifacts_id_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M17-04,成果引用与来源链,P-M17-02,成果元数据保存引用快照和版本，不在正文泄露凭据,A-M17-07;A-M02-03,platform_m17_artifacts_id_get;platform_m02_conversations_id_resources_get,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M17-05,分享导出与访问有效期,P-M17-04;P-M17-02,服务端签名/鉴权下载+分享记录,A-M17-05;A-M14-11,platform_m17_files_id_download_links_post;platform_m14_resource_grants_post,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结
+F-M17-06,保留归档与删除影响,P-M17-01;P-M17-04,依赖索引+对象生命周期；默认不自动清理未核实资产,A-M17-12;A-M17-10;A-M17-11,platform_m17_artifacts_id_archivals_post;platform_m17_files_id_deletion_previews_post;platform_m17_files_id_delete,,项目级明确承载，具体DTO/原生路径/行为需在开发卡Ready时冻结

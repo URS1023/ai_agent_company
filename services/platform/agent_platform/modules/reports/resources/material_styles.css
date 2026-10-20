@@ -1,0 +1,96 @@
+/* 精提Test5原边框与装饰样式，离线导出固定动画。 */
+
+.jimu-border {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+}
+
+.border-5 { filter: drop-shadow(0 0 5px rgba(0, 130, 252, .6)); }
+.border-5 polyline { fill: none; }
+.b5-line-1 { stroke: var(--main-color, #05f8d6); stroke-width: 3; }
+.b5-line-2,
+.b5-line-3,
+.b5-line-4,
+.b5-line-5,
+.b5-line-6 { stroke: var(--sub-color, #0082fc); stroke-width: 2; }
+
+.border-generic { filter: drop-shadow(0 0 3px rgba(5, 248, 214, .45)); }
+.border-generic .border-base,
+.border-generic .border-inner,
+.border-generic polyline,
+.border-generic line,
+.border-generic .border-tab { fill: none; stroke: var(--main-color, #05f8d6); stroke-width: 2; }
+.border-generic .border-inner { stroke: var(--sub-color, #0082fc); stroke-width: 1; }
+.border-1 polyline { stroke-width: 4; }
+.border-2 .border-base { stroke: var(--main-color, #05bfcf); stroke-width: 1; }
+.border-3 .border-base { stroke-width: 3; }
+.border-4 .border-base { stroke: var(--main-color, #0799c7); stroke-width: 2; }
+.border-6 polyline { stroke: var(--sub-color, #0082fc); stroke-width: 3; }
+.border-6 line { stroke: var(--main-color, #05f8d6); stroke-width: 1; }
+.border-7 .border-base { stroke-width: 3; }
+.border-7 .border-inner { stroke-width: 2; filter: drop-shadow(0 0 8px #05f8d6); }
+.border-8 { filter: none; }
+.border-8 .border-base { stroke: #174768; stroke-width: 1; }
+.border-9 polyline { stroke-dasharray: 14 7; stroke-width: 3; }
+.border-10 .border-base { stroke-width: 4; filter: drop-shadow(0 0 10px #05f8d6); }
+.border-11 .border-tab { fill: #063e51; stroke-width: 2; }
+.border-13 .border-base { stroke: var(--sub-color, #0082fc); stroke-dasharray: 22 8; stroke-width: 2; }
+
+.border-12 rect:first-child {
+  fill: rgba(0, 23, 54, .16);
+  stroke: var(--main-color, #05f8d6);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px rgba(0, 130, 252, .8));
+}
+
+.border-12 .runner {
+  stroke: var(--sub-color, #0082fc);
+  stroke-width: 2;
+  stroke-dasharray: 90 150;
+  animation: border-run 3s linear infinite;
+}
+
+.jimu-decoration {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.jimu-decoration span {
+  flex: 1;
+  height: 3px;
+  background: var(--main-color);
+  box-shadow: 0 0 9px var(--main-color);
+}
+
+.jimu-decoration span:first-child { transform: skewX(38deg) translateY(-5px); }
+.jimu-decoration span:last-child { transform: skewX(-38deg) translateY(-5px); }
+.jimu-decoration i {
+  width: 42px;
+  height: 11px;
+  border-bottom: 3px solid var(--sub-color);
+  transform: translateY(3px);
+}
+
+.decoration-1 span { height: 8px; background: repeating-linear-gradient(90deg, var(--main-color) 0 3px, transparent 3px 9px); box-shadow: none; }
+.decoration-2 span:first-child { flex: .18; }
+.decoration-2 span:last-child { flex: 1.5; height: 1px; }
+.decoration-3 span { height: 7px; background: repeating-linear-gradient(90deg, var(--sub-color) 0 7px, var(--main-color) 7px 13px); }
+.decoration-4 { transform: rotate(90deg); }
+.decoration-4 span { height: 2px; }
+.decoration-6 span { height: 4px; background: repeating-linear-gradient(90deg, var(--main-color) 0 2px, var(--sub-color) 2px 5px, transparent 5px 8px); }
+.decoration-7 span:first-child { transform: skewX(-38deg); }
+.decoration-7 span:last-child { transform: skewX(38deg); }
+.decoration-8 span { height: 2px; }
+.decoration-8 i { width: 90px; border-top: 2px solid var(--main-color); border-bottom-color: #f7c948; transform: skewX(35deg); }
+.decoration-9 span { height: 6px; border-radius: 50%; background: repeating-radial-gradient(circle, var(--main-color) 0 3px, transparent 4px 10px); }
+.decoration-10 span { height: 1px; background: #f7c948; box-shadow: 0 0 6px #f7c948; }
+.decoration-11 i { width: 120px; height: 30px; border: 2px solid var(--main-color); background: rgba(5, 248, 214, .12); transform: skewX(-22deg); }
+.decoration-12 span { height: 1px; }
+.decoration-12 i { width: 58px; height: 58px; border: 1px solid var(--main-color); border-radius: 50%; transform: rotate(45deg); }
+
+.runner { animation: none !important; }

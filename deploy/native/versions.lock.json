@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "dify": {
+    "version": "1.17.1",
+    "api_python": "~=3.13.0",
+    "web_node": "^24.20",
+    "package_manager": "pnpm@12.10",
+    "compose_sha256": "630d122678bebda83f43cd7b476ff64dc467f680d1b3cc3274276ee510427478"
+  },
+  "openwebui": {
+    "version": "0.12.3",
+    "python": ">=3.11,<3.13",
+    "node": ">=20.16,<=22",
+    "image": "ghcr.io/open-webui/open-webui:v0.12.3"
+  },
+  "service_images": {
+    "init_permissions": "busybox:latest",
+    "api": "langgenius/dify-api:1.17.1",
+    "api_websocket": "langgenius/dify-api:1.17.1",
+    "worker": "langgenius/dify-api:1.17.1",
+    "worker_beat": "langgenius/dify-api:1.17.1",
+    "web": "langgenius/dify-web:1.17.1",
+    "db_postgres": "postgres:15-alpine",
+    "redis": "redis:6-alpine",
+    "sandbox": "langgenius/dify-sandbox:0.2.15",
+    "local_sandbox": "langgenius/dify-agent-local-sandbox:1.17.1",
+    "plugin_daemon": "langgenius/dify-plugin-daemon:0.6.10-local",
+    "agent_backend": "langgenius/dify-agent-backend:1.17.1",
+    "agent_ssrf_proxy": "ubuntu/squid:latest",
+    "ssrf_proxy": "ubuntu/squid:latest",
+    "nginx": "nginx:latest",
+    "weaviate": "cr.weaviate.io/semitechnologies/weaviate:1.39.2",
+    "openwebui": "ghcr.io/open-webui/open-webui:v0.12.3"
+  },
+  "runtime_files": [
+    {
+      "path": "nginx/conf.d/default.conf.template",
+      "sha256": "3861d4e5f77eeb9ca83e7495707ff2af570f65999a62e7aa1af1380056ec8fd8"
+    },
+    {
+      "path": "nginx/docker-entrypoint.sh",
+      "sha256": "47c710f5e7e316717f9880709efdc82a2f4dcf1e2b9e5c5f511e7b0f9b4ae3fb"
+    },
+    {
+      "path": "nginx/https.conf.template",
+      "sha256": "3270f611cf07ac4e82c81e0561cdc144e700ad1dd375c8c0d8b46c74cf73a7a3"
+    },
+    {
+      "path": "nginx/nginx.conf.template",
+      "sha256": "f58f8c7ce9f885b29da084b1c37262b985defb1e0b3ed6e9fca7638e7af29d27"
+    },
+    {
+      "path": "nginx/proxy.conf.template",
+      "sha256": "3eb124d566360abfb9791e520f0ee5792deba517bc2728f64eeffca0340f3219"
+    },
+    {
+      "path": "nginx/ssl/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ssrf_proxy/docker-agent-entrypoint.sh",
+      "sha256": "feec4d09043e222d758c558856adbac89621a3216be4f96b58383b9f9dd88b56"
+    },
+    {
+      "path": "ssrf_proxy/docker-entrypoint.sh",
+      "sha256": "6ff1529a1cd42df1d83729e30964b69baf1253c1d6860b15ebdc8a80c87e0150"
+    },
+    {
+      "path": "ssrf_proxy/squid-agent.conf.template",
+      "sha256": "20fc899c266ca45cad640df868328c37bf0b5b42a71ab58fb70b9d401194a674"
+    },
+    {
+      "path": "ssrf_proxy/squid-common.conf.template",
+      "sha256": "3f933b4058ea9ea23d3022dfaa97784d5f7b7f9681326cb94ce685bcec6c6e0c"
+    },
+    {
+      "path": "ssrf_proxy/squid.conf.template",
+      "sha256": "d74ef4481bcb4fd2c16e8cf4d740c6c248bd72e172bde2acdf32eadac28bd6eb"
+    }
+  ],
+  "verification": {
+    "source_checked": true,
+    "images_pulled": false,
+    "images_digest_locked": false,
+    "native_services_started": false
+  },
+  "constraints": [
+    "生产环境须将上游浮动镜像标签替换为实际核验过的digest",
+    "plugin daemon的-local镜像需要完全匹配的本地构建",
+    "不能静默降级原生版本或用同标签冒充已核验源码构建"
+  ],
+  "source_assets": [
+    {
+      "project": "dify",
+      "path": "api/pyproject.toml",
+      "sha256": "2809dacf4541256c1a4d1fca6d84326cb1835b16524320271982869a5d7927d4"
+    },
+    {
+      "project": "dify",
+      "path": "api/uv.lock",
+      "sha256": "79aadd390687d729fd847be2244460d3a37cb3142b1e16a7731e5fa5696cc40f"
+    },
+    {
+      "project": "dify",
+      "path": "api/Dockerfile",
+      "sha256": "2619b91900090ce82d5f7d06e11dcacb177edc31f38ba5f3ede375af5df47cf0"
+    },
+    {
+      "project": "dify",
+      "path": "web/package.json",
+      "sha256": "183ce88d7bf645d609d3175e47acd78c2116143b942979c0e4760ea59fd9c1b3"
+    },
+    {
+      "project": "dify",
+      "path": "pnpm-lock.yaml",
+      "sha256": "2cffc3c1fd50230d809936a131a31ea6edc238250c2645ddefc8f4c044f53b61"
+    },
+    {
+      "project": "dify",
+      "path": "web/Dockerfile",
+      "sha256": "72f7ebe7c5d40904f8f4530685d1c014dafd57d4920dd0edf13215201cf5f1b5"
+    },
+    {
+      "project": "dify",
+      "path": "dify-agent/uv.lock",
+      "sha256": "0d947911966e7aad5df495feab132ed8ce5974b9eee2c9d230084fa23c3db2ab"
+    },
+    {
+      "project": "dify",
+      "path": "dify-agent/Dockerfile",
+      "sha256": "061ed9a5c5aa4e312e791cab0009d4d29d2c1b2860b302c115b96ab702e989aa"
+    },
+    {
+      "project": "dify",
+      "path": "dify-agent-runtime/docker/Dockerfile",
+      "sha256": "8321eb6d946a03206ba83ddc371e955fa7e171b47dd6477b92dcbbbe3dd5b02d"
+    },
+    {
+      "project": "openwebui",
+      "path": "package.json",
+      "sha256": "1fe6d606e54381126fded56c2fa82931e5c9c696d7cb3ee1201a7e0dfa77e979"
+    },
+    {
+      "project": "openwebui",
+      "path": "package-lock.json",
+      "sha256": "a59eef7595279770874792263d6dc02fdc39de793e9cfceec71d556ca511bcb5"
+    },
+    {
+      "project": "openwebui",
+      "path": "pyproject.toml",
+      "sha256": "10e012adb1877e9b12d58e28c8aa942b2fe66fa10ed245950ba33d9ca5b8f5d5"
+    },
+    {
+      "project": "openwebui",
+      "path": "backend/requirements.txt",
+      "sha256": "d532d221dcd8beb0d36f7756259cc33515464c060775f5de3c8b197a5f55f098"
+    },
+    {
+      "project": "openwebui",
+      "path": "Dockerfile",
+      "sha256": "55d201460cb6d04e412f38ab0ef85390997e28ad3dfad16d98226985b6c9295d"
+    }
+  ],
+  "source_trees": {
+    "dify": {
+      "sha256": "ee979818d779a4f52ee191d70ccf3fefe0f5973cb9b399a793877a954d4b1748",
+      "files": 13960
+    },
+    "openwebui": {
+      "sha256": "833cfbd900899f50f59cbaae72c7329b12f379435a7e1ca65c47f6c63e65437e",
+      "files": 5182
+    }
+  }
+}

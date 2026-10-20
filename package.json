@@ -1,10 +1,17 @@
 {
-  "name": "ai-agent-company-preview",
+  "name": "ai-agent-company",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node tools/serve.mjs",
-    "build": "python tools/build_preview.py",
-    "check": "node --check frontend/preview.js && node --check tools/serve.mjs"
+    "setup": "node tools/project.mjs setup",
+    "dev": "node tools/project.mjs dev",
+    "start": "node tools/project.mjs start",
+    "build": "node tools/project.mjs build",
+    "check": "node tools/project.mjs check",
+    "test": "node tools/project.mjs test",
+    "db:check": "node tools/project.mjs db-check",
+    "db:upgrade": "node tools/project.mjs db-upgrade",
+    "preview:legacy": "node tools/serve.mjs",
+    "build:legacy": "python tools/build_preview.py"
   }
 }

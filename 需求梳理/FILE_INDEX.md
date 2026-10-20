@@ -83,3 +83,72 @@
 ## T05发布核验（agent-1020-root，2026-10-20）
 - 远端main的9feac01d版本确认仅68个前端/文档/许可/截图文件，原始参考源码和数据包不在当前树；预览独立构建，无原项目依赖。
 - 项目唯一进度和索引位置不变；本地原项目与镜像仍在用或待核实、不可据取消发布擅自删除。前端与文档路径继续在用/不可删除，用户取消的复制工具与清单只留本地。
+
+
+## 实施目录增量索引（agent-1020-root，2026-10-20；T-root06/R22—R24）
+以下路径均在实际Git项目 ai_agent_company 根下核查；不触发删除。作者范围以共享进度的有效认领为准。
+
+| 项目相对路径 | 用途与关键依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 核查日期/任务 |
+|---|---|---|---|---|---|---|
+| apps/web/src/ | Vue3真实平台、manifest/路由/领域工作区；调用/api/v1 | agent-1020-web | 在用 | 不可删除 | Vite生产构建与浏览器14项验收入口 | 2026-10-20/T-web02,03 |
+| apps/web/package.json、package-lock.json | 固定前端安装依赖和构建脚本 | agent-1020-web | 在用 | 不可删除 | npm ci/typecheck/build | 2026-10-20/T-web02 |
+| apps/web/public/ | 经过明确引用的报表皮肤/预览，非完整原资料 | agent-1020-web | 在用 | 不可删除 | 画布/模板静态资源引用 | 2026-10-20/T-web03 |
+| apps/web/test-results/ | 浏览器测试JSON/临时截图，Git忽略 | agent-1020-web | 在用 | 暂不可删除（待核实） | 验收证据需转存脱敏摘要后再评估 | 2026-10-20/T-web02 |
+| services/platform/agent_platform/main.py | 平台装配、事务/安全边界、静态生产前端 | agent-1020-root | 在用 | 不可删除 | uvicorn factory入口 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/registry.py | 10技术模块装配17业务模块，可配置启停 | agent-1020-root | 在用 | 不可删除 | 前后端权限/运行模块目录 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/core/ | 身份上下文/事务/配置仓储/任务/凭据/文件公共协议 | agent-1020-root | 在用 | 不可删除 | 业务模块共同依赖；身份作者已交接 | 2026-10-20/T-root06,T-native03 |
+| services/platform/agent_platform/modules/identity/ | 登录/组织/角色/岗位/服务身份/对象授权/凭据轮换 | agent-1020-root（接管） | 在用 | 不可删除 | 19项真实API隔离测试；已释放认领 | 2026-10-20/T-native03 |
+| services/platform/agent_platform/modules/workspace/ | 任务、通知、工作台、搜索、偏好 | agent-1020-root | 在用 | 不可删除 | 平台首页与跨模块任务关联 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/modules/files/ | 文件上传/授权下载、引用影响、真Office生成 | agent-1020-root | 在用 | 不可删除 | 报表/图谱/文档来源依赖 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/modules/catalog/ | 应用发布、能力/技能目录、行业包入口配置 | agent-1020-root | 在用 | 不可删除 | 不承担质检和工作流内核 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/modules/graph/ | 本体、实体关系、有限探索、抽取复核、发布快照 | agent-1020-root | 在用 | 不可删除 | 图谱关系及权限/版本回归 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/modules/operations/ | 实际任务/发布/用量/审计、平台本地备份及隔离恢复演练 | agent-1020-root | 在用 | 不可删除 | 管理台读取与自身SQLite备份，不含旧业务库 | 2026-10-20/T-root06 |
+| services/platform/agent_platform/modules/manufacturing/ | 强模型质检、维护、预警、不可变证据与人工复核 | agent-1020-root（domain02稳定交接） | 在用 | 不可删除 | 数据域受控取数和统一Task | 2026-10-20/T-domain02 |
+| services/platform/agent_platform/modules/data/ | 数据源/字段权限/SQL AST与预算/预览/处理/合成/NL2SQL | agent-1020-root（domain02稳定交接） | 在用 | 不可删除 | 未批准外部源不连接，异常源隔离 | 2026-10-20/T-domain02 |
+| services/platform/agent_platform/modules/reports/ | 20模板、组件/绑定、画布、发布版本、真实多格式导出 | agent-1020-domain | 在用 | 不可删除 | 继续扩大原生组件支持，非全部326已实现 | 2026-10-20/T-domain03 |
+| services/platform/agent_platform/modules/integrations/、adapters/ | Dify/OWUI实际协议及身份/运行/回调映射，MCP/OpenAPI接入 | agent-1020-root（native02交接） | 在用 | 不可删除 | Mock协议验收与后续原生服务联调 | 2026-10-20/T-native02 |
+| services/platform/migrations/、alembic.ini | 固定初始结构与后续增量迁移 | agent-1020-root | 在用 | 不可删除 | 版本升级可复核，生产禁止隐式create_all | 2026-10-20/T-root06 |
+| services/platform/requirements.txt、requirements.lock.txt | 直接依赖与本次实测固定环境 | agent-1020-root | 在用 | 不可删除 | 独立.venv安装，不改变原生Python环境 | 2026-10-20/T-root06 |
+| services/platform/tests/ | 临时SQLite/Mock协议、权限和业务回归 | 各测试作者/以新认领为准 | 在用 | 不可删除 | 验收行为与失败边界证据 | 2026-10-20/R22 |
+| deploy/native/ | 本机原生部署准备/版本来源/受控进程启动停止 | agent-1020-native | 在用 | 不可删除 | R24已取消Docker交付，正在改为Windows独立环境 | 2026-10-20/T-native04 |
+| tools/project.mjs | setup/dev/start/build/check/test统一本机入口 | agent-1020-root | 在用 | 不可删除 | package.json直接引用 | 2026-10-20/T-root06 |
+| tools/manage_database.py | 核验当前项目独立SQLite并显式升级/接管 | agent-1020-root | 在用 | 不可删除 | 拒绝外部/越界路径，初始迁移回归 | 2026-10-20/T-root06 |
+| tools/render_report.mjs | 离线HTML→真PDF/PNG，无外部网络 | agent-1020-root | 在用 | 不可删除 | reports/pdf.py以受限子进程调用 | 2026-10-20/T-root06 |
+| tools/configure_models.py、core/provider_settings.py | 本机加密模型配置、短连通与原生环境注入 | agent-1020-root | 在用 | 不可删除 | R23指定Go DS4.1/硅基bge-m3，密钥不入Git | 2026-10-20/R23 |
+| .local/ | 本项目独立数据/密钥/测试库/运行日志，Git忽略 | 本机用户 | 在用 | 不可删除 | 含不可从Git恢复的本机密文及主密钥；未授权清理 | 2026-10-20/R22,R23 |
+| .venv/ | 本项目平台Python依赖，不是Dify/OWUI共用环境 | agent-1020-root | 在用 | 满足条件后可删除 | 停止所属进程且可用lock文件重建；不删除.local数据 | 2026-10-20/T-root06 |
+| index.html、frontend/、tools/build_preview.py、tools/serve.mjs | 历史独立样式原型，preview:legacy专用 | agent-1020-root | 在用 | 暂不可删除（待核实） | 保留已交付原型便于对照，不再作为真实系统默认入口 | 2026-10-20/R21,R22 |
+
+
+## 新增契约/素材/验证索引（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 日期/任务 |
+|---|---|---|---|---|---|---|
+| modules/reports/resources/source/（位于services/platform/agent_platform） | 原widgetFactory/widgetSizing/模板种子精确提取，build_presets再生 | agent-1020-domain | 在用 | 不可删除 | 保留205素材原始初始config与尺寸，不含旧连接 | 2026-10-20/T-domain03 |
+| services/platform/agent_platform/modules/reports/materials.py | 13边框/12装饰/真实图片图标及首帧离线渲染 | agent-1020-domain | 在用 | 不可删除 | PDF/PNG与画布一致性和引用权限 | 2026-10-20/T-domain03 |
+| apps/web/src/modules/reports/reused/ | Test5原画布/图表/素材与业务renderer适配 | agent-1020-web | 在用 | 不可删除 | 205项实际浏览器验证，剩余变体继续补 | 2026-10-20/T-web03,04 |
+| 项目文档/contracts/platform.openapi.json | 从实际代码导出的当前API，不覆盖原设计openapi.json | agent-1020-root | 在用 | 不可删除 | export_api.py可再生，联调使用真实协议 | 2026-10-20/T-root06 |
+| 项目文档/contracts/实施验收.csv | 125项原需求逐项实现入口/证据/缺口 | agent-1020-root | 在用 | 不可删除 | 防止以接口和页面存在冒充验收完成 | 2026-10-20/R22 |
+| tools/export_api.py | 无DB连接导出运行代码API及ID唯一性检查 | agent-1020-root | 在用 | 不可删除 | 与设计契约并存，禁止互相混记 | 2026-10-20/T-root06 |
+| .github/workflows/check.yml | 远程仅前端构建/类型及Python静态编译 | agent-1020-root | 在用 | 不可删除 | 不执行远程DB/模型测试，本机验证独立 | 2026-10-20/T-root06 |
+| licenses/Dify-LICENSE.txt、OpenWebUI-LICENSE.txt、OpenWebUI-LICENSE_NOTICE.txt | 原生运行/来源引用的原许可快照 | agent-1020-root | 在用 | 不可删除 | 提取自本机原参考项目，不改原品牌条款 | 2026-10-20/R22 |
+
+## 文件索引补充（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 日期/任务 |
+|---|---|---|---|---|---|---|
+| apps/web/src/modules/data/TargetApprovalForm.vue | 精确目标只读、用途/归属/时限/范围与异常恢复控件；DataWorkspace提交确认 | agent-1020-root | 在用 | 不可删除 | 外部连接仍需平台显式开关，批准本身不发连接；新UI类型检查通过，浏览器待验 | 2026-10-20/T-root07 |
+| services/platform/agent_platform/modules/data/elasticsearch.py | 固定索引Mapping与SQL翻译/有限读取，不接DSL/脚本/任意URL | agent-1020-root | 在用 | 不可删除 | 6纯Mock测试；未实际连接ES | 2026-10-20/T-root07 |
+| apps/web/src/modules/reports/seriesModelOption.ts | 消费服务端可信多系列/百分比/双轴/缺值模型，复用原图表主题 | agent-1020-web，已交接root | 在用 | 不可删除 | 8变体真实ECharts断言和10后端边界测试通过 | 2026-10-20/T-web04,05/T-domain06 |
+| apps/web/tests/chart-variants.mjs | 一报表八图、有限取数或复用快照，仅本轮隔离平台 | agent-1020-web，已交接root | 在用 | 不可删除 | 源Response属性/下拉竞态已修；不得对外库自动运行 | 2026-10-20/T-web05 |
+| apps/web/tests/data-source-controls.mjs | 离线源配置/审批控件白名单验收，严禁触发连接/查询 | agent-1020-web | 在用 | 不可删除 | 首验隐藏switch定位待修复后复验；不是ES联调 | 2026-10-20/T-web06,07 |
+| deploy/native/windows_services.py | Windows原生隔离环境/监听归属、API-only预算与服务依赖 | agent-1020-native | 在用 | 不可删除 | 守卫35项Mock通过；API-only实际启动仍待验，T-native07仅env小处认领中 | 2026-10-20/T-native05,06,07 |
+
+
+## 正式报告与受控验收补充（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 日期/任务 |
+|---|---|---|---|---|---|---|
+| services/platform/agent_platform/modules/reports/inspection_source.py、inspection_document.py、resources/inspection_report_v1.json | 固定检验run/标准/复核证据，权限重查及流式正式文档 | agent-1020-root接管；文档排版T-domain08进行中 | 在用 | 不可删除 | 正式生成/刷新/发布/历史/7格式依赖；10后端+4浏览器通过，PDF排版复验中 | 2026-10-20/T-domain07,08 |
+| apps/web/src/modules/manufacturing/InspectionReportAction.vue、apps/web/src/modules/reports/InspectionReportView.vue | 准确run生成正式报告、隔离预览与改名/刷新/发布/导出 | agent-1020-root，web08已交接 | 在用 | 不可删除 | 35 API/4浏览器检查通过，深链与无m11.write角色已验证 | 2026-10-20/T-web08 |
+| apps/web/tests/inspection-report.mjs | 新CSV、两次以内业务取数、真实质检到正式报告闭环 | agent-1020-root，web08已交接 | 在用 | 不可删除 | 当前只核验本项目新SQLite归属后串行运行，不对旧/外部DB测试 | 2026-10-20/T-web08 |
+| tools/verify_native_api.py、services/platform/tests/test_native_api_verifier.py | 有限原生API登录/隔离/唯一短SSE验收与密文检查点 | agent-1020-root，native07已交接 | 在用 | 不可删除 | 与Windows守卫合计56 Mock测试通过；实际原生尚未验 | 2026-10-20/T-native07 |
+| deploy/native/linux-runtime.md | Agent V2/沙箱的本机Linux候选与系统变更计划 | agent-1020-root | 在用 | 不可删除 | 不含Docker，尚未执行WSL安装或系统组件变更 | 2026-10-20/R24 |
+- 更正前索引证据状态：data-source-controls.mjs已修可见switch定位，4项/16 API通过，0 ES连接/查询；windows_services.py的T-native07已交接，56守卫/验证器Mock测试通过，实际API仍待验。

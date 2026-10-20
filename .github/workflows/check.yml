@@ -1,0 +1,24 @@
+name: Platform checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  platform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: python -m pip install -r services/platform/requirements.lock.txt
+      - run: npm ci --prefix apps/web
+      - run: npm run build --prefix apps/web
+      # 数据库业务验证只在用户当前机器执行；远程CI不触发数据库或模型请求。
+      - run: python -m compileall -q services/platform/agent_platform services/platform/migrations

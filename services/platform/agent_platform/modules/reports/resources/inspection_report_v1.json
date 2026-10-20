@@ -1,0 +1,13 @@
+{
+  "kind": "inspection_report",
+  "document_version": 1,
+  "canvas": {"width": 794, "height": 1123, "backgroundColor": "#ffffff"},
+  "widgets": [
+    {"id":"inspection-meta","component":"JText","componentName":"检验信息","x":0,"y":0,"w":794,"h":100,"config":{},"binding":{"source_type":"inspection_run","view":"meta"}},
+    {"id":"inspection-summary","component":"JStatsSummary","componentName":"样本统计","x":0,"y":100,"w":794,"h":100,"config":{},"binding":{"source_type":"inspection_run","view":"summary"}},
+    {"id":"inspection-outcomes","component":"JBar","componentName":"样本判定分布","x":0,"y":200,"w":794,"h":180,"config":{},"binding":{"source_type":"inspection_run","view":"outcomes","label_field":"name","value_field":"value"}},
+    {"id":"inspection-metrics","component":"JScrollBoard","componentName":"检验明细","x":0,"y":380,"w":794,"h":300,"config":{},"binding":{"source_type":"inspection_run","view":"metrics"}},
+    {"id":"inspection-standard","component":"JScrollBoard","componentName":"标准快照","x":0,"y":680,"w":794,"h":220,"config":{},"binding":{"source_type":"inspection_run","view":"standard"}},
+    {"id":"inspection-reviews","component":"JScrollBoard","componentName":"复核记录","x":0,"y":900,"w":794,"h":220,"config":{},"binding":{"source_type":"inspection_run","view":"reviews"}}
+  ]
+}

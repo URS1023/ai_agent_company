@@ -29,3 +29,9 @@ upload-audit.local.json
 /workspace-manifest.json
 /.gitattributes
 /tools/sync_workspace.py
+.local/
+apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/
+*.tsbuildinfo
+services/platform/migrations/.generated/

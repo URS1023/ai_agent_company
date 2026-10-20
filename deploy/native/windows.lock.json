@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "mode": "windows-native",
+  "dify": "1.17.1",
+  "openwebui": "0.12.3",
+  "python_dify": "3.13.14",
+  "python_openwebui": "3.12.13",
+  "node_dify": "24.21.0",
+  "node_openwebui": "22.13.0",
+  "pnpm": "12.10.1",
+  "postgres": "15.18",
+  "redis": "5.0.14.1",
+  "assets": {
+    "qdrant": {
+      "version": "1.19.2",
+      "url": "https://github.com/qdrant/qdrant/releases/download/v1.19.2/qdrant-x86_64-pc-windows-msvc.zip",
+      "sha256": "7d86596f16c6e85d45a50312f5e16ccb51e059b62e3d7308110cb65b4c799a4d",
+      "filename": "qdrant.zip"
+    },
+    "plugin_cli": {
+      "version": "0.6.10",
+      "url": "https://github.com/langgenius/dify-plugin-daemon/releases/download/0.6.10/dify-plugin-windows-amd64.exe",
+      "sha256": "99daa0fb22509636b138e0acb5e33edd9d168c21abfbc0556d3b4dd79c04d94f",
+      "filename": "plugin-cli.exe"
+    },
+    "go": {
+      "version": "1.26.10",
+      "url": "https://go.dev/dl/go1.26.10.windows-amd64.zip",
+      "sha256": "7ecd2d7260e82c59bcbd7f1077a07cee2dea607295b858df67195a1e4e09629b",
+      "filename": "go1.26.10.zip"
+    },
+    "plugin_source": {
+      "version": "0.6.10",
+      "url": "https://codeload.github.com/langgenius/dify-plugin-daemon/zip/refs/tags/0.6.10",
+      "sha256": "a3ae9b9e85e6592bd2cdd7f49ee3c5172b7bedb94758f245b7aca6378cc4bf58",
+      "filename": "plugin-daemon-0.6.10-source.zip"
+    }
+  },
+  "limitations": [
+    "Redis5兼容性需实际验收",
+    "AgentV2需Linux tmux/Landlock，未安装WSL",
+    "代码节点沙箱尚未运行",
+    "健康不代表完整功能验收"
+  ]
+}

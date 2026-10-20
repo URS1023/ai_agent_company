@@ -152,3 +152,11 @@
 | tools/verify_native_api.py、services/platform/tests/test_native_api_verifier.py | 有限原生API登录/隔离/唯一短SSE验收与密文检查点 | agent-1020-root，native07已交接 | 在用 | 不可删除 | 与Windows守卫合计56 Mock测试通过；实际原生尚未验 | 2026-10-20/T-native07 |
 | deploy/native/linux-runtime.md | Agent V2/沙箱的本机Linux候选与系统变更计划 | agent-1020-root | 在用 | 不可删除 | 不含Docker，尚未执行WSL安装或系统组件变更 | 2026-10-20/R24 |
 - 更正前索引证据状态：data-source-controls.mjs已修可见switch定位，4项/16 API通过，0 ES连接/查询；windows_services.py的T-native07已交接，56守卫/验证器Mock测试通过，实际API仍待验。
+
+
+## 验收产物与原生故障数据（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 日期/任务 |
+|---|---|---|---|---|---|---|
+| apps/web/test-results/inspection-report-25-samples.pdf | 25新合成样本、三维明细/标准/复核的5页分页验收样本，Git忽略 | agent-1020-root | 在用 | 暂不可删除（待核实） | 全页视觉与文本末行/精度通过；转存验收证据后再评估，不是客户现场数据或签名认证 | 2026-10-20/T-domain08 |
+| .local/native_windows/openwebui/data/webui.db | 首次API-only冷启动生成的本项目独立原生SQLite | 本机用户/root核查 | 在用 | 不可删除 | 45秒未监听已停止进程，迁移日志及故障记录保留；不是可随意清除的旧库，无HTTP或模型验收 | 2026-10-20/I-root10 |
+- T-domain08全部报告排版已交接root并通过12局部测试及最终5页视觉；tools/verify_native_api.py真实验收尚未执行，56 Mock结果不得替代原生成功。

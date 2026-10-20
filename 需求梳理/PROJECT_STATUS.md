@@ -484,3 +484,50 @@
 - 末次只读资源采样物理4996MiB/提交余量5003MiB，尚未达到引擎修复后5GiB/7GiB准入；无Docker Desktop/backend/vmmem、无running发行版、无13000/13080监听。端口查询无结果的PowerShell退出码1表示没有匹配监听，不是实际连接测试失败。
 - 本轮已完成：Windows180秒参数与原生回复事实/协议修复、Docker与WSL官方D盘安装及实际VHDX归属、双用户目录隔离修复源码、97条新Docker离线回归、文档/索引和Git发布。尚未完成：修复后引擎实际启动、候选镜像/容器/API/原生登录UI、Dify完整依赖与企业试点；R27新HTTP0/模型0，未伪报原生全功能成功。
 - 本轮结束前仍无新的单次引擎恢复答复；已准备具体修复和预算问题，当前只等待答复及资源变化，不自动重启，不删除/重置任何原配置或虚拟磁盘。整体R22仍未全部达到验收。
+
+## 单次恢复授权已收到（agent-1020-root，2026-10-20）
+- R-agent-1020-root-28：用户明确回复“资源达标后允许单次启动与原定验收”，准许物理可用5GiB/提交余量7GiB达标后单次Docker引擎启动（120秒），成功后继续R27原未使用的单容器验收；不改全局内存配置、不恢复出厂。该授权持续有效，条件达标后不再次询问。
+- T-agent-1020-root-12：root认领实际资源复核、一次引擎启动与原定Docker prepare/pull/start/API+UI串行验收，沿用已有控制器/工具和D新目录；依赖主机5/7GiB准入。当前只读5000MiB物理/5176MiB提交，未达标，因此没有启动/模型/DB请求，单次启动额度尚未使用。
+- native作者受托仅静态复查当前Start分支与双配置/WSL定址，不改文件、不执行服务或测试；不影响root认领。下一步先识别提交内存主要占用、判断是否存在可明确回收的本项目进程；不擅自结束用户应用或改变系统配置。
+
+## 本机资源处置授权与恢复认领（agent-1020-root，2026-10-20）
+- 用户明确要求“我没有内存了，在这台电脑上启动”“快速啊”，仍以本机部署为目标，不因此静默修改全局内存配置或关闭其他在用服务。
+- 只读发现Java PID11564 PrivateMemorySize约7607MiB，父进程5388属本机Windows服务elasticsearch-service-x64，DisplayName Elasticsearch 8.14.3，监听本机9200/9300；未发ES HTTP或查询。R-agent-1020-root-29：用户明确回复“允许临停 Elasticsearch，马上继续”，准许仅正常停止此服务释放内存，数据与配置保留、本机ES检索暂不可用。
+- T-root12继续：严格核服务名/版本/PID/父子归属后正常Stop，不改自动启动配置、不停MySQL、不查询旧库；内存达标后按已获R28执行一次引擎和原R27验收，不再重复索权。
+- T-agent-1020-native-11：agent-1020-native认领已释放deploy/docker_desktop.ps1，仅修Start整个子进程生命周期finally及独立≤10秒有界清理、异常与残留记录；不改120秒、5/7GiB或固定D双加密目录。作者只编辑不运行，root串行核查后启动，互不修改对方进行中范围。
+
+## ES已停止与单次引擎启动准备（agent-1020-root，2026-10-20）
+- R29服务停止首次在控制器初始化构造阶段PSArgumentException，未发Stop；保留失败记录elasticsearch-stop-20261020-01.json。纠正System.ServiceProcess类型并只读验证构造后，新的02记录显示正常停止成功，约4.6秒、原Auto配置未改、remaining_java=[]，未查询ES/改数据。UAC为Windows正常授权，无绕过。
+- T-native11作者已完成交接Start完整finally/120秒启动+独立10秒清理，root已PS5解析通过并补WSL句柄Dispose异常收尾。当前T-root12接管该脚本实际启动，不重复执行服务Stop；继续使用R28/R27既定范围。
+
+## 已授权引擎恢复成功与镜像锁定（agent-1020-root，2026-10-20）
+- R28单次引擎启动已执行且exit0、无超时/资源异常；实际127管道npipe dockerDesktopLinuxEngine返回Linux/server29.9.1/name docker-desktop。D盘双加密Roaming/Local配置生效，原WinError17本次未再出现；D注册BasePath与两个VHDX位置保持核实。
+- ES停止后启动前物理6566MiB/提交13971MiB；引擎就绪后物理3270MiB/提交10155MiB，仍满足后续2/3GiB门限。不改系统页文件或WSL全局配置，ES保持用户批准的临停状态。
+- prepare一次成功，新D runtime id=748bbe54877a4bc9b8f781f116b83d23，数据目标D:/Docker/agent-platform/openwebui-20261020-01/data/webui.db，未创建业务容器或连接业务DB。官方候选v0.12.3/linux-amd64摘要sha256:ef11a68f38457d831e23168486858c25b9d9c4399094c9e72c0d4d8767ac09de，压缩层1620732867字节。仅清单读取，镜像内容尚未拉取；密文配置与新随机secret在D runtime，不提交。
+- 当前继续唯一pull（900秒、主机/磁盘持续守卫），然后在原R27预算下单次容器启动/API+UI；尚未发送本轮业务HTTP/模型。
+
+## 本机运行边界纠正与下载失败收尾（agent-1020-root，2026-10-20）
+- 用户追问“为什么会需要虚拟机，我本地启动过了这个不需要”。R-agent-1020-root-30：明确区分 Windows 原生 Open WebUI/平台与 Docker Linux 容器，不把 Dify 特定 Linux 执行组件的要求扩展成整个系统的启动前提；当前问题以解释与收尾为主，不据此重新启动或扩大构建预算。
+- T-agent-1020-root-13：root 认领本轮 Docker 引擎失败收尾、已存在原生成功证据核对及 deploy/native/README.md、根 README 的部署状态更正。原 T-root12 的 Docker 后续启动/API/UI暂停，未消耗业务请求与模型预算。
+- I-agent-1020-root-17：runtime 显示 pull 于 15:06:20 UTC 以 RuntimeError 结束，所属 CLI PID28020 已退出，exec98575 exit1；容器 id=null/start_attempted=false。日志只保存异常类型，未保存具体资源采样或错误正文，不能断言是网络失败或物理内存不足。没有重拉、创建容器或业务/DB/模型请求。
+- 本地已存证据确认 R26 Windows 原生启动成功，账号/私聊隔离通过，唯一 DS4.1 回复持久化；前端构建未完成，不能把 API 成功写成完整界面成功。root 核对本次 D 盘 Docker 进程/PID/创建时间后执行有界正常关闭，保留程序/数据/旧配置，不停止其他服务、不重启 ES。
+- T-root13 收尾结果：核对 D 盘 exe/PID19152/创建时间后，docker ps -a 返回空；官方 desktop stop --timeout20 已 exit0，Desktop/backend 进程已退出，wsl --list --running --quiet 无运行发行版，13000/13080 无监听。关停后一度仍见 vmmemWSL 退出尾部占用，未将 CLI 成功等同于即时全部内存回收；未发业务/DB/模型请求。
+- 已更正根 README 与 deploy/native/README 的启动前提/当前结果，区分 Windows 原生成功、完整界面未完成、Docker 引擎成功但镜像失败，以及 Dify 特定 Linux 执行组件。代码功能未因此修改，整个平台仍未完成；原 Docker 后续验收暂停，未自动重试或切换新模型测试。
+- T-root13 最终复核：Docker Desktop/backend/vmmemWSL 均为空；物理可用4157MiB、提交余量10753MiB。前述 vmmem 退出尾部已结束。本次解释与失败收尾已完成，git diff --check（cr-at-eol）通过；只有部署文档调整，未重启业务服务或做新模型验收。
+
+## Windows 完整界面启动授权与认领（agent-1020-root，2026-10-20）
+- R-agent-1020-root-31：用户明确要求“直接用 Windows 本机启动，把 Open WebUI 的前端补齐，让我能打开系统正常使用，快点，别再折腾 Docker”。这是新的原生完整模式恢复授权；Docker 保持停止。优先使用同版本官方预构建前端，沿用已有 Python 环境，不恢复大型源码构建。
+- T-agent-1020-root-14：root 认领 deploy/native/windows_frontend.py（新增）、windows.py/windows_services.py 的完整模式单次确认、相关守卫测试、Windows 一键启动入口与实际浏览器联调。已确认旧 native 相关任务交接；不修改其他 Agent 进行中范围。必要时只改平台原生入口连接，业务算法不变。
+- 已核官方 PyPI open-webui 0.12.3 wheel 为105980169字节，摘要6d716039a5c15ecdb1db12f99dd9c79ea5c86d3d7bbd9a67054dd26f1f534747；本地 pyproject 明确包含 open_webui/frontend 预构建资源。先下载单制品并核摘要，仅读取/提取前端到本项目副本，不安装其 Python 依赖或覆盖已跑通后端。
+- 本轮预算：单次下载最多300秒；单次 Windows OWUI 完整启动180秒、所属进程树1GiB、主机至少物理2GiB/提交3GiB；平台单进程启动45秒。仅本项目原生 SQLite 和新平台自有 SQLite，不连接业务数据库。浏览器与 API 验证限120秒/60业务请求、静态300请求、最多1次64token新对话；失败停止本次验证并核对请求/进程，不自动重试。成功后保留服务供用户使用，验证预算不作为用户后续使用限制。
+- 官方 wheel 在原300秒内完成；因单连接慢，主动停止所属curl后对未完成范围固定8段下载（没有超时后重试），完整大小/摘要通过。提取5681文件/237771624字节，后端main/auths/chats/env与官方包逐字节摘要一致。Windows启动守卫62项Mock通过，完整模式及平台首次启动均成功。
+- I-agent-1020-root-18：本机交付准备工具成功创建两个管理员后，在新增平台连接时遗漏CSRF头，被403拒绝；不是数据库超时、连接失败或资源异常。工具保守关闭了本次两服务；没有模型调用，累计5HTTP。已读实际API客户端/服务契约，修正工具仅登录+确认连接为空+携带CSRF创建连接，保留既有管理员/数据不重建。R31继续有效，允许修正明确工具缺陷后正常本机启动；不扩大模型或总请求预算。
+- I-agent-1020-root-19：修正CSRF工具后原生完整模式再次成功；平台创建进程后被每轮重复执行的2GiB启动预检中止，所属平台进程已回收，Open WebUI 保留运行。只读复核当时物理可用2110MiB/提交8885MiB；未观察系统分配失败，但不把阈值触发忽略为成功。暂停后续HTTP/浏览器；已向用户提出具体范围：运行底线1GiB物理/2GiB提交、平台512MiB/OWUI1GiB、单次平台启动及原预算验收，等待答复，不把等待当批准。
+- 已准备 desktop.py 将运行门限与原生冷启动预检分开；OWUI冷启动仍沿用原2/3GiB及180秒。这些准备代码尚未按新门限执行。前端提取测试首次5过1失败源于Windows zipfile将反斜杠规范化，已改为真实的反斜杠父目录越界用例，不放宽产品路径校验。
+- R-agent-1020-root-32：用户针对具体内存限制方案明确回复“不用限制”。当前 Windows 双服务取消 Agent 自设的可用内存门槛与进程RSS硬上限；这是用户新指令覆盖 R31 中的自设内存预算，不改系统内存/页文件配置。保留本机数据归属、启动超时、失败不自动重试及有限模型请求；仅当前本机入口采用该模式，旧API-only验收工具默认值不变。
+- R32 后平台单次启动成功，CSRF补正的连接创建通过；Open WebUI未重启。第一轮浏览器38业务请求（含前置8）、241静态、模型0，平台登录/原生入口跳转/原生登录与聊天输入框均通过。发送动作被原生首次管理员更新弹窗遮挡，15秒等待点击超时；没有发出模型或超时数据库请求。浏览器已退出，两服务仍正常。
+- UI工具修复：先正常点击原生“确认，开始使用！”，并只在本地页面设置语言，避免about:blank localStorage异常。针对未完成发送单独验证一次原生页面，最多40业务HTTP/300静态/120秒/唯一64-token请求；不重复已通过的平台步骤，不重放任何model_attempted记录。属于明确UI定位缺陷后的定向验证，未扩大数据库查询范围。
+- T-root14 页面最终验收：原生第二阶段29业务HTTP、215静态、1次64-token模型请求，原生登录和assistant真实可见回复“连接成功。”通过，脚本错误0。平台登录与原生入口跳转在第一阶段已通过；保留首轮UI定位失败历史。两张实际截图已查看。
+- 最终原生启动/前端提取边界测试70 passed/2.08s；Python入口编译、浏览器脚本node检查通过。用户R32取消内存门槛，保留归属检查与启动超时；没有重写聊天内核或改原生品牌。
+- 当前保留Windows平台8080和Open WebUI13000供用户使用，监听归属已核；Docker/backend/vmmem均无。入口为启动系统.cmd、停止系统.cmd、查看本机账号.cmd。自动审批阻止弹出系统浏览器（blocked by policy），未绕过；交付直接可点本机URL。Dify/企业数据库接入及整体平台剩余需求仍未完成。
+- T-root14 状态：已完成本轮Windows可用界面交付；npm run check（Python编译/Vue类型/脚本检查）exit0，70项相关回归通过。下一步为用户使用反馈及另行实施Dify/业务数据接入；本轮不继续拉镜像、安装依赖或重跑模型。

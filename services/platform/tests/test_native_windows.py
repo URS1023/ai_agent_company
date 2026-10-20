@@ -163,13 +163,13 @@ def api_runtime(tmp_path, monkeypatch):
     return module, service, root, data
 
 
-def test_incident_ack_cannot_enable_install_or_full_ui(tmp_path, monkeypatch):
+def test_incident_ack_cannot_enable_install_or_missing_frontend(tmp_path, monkeypatch):
     module, _, root, _ = api_runtime(tmp_path, monkeypatch)
     with pytest.raises(RuntimeError, match='API单次确认不能恢复安装'):
         module.install(root, 'openwebui')
     with pytest.raises(RuntimeError, match='已暂停'):
         module.start(root, 'openwebui', api_only=True)
-    with pytest.raises(ValueError, match='必须与--api-only'):
+    with pytest.raises(RuntimeError, match='原生前端尚未构建'):
         module.start(root, 'openwebui', ack_resource_incident=True)
     with pytest.raises(ValueError, match='仅适用于Open WebUI'):
         module.start(root, 'postgres', api_only=True, ack_resource_incident=True)
@@ -241,6 +241,25 @@ def test_rss_overrun_records_incident_without_http_or_sql(tmp_path, monkeypatch)
         service.wait_for_api(module, root)
     incident = module.load(root)['resource_incident']
     assert incident['active'] and incident['events'][-1]['reason'] == 'rss_budget_exceeded'
+
+
+def test_explicit_unlimited_memory_still_requires_owned_listener(tmp_path, monkeypatch):
+    module, service, root, _ = api_runtime(tmp_path, monkeypatch)
+    monkeypatch.setattr(module, 'owned_process', lambda *args: object())
+    monkeypatch.setattr(service, 'process_tree_rss', lambda process: 2 * service.API_RSS_LIMIT)
+    monkeypatch.setattr(service, 'listening_processes', lambda process: {13000})
+    result = service.wait_for_api(module, root, rss_limit=None)
+    assert result['listening_verified'] and result['rss_limit_bytes'] is None
+    assert result['startup_max_rss_bytes'] == 2 * service.API_RSS_LIMIT
+
+
+def test_unlimited_memory_cannot_skip_explicit_confirmation(tmp_path, monkeypatch):
+    module, service, root, _ = api_runtime(tmp_path, monkeypatch)
+    with pytest.raises(ValueError, match='取消内存限制'):
+        module.start(root, 'openwebui', limit_memory=False)
+    with pytest.raises(ValueError, match='取消内存限制'):
+        service.start_openwebui(module, root, {}, {}, api_only=False,
+            acknowledged_incident=False, limit_memory=False)
 
 
 def test_api_timeout_is_bounded_and_no_retry(tmp_path, monkeypatch):
@@ -477,8 +496,8 @@ def test_explicit_api_start_budget_reaches_metadata_and_deadline_without_changin
     assert state['processes']['openwebui']['startup_budget_seconds'] == seconds
 
 
-@pytest.mark.parametrize('api_only,acknowledged', [(False, False), (False, True), (True, False)])
-def test_180_second_service_budget_requires_both_explicit_api_flags(tmp_path, api_only, acknowledged):
+@pytest.mark.parametrize('api_only,acknowledged', [(False, False), (True, False)])
+def test_180_second_service_budget_requires_explicit_ack(tmp_path, api_only, acknowledged):
     service = tool('windows_services')
     # 拒绝须发生在路径、凭据、资源检查和spawn之前，不能靠上层CLI单独守住。
     with pytest.raises(ValueError, match='180秒预算仅适用于'):
@@ -496,13 +515,18 @@ def test_180_second_dispatch_budget_cannot_escape_api_scope(tmp_path, monkeypatc
         module.start(root, component, api_only=api_only, ack_resource_incident=acknowledged, startup_seconds=180)
 
 
-def test_explicit_180_dispatch_forwards_only_the_selected_budget_and_keeps_incident(tmp_path, monkeypatch):
+@pytest.mark.parametrize('api_only', [True, False])
+def test_explicit_180_dispatch_forwards_only_the_selected_budget_and_keeps_incident(tmp_path, monkeypatch, api_only):
     module, service, root, _ = api_runtime(tmp_path, monkeypatch)
     monkeypatch.setattr(module, 'credentials', lambda target: {'webui_secret': 'test-only'})
+    if not api_only:
+        frontend = root / 'sources/openwebui/build'
+        frontend.mkdir()
+        (frontend / 'index.html').write_text('<html></html>', 'utf-8')
     calls = []
     monkeypatch.setattr(service, 'start_openwebui', lambda *args, **kwargs: calls.append(kwargs) or {'mock': True})
-    assert module.start(root, 'openwebui', api_only=True, ack_resource_incident=True, startup_seconds=180) == {'mock': True}
-    assert calls == [{'api_only': True, 'acknowledged_incident': True, 'startup_seconds': 180}]
+    assert module.start(root, 'openwebui', api_only=api_only, ack_resource_incident=True, startup_seconds=180) == {'mock': True}
+    assert calls == [{'api_only': api_only, 'acknowledged_incident': True, 'startup_seconds': 180}]
     assert module.load(root)['resource_incident']['active'] is True
 
 
@@ -530,16 +554,19 @@ def test_selected_budget_timeout_message_and_event_match_without_retry(tmp_path,
 
 
 @pytest.mark.parametrize('explicit_seconds', [None, '180'])
-def test_cli_keeps_default_45_and_forwards_explicit_180_only_in_confirmed_api_mode(tmp_path, monkeypatch, capsys, explicit_seconds):
+@pytest.mark.parametrize('api_only', [True, False])
+def test_cli_forwards_confirmed_start_mode(tmp_path, monkeypatch, capsys, explicit_seconds, api_only):
     module = tool()
     calls = []
     monkeypatch.setattr(module, 'start', lambda *args, **kwargs: calls.append(kwargs) or {'mock': True})
-    arguments = ['windows.py', 'start', 'openwebui', '--api-only', '--ack-resource-incident', '--root', str(tmp_path)]
+    arguments = ['windows.py', 'start', 'openwebui', '--ack-resource-incident', '--root', str(tmp_path)]
+    if api_only:
+        arguments.append('--api-only')
     if explicit_seconds is not None:
         arguments.extend(['--startup-seconds', explicit_seconds])
     monkeypatch.setattr(sys, 'argv', arguments)
     module.main()
-    assert calls == [{'api_only': True, 'ack_resource_incident': True,
+    assert calls == [{'api_only': api_only, 'ack_resource_incident': True,
         'startup_seconds': 45 if explicit_seconds is None else 180}]
     assert json.loads(capsys.readouterr().out) == {'mock': True}
 
@@ -550,7 +577,6 @@ def test_cli_keeps_default_45_and_forwards_explicit_180_only_in_confirmed_api_mo
     ['start', 'redis', '--startup-seconds', '180'],
     ['start', 'openwebui', '--startup-seconds', '180'],
     ['start', 'openwebui', '--api-only', '--startup-seconds', '180'],
-    ['start', 'openwebui', '--ack-resource-incident', '--startup-seconds', '180'],
     ['start', 'openwebui', '--api-only', '--ack-resource-incident', '--startup-seconds', '120'],
 ])
 def test_cli_rejects_unapproved_or_unknown_extended_budget_before_dispatch(monkeypatch, arguments):

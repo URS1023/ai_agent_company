@@ -1,8 +1,14 @@
 # 本机引擎部署
 
-面向开发与本机部署人员。用户R25已允许Docker安装到D盘，覆盖此前不使用Docker要求；R27允许资源恢复后单独验收Open WebUI。程序目录`D:/Docker/Desktop`、镜像与卷数据目录`D:/Docker/wsl-data`；安装入口为`deploy/docker_desktop.ps1`，固定版本需先通过官方摘要和签名核验。Docker与WSL3.0.3均已安装，实际WSL注册目录和两个VHDX已核实位于D盘。Docker引擎在用户配置文件原子重命名时失败，随后出现提交内存余量不足，当前全部所属进程已停止；业务镜像、容器和本次HTTP/模型验收均未运行。Windows独立进程入口`windows.py`保留，不读取旧 `.env`，不连接既有 PostgreSQL/Redis。
+面向开发与本机部署人员。**平台与 Open WebUI 均直接在 Windows 运行，不需要虚拟机。** 当前入口为根目录 `启动系统.cmd` → `deploy/native/desktop.py`；平台 `127.0.0.1:8080`、原生对话 `127.0.0.1:13000`。交付账号由 `查看本机账号.cmd` 在本机显示，停止入口为 `停止系统.cmd`。当前锁定的 Dify Agent V2 执行器及代码沙箱另有 Linux 依赖，不能将其要求扩展成整个项目的启动前提。
 
-**2026-10-20实际状态：原生整体验收未完成，安装/构建已因本机资源异常暂停。** Open WebUI后端已安装，Torch为2.14.1+cpu（CUDA=None），未下载模型权重；原生前端在Pyodide资产准备阶段被主动终止。Dify依赖安装出现Windows os1450，Next构建出现内存分配失败，插件daemon Go编译出现GC/堆资源故障。没有启动Dify API/worker或运行迁移，首次API-only在45秒内未监听而停止；随后R26单次180秒已成功启动，两账号登录与私聊隔离通过；唯一DS4.1回复已在停服后只读核验完成并保存。saved-chat事件模式返回200/null，首次脚本误判为非SSE，历史unknown保留；UI/流式展示/知识与完整工作流仍未验收。
+Open WebUI 0.12.3 完整前端已从官方 PyPI wheel 提取：SHA256 `6d716039a5c15ecdb1db12f99dd9c79ea5c86d3d7bbd9a67054dd26f1f534747`，5681文件、237771624字节；提取入口 `windows_frontend.py`，运行收据为 `.local/native_windows/openwebui/frontend-artifact.json`。仅安装前端，未重新安装后端依赖；main/auths/chats/env 四个关键后端文件与该 wheel 字节一致。官方支持 [Python 原生安装](https://docs.openwebui.com/getting-started/quick-start/)。
+
+用户 R32 明确要求取消内存限制，`desktop.py` 不再按空闲内存或RSS阈值中止。OWUI 新启动仍最多180秒、平台45秒；已就绪的所属进程直接复用。旧API-only验收工具的默认预算保持独立，安装/构建故障历史也保留，不因此恢复 Dify 大型构建。当前仅使用登记在本项目的两个 SQLite 数据目录。
+
+2026-10-20 Docker 尝试的实际结果：用户 R25 允许安装到 D 盘，Docker 与 WSL3.0.3 已安装，程序位于 `D:/Docker/Desktop`，两个虚拟磁盘位于 `D:/Docker/wsl-data`。R28 单次引擎启动已成功，进程专用的 D 盘 Roaming/Local 配置解决了本次配置写入错误。随后固定镜像拉取以 RuntimeError 失败，CLI 已退出；未创建业务容器，HTTP/模型验收均未执行。错误记录不足以区分当时的具体资源原因，禁止把它写成下载超时或网络失败。已正常关闭本次 Docker Desktop，保留程序、配置和数据。R29 临停的 Elasticsearch 仍停止。后续优先解决 Windows 原生界面交付，不将 Docker 作为 Open WebUI 的必需条件。
+
+**Dify 原生整体验收仍未完成。** 先前依赖安装出现Windows os1450，Next构建出现内存分配失败，插件daemon Go编译出现GC/堆资源故障；没有启动Dify API/worker或运行迁移。Open WebUI 已使用官方前端制品补齐界面，Torch为2.14.1+cpu（CUDA=None），未下载模型权重。此前R26后端登录/私聊隔离及回复持久化有证据；本轮完整页面与对话的实际结果记录在共享进度中，不能替代知识库、插件、Dify完整工作流验收。
 
 本轮独立PG(:15432)、Redis(:16379)、Qdrant(:16333)曾按新目录/新凭据启动，已核对无客户端后安全关闭，保留数据和manifest。停止安装器后测得可用内存4336MB、提交量33424MB/上限40113MB；不能把此时物理内存有空余理解为允许恢复并行构建。`doctor`显示资源故障和各组件失败状态；`install/start`在故障标记有效时拒绝自动恢复。须先处理资源问题并按用户答复决定后续，不能重试、扩大内存或删除功能绕过。
 

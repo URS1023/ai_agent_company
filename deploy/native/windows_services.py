@@ -164,7 +164,7 @@ def wait_for_api(runtime, root: Path, *, seconds=API_START_SECONDS, rss_limit=AP
             raise RuntimeError('API启动进程已退出，未进行HTTP或数据库验收')
         rss = process_tree_rss(process)
         maximum_rss = max(maximum_rss, rss)
-        if rss > rss_limit:
+        if rss_limit is not None and rss > rss_limit:
             record_api_failure(runtime, root, 'rss_budget_exceeded', {'rss_bytes': rss, 'limit_bytes': rss_limit})
             raise RuntimeError('本次API进程树RSS超过1GiB，必须停止；不重试或提高预算')
         if 13000 in listening_processes(process):
@@ -176,14 +176,16 @@ def wait_for_api(runtime, root: Path, *, seconds=API_START_SECONDS, rss_limit=AP
 
 
 def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: bool, acknowledged_incident: bool,
-        startup_seconds: int = API_START_SECONDS) -> dict:
-    """按显式单次预算启动；180秒须同时确认API模式与资源故障，不改变资源门限。"""
+        startup_seconds: int = API_START_SECONDS, limit_memory: bool = True) -> dict:
+    """按显式启动预算核对归属；用户取消内存限制时仅记录用量，保留超时清理。"""
+    if not limit_memory and not acknowledged_incident:
+        raise ValueError('取消内存限制须用户明确确认本次启动')
     if type(startup_seconds) is not int or startup_seconds not in (45, 180):
         raise ValueError('启动预算只允许45或180秒')
-    if startup_seconds == 180 and not (api_only and acknowledged_incident):
-        raise ValueError('180秒预算仅适用于已明确确认的Open WebUI API-only启动')
+    if startup_seconds == 180 and not acknowledged_incident:
+        raise ValueError('180秒预算仅适用于已明确确认的Open WebUI启动')
     paths = openwebui_paths(runtime, root, data, api_only=api_only)
-    snapshot = require_api_resources()
+    snapshot = require_api_resources() if limit_memory else memory_snapshot()
     if runtime.owned_process(root, 'openwebui', data):
         raise RuntimeError('已有本项目OWUI进程，请先核对或明确停止；本次不会接管或终止它')
     if not runtime.available_port(13000):
@@ -194,7 +196,8 @@ def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: 
     metadata = {'mode': 'api_only' if api_only else 'full', 'frontend_available': not api_only,
         'sqlite_file': str(paths['sqlite']), 'data_directory': str(paths['data']),
         'acknowledged_resource_incident': acknowledged_incident, 'ready': False,
-        'preflight_resources': snapshot, 'startup_budget_seconds': startup_seconds, 'rss_limit_bytes': API_RSS_LIMIT}
+        'preflight_resources': snapshot, 'startup_budget_seconds': startup_seconds,
+        'rss_limit_bytes': API_RSS_LIMIT if limit_memory else None}
     deadline = time.monotonic() + startup_seconds
     started, phase = None, 'prepare_environment'
     try:
@@ -205,7 +208,8 @@ def start_openwebui(runtime, root: Path, data: dict, secret: dict, *, api_only: 
         if not started.get('started') or not started.get('launch_id'):
             raise RuntimeError('本次未创建并登记独立API进程，禁止接管既有服务')
         phase = 'readiness'
-        ready = wait_for_api(runtime, root, seconds=startup_seconds, deadline=deadline)
+        ready = wait_for_api(runtime, root, seconds=startup_seconds, deadline=deadline,
+            **({} if limit_memory else {'rss_limit': None}))
         runtime.update_runtime(root, lambda state: state['processes']['openwebui'].update(ready=True, **ready))
     except Exception as error:
         # spawn失败时started仍为None，不能按组件名称猜测进程；spawn自身核对其Popen句柄回收结果。

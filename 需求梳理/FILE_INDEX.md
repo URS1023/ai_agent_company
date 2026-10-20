@@ -192,3 +192,20 @@
 ## Docker工具验收状态更新（agent-1020-root，2026-10-20）
 - 前条T-native10、T-domain09/10/11入口已全部交接root；组合97条Mock/临时文件测试通过（controller54/API43）。provider_entrypoint/两个验收工具Python编译通过，原生UI脚本node --check过；均未启动真实容器/浏览器或发模型请求。
 - deploy/docker_desktop.ps1 双目录隔离已实现并通过Windows PowerShell5解析与故障标记拒绝；D盘profile-02与OpenWebUI runtime仍未创建，实际新启动未验。现有D盘程序/两个VHDX/故障标记继续保留，不自动清理。
+
+## Windows 原生与 Docker 状态纠正（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键引用与依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 核查日期/任务 |
+|---|---|---|---|---|---|---|
+| README.md、deploy/native/README.md | 平台与 Windows 原生启动说明；引用 windows.py、既有成功证据及 Dify Linux 边界 | agent-1020-root | 在用 | 不可删除 | 明确 Docker 非平台/OWUI 必需；镜像失败与未完成界面如实记录 | 2026-10-20/T-root13 |
+- 外部 D:/Docker/desktop-profile-20261020-02 与 D:/Docker/agent-platform/openwebui-20261020-01 已实际创建：前者为成功启动的进程专用加密配置；后者为固定镜像失败记录及未启动的密文容器配置。均保留、不提交、不清理，当前无业务容器。deploy/docker_desktop.ps1 的 T-native11 已交接且 Start 实际执行成功；本轮已正常关闭 Desktop。
+
+## Windows 双服务交付入口（agent-1020-root，2026-10-20）
+| 项目相对路径 | 用途/关键引用与依赖 | 归属 | 是否仍需 | 能否删除 | 依据/前置条件 | 核查日期/任务 |
+|---|---|---|---|---|---|---|
+| deploy/native/windows_frontend.py | 固定官方wheel摘要校验、安全提取前端到已登记源码副本 | agent-1020-root | 在用 | 不可删除 | 真实5681文件提取及6项ZIP边界测试，不改Python依赖 | 2026-10-20/T-root14 |
+| deploy/native/desktop.py | Windows平台/完整OWUI启动、复用、停止及本机账号显示 | agent-1020-root | 在用 | 不可删除 | 真实监听/浏览器通过；R32无内存门槛，保留超时/归属 | 2026-10-20/T-root14 |
+| 启动系统.cmd、停止系统.cmd、查看本机账号.cmd | 用户双击入口，调用desktop.py，不显示模型密钥 | agent-1020-root | 在用 | 不可删除 | 固定仓库相对路径，运行凭据Git忽略 | 2026-10-20/T-root14 |
+| apps/web/tests/windows-desktop.mjs | 平台登录/原生跳转/真实聊天UI一次短回复，可只验原生阶段 | agent-1020-root | 在用 | 不可删除 | 原生29HTTP/215静态/唯一模型通过，两张截图已查看 | 2026-10-20/T-root14 |
+| services/platform/tests/test_windows_frontend.py、test_native_windows.py | 前端提取安全及原生启动确认/归属/预算回归 | agent-1020-root | 在用 | 不可删除 | 最新70项纯Mock/临时文件通过，无数据库连接 | 2026-10-20/T-root14 |
+| .local/platform/、.local/desktop-access.enc、.local/desktop-access.key | 平台自有SQLite及加密交付账号/解密密钥 | 本机用户/root部署 | 在用 | 不可删除 | 新建本机数据，不包含企业旧数据，删除会丢失配置/账号 | 2026-10-20/T-root14 |
+| .local/native_windows/sources/openwebui/build/、.local/native_windows/openwebui/frontend-artifact.json | 原生完整前端及制品摘要收据，后端FRONTEND_BUILD_DIR引用 | 本机用户/root部署 | 在用 | 不可删除 | 原生登录与对话真实依赖；原项目产物不提交 | 2026-10-20/T-root14 |

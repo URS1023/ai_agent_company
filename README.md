@@ -6,7 +6,15 @@
 
 ## 本机启动
 
-平台需要 Python 3.12—3.14、Node.js 22.12+。原生引擎与平台环境分开。用户最新已允许 Docker 安装到 D 盘：程序使用 `D:/Docker/Desktop`，镜像及卷数据使用 `D:/Docker/wsl-data`；安装与实际状态见[部署说明](deploy/native/README.md)。Windows 独立进程方案继续保留，不与容器共享数据库。
+**当前电脑直接双击根目录的 `启动系统.cmd`**，会复用或启动 Windows 原生平台与 Open WebUI，并打开两个页面：
+
+- 平台：<http://127.0.0.1:8080>，账号 `admin`。
+- AI 对话：<http://127.0.0.1:13000>，账号 `admin@local.example`；也可从平台“AI工作台 → AI对话 → 进入对话”打开。
+- 双击 `查看本机账号.cmd` 查看本机随机密码；双击 `停止系统.cmd` 关闭本项目两个服务。密码只保存在本机加密文件，Git 不包含账号密码或模型密钥。
+
+Open WebUI 前端已从官方同版本 Python wheel 提取并校验，不需要本机重新编译。此入口不启动 Docker、WSL 或 Dify，按用户要求不设置进程内存上限；两个服务的启动超时、所属进程和数据目录检查仍保留。Dify 工作流及其 Linux 执行组件仍待单独部署，不能将它们视为已上线。
+
+其他电脑安装平台时，需要 Python 3.12—3.14、Node.js 22.12+；原生环境与本机加密配置需另行准备，见[部署说明](deploy/native/README.md)。下面命令仅启动平台：
 
 ```powershell
 npm run setup

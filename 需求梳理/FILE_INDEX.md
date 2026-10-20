@@ -79,3 +79,7 @@
 ## R21发布范围更正（agent-1020-root，2026-10-20 / T05）
 - 前端index.html、frontend/、tools/build_preview.py、tools/serve.mjs、screenshots/及项目文档继续在用/不可删除；build_preview.py改为从独立HTML刷新具名嵌入区，无原项目依赖。
 - 原项目目录、设备包、workspace-manifest.json、.gitattributes及sync_workspace.py仍在本地，最新用户指令取消其发布。该变更不构成删除授权；仍需性与删除条件沿用前条，未把“取消上传”写成“可删除”。
+
+## T05发布核验（agent-1020-root，2026-10-20）
+- 远端main的9feac01d版本确认仅68个前端/文档/许可/截图文件，原始参考源码和数据包不在当前树；预览独立构建，无原项目依赖。
+- 项目唯一进度和索引位置不变；本地原项目与镜像仍在用或待核实、不可据取消发布擅自删除。前端与文档路径继续在用/不可删除，用户取消的复制工具与清单只留本地。

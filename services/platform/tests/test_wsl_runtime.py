@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[3]
 
 
 def tool(name):
+    if name != 'wsl_identity':
+        tool('wsl_identity')
     spec = importlib.util.spec_from_file_location(name, ROOT / 'deploy/native' / (name + '.py'))
     module = importlib.util.module_from_spec(spec)
     sys.modules[name] = module
@@ -327,7 +329,7 @@ def test_stop_recovers_orphans_even_when_original_parent_pid_no_longer_exists(mo
     module = tool('wsl_runtime')
     group = {'runtime_id': 'a' * 32, 'launch_id': 'b' * 32, 'role': 'api'}
     monkeypatch.setattr(module, 'load', lambda: {'id': 'a' * 32, 'processes': {
-        'api': {'pid': 123, 'launch_id': 'b' * 32, 'cgroup': group}}})
+        'api': {'pid': 123, 'identity_version': 2, 'start_ticks': '18', 'launch_id': 'b' * 32, 'cgroup': group}}})
     calls = []
     monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(stop=lambda value, **kwargs:
         calls.append(value) or {'verified': True, 'stopped': True, 'alive_pids': []}))
@@ -340,7 +342,7 @@ def test_stop_keeps_residual_failure_visible_and_preserves_data(monkeypatch):
     module = tool('wsl_runtime')
     group = {'runtime_id': 'a' * 32, 'launch_id': 'b' * 32, 'role': 'api'}
     monkeypatch.setattr(module, 'load', lambda: {'id': 'a' * 32, 'processes': {
-        'api': {'launch_id': 'b' * 32, 'cgroup': group}}})
+        'api': {'identity_version': 2, 'start_ticks': '18', 'launch_id': 'b' * 32, 'cgroup': group}}})
     monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(stop=lambda *a, **k:
         {'verified': True, 'stopped': False, 'alive_pids': [777]}))
     result = module.stop_role('api')
@@ -446,16 +448,68 @@ def test_spawn_failure_records_safe_cleanup_without_starting_another_process(tmp
 def test_owned_process_accepts_only_declared_exec_transition_and_launch(monkeypatch):
     module = tool('wsl_runtime')
     environment = {'AGENT_WSL_RUNTIME_ID': 'a' * 32, 'AGENT_WSL_LAUNCH_ID': 'b' * 32, 'AGENT_WSL_ROLE': 'api'}
-    candidate = SimpleNamespace(pid=101, create_time=lambda: 17.5, uids=lambda: SimpleNamespace(real=1000),
+    candidate = SimpleNamespace(pid=101, create_time=lambda: pytest.fail('不再使用壁钟出生时间'), uids=lambda: SimpleNamespace(real=1000),
         exe=lambda: '/owned/python', environ=lambda: environment)
     monkeypatch.setattr(module.psutil, 'Process', lambda _: candidate)
     monkeypatch.setattr(module.os, 'getpgid', lambda _: 101, raising=False)
+    monkeypatch.setattr(module, 'read_start_ticks', lambda _: '1750')
     monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(contains=lambda *_: True))
-    info = {'pid': 101, 'created_at': 17.5, 'allowed_uids': [0, 1000], 'allowed_executables': ['/owned/python'],
+    info = {'pid': 101, 'created_at': 17.5, 'identity_version': 2, 'start_ticks': '1750',
+        'allowed_uids': [0, 1000], 'allowed_executables': ['/owned/python'],
         'process_group': 101, 'launch_id': 'b' * 32, 'role': 'api', 'cgroup': {}}
     assert module.owned_process(info, {'id': 'a' * 32}) is candidate
     environment['AGENT_WSL_LAUNCH_ID'] = 'c' * 32
     assert module.owned_process(info, {'id': 'a' * 32}) is None
+
+
+@pytest.mark.parametrize('fault', ['ticks', 'race', 'uid', 'exe', 'pgid', 'cgroup', 'netns', 'runtime', 'launch', 'role'])
+def test_raw_ticks_do_not_weaken_any_existing_role_ownership_boundary(monkeypatch, fault):
+    module = tool('wsl_runtime')
+    info = {'pid': 101, 'created_at': 17.5, 'identity_version': 2, 'start_ticks': '1750',
+        'allowed_uids': [0, 1000], 'allowed_executables': ['/owned/python'], 'process_group': 101,
+        'launch_id': 'b' * 32, 'role': 'api', 'cgroup': {}}
+    environment = {'AGENT_WSL_RUNTIME_ID': 'a' * 32, 'AGENT_WSL_LAUNCH_ID': 'b' * 32, 'AGENT_WSL_ROLE': 'api'}
+    for name, key in [('runtime', 'AGENT_WSL_RUNTIME_ID'), ('launch', 'AGENT_WSL_LAUNCH_ID'), ('role', 'AGENT_WSL_ROLE')]:
+        if fault == name:
+            environment[key] = 'changed'
+    candidate = SimpleNamespace(pid=101, create_time=lambda: pytest.fail('不读壁钟'),
+        uids=lambda: SimpleNamespace(real=2000 if fault == 'uid' else 1000),
+        exe=lambda: '/other/python' if fault == 'exe' else '/owned/python', environ=lambda: environment)
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: candidate)
+    reads = iter(['1750', '1751']) if fault == 'race' else None
+    monkeypatch.setattr(module, 'read_start_ticks', lambda _: next(reads) if reads else '1751' if fault == 'ticks' else '1750')
+    monkeypatch.setattr(module.os, 'getpgid', lambda _: 102 if fault == 'pgid' else 101, raising=False)
+    monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(contains=lambda *_: fault != 'cgroup'))
+    if fault == 'netns':
+        info.update(namespace='owned', namespace_inode=1)
+        monkeypatch.setattr(module, 'Path', lambda *_: SimpleNamespace(stat=lambda: SimpleNamespace(st_ino=2)))
+    assert module.owned_process(info, {'id': 'a' * 32}) is None
+    assert info['created_at'] == 17.5 and info['start_ticks'] == '1750'
+
+
+def test_new_spawn_records_raw_ticks_and_keeps_created_at_for_audit(tmp_path, monkeypatch):
+    module = tool('wsl_runtime')
+    monkeypatch.setattr(module, 'ROOT', tmp_path)
+    (tmp_path / 'logs').mkdir()
+    (tmp_path / 'process-launches').mkdir()
+    group = {'runtime_id': 'a' * 32, 'launch_id': 'b' * 32, 'role': 'worker'}
+    data = {'id': 'a' * 32, 'processes': {}, 'failures': [], 'cgroup_root_inode': 57}
+    monkeypatch.setattr(module, 'load', lambda: data)
+    monkeypatch.setattr(module, 'update', lambda change: change(data) or data)
+    monkeypatch.setattr(module, 'account', lambda _: SimpleNamespace(pw_uid=1000))
+    monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(prepare_root=lambda *a: 57,
+        create=lambda *a: group, contains=lambda *_: True))
+    environment = {'AGENT_WSL_RUNTIME_ID': 'a' * 32, 'AGENT_WSL_LAUNCH_ID': 'b' * 32, 'AGENT_WSL_ROLE': 'worker'}
+    candidate = SimpleNamespace(pid=123, create_time=lambda: 3025.5, exe=lambda: str((tmp_path / 'tooling/bin/python').resolve()),
+        uids=lambda: SimpleNamespace(real=0), environ=lambda: environment)
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: candidate)
+    monkeypatch.setattr(module, 'read_start_ticks', lambda _: '1750')
+    monkeypatch.setattr(module.os, 'getpgid', lambda _: 123, raising=False)
+    monkeypatch.setattr(module.subprocess, 'Popen', lambda *_a, **_k: SimpleNamespace(pid=123, poll=lambda: None))
+    info = module.spawn('worker', {'user': 'agentapp', 'argv': ['/bin/bash', '/safe/entrypoint.sh'],
+        'cwd': tmp_path, 'env': {'AGENT_WSL_RUNTIME_ID': 'a' * 32}}, data, 'b' * 32)
+    assert info['identity_version'] == 2 and info['start_ticks'] == '1750' and info['created_at'] == 3025.5
+    assert data['processes']['worker'] == info
 
 
 def test_verify_existing_agent_binaries_never_recompiles_plugin(tmp_path, monkeypatch):
@@ -585,10 +639,12 @@ def test_boot_reconcile_refuses_live_original_pid_and_does_not_signal(tmp_path, 
     monkeypatch.setattr(module, 'ROOT', tmp_path)
     monkeypatch.setattr(module, 'check_root', lambda: None)
     monkeypatch.setattr(module, 'boot_identity', lambda: 'new-boot')
-    data = {'id': 'a' * 32, 'boot_id': 'old-boot', 'processes': {'api': {'pid': 123, 'created_at': 18}}}
+    data = {'id': 'a' * 32, 'boot_id': 'old-boot', 'processes': {'api': {
+        'pid': 123, 'created_at': 18, 'identity_version': 2, 'start_ticks': '18'}}}
     monkeypatch.setattr(module, 'load', lambda: data)
     monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(names=lambda *a: (tmp_path / 'absent', None)))
-    monkeypatch.setattr(module.psutil, 'Process', lambda *_: SimpleNamespace(create_time=lambda: 18))
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: SimpleNamespace(pid=123))
+    monkeypatch.setattr(module, 'read_start_ticks', lambda _: '18')
     monkeypatch.setattr(module, 'update', lambda *_: pytest.fail('旧进程还在，不能改归属'))
     with pytest.raises(RuntimeError, match='old_process_still_exists'):
         module.reconcile_boot()
@@ -599,16 +655,57 @@ def test_boot_reconcile_preserves_old_process_history_without_killing_reused_pid
     monkeypatch.setattr(module, 'ROOT', tmp_path)
     monkeypatch.setattr(module, 'check_root', lambda: None)
     monkeypatch.setattr(module, 'boot_identity', lambda: 'new-boot')
-    old_processes = {'api': {'pid': 123, 'created_at': 18}}
+    old_processes = {'api': {'pid': 123, 'created_at': 18, 'identity_version': 2, 'start_ticks': '18'}}
     data = {'id': 'a' * 32, 'boot_id': 'old-boot', 'processes': old_processes, 'boot_history': []}
     monkeypatch.setattr(module, 'load', lambda: data)
     monkeypatch.setattr(module, 'update', lambda change: change(data) or data)
     monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(names=lambda *a: (tmp_path / 'absent', None)))
-    monkeypatch.setattr(module.psutil, 'Process', lambda *_: SimpleNamespace(create_time=lambda: 250))
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: SimpleNamespace(pid=123))
+    monkeypatch.setattr(module, 'read_start_ticks', lambda _: '250')
     result = module.reconcile_boot()
     assert result['services_started'] is False and data['processes'] == {}
     assert data['boot_history'][0]['processes'] == old_processes
     assert data['boot_id'] == 'new-boot' and data['cgroup_root_inode'] is None
+
+
+def test_missing_ticks_never_claims_exit_or_clears_the_group(monkeypatch):
+    module = tool('wsl_runtime')
+    info = {'pid': 123, 'created_at': 18, 'launch_id': 'b' * 32, 'cgroup': {}}
+    monkeypatch.setattr(module, 'load', lambda: {'id': 'a' * 32, 'processes': {'api': info}})
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: pytest.fail('旧记录不能自动认领当前PID'))
+    monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(stop=lambda *_a, **_k: pytest.fail('迁移前不得清组')))
+    for operation in [lambda: module.owned_process(info, {'id': 'a' * 32}), lambda: module.stop_role('api')]:
+        with pytest.raises(RuntimeError, match='requires_identity_migration'):
+            operation()
+    assert info['created_at'] == 18 and 'start_ticks' not in info
+
+
+def test_boot_mismatch_reports_registered_roles_as_unknown_instead_of_an_empty_list(monkeypatch):
+    module = tool('wsl_runtime')
+    data = {'id': 'a' * 32, 'boot_id': 'legacy', 'databases_initialized': True,
+        'processes': {'api': {'pid': 123, 'launch_id': 'b' * 32}}}
+    monkeypatch.setattr(module, 'check_root', lambda: None)
+    monkeypatch.setattr(module, 'load', lambda: data)
+    monkeypatch.setattr(module, 'boot_identity', lambda: 'stable')
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: pytest.fail('不明启动不能认领PID'))
+    result = module.status()
+    assert result['requires_identity_migration'] and result['process_state'] == 'identity_unknown'
+    assert result['processes'][0]['role'] == 'api'
+    assert result['processes'][0]['owned'] is None and result['processes'][0]['running'] is None
+
+
+def test_reconcile_refuses_live_legacy_record_without_signalling(tmp_path, monkeypatch):
+    module = tool('wsl_runtime')
+    monkeypatch.setattr(module, 'ROOT', tmp_path)
+    monkeypatch.setattr(module, 'check_root', lambda: None)
+    monkeypatch.setattr(module, 'boot_identity', lambda: 'new')
+    monkeypatch.setattr(module, 'load', lambda: {'id': 'a' * 32, 'boot_id': 'old',
+        'processes': {'api': {'pid': 123, 'created_at': 18}}})
+    monkeypatch.setattr(module.psutil, 'Process', lambda *_: SimpleNamespace(pid=123))
+    monkeypatch.setitem(sys.modules, 'wsl_cgroups', SimpleNamespace(names=lambda *_: (tmp_path / 'absent', None)))
+    monkeypatch.setattr(module, 'update', lambda *_: pytest.fail('旧记录仍活不能更改清单'))
+    with pytest.raises(RuntimeError, match='requires_identity_migration'):
+        module.reconcile_boot()
 
 
 def initialization_harness(tmp_path, monkeypatch):

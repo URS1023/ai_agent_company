@@ -37,6 +37,36 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def failure_diagnostics(error: Exception) -> dict:
+    """保留异常种类和位置以便离线定位，绝不收集异常消息、SQL、参数或局部变量。"""
+    result = {"exception_type": type(error).__module__ + "." + type(error).__name__}
+    if error.args and type(error.args[0]) is int and 0 <= error.args[0] <= 65535:
+        result["numeric_code"] = error.args[0]
+    frames = []
+    trace = error.__traceback__
+    while trace is not None:
+        frames.append({"file": Path(trace.tb_frame.f_code.co_filename).name,
+                       "function": trace.tb_frame.f_code.co_name, "line": trace.tb_lineno})
+        trace = trace.tb_next
+    result["frames"] = frames[-8:]
+    return result
+
+
+def validate_runtime_dependencies(plan: Plan):
+    """在打开数据库前加载时间转换依赖，避免逐值查找及运行期间安装依赖。"""
+    if any(asset.format == "parquet" for asset in plan.assets):
+        try:
+            import pyarrow.lib
+            import pytz
+
+            # 实际加载完整固定时区路径，不能只用 find_spec 判断文件是否已出现。
+            zone = pyarrow.lib.string_to_tzinfo("+08:00")
+            if zone.utcoffset(None) != pytz.FixedOffset(480).utcoffset(None):
+                raise ValueError("offset_mismatch")
+        except (ImportError, AttributeError, ValueError) as exc:
+            raise ImportFailure("runtime_dependency_invalid", "Parquet时间转换依赖不完整，请先安装演示导入依赖") from exc
+
+
 def quote(identifier: str) -> str:
     if not identifier or len(identifier) > 64 or "\0" in identifier:
         raise ImportFailure("identifier_invalid", "导入表或字段名无效")
@@ -375,6 +405,8 @@ class Importer:
         self.receipt.update(status="running", started_at=utc_now())
         self.save_receipt()
         try:
+            self.receipt["phase"] = "runtime_preflight"
+            validate_runtime_dependencies(self.plan)
             self._connect()
             self._tables()
             # 先检查所有历史状态，再写第一条新来源，防半途发现旧失败后继续灌。
@@ -388,6 +420,7 @@ class Importer:
                 code = "source_invalid" if isinstance(exc, PackageError) else "import_failed"
             self.receipt.update(status="failed", error={"code": code,
                 "message": str(exc) if isinstance(exc, (ImportFailure, PackageError)) else "导入失败，已停止；请核对本机日志与连接状态"},
+                diagnostics=failure_diagnostics(exc),
                 requires_query_stop_check=self.connection is not None)
             # 不记录 SQL/参数/驱动原始错误，不为失败连接再发回滚或失败标记语句。
             if self.connection is not None:

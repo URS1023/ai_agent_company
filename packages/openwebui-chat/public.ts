@@ -25,6 +25,18 @@ export interface FileView {
   revision: number;
   error_code?: string | null;
 }
+export type EditAttachmentMode = "inherit" | "replace" | "remove";
+export interface MessageEditDraft {
+  sourceMessageId: string;
+  content: string;
+  attachmentMode: EditAttachmentMode;
+  attachmentIds: string[];
+  inheritedAttachments: FileView[];
+  errors?: Record<string, string>;
+}
+export type MessageEditPatch = Partial<
+  Pick<MessageEditDraft, "content" | "attachmentMode" | "attachmentIds">
+>;
 export interface ChatSnapshot {
   conversationId: string;
   history: NativeHistory;
@@ -41,6 +53,7 @@ export interface ChatSnapshot {
   error: string;
   canStop: boolean;
   uncertain: boolean;
+  editing?: MessageEditDraft;
 }
 export interface ChatActions {
   draft: (text: string) => void;
@@ -55,6 +68,11 @@ export interface ChatActions {
   reconcileFile: (id: string) => void;
   download: (id: string) => void;
   resolve: (callId: string, approved: boolean) => void;
+  beginEdit: (messageId: string) => void;
+  updateEdit: (patch: MessageEditPatch) => void;
+  cancelEdit: () => void;
+  editAndSend: () => void;
+  regenerate: (assistantId: string) => void;
 }
 export interface ChatProps {
   snapshot: ChatSnapshot;

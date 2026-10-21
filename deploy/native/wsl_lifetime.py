@@ -12,6 +12,7 @@ import time
 from uuid import uuid4
 
 import psutil
+from wsl_identity import read_start_ticks, record_start_ticks
 
 COMPONENT = 'dify-wsl-lifetime'
 
@@ -23,19 +24,20 @@ def linux_context():
 
 
 def linux_process(record: dict, runtime_id: str, boot_id: str):
-    """同时核随机实例、启动时刻、可执行文件和完整命令，防止PID重用误停。"""
+    """随机实例、raw ticks和命令共同认领；created_at只作审计展示。"""
     if record.get('runtime_id') != runtime_id or record.get('boot_id') != boot_id:
         return None
+    expected_ticks = record_start_ticks(record)
     try:
         candidate = psutil.Process(record['pid'])
-        if abs(candidate.create_time() - record['created_at']) > .01:
+        if read_start_ticks(candidate.pid) != expected_ticks:
             return None
         if candidate.exe() != record['executable'] or candidate.cmdline() != record['command']:
             raise RuntimeError('lifetime_process_identity_changed')
         if candidate.uids().real != 0:
             raise RuntimeError('lifetime_process_owner_changed')
-        return candidate if candidate.status() != psutil.STATUS_ZOMBIE else None
-    except psutil.NoSuchProcess:
+        return candidate if candidate.status() != psutil.STATUS_ZOMBIE and read_start_ticks(candidate.pid) == expected_ticks else None
+    except (psutil.NoSuchProcess, FileNotFoundError):
         return None
 
 
@@ -43,6 +45,19 @@ def linux_status() -> dict:
     runtime, data, path = linux_context()
     record = json.loads(path.read_text()) if path.exists() else {}
     current_boot = runtime.boot_identity()
+    if record:
+        try:
+            record_start_ticks(record)
+        except RuntimeError:
+            return {'runtime_id': data['id'], 'boot_id': current_boot, 'running': None,
+                'keeper_id': record.get('keeper_id'), 'pid': record.get('pid'),
+                'requires_identity_migration': True, 'requires_boot_reconciliation': data['boot_id'] != current_boot}
+    if data['boot_id'] != current_boot:
+        # v2只因真实启动组成变化而不同；仍由reconcile核旧cgroup/PID/netns全消失，不能直接清记录。
+        return {'runtime_id': data['id'], 'boot_id': current_boot, 'running': False,
+            'keeper_id': record.get('keeper_id'), 'pid': record.get('pid'),
+            'requires_identity_migration': False, 'requires_boot_reconciliation': True,
+            'identity_state': 'different_boot'}
     process = linux_process(record, data['id'], current_boot)
     return {
         'runtime_id': data['id'], 'boot_id': current_boot,
@@ -69,6 +84,7 @@ def run_linux(keeper_id: str) -> None:
         record = {
             'runtime_id': data['id'], 'boot_id': current_boot, 'keeper_id': keeper_id,
             'pid': candidate.pid, 'created_at': candidate.create_time(),
+            'identity_version': 2, 'start_ticks': read_start_ticks(candidate.pid),
             'executable': candidate.exe(), 'command': candidate.cmdline(),
         }
         runtime.atomic_json(path, record)
@@ -97,6 +113,7 @@ def stop_linux(keeper_id: str) -> dict:
     record = json.loads(path.read_text())
     if record.get('keeper_id') != keeper_id:
         raise RuntimeError('lifetime_instance_changed')
+    record_start_ticks(record)
     process = linux_process(record, data['id'], runtime.boot_identity())
     if process is None:
         return {'stopped': True, 'already_stopped': True}
@@ -142,6 +159,10 @@ def ensure_windows_lifetime() -> dict:
     previous = state.get('processes', {}).get(COMPONENT, {})
     process = windows.owned_process(windows.DEFAULT_ROOT, COMPONENT, state)
     inspected = linux_call('status')
+    if inspected.get('requires_identity_migration'):
+        raise RuntimeError('requires_identity_migration')
+    if inspected.get('running') is None:
+        raise RuntimeError('lifetime_identity_unknown_requires_review')
     if process or inspected['running']:
         if process and inspected['running'] and inspected['keeper_id'] == previous.get('keeper_id'):
             return {'running': True, 'reused': True, 'runtime_id': inspected['runtime_id']}

@@ -8,6 +8,11 @@ import ObservationForm from "./ObservationForm.vue";
 import InspectionReportAction from "./InspectionReportAction.vue";
 import ReinspectionPanel from "./ReinspectionPanel.vue";
 import QualityCasePanel from "./QualityCasePanel.vue";
+import InspectionObservation from "./InspectionObservation.vue";
+import {
+  inspectionSampleCounts,
+  projectInspectionObservation,
+} from "./inspectionPresentation";
 import PreparationQuerySelect from "../data/PreparationQuerySelect.vue";
 import { usePreparationQueries } from "../data/usePreparationQueries";
 const session = useSession();
@@ -19,6 +24,9 @@ const samples = ref<Entity[]>([]);
 const result = ref<Entity[]>([]);
 const reviews = ref<Entity[]>([]);
 const queryCatalog = usePreparationQueries();
+const sampleCounts = computed(() =>
+  inspectionSampleCounts(detail.value?.result, detail.value?.expected_samples),
+);
 const targetName = computed(
   () =>
     detail.value?.device_name ??
@@ -45,14 +53,7 @@ const evidenceRows = computed(() =>
           (metric: any) => metric.id === observation.metric_id,
         )?.name ??
         "检测项目",
-      value:
-        observation.value ??
-        (Array.isArray(observation.defects)
-          ? observation.defects.length
-            ? `${observation.defects.length}处缺陷`
-            : "未发现缺陷"
-          : "—"),
-      unit: observation.unit,
+      observation,
       source:
         observation.provenance?.type === "query"
           ? "数据库查询"
@@ -114,6 +115,7 @@ async function load() {
     detail.value = {
       ...record,
       standard_snapshot: resultDetail.standard_snapshot,
+      result: resultDetail.result ?? null,
     };
     samples.value = sampleList.items as Entity[];
     result.value = (resultDetail.result?.samples ?? []).map(
@@ -125,13 +127,7 @@ async function load() {
           sampleList.items.find((item) => item.id === sample.sample_id)
             ?.external_ref ||
           `样本 ${index + 1}`,
-        observations: sample.metrics?.map((metric: any) => ({
-          ...metric.observation,
-          metric_id: metric.metric_id,
-          name: metric.name,
-          outcome: metric.outcome,
-          provenance: metric.provenance,
-        })),
+        observations: sample.metrics?.map(projectInspectionObservation),
       }),
     );
     reviews.value = resultDetail.reviews ?? [];
@@ -264,6 +260,18 @@ watch(() => props.inspectionId, load, { immediate: true });
             "
           />
         </div>
+        <div>
+          <div class="detail-label">计划样本数</div>
+          <div class="detail-value">{{ sampleCounts.expected ?? "—" }}</div>
+        </div>
+        <div>
+          <div class="detail-label">实际样本数</div>
+          <div class="detail-value">{{ sampleCounts.actual ?? "—" }}</div>
+        </div>
+        <div>
+          <div class="detail-label">缺少样本数</div>
+          <div class="detail-value">{{ sampleCounts.missing ?? "—" }}</div>
+        </div>
       </div>
     </section>
     <section class="panel">
@@ -281,30 +289,12 @@ watch(() => props.inspectionId, load, { immediate: true });
                   " /></template></el-table-column
             ><el-table-column label="检测明细" min-width="300"
               ><template #default="{ row }"
-                ><div
+                ><InspectionObservation
                   v-for="observation in row.observations ?? []"
                   :key="observation.metric_id"
-                  style="line-height: 2"
-                >
-                  {{
-                    metricDefinitions.find(
-                      (m: any) => m.id === observation.metric_id,
-                    )?.name ??
-                    observation.name ??
-                    "检测项目"
-                  }}：{{
-                    observation.value ??
-                    (Array.isArray(observation.defects)
-                      ? observation.defects.length
-                        ? `${observation.defects.length}处缺陷`
-                        : "未发现缺陷"
-                      : "—")
-                  }}
-                  {{ observation.unit
-                  }}<StatusTag
-                    v-if="observation.outcome"
-                    :value="observation.outcome"
-                  /></div></template></el-table-column></el-table></el-tab-pane
+                  :observation="
+                    observation
+                  " /></template></el-table-column></el-table></el-tab-pane
         ><el-tab-pane label="样本"
           ><el-table :data="samples"
             ><el-table-column
@@ -335,8 +325,11 @@ watch(() => props.inspectionId, load, { immediate: true });
               prop="metric"
               label="检测项目" /><el-table-column label="观测"
               ><template #default="{ row }"
-                >{{ row.value }} {{ row.unit }}</template
-              ></el-table-column
+                ><InspectionObservation
+                  :observation="row.observation"
+                  :show-name="false"
+                  preserve-precision
+                  :show-image-reference="false" /></template></el-table-column
             ><el-table-column
               prop="source"
               label="来源"

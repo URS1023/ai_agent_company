@@ -17,6 +17,9 @@ from .native_sources import authorize_conversation_sources
 from .native_socket import NativeSocket
 from .native_tasks import project_turn
 from .native_turns import assistant_from_chat, pending_calls, awaiting_approvals, visible_reply_text
+from .native_branches import verify_branch_source
+from .native_tool_policy import frozen_tool_policy
+from .native_tool_budget import budget_header, verify_capability, CAPABILITY_PATH
 
 
 def public_event_data(value, depth=0):
@@ -60,9 +63,10 @@ class NativeTurnRunner:
         self.native_chat_id = None
         self.dispatched, self.storage_failed = False, False
         self.deadline = None
+        self.budget_stop_cleanup = False
 
     def remaining(self, *, cleanup=False):
-        value = self.deadline - time.monotonic() - (2 if cleanup else 5)
+        value = self.deadline - time.monotonic() - (0 if self.budget_stop_cleanup else 2 if cleanup else 5)
         if value <= 0:
             raise DomainError(504, 'native_chat_deadline_exceeded', '本次对话达到总时限，请核对运行记录')
         return value
@@ -81,11 +85,12 @@ class NativeTurnRunner:
             authorize_conversation_sources(self.session, self.actor, self.chat)
         self.session.commit()
 
-    async def call(self, method, path, *, payload=None, allow_null=False, cleanup=False):
+    async def call(self, method, path, *, payload=None, allow_null=False, cleanup=False, budget_token=None):
         timeout = min(3 if cleanup else 20, self.remaining(cleanup=cleanup))
         expires = time.monotonic() + timeout
+        options = {'budget_token': budget_token} if budget_token is not None else {}
         work = asyncio.create_task(self.adapter.async_call(method, path, payload=payload, allow_null=allow_null,
-            timeout_seconds=timeout))
+            timeout_seconds=timeout, **options))
         try:
             while True:
                 if self.control.shutdown_requested.is_set() and not cleanup:
@@ -163,6 +168,16 @@ class NativeTurnRunner:
     async def dispatch(self):
         self.fresh()
         self.actor.require('m02.write')
+        if (self.action_id is None and self.turn.status == 'reserved'
+                and (self.turn.request_metadata or {}).get('intent_kind') in {'regenerate', 'edit_send'}):
+            # 预约与外部请求之间有事务边界；再次核准确原树，防原生UI在这段时间改了原题。
+            # 此GET不派发模型。检查失败保留原预约为已知未派发，不能同键重送。
+            snapshot = await self.call('GET', '/api/v1/chats/' + segment(self.turn.native_chat_id))
+            NativeChatService._native_chat(snapshot, self.identity, expected_chat=self.turn.native_chat_id)
+            verify_branch_source((snapshot.get('chat') or {}).get('history'), self.turn.request_metadata or {},
+                native_user_id=self.identity.native_user_id)
+            self.fresh()
+            self.actor.require('m02.write')
         if self.turn.status == 'cancel_requested' and self.action_id is None:
             # 该线程尚未发起completion，数据库取消标记先于唯一派发，可确认未生成。
             self.save_state('cancelled')
@@ -186,17 +201,44 @@ class NativeTurnRunner:
             self.turn.status = 'running'
         project_turn(self.session, self.turn)
         self.session.commit()
+        if self.action_id:
+            path = f'/api/v1/chats/{segment(self.turn.native_chat_id)}/messages/{segment(self.turn.assistant_message_id)}/resolve'
+        else:
+            self.payload['session_id'] = self.sid
+            path = '/api/chat/completions'
+        token = None
+        policy = frozen_tool_policy(self.turn)
+        if policy:
+            # 未装预算补丁的原生会忽略未知头，必须先确认准确实现与alias/server pin。
+            verify_capability(await self.call('GET', CAPABILITY_PATH), policy)
+            self.fresh()
+            self.actor.require('m02.write')
+            if self.turn.status == 'cancel_requested':
+                if self.action_id is None:
+                    # 能力GET期间发生取消，本次completion仍未派发，不能再发模型。
+                    self.save_state('cancelled')
+                else:
+                    # 恢复前的取消仍需清理原生已有的待审批消息，不能假称原运行未派发。
+                    self.dispatched = True
+                    await self.stop()
+                    action.status, action.result = 'failed', {'not_dispatched': True, 'cancelled_before_resolution': True}
+                    self.session.commit()
+                return False
+            if self.turn.status != 'running':
+                raise DomainError(409, 'native_chat_dispatch_conflict', '对话状态已变化，请核对原操作')
+            token = budget_header(self.request, self.session, self.actor, self.turn, self.identity, path, self.payload,
+                action_id=self.action_id)
+            self.session.commit()
+        # 能力检查和签名均无模型副作用；只在下一条唯一POST前登记已派发状态。
         self.dispatched = True
         if self.action_id:
-            response = await self.call('POST', f'/api/v1/chats/{segment(self.turn.native_chat_id)}/messages/'
-                f'{segment(self.turn.assistant_message_id)}/resolve', payload=self.payload)
+            response = await self.call('POST', path, payload=self.payload, budget_token=token)
             if not isinstance(response, dict) or response.get('status') is not True:
                 raise DomainError(502, 'native_chat_approval_unconfirmed', '原生服务未确认本次动作')
             action.status = 'succeeded'
             action.result = {'accepted': True}
         else:
-            self.payload['session_id'] = self.sid
-            response = await self.call('POST', '/api/chat/completions', payload=self.payload, allow_null=True)
+            response = await self.call('POST', path, payload=self.payload, allow_null=True, budget_token=token)
         if response is not None:
             if not isinstance(response, dict) or response.get('chat_id') not in {None, self.turn.native_chat_id}:
                 raise DomainError(502, 'native_chat_dispatch_invalid', '原生服务返回了其他对话标识')
@@ -258,6 +300,11 @@ class NativeTurnRunner:
                 if deadline.tzinfo is None:
                     deadline = deadline.replace(tzinfo=timezone.utc)
                 self.deadline = time.monotonic() + max(0, (deadline - utcnow()).total_seconds())
+                action = session.get(NativeTurnAction, self.action_id) if self.action_id else None
+                if action is not None and action.kind == 'stop' and (self.turn.request_metadata or {}).get('tool_policy') is not None:
+                    # 停止不重置模型原截止；已过期运行只给本次准确清理独立三秒，不可再生成。
+                    self.budget_stop_cleanup = True
+                    self.deadline = time.monotonic() + 3
                 service = NativeChatService(session, self.actor, self.request)
                 self.identity, integration = service.identity(self.turn.identity_id)
                 self.native_chat_id = self.turn.native_chat_id

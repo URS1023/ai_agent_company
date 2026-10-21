@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import {
+  computed,
+  shallowRef,
+  watch,
+  onBeforeUnmount,
+  useTemplateRef,
+} from "vue";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { LineChart, BarChart, PieChart } from "echarts/charts";
@@ -9,7 +15,7 @@ import {
   LegendComponent,
   TitleComponent,
 } from "echarts/components";
-import VChart from "vue-echarts";
+import VChart, { type Exposed } from "vue-echarts";
 use([
   CanvasRenderer,
   LineChart,
@@ -32,6 +38,13 @@ const props = withDefaults(
   }>(),
   { height: 300, type: "line", unit: "" },
 );
+const emit = defineEmits<{ finished: [] }>();
+const chart = useTemplateRef<Exposed>("chart");
+const rendering = shallowRef(true);
+let disposed = false;
+onBeforeUnmount(() => {
+  disposed = true;
+});
 const option = computed(() => ({
   animation: !matchMedia("(prefers-reduced-motion: reduce)").matches,
   tooltip: { trigger: "axis" },
@@ -66,11 +79,47 @@ const option = computed(() => ({
     }),
   ),
 }));
+watch(
+  option,
+  () => {
+    rendering.value = true;
+  },
+  { flush: "sync" },
+);
+function finished() {
+  if (disposed) return;
+  // 旧帧结束事件不能把尚未应用的新数据误标成已完成。
+  const applied = chart.value?.getOption() as
+    | {
+        xAxis?: { data?: unknown[] }[];
+        series?: { data?: unknown[] }[];
+      }
+    | undefined;
+  if (
+    !applied ||
+    JSON.stringify(applied.xAxis?.[0]?.data) !==
+      JSON.stringify(option.value.xAxis.data)
+  )
+    return;
+  if (
+    JSON.stringify(applied.series?.map((item) => item.data)) !==
+    JSON.stringify(option.value.series.map((item) => item.data))
+  )
+    return;
+  rendering.value = false;
+  emit("finished");
+}
 </script>
 <template>
   <VChart
     v-if="rows.length"
+    ref="chart"
+    class="trend-chart"
+    role="img"
+    :aria-label="series?.map((item) => item.name).join('、') || '趋势图'"
+    :aria-busy="rendering"
     :option="option"
+    @finished="finished"
     autoresize
     :style="{ height: `${height}px` }"
   />

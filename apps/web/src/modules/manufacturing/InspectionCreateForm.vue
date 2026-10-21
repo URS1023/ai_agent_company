@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { api, type Entity, type ListResult } from "../../api/client";
+import { expectedSamplesError } from "./inspectionPresentation";
 const props = defineProps<{
   targetType?: string;
   busy: boolean;
@@ -16,7 +17,11 @@ const form = reactive({
   target_id: "",
   batch_id: "",
   template_id: "",
+  expected_samples: 1 as number | undefined,
 });
+const sampleCountError = computed(() =>
+  expectedSamplesError(form.expected_samples),
+);
 const assets = ref<Entity[]>([]);
 const templates = ref<Entity[]>([]);
 const batches = ref<Entity[]>([]);
@@ -47,6 +52,7 @@ onMounted(async () => {
     .items as Entity[];
 });
 function submit() {
+  if (props.busy || sampleCountError.value) return;
   emit("submit", {
     name: form.name,
     target_type: form.target_type,
@@ -55,6 +61,7 @@ function submit() {
     batch_id: form.batch_id || null,
     template_id: form.template_id,
     template_revision: template.value?.revision,
+    expected_samples: form.expected_samples,
   });
 }
 </script>
@@ -95,6 +102,20 @@ function submit() {
             :value="batch.id"
             :label="batch.name ?? batch.external_ref ?? batch.id" /></el-select
       ></el-form-item>
+      <el-form-item
+        label="计划样本数"
+        :error="errors.expected_samples || sampleCountError"
+      >
+        <el-input-number
+          v-model="form.expected_samples"
+          :min="1"
+          :max="10000"
+          :step="1"
+          :precision="0"
+          step-strictly
+          controls-position="right"
+        />
+      </el-form-item>
     </div>
     <div class="row-actions" style="justify-content: flex-end">
       <el-button @click="emit('cancel')">取消</el-button
@@ -102,7 +123,7 @@ function submit() {
         type="primary"
         native-type="submit"
         :loading="busy"
-        :disabled="!form.target_id || !form.template_id"
+        :disabled="!form.target_id || !form.template_id || !!sampleCountError"
         >创建任务</el-button
       >
     </div></el-form

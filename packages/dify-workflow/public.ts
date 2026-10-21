@@ -40,8 +40,8 @@ export type MountWorkflowEditor = (
 
 /** 用原Start/End协议组装输入输出骨架，不包含业务样例或外部资源。 */
 export function createInitialDefinition(): GraphDefinition {
-  const startId = crypto.randomUUID(),
-    endId = crypto.randomUUID();
+  const startId = crypto.randomUUID().replaceAll("-", ""),
+    endId = crypto.randomUUID().replaceAll("-", "");
   return {
     format: "graph",
     engine: "graphon",

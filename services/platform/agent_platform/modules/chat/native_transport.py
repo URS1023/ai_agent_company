@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import re
 
 import httpx
 
@@ -13,10 +14,19 @@ class NativeChatAdapter(OpenWebUIAdapter):
     """访问已配置实例，不接受用户提供URL、任意路径或原生数据库连接。"""
     max_response_bytes = 2 * 1024 * 1024
 
-    async def async_call(self, method, path, *, payload=None, timeout_seconds=10, allow_null=False, allow_bool=False):
+    async def async_call(self, method, path, *, payload=None, timeout_seconds=10, allow_null=False, allow_bool=False,
+                         budget_token=None):
         """Socket监控线程中的绝对HTTP预算；连接、逐块读取和释放共用同一次剩余时限。"""
         # 登录尚无令牌；空Bearer的尾空格会被真实HTTP协议层拒绝。
         headers = {'Authorization': 'Bearer ' + self.connection.token} if self.connection.token else {}
+        if budget_token is not None:
+            from .native_tool_budget import HEADER
+            if (method != 'POST' or (path != '/api/chat/completions' and not re.fullmatch(
+                    r'/api/v1/chats/[A-Za-z0-9_-]{1,200}/messages/[A-Za-z0-9_-]{1,200}/resolve', path))
+                    or not isinstance(budget_token, str) or not 1 <= len(budget_token) <= 8192
+                    or any(char not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.' for char in budget_token)):
+                raise DomainError(403, 'native_chat_budget_binding_invalid', '对话预算不适用于此请求')
+            headers[HEADER] = budget_token
         try:
             async with asyncio.timeout(timeout_seconds):
                 async with httpx.AsyncClient(trust_env=False, follow_redirects=False, transport=self.transport,

@@ -116,6 +116,12 @@
       "sha256": "4add0813d62459dbfcf263b092395ed2acbc315a53eb5c2eac26e765d8eee07d",
       "kind": "adapted_presentation_fragment",
       "changes": "提取原completion分支与原SSE parser使用方式，不复制原网络、模型或全局账号状态。"
+    },
+    {
+      "source": "src/lib/components/layout/Sidebar/icons/EditPencil.svelte",
+      "target": "src/reused/EditPencil.svelte",
+      "sha256": "a83ca4f9e8b1e1e038a780982c9c2e09aa62df919a9801edab8c448225632686",
+      "kind": "source_with_platform_adapters"
     }
   ],
   "license": "licenses/OpenWebUI-LICENSE.txt"

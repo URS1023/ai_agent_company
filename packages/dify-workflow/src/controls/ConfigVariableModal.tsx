@@ -72,9 +72,9 @@ export default function ConfigVariableModal({
       value.max_length !== undefined &&
       (!Number.isInteger(value.max_length) ||
         value.max_length < 1 ||
-        value.max_length > 200000)
+        value.max_length > 40000)
     )
-      errors.max_length = "请输入1到200000之间的整数";
+      errors.max_length = "请输入1到40000之间的整数";
     setError(errors);
     if (!Object.keys(errors).length)
       onConfirm(
@@ -233,7 +233,7 @@ export default function ConfigVariableModal({
             <input
               type="number"
               min={1}
-              max={200000}
+              max={40000}
               aria-invalid={!!error.max_length}
               value={value.max_length ?? ""}
               onChange={(event) => {

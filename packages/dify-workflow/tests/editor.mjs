@@ -337,7 +337,7 @@ for (const item of manifest.files) {
     ),
   );
 }
-check(() => assert.equal(manifest.files.length, 11));
+check(() => assert.equal(manifest.files.length, 21));
 console.log(
   JSON.stringify({
     passed: true,

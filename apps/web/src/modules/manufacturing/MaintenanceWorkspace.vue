@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, shallowRef } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from "vue";
 import { useSession } from "../../stores/session";
-import { api, type Entity } from "../../api/client";
+import { api, ApiError, type Entity } from "../../api/client";
 import { useCollection } from "../../composables/useCollection";
 import { useOperation } from "../../composables/useOperation";
 import MaintenanceForm from "./MaintenanceForm.vue";
@@ -11,9 +11,19 @@ import TrendChart from "./TrendChart.vue";
 import WorkOrderCreateForm from "./WorkOrderCreateForm.vue";
 import MaintenanceWorkOrderDetail from "./MaintenanceWorkOrderDetail.vue";
 import EnergyWorkspace from "./EnergyWorkspace.vue";
+import {
+  downloadMaintenanceCsv,
+  maintenanceCsvName,
+} from "./maintenanceExport";
+import { measurementText, comparisonText } from "./measurementPresentation";
 const session = useSession();
 const list = useCollection(() => "/maintenance-analyses");
 const op = useOperation();
+const exportOp = useOperation();
+let disposed = false;
+onBeforeUnmount(() => {
+  disposed = true;
+});
 const dialog = ref(false);
 const detail = ref<Entity | null>(null);
 const creation = ref(false);
@@ -24,6 +34,14 @@ const bins = computed(() =>
   (result.value.bins ?? []).map((row: any) => ({
     ...row,
     range: `${row.load_min}–${row.load_max}`,
+  })),
+);
+const displayBins = computed(() =>
+  bins.value.map((row: Record<string, unknown>) => ({
+    ...row,
+    baseline_mean: measurementText(row.baseline_mean, 2),
+    recent_mean: measurementText(row.recent_mean, 2),
+    eligible: comparisonText(row.eligible),
   })),
 );
 async function create(data: Record<string, unknown>) {
@@ -38,13 +56,46 @@ async function open(row: Entity) {
     detail.value = await api.get(`/maintenance-analyses/${row.id}`);
   });
 }
+function identityKey() {
+  return `${session.value?.user.id ?? ""}:${session.value?.workspace.id ?? ""}`;
+}
+async function exportData() {
+  if (!detail.value || !session.can("m10.read") || exportOp.busy.value) return;
+  const id = detail.value.id;
+  const filename = maintenanceCsvName(detail.value.name);
+  const identity = identityKey();
+  const current = () =>
+    !disposed && detail.value?.id === id && identityKey() === identity;
+  await exportOp.run(async () => {
+    let blob: Blob;
+    try {
+      blob = await api.postBlob(`/maintenance-analyses/${id}/exports`, {});
+    } catch (error) {
+      if (
+        current() &&
+        error instanceof ApiError &&
+        [403, 404].includes(error.status)
+      )
+        detail.value = null;
+      throw error;
+    }
+    // 切换结果、用户、工作区或卸载后，不下载迟到的旧来源数据。
+    if (!current()) return;
+    if (!session.can("m10.read")) {
+      detail.value = null;
+      return;
+    }
+    downloadMaintenanceCsv(blob, filename);
+  });
+}
 function time(value: unknown) {
   return typeof value === "number"
     ? new Date(value * 1000).toLocaleString("zh-CN", { hour12: false })
     : "—";
 }
 function number(value: unknown, suffix = "") {
-  return typeof value === "number" ? `${value.toFixed(2)}${suffix}` : "—";
+  const text = measurementText(value, 2, suffix === "%" ? 2 : 0);
+  return text === "—" ? text : `${text}${suffix}`;
 }
 onMounted(list.load);
 async function createOrder(data: Record<string, unknown>) {
@@ -92,6 +143,12 @@ async function createOrder(data: Record<string, unknown>) {
         <div class="panel-heading">
           <h3>{{ detail.name }}</h3>
           <el-button
+            v-if="session.can('m10.read')"
+            :loading="exportOp.busy.value"
+            @click="exportData"
+            >导出数据</el-button
+          >
+          <el-button
             v-if="detail.work_order_id"
             type="primary"
             @click="selectedOrder = detail.work_order_id"
@@ -122,7 +179,7 @@ async function createOrder(data: Record<string, unknown>) {
               {{
                 result.relative_change === undefined
                   ? "—"
-                  : number(result.relative_change * 100, "%")
+                  : number(result.relative_change, "%")
               }}
             </div>
           </div>
@@ -157,9 +214,7 @@ async function createOrder(data: Record<string, unknown>) {
           </p>
           <el-descriptions :column="1" border
             ><el-descriptions-item label="工况覆盖率">{{
-              result.coverage === undefined
-                ? "—"
-                : number(result.coverage * 100, "%")
+              result.coverage === undefined ? "—" : number(result.coverage, "%")
             }}</el-descriptions-item
             ><el-descriptions-item label="数据时间"
               >{{ time(result.time_range?.[0]) }} —
@@ -178,7 +233,7 @@ async function createOrder(data: Record<string, unknown>) {
         <el-tabs
           ><el-tab-pane label="分组明细"
             ><ResultTable
-              :rows="bins"
+              :rows="displayBins"
               :columns="[
                 'range',
                 'baseline_count',
@@ -198,7 +253,15 @@ async function createOrder(data: Record<string, unknown>) {
           ><el-tab-pane label="分析证据">
             <pre class="json-preview">{{
               JSON.stringify(
-                result.coverage_detail ?? detail.provenance ?? {},
+                {
+                  baseline_mean: result.baseline_mean,
+                  recent_mean: result.recent_mean,
+                  relative_change: result.relative_change,
+                  coverage: result.coverage,
+                  bins: result.bins,
+                  coverage_detail: result.coverage_detail,
+                  provenance: detail.provenance,
+                },
                 null,
                 2,
               )

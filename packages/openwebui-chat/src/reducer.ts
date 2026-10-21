@@ -1,4 +1,5 @@
 import type { NativeHistory, NativeFrame } from "../public";
+import { mergeNativeMessages } from "./messages";
 import {
   applyResponseStreamEvent,
   getOutputText,
@@ -9,6 +10,8 @@ export function reduceNativeFrame(
   assistantId: string,
   frame: NativeFrame,
 ): NativeHistory {
+  if (frame.event_type === "chat:messages")
+    return mergeNativeMessages(history, frame.data);
   const next = structuredClone(history),
     message = next.messages[assistantId];
   if (!message || message.role !== "assistant") return next;

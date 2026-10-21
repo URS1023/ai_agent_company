@@ -14554,7 +14554,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GenerationInput"
+                "$ref": "#/components/schemas/agent_platform__modules__reports__schemas__GenerationInput"
               }
             }
           },
@@ -15550,6 +15550,160 @@
         ],
         "responses": {
           "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat/native/conversations/{chat_id}/messages/{assistant_message_id}/regenerations": {
+      "post": {
+        "tags": [
+          "原生对话",
+          "原生聊天会话"
+        ],
+        "summary": "Regenerate",
+        "operationId": "regenerate_api_v1_chat_native_conversations__chat_id__messages__assistant_message_id__regenerations_post",
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Chat Id"
+            }
+          },
+          {
+            "name": "assistant_message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Message Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 160
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/agent_platform__modules__chat__native_router__GenerationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat/native/conversations/{chat_id}/messages/{user_message_id}/edit-and-send": {
+      "post": {
+        "tags": [
+          "原生对话",
+          "原生聊天会话"
+        ],
+        "summary": "Edit And Send",
+        "operationId": "edit_and_send_api_v1_chat_native_conversations__chat_id__messages__user_message_id__edit_and_send_post",
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Chat Id"
+            }
+          },
+          {
+            "name": "user_message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Message Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 160
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditAndSendInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
             "description": "Successful Response",
             "content": {
               "application/json": {
@@ -23004,6 +23158,64 @@
         ],
         "title": "DropNullOperation"
       },
+      "EditAndSendInput": {
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Revision"
+          },
+          "model_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Model Id"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "maximum": 4096.0,
+            "minimum": 1.0,
+            "title": "Max Tokens",
+            "default": 512
+          },
+          "temperature": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Temperature",
+            "default": 0.7
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 40000,
+            "minLength": 1,
+            "title": "Content"
+          },
+          "attachment_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 10
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attachment Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "revision",
+          "model_id",
+          "content"
+        ],
+        "title": "EditAndSendInput"
+      },
       "EnergyInput": {
         "properties": {
           "name": {
@@ -23404,41 +23616,6 @@
           "revision"
         ],
         "title": "FormValidation"
-      },
-      "GenerationInput": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 160,
-            "minLength": 1,
-            "title": "Name"
-          },
-          "template_id": {
-            "type": "string",
-            "title": "Template Id"
-          },
-          "bindings": {
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/components/schemas/GenerationQueryBinding"
-                }
-              ]
-            },
-            "type": "object",
-            "title": "Bindings"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "name",
-          "template_id"
-        ],
-        "title": "GenerationInput"
       },
       "GenerationQueryBinding": {
         "properties": {
@@ -24100,6 +24277,29 @@
             ],
             "title": "Chat Model Ids"
           },
+          "chat_tool_policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ToolPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chat_budget_secret_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Budget Secret Ref"
+          },
           "enabled": {
             "type": "boolean",
             "title": "Enabled",
@@ -24255,6 +24455,29 @@
               }
             ],
             "title": "Chat Model Ids"
+          },
+          "chat_tool_policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ToolPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chat_budget_secret_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Budget Secret Ref"
           },
           "enabled": {
             "anyOf": [
@@ -27441,6 +27664,64 @@
         ],
         "title": "ToolPatch"
       },
+      "ToolPolicy": {
+        "properties": {
+          "version": {
+            "type": "integer",
+            "const": 1,
+            "title": "Version",
+            "default": 1
+          },
+          "alias_model_id": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Alias Model Id"
+          },
+          "server_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Server Id"
+          },
+          "max_tool_calls": {
+            "type": "integer",
+            "maximum": 32.0,
+            "minimum": 1.0,
+            "title": "Max Tool Calls",
+            "default": 4
+          },
+          "max_tool_iterations": {
+            "type": "integer",
+            "maximum": 16.0,
+            "minimum": 1.0,
+            "title": "Max Tool Iterations",
+            "default": 2
+          },
+          "max_model_requests": {
+            "type": "integer",
+            "maximum": 32.0,
+            "minimum": 1.0,
+            "title": "Max Model Requests",
+            "default": 3
+          },
+          "max_seconds": {
+            "type": "integer",
+            "maximum": 90.0,
+            "minimum": 1.0,
+            "title": "Max Seconds",
+            "default": 90
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "alias_model_id",
+          "server_id"
+        ],
+        "title": "ToolPolicy",
+        "description": "管理员边界；普通浏览器运行DTO不包含这些字段。"
+      },
       "TurnInput": {
         "properties": {
           "revision": {
@@ -27453,6 +27734,20 @@
             "maxLength": 200,
             "minLength": 1,
             "title": "Model Id"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "maximum": 4096.0,
+            "minimum": 1.0,
+            "title": "Max Tokens",
+            "default": 512
+          },
+          "temperature": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Temperature",
+            "default": 0.7
           },
           "content": {
             "type": "string",
@@ -27472,20 +27767,6 @@
               }
             ],
             "title": "Parent Message Id"
-          },
-          "max_tokens": {
-            "type": "integer",
-            "maximum": 4096.0,
-            "minimum": 1.0,
-            "title": "Max Tokens",
-            "default": 512
-          },
-          "temperature": {
-            "type": "number",
-            "maximum": 1.0,
-            "minimum": 0.0,
-            "title": "Temperature",
-            "default": 0.7
           },
           "attachment_ids": {
             "items": {
@@ -27985,6 +28266,42 @@
         ],
         "title": "ImportInput"
       },
+      "agent_platform__modules__chat__native_router__GenerationInput": {
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Revision"
+          },
+          "model_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Model Id"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "maximum": 4096.0,
+            "minimum": 1.0,
+            "title": "Max Tokens",
+            "default": 512
+          },
+          "temperature": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Temperature",
+            "default": 0.7
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "revision",
+          "model_id"
+        ],
+        "title": "GenerationInput"
+      },
       "agent_platform__modules__integrations__schemas__ImportInput": {
         "properties": {
           "file_id": {
@@ -28091,6 +28408,41 @@
           "query"
         ],
         "title": "SearchInput"
+      },
+      "agent_platform__modules__reports__schemas__GenerationInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "template_id": {
+            "type": "string",
+            "title": "Template Id"
+          },
+          "bindings": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/GenerationQueryBinding"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Bindings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "template_id"
+        ],
+        "title": "GenerationInput"
       }
     }
   }

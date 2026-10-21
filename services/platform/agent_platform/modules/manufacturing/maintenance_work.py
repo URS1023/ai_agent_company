@@ -4,12 +4,14 @@ from datetime import timedelta
 from decimal import Decimal
 
 from sqlalchemy import select
+import sqlglot
+from sqlglot.errors import ParseError
 
 from agent_platform.core.errors import DomainError
 from agent_platform.core.tasks import TaskService
 
 from ..data.service import DataService
-from ..data.sql_safety import SqlFieldValidationError, ValidationError
+from ..data.sql_safety import DIALECTS, SqlFieldValidationError, ValidationError
 from . import models as m
 from .schemas import decimal_text
 from .service import ManufacturingService, view
@@ -128,7 +130,9 @@ class MaintenanceWorkService(ManufacturingService):
                 keys = ("value_field", "load_field", "period_field", "bin_width", "min_samples", "minimum_coverage", "change_threshold", "change_direction", "condition_fields")
                 if any(analysis.request_snapshot.get(key) != original.get(key) for key in keys):
                     raise DomainError(422, "verification_criteria_changed", "复测须使用原来的指标和比较口径")
-            return {"type": "analysis", "analysis_id": analysis.id, "query_id": analysis.provenance.get("query_id"), "result": deepcopy(analysis.result)}
+            observations = self._analysis_observation_evidence(analysis, row.repaired_at)
+            return {"type": "analysis", "analysis_id": analysis.id, "query_id": analysis.provenance["query_id"],
+                    "result": deepcopy(analysis.result), "observation_evidence": observations}
         if not data.get("verification_query_id") or not data.get("value_field") or not data.get("time_field") or data.get("verification_analysis_id"):
             raise DomainError(422, "verification_query_required", "请选择复测查询及数值、时间字段")
         query = DataService(self.session, self.actor).get_query(data["verification_query_id"])
@@ -163,6 +167,67 @@ class MaintenanceWorkService(ManufacturingService):
         if matched:
             raise DomainError(409, "verification_not_recovered", "复测结果仍达到原预警条件")
         return {"type": "query", "query_id": query.id, "value": raw, "unit": unit, "observed_at": stamp.isoformat(), "operator": row.source_snapshot["operator"], "threshold": row.source_snapshot["threshold"]}
+
+    def _analysis_observation_evidence(self, analysis, repaired_at):
+        """从已保存查询核对近期观测，不把重算时间当作维修后采样证据。
+
+        这里只重授权并读取不可变查询快照，不连接业务源。显式分期检查所有
+        recent行；自动分期只接受无剔除、重复或冲突的完整输入，以免猜测原来
+        哪些行参与了中位时间分期。历史baseline不受维修后时间下限限制。
+        """
+        request, result, provenance = analysis.request_snapshot, analysis.result, analysis.provenance
+        if provenance.get("type") != "query" or not provenance.get("query_id"):
+            raise DomainError(422, "verification_source_required", "复测分析须使用已保存的受控查询")
+        data = DataService(self.session, self.actor)
+        query = data.get_query(provenance["query_id"])
+        if (not request.get("datasource_id") or query.datasource_id != request["datasource_id"]
+                or provenance.get("datasource_id") != query.datasource_id
+                or query.parameters != request.get("parameters", {})):
+            raise DomainError(422, "verification_source_mismatch", "复测分析与原始查询来源不一致")
+        source = data.get_source(query.datasource_id)
+        dialect = DIALECTS[data._dialect(source)]
+        try:
+            # 比较原查询意图；空白和注释不同不应误拒，亦不能比较附加预算后的SQL。
+            requested = sqlglot.parse_one(request.get("sql") or "", read=dialect)
+            saved = sqlglot.parse_one(query.sql, read=dialect)
+            if requested.sql(dialect=dialect, comments=False) != saved.sql(dialect=dialect, comments=False):
+                raise ValueError()
+        except (ParseError, ValueError) as exc:
+            raise DomainError(422, "verification_source_mismatch", "复测分析与原始查询来源不一致") from exc
+        rows = query.result.get("rows")
+        time_field, period_field = request.get("time_field"), request.get("period_field")
+        if (query.result.get("truncated") is not False or not isinstance(rows, list) or not rows
+                or not time_field or time_field not in query.result.get("columns", [])
+                or not period_field or any(not isinstance(item, dict) for item in rows)
+                or result.get("sample_count") != len(rows)):
+            raise DomainError(422, "verification_mapping_invalid", "复测来源须完整并包含观测时间字段")
+        explicit = any(str(item.get(period_field, "")) in ("baseline", "recent") for item in rows)
+        if explicit:
+            recent_rows = [item for item in rows if str(item.get(period_field, "")) == "recent"]
+        else:
+            clean = (result.get("valid_count") == len(rows)
+                     and all(result.get(key) == 0 for key in ("rejected_count", "duplicate_count", "conflicting_observations")))
+            if not clean:
+                raise DomainError(422, "verification_period_ambiguous", "请使用明确标记baseline和recent的分期字段重新分析")
+            stamps = [input_time(str(item.get(time_field, ""))) for item in rows]
+            if any(stamp is None for stamp in stamps):
+                raise DomainError(422, "verification_time_invalid", "复测观测时间不能为空")
+            unique_times = sorted(set(stamps))
+            boundary = unique_times[len(unique_times) // 2]
+            recent_rows = [item for item, stamp in zip(rows, stamps) if stamp >= boundary]
+        if not recent_rows or len(recent_rows) < result.get("recent_count", 0):
+            raise DomainError(422, "verification_period_ambiguous", "复测来源缺少可核对的recent观测")
+        stamps = [input_time(str(item.get(time_field, ""))) for item in recent_rows]
+        if any(stamp is None for stamp in stamps):
+            raise DomainError(422, "verification_time_invalid", "复测观测时间不能为空")
+        if min(stamps) < as_utc(repaired_at):
+            raise DomainError(422, "verification_observation_old", "复测recent观测必须全部在维修之后")
+        if max(stamps) > m.now() + timedelta(minutes=5):
+            raise DomainError(422, "verification_observation_future", "复测观测时间不能晚于当前时间")
+        return {"time_field": time_field, "period_field": period_field,
+                "period_selection": "explicit" if explicit else "time_midpoint",
+                "recent_count": len(stamps), "recent_start_at": min(stamps).isoformat(),
+                "recent_end_at": max(stamps).isoformat()}
 
     def action(self, order_id, data):
         row = self.order(order_id)

@@ -158,3 +158,5 @@ await writeFile(
     2,
   ) + "\n",
 );
+// 完整重新提取时也保留第二批原聚合组件与逐源清单。
+await import("./extract-aggregation.mjs");

@@ -106,6 +106,9 @@ class IntegrationService:
             vault=getattr(self.request.app.state, 'secret_vault', None))
         from .chat_model_config import validate_chat_model_config
         validate_chat_model_config(self.actor, {**(existing or {}), **data}, existing=existing)
+        from ..chat.native_tool_policy import validate_tool_policy_config
+        validate_tool_policy_config(self.actor, {**(existing or {}), **data}, existing=existing,
+            vault=getattr(self.request.app.state, 'secret_vault', None), session=self.session)
 
     def secret(self, ref: str | None) -> str:
         if not ref:
@@ -186,7 +189,7 @@ class IntegrationService:
     def credential_references(self, ref: str) -> list[dict[str, Any]]:
         """供凭据删除前检查；运行快照保留未终态调用的真实资源和凭据关联。"""
         references = []
-        keys = {"credential_ref", "dataset_credential_ref", "callback_secret_ref", "delegation_jwt_secret_ref"}
+        keys = {"credential_ref", "dataset_credential_ref", "callback_secret_ref", "delegation_jwt_secret_ref", "chat_budget_secret_ref"}
         for kind in (INTEGRATION, BINDING, AUTOMATION, SPACE, IDENTITY, PROFILE, TOOL):
             for item in self.list_all(kind):
                 if any(item.get(key) == ref for key in keys):

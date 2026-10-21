@@ -22,6 +22,11 @@ def schema(request: Request, session=Depends(get_session), actor=Depends(get_act
 @router.get("/{operation_id}")
 def invoke(operation_id: str, request: Request, session=Depends(get_session), engine=Depends(get_actor)):
     actor, context = resolve_delegated_actor(session, engine, request)
+    from .delegated_budget import reserve_tool_call
+    if reserve_tool_call(session, actor, context, operation_id):
+        # 额度已提交，后续失败仍保留消费；新事务重核证书与人类授权，不能重用旧快照。
+        engine = get_actor(request, session)
+        actor, context = resolve_delegated_actor(session, engine, request)
     payload, sources = execute_tool(session, actor, operation_id, request.query_params,
         context=context, settings=getattr(request.app.state, 'settings', None))
     if operation_id == 'search_platform_knowledge':

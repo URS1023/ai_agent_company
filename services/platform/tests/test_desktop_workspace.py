@@ -43,6 +43,8 @@ def context(monkeypatch, tmp_path):
         SimpleNamespace(worker_module=lambda: worker))
     # 若协调器误调用完整Dify启动，则测试立即失败。
     monkeypatch.setitem(sys.modules, 'wsl', SimpleNamespace())
+    monkeypatch.setitem(sys.modules, 'wsl_bridge_lifecycle', SimpleNamespace(
+        reconcile=lambda _: calls.append('bridge') or {'configured': True, 'ready': True}))
     return module, state, calls, lifetime, worker
 
 
@@ -58,7 +60,7 @@ def test_unconfigured_computer_starts_platform_without_wsl(context):
 def test_configured_workspace_reuses_chat_platform_and_keeper(context):
     module, _, calls, _, _ = context
     result = module.start_workspace()
-    assert calls == ['platform', 'chat', 'keeper', ('proof', 5)]
+    assert calls == ['platform', 'chat', 'keeper', ('proof', 5), 'bridge']
     assert result['chat']['reused'] and result['chat']['ready']
     assert result['graph_runtime'] == {'configured': True, 'environment_ready': True,
         'runtime_id': 'owned', 'reused': True}

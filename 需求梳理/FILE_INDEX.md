@@ -375,3 +375,47 @@
 
 | packages/openwebui-chat/tests/mount-browser.mjs、apps/web/tests/native-island.mjs | 原组件真实微任务/挂载/卸载回归与宿主失败锁 | agent-1020-web，root接管 | 在用 | 不可删除 | 10纯断言及1次独立Chrome/0HTTP模型DB通过；对应根因已修 | 2026-10-21/T-web37 |
 | .local/mysql-demo/ui-native-chat-ready-read.json、ui-native-chat-ready-read/ | 实际当前聊天两消息/模型/输入启用与刷新恢复截图，Git忽略 | agent-1021-root | 在用 | 不可删除 | 50只读/登录请求、0错误与新Turn，原回复是429失败，不能作为模型成功证据 | 2026-10-21/T-root69 |
+
+| services/platform/agent_platform/modules/chat/native_branches.py、tests/test_native_chat_branches.py | 原生重新生成/编辑发送的追加计划、快照与协议/来源回归，依赖原Turn/Task及附件授权 | agent-1020-native，root接管 | 在用 | 不可删除 | 40新项及89既有纯回归通过，实际回复尚受上游429阻塞 | 2026-10-21/T-native43 |
+| deploy/native/wsl_bridge_lifecycle.py、services/platform/tests/test_wsl_bridge_lifecycle.py | 已配置工具桥的日常快照更新、失败预约与精确launch停止，desktop日常入口调用 | agent-1021-root | 在用 | 不可删除 | 29生命周期/入口/代理纯回归通过，未进行真实重建 | 2026-10-21/T-root73 |
+
+| deploy/native/owui_tool_forward_patch.py、services/platform/tests/test_owui_tool_forward_patch.py | OWUI0.12.3受管工具调用原签名函数的小补丁、SHA/CAS/环境pin及纯回归 | agent-1020-domain，root接管 | 在用 | 不可删除 | 27新纯回归通过，实际源码未应用；配合windows_services及独立密文key | 2026-10-21/T-domain46 |
+
+| apps/web/src/modules/chat/nativeBranchDraft.ts、packages/openwebui-chat/src/components/MessageEditor.svelte、EditAttachments.svelte、apps/web/tests/native-branches.mjs | 原消息编辑/再生成、跨组件草稿与附件三态及准确保存确认，依赖T-native43 DTO | agent-1020-web，root接管 | 在用 | 不可删除 | 164纯断言/构建/组件Chrome及本机只读编辑取消通过；未实际重派模型 | 2026-10-21/T-web38/root74 |
+| .local/mysql-demo/platform-update-native-branches.json、platform-workspace-bridge-rebind.json、ui-native-chat-branches-ready.json及截图、.local/backups/fusion-native-branches-20261021.sqlite3 | 分支部署、工具桥重绑定与只读UI证据/恢复备份，Git忽略 | agent-1021-root | 在用 | 不可删除 | 实际单次检查通过，Go失败证据保留，非数据库业务验收 | 2026-10-21/T-root73/74 |
+| services/platform/tests/test_manufacturing_review_completeness.py | 不合格遮住缺证据时的人工复核回归，依赖manufacturing/service.review | agent-1020-domain，root接管 | 在用 | 不可删除 | 8新与2原定向回归通过；实际服务尚未更新 | 2026-10-21/T-domain49 |
+| services/platform/agent_platform/modules/integrations/delegated_budget.py、tests/test_delegated_budget.py | 工具读取前冻结额度CAS与提交、失败不退及并发/取消回归，依赖native_tool_policy | agent-1021-root | 在用 | 不可删除 | 19新和61旧委托回归通过，待完整B部署验收 | 2026-10-21/T-root75 |
+
+| apps/web/src/modules/manufacturing/InspectionCreateForm.vue、InspectionDetail.vue、InspectionObservation.vue、inspectionPresentation.ts、apps/web/tests/inspection-presentation.mjs | 抽样计划、服务端数量/结论原因、缺陷明细与固定演示图预览，依赖m11DTO及public/demo/quality五图 | agent-1020-web，root接管 | 在用 | 不可删除 | 139纯回归/类型/正式build通过；一般企业图片原件尚无受控File关联 | 2026-10-21/T-web39 |
+
+| services/platform/agent_platform/modules/manufacturing/assessment.py、modules/reports/inspection_source.py、tests/test_report_review_completeness.py | 共用缺证据判定及报告发布守卫，兼容完整证据与不合格报告 | agent-1021-root | 在用 | 不可删除 | 25相关纯回归通过，实际服务待统一更新 | 2026-10-21/T-root76 |
+| .local/ui-quality-controls-read.json、.local/ui-quality-controls-read/ | 实际质检表单样本数与取消证据，Git忽略 | agent-1020-web，root接管 | 在用 | 不可删除 | 37请求无写入/模型业务SQL，当前0任务故外观细节未验 | 2026-10-21/T-web40 |
+
+| services/platform/agent_platform/modules/chat/native_tool_policy.py、native_tool_budget.py、tests/test_native_chat_tool_budget.py | 专属工具别名策略、Turn冻结与最终请求签名，依赖独立Vault凭据及原生capability | agent-1020-native，root接管 | 在用 | 不可删除 | 36新增/97联合纯回归通过，无新迁移，生产未启用 | 2026-10-21/T-native45 |
+
+| deploy/native/owui_chat_budget_patch.py、owui_chat_budget_runtime.py、tests/test_owui_chat_budget_patch.py | OWUI固定源码预算微调、独立账本/截止控制和33新增纯回归，windows_services读取非密配置+密文key | agent-1020-domain，root接管 | 在用 | 不可删除 | 33新+5旧及内存语法通过，T-root77实际补丁启动/capability已通过，模型调用尚未验 | 2026-10-21/T-domain48/root77 |
+| .local/mysql-demo/platform-native-business-tool-policy.json、native-tool-budget-install.json、platform-workspace-budget-bridge.json、.local/backups/owui-tool-budget-20261021/ | 实际配置证据和原生源码/SQLite恢复备份，Git忽略 | agent-1021-root | 在用 | 不可删除 | 本机归属、19工具与alias读回通过；恢复/追溯所需，不含导出密钥 | 2026-10-21/T-root77 |
+
+| services/workflow_runtime/worker.py、services/platform/tests/test_workflow_runtime.py、test_workflow_graph.py | 原Graphon启动入口与平台纯图保存/运行边界；初始化写选择器恰2段、读取nested仍支持 | agent-1020-native，root接管 | 在用 | 不可删除 | T47定向10项通过，真实本轮图未运行 | 2026-10-21/T-native47 |
+
+| tools/demo_data/recover_mysql.py、services/platform/tests/test_demo_recovery_arrow_batches.py | 按原Parquet实际批次恢复、真实行哈希回读及预算守卫；Arrow字典小批次纯回归 | agent-1021-root / agent-1020-native | 在用 | 不可删除 | 原计划与账本不可重分批；T-root79旧15回归通过、新回归进行中，待实际续导 | 2026-10-21/T-root79/native49 |
+| .local/mysql-demo/recovery-20261021-authorized.json、import-stop-check-batch-fix-20261021.json | 错误ceil批数首次受审恢复失败及连接10/13停止证据，Git忽略 | agent-1021-root | 在用 | 不可删除 | 0新业务写入，保留原失败过程与恢复审核链 | 2026-10-21/T-root79 |
+
+| packages/dify-workflow/、apps/web/tests/workflow-editor.mjs | 原Dify节点/面板编辑岛，追加聚合分组/连通类型变量/字典选择；依赖SOURCE_MANIFEST及Vue宿主 | agent-1020-web，root接管 | 在用 | 不可删除 | T42的39文件已交接，190纯断言/独立tsc通过，原来源SHA21项；待根build与实际画布验收 | 2026-10-21/T-web42 |
+
+| tools/demo_data/requirements.txt | 演示包PyArrow及pytz精确依赖，供原流时间值转换 | agent-1021-root | 在用 | 不可删除 | 实际缺pytz重复import热点已定位；只补单wheel，运行连接与期限不变 | 2026-10-21/T-root79/native53 |
+| apps/web/src/modules/manufacturing/MaintenanceWorkspace.vue、maintenanceExport.ts、apps/web/tests/maintenance-export.mjs | 维护分组CSV导出UI与下载回收/权限边界，依赖现有exportsAPI | agent-1020-web，root接管 | 在用 | 不可删除 | T43的35纯检查/类型通过，真实下载待验，不是正式报告 | 2026-10-21/T-web43 |
+
+| tools/demo_data/import_mysql.py、services/platform/tests/test_demo_import_diagnostics.py | 所有演示导入共用的连接前依赖检查、异常脱敏种类/位置、事务及预算；恢复/食品复用 | agent-1021-root | 在用 | 不可删除 | 27联合纯回归通过，原异常证据保留，当前T81实测进行中 | 2026-10-21/T-root80/root81 |
+| services/platform/agent_platform/modules/manufacturing/maintenance_work.py、services/platform/tests/test_maintenance_analysis_verification_freshness.py、test_manufacturing_lifecycle.py | 维修复核的受控源及recent采样时间证据；依赖DataService存储查询，不重查业务SQL | agent-1020-domain，root接管 | 在用 | 不可删除 | T52的19纯回归通过，严格来源与时间防历史重算冒充修后效果；待部署 | 2026-10-21/T-domain52 |
+
+| deploy/native/wsl_identity.py、wsl_runtime.py、wsl_lifetime.py、services/workflow_runtime/worker.py及对应4个测试文件 | rawticks稳定启动/进程身份及Graphon一致proof，依赖原UID/PGID/cgroup/netns保护 | agent-1020-native，root接管 | 在用 | 不可删除 | T58的191纯检查/11显式真实跳过通过；T-root83实际14角色无重启迁移与桥复用成功 | 2026-10-21/T-native58/root83 |
+| .local/mysql-demo/recovery-20261021-preflight-fixed.json、quality-import-20261021.json、platform-register.json、platform-verify-devices.json、platform-verify-products.json | 主数据2340740行与食品16样本的成功导入、来源登记和三业务结果，Git忽略 | agent-1021-root | 在用 | 不可删除 | 已通过，恢复/防重复导入/来源追溯依赖；不包含导出账号密钥 | 2026-10-21/T-root81/84 |
+| .local/ui-manufacturing-demo/ | 实页6/16样本、外观细节/示意图、维护4分组CSV下载收据与5截图，Git忽略 | agent-1021-root | 在用 | 不可删除 | 41HTTP/10.525秒通过，数值显示与柱动画截图改进另T-web46，原证据保留 | 2026-10-21/T-root84 |
+| .local/migrate_wsl_identity_v2.py、run_identity_migration.py及mysql-demo/wsl-identity-v2-migration.json、platform-workspace-identity-v2-bridge.json | 本次精确壁钟偏移迁移入口及无重启实证，原清单备份在独立WSL identity-migrations目录，Git忽略 | agent-1020-domain，root接管 | 在用 | 不可删除 | T59本轮专用，不能泛用到其它实例；14角色归属前后核对通过 | 2026-10-21/T-domain59/root83 |
+| .local/verify_aggregation_graphon.py、aggregation-demo-definition.json、mysql-demo/platform-aggregation-graphon.json | 两条固定原Graphon聚合图创建/执行/事件与同键回查的本机证据，Git忽略 | agent-1020-native，root接管 | 在用 | 不可删除 | 18HTTP/2run成功且无模型业务源；原始失败/历史不得覆写 | 2026-10-21/T-native57/60/root86 |
+
+| apps/web/src/modules/manufacturing/measurementPresentation.ts、InspectionDetail.vue、InspectionObservation.vue、MaintenanceWorkspace.vue、TrendChart.vue与tests/manufacturing-presentation.mjs | 概览格式与原精度分离、中文比较状态及真实图表绘制完成反馈；原bins仍用于计算/CSV | agent-1020-web，root接管 | 在用 | 不可删除 | 168定向纯检查/check/build及34请求改后真实UI通过；全部3新截图已目检 | 2026-10-21/T-web46/root84 |
+| .local/ui-manufacturing-presentation/ | 改后显示与原始证据、finished柱图的独立真实收据/三图，Git忽略 | agent-1021-root | 在用 | 不可删除 | 与原41请求CSV收据分开保留；无额外源SQL模型/导出 | 2026-10-21/T-root84 |
+
+- T-web46/root84索引路径补正：前条缩写tests/manufacturing-presentation.mjs的实际项目路径为apps/web/tests/manufacturing-presentation.mjs；相关改动另含apps/web/tests/inspection-presentation.mjs与apps/web/tests/maintenance-export.mjs，均已检查调用/测试，在用且不可删除。

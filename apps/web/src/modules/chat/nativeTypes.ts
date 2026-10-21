@@ -33,6 +33,8 @@ export interface NativeTurn {
   revision: number;
   error?: string;
   error_code?: string;
+  intent_kind?: "send" | "regenerate" | "edit_send";
+  source_message_id?: string;
 }
 export interface NativeFile {
   id: string;

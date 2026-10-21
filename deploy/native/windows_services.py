@@ -126,6 +126,12 @@ def openwebui_environment(runtime, paths: dict[str, Path], secret: dict) -> dict
         'ENABLE_VERSION_UPDATE_CHECK': 'False', 'ENABLE_BASE_MODELS_CACHE': 'False',
         'THREAD_POOL_SIZE': '2', 'OMP_NUM_THREADS': '1', 'MKL_NUM_THREADS': '1',
         'OPENBLAS_NUM_THREADS': '1', 'TOKENIZERS_PARALLELISM': 'false'})
+    if (paths['data'].parent.parent / 'openwebui-tool-forwarding.json').exists():
+        from owui_tool_forward_patch import forwarding_environment
+        env.update(forwarding_environment(runtime, paths, secret))
+    if (paths['data'].parent.parent / 'openwebui-chat-budget.json').exists():
+        from owui_chat_budget_patch import budget_environment
+        env.update(budget_environment(runtime, paths, secret))
     if paths['frontend'] == paths['data'].parent / 'api-only-no-frontend':
         # 仅验收API模式降低原生后台轮询；字段来自上游config/automations，不删除功能或改变完整模式。
         env.update({'TIMER_POLL_INTERVAL': '60', 'SCHEDULER_POLL_INTERVAL': '60',

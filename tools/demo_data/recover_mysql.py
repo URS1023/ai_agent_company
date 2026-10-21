@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import secrets
 import sys
+from time import monotonic
 
 REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
@@ -142,6 +143,9 @@ class RecoveryImporter(Importer):
             "original_connection_id": candidate["original_connection_id"], "stop_rechecked": False}
         self.receipt["recovery_budget"] = 1800
         self.receipt["verified_sources"] = []
+        self.source_batch_counts = {}
+        self.write_budget_checked = False
+        self.receipt.update(readback_rows=0, readback_batches=0, source_batch_counts={})
 
     def _connect(self):
         if _load(self.original_receipt_file)[1] != self.candidate["original_receipt_sha256"]:
@@ -164,8 +168,22 @@ class RecoveryImporter(Importer):
             raise ImportFailure("recovery_table_missing", "原导入表或账本缺失，不能恢复")
         return super().ensure_table(database, table, columns, comment, primary=primary, extras=extras)
 
+    def _source_batch_count(self, asset):
+        """按原导入流计批；Arrow 字典列可能在不足 batch_size 时形成批边界。"""
+        if asset.import_id not in self.source_batch_counts:
+            count = 0
+            for rows, _ in batches(self.plan, asset):
+                if self.interrupted.is_set() or monotonic() >= self.deadline:
+                    raise ImportFailure("import_timeout", "导入时限已到，已停止读取来源")
+                if not rows or len(rows) > BATCH_SIZE:
+                    raise ImportFailure("batch_size_invalid", "来源批次超出已审查预算")
+                count += 1
+            self.source_batch_counts[asset.import_id] = count
+            self.receipt["source_batch_counts"][asset.import_id] = count
+        return self.source_batch_counts[asset.import_id]
+
     def _batch_records(self, asset):
-        maximum = (asset.row_count + BATCH_SIZE - 1) // BATCH_SIZE
+        maximum = self._source_batch_count(asset)
         records = self.query(f"SELECT * FROM {qualified(asset.database, 'aic_demo_batches')} WHERE import_id=%s ORDER BY batch_no LIMIT %s", (asset.import_id, maximum + 1))
         if len(records) > maximum or [int(row["batch_no"]) for row in records] != list(range(1, len(records) + 1)):
             raise ImportFailure("recovery_batches_invalid", "已提交批次缺号、重复或超出来源范围")
@@ -210,6 +228,11 @@ class RecoveryImporter(Importer):
                     or batch["content_sha256"] != source_sha):
                 raise ImportFailure("recovery_batch_hash_mismatch", "已提交批次的范围或来源哈希不一致")
             selected = ",".join(quote(name) for name in names)
+            if (self.receipt["readback_rows"] + len(source_rows) > self.candidate["maximum_readback_rows"]
+                    or self.receipt["readback_batches"] + 1 > self.candidate["maximum_readback_batches"]):
+                raise ImportFailure("recovery_readback_budget_exceeded", "已提交数据回读量超出原恢复预算")
+            self.receipt["readback_rows"] += len(source_rows)
+            self.receipt["readback_batches"] += 1
             real = self.query(f"SELECT {selected} FROM {qualified(asset.database, asset.table)} WHERE `__aic_import_id`=%s AND `__aic_source_row` BETWEEN %s AND %s ORDER BY `__aic_source_row` LIMIT %s",
                 (asset.import_id, source_rows[0][1], source_rows[-1][1], BATCH_SIZE + 1))
             if digest_json(canonical_rows(real, source_rows, names)) != source_sha:
@@ -232,6 +255,20 @@ class RecoveryImporter(Importer):
             raise ImportFailure("recovery_checkpoint_changed", "复核后的提交点又发生变化，已停止恢复")
 
     def _import(self, asset, *, already_succeeded):
+        if not self.write_budget_checked:
+            # 已核全部断点后再估算剩余工作，不把真实小批次变成预算暗扩。
+            states = self.receipt["verified_sources"]
+            remaining = sum(self.source_batch_counts[row["import_id"]] - row["batch_count"]
+                            for row in states if row["status"] != "succeeded")
+            pending = sum(row["status"] != "succeeded" for row in states)
+            needed_sql = 5 * remaining + 8 * pending
+            needed_commits = remaining + 3 * pending
+            if (self.receipt["statements"] + needed_sql > self.budgets["sql_statement_budget"]
+                    or self.receipt["commits"] + needed_commits > self.budgets["commit_budget"]):
+                raise ImportFailure("recovery_write_budget_exceeded", "实际剩余批次超出原恢复预算")
+            self.receipt["remaining_work"] = {"batches": remaining, "statement_upper_bound": needed_sql,
+                                             "commit_upper_bound": needed_commits}
+            self.write_budget_checked = True
         checkpoint = already_succeeded
         if checkpoint["status"] == "new":
             return super()._import(asset)

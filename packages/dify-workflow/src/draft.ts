@@ -1,12 +1,14 @@
-import type {
-  GraphDefinition,
-  GraphNode,
-  InputVar,
-  VariableOption,
-  VarType,
-} from "./types";
+import type { GraphDefinition, InputVar } from "./types";
+import { availableVariables, simpleInputSchema } from "./variables";
+export { availableVariables, beforeNodeIds } from "./variables";
 
-export const editableNodeTypes = new Set(["start", "end", "if-else"]);
+export const editableNodeTypes = new Set([
+  "start",
+  "end",
+  "if-else",
+  "variable-aggregator",
+  "variable-assigner",
+]);
 const editableInputs = new Set([
   "text-input",
   "paragraph",
@@ -14,6 +16,34 @@ const editableInputs = new Set([
   "number",
   "checkbox",
 ]);
+/** 畸形或尚未接入的分组结构保留为只读，不把原数据补成另一份可保存配置。 */
+export function readableAggregation(data: Record<string, any>): boolean {
+  const selectors = (value: unknown) =>
+    Array.isArray(value) &&
+    value.every(
+      (item) =>
+        Array.isArray(item) &&
+        item.length >= 2 &&
+        item.every((part) => typeof part === "string"),
+    );
+  if (typeof data.output_type !== "string" || !selectors(data.variables))
+    return false;
+  if (data.advanced_settings == null) return true;
+  const settings = data.advanced_settings;
+  return (
+    typeof settings.group_enabled === "boolean" &&
+    Array.isArray(settings.groups) &&
+    settings.groups.every(
+      (group: any) =>
+        group &&
+        typeof group.groupId === "string" &&
+        !!group.groupId &&
+        typeof group.group_name === "string" &&
+        typeof group.output_type === "string" &&
+        selectors(group.variables),
+    )
+  );
+}
 /** 先检查整个定义；遇到尚未提取的配置只读保留，不能通过保存丢失原图。 */
 export function editingBlockers(definition: GraphDefinition): string[] {
   const problems: string[] = [];
@@ -28,6 +58,11 @@ export function editingBlockers(definition: GraphDefinition): string[] {
     if (!editableNodeTypes.has(node.data.type))
       problems.push(`${label}的属性编辑尚未接入`);
     if (
+      ["variable-aggregator", "variable-assigner"].includes(node.data.type) &&
+      !readableAggregation(node.data)
+    )
+      problems.push(`${label}的分组配置暂未支持编辑`);
+    if (
       node.parentId ||
       node.parentNode ||
       node.data.isInIteration ||
@@ -37,7 +72,12 @@ export function editingBlockers(definition: GraphDefinition): string[] {
     if (
       node.data.type === "start" &&
       (node.data.variables ?? []).some(
-        (v: InputVar) => !editableInputs.has(v.type),
+        (v: InputVar) =>
+          !editableInputs.has(v.type) &&
+          !(
+            v.type === "json_object" &&
+            simpleInputSchema(v.json_schema)?.type === "object"
+          ),
       )
     )
       problems.push(`${label}包含暂未接入的字段配置`);
@@ -55,62 +95,6 @@ export function cloneDefinition(value: GraphDefinition): GraphDefinition {
   return structuredClone(value);
 }
 
-export function beforeNodeIds(
-  nodes: GraphNode[],
-  edges: GraphDefinition["graph"]["edges"],
-  nodeId: string,
-): Set<string> {
-  const found = new Set<string>(),
-    queue = [nodeId];
-  while (queue.length) {
-    const current = queue.shift()!;
-    for (const edge of edges) {
-      if (
-        edge.target !== current ||
-        found.has(edge.source) ||
-        edge.source === nodeId
-      )
-        continue;
-      if (!nodes.some((node) => node.id === edge.source)) continue;
-      found.add(edge.source);
-      queue.push(edge.source);
-    }
-  }
-  return found;
-}
-export function availableVariables(
-  definition: GraphDefinition,
-  nodeId: string,
-): VariableOption[] {
-  const ids = beforeNodeIds(
-    definition.graph.nodes,
-    definition.graph.edges,
-    nodeId,
-  );
-  const result: VariableOption[] = [];
-  for (const node of definition.graph.nodes.filter((node) =>
-    ids.has(node.id),
-  )) {
-    if (node.data.type !== "start") continue;
-    for (const variable of (node.data.variables ?? []) as InputVar[]) {
-      const type: VarType =
-        variable.type === "number"
-          ? "number"
-          : variable.type === "checkbox"
-            ? "boolean"
-            : variable.type === "json_object"
-              ? "object"
-              : "string";
-      result.push({
-        selector: [node.id, variable.variable],
-        label: `${node.data.title || "开始"} / ${variable.label || variable.variable}`,
-        type,
-      });
-    }
-  }
-  return result;
-}
-
 /** 原变量重命名只调整明确的选择器及Dify模板引用；其他未知节点元数据原样保留。 */
 export function renameReferences(
   definition: GraphDefinition,
@@ -118,30 +102,70 @@ export function renameReferences(
   before: string,
   after: string,
 ): GraphDefinition {
+  return renameSelectorReferences(
+    definition,
+    [nodeId, before],
+    [nodeId, after],
+  );
+}
+
+/** 变量与聚合分组均按完整选择器重命名；保留嵌套尾段和未涉及的元数据。 */
+export function renameSelectorReferences(
+  definition: GraphDefinition,
+  before: string[],
+  after: string[],
+): GraphDefinition {
   const copy = cloneDefinition(definition);
+  const replace = (selector: any) => {
+    if (
+      Array.isArray(selector) &&
+      before.every((part, index) => selector[index] === part)
+    )
+      selector.splice(0, before.length, ...after);
+  };
   const visit = (value: any): void => {
     if (!value || typeof value !== "object") return;
     for (const [key, child] of Object.entries(value)) {
       if (
-        ["value_selector", "variable_selector", "selector"].includes(key) &&
-        Array.isArray(child) &&
-        child[0] === nodeId &&
-        child[1] === before
+        [
+          "value_selector",
+          "variable_selector",
+          "selector",
+          "iterator_selector",
+          "output_selector",
+        ].includes(key) &&
+        Array.isArray(child)
       )
-        child[1] = after;
+        replace(child);
+      else if (
+        key === "variables" &&
+        Array.isArray(child) &&
+        child.every((item) => Array.isArray(item))
+      )
+        child.forEach(replace);
       else if (
         typeof child === "string" &&
-        child.includes(`{{#${nodeId}.${before}#}}`)
+        child.includes(`{{#${before.join(".")}#}}`)
       )
         value[key] = child.replaceAll(
-          `{{#${nodeId}.${before}#}}`,
-          `{{#${nodeId}.${after}#}}`,
+          `{{#${before.join(".")}#}}`,
+          `{{#${after.join(".")}#}}`,
         );
       else visit(child);
     }
   };
   visit(copy.graph.nodes);
   return copy;
+}
+export function isSelectorUsed(
+  definition: GraphDefinition,
+  selector: string[],
+): boolean {
+  return (
+    JSON.stringify(
+      renameSelectorReferences(definition, selector, ["__reference_probe__"]),
+    ) !== JSON.stringify(definition)
+  );
 }
 export function isVariableUsed(
   definition: GraphDefinition,
@@ -187,6 +211,69 @@ export function validateDraft(
     const key = `nodes.${node.id}`;
     if (!node.data.title?.trim()) errors[`${key}.title`] = "请输入节点名称";
     const options = availableVariables(definition, node.id);
+    if (["variable-aggregator", "variable-assigner"].includes(node.data.type)) {
+      const grouped = !!node.data.advanced_settings?.group_enabled;
+      const groups = grouped
+        ? (node.data.advanced_settings.groups ?? [])
+        : [
+            {
+              variables: node.data.variables,
+              output_type: node.data.output_type,
+            },
+          ];
+      if (!groups.length) errors[key] = "请添加聚合分组";
+      if (
+        grouped &&
+        new Set(groups.map((group: any) => group.group_name)).size !==
+          groups.length
+      )
+        errors[key] = "分组名称不能重复";
+      if (
+        grouped &&
+        new Set(groups.map((group: any) => group.groupId)).size !==
+          groups.length
+      )
+        errors[key] = "请检查分组连接";
+      for (const group of groups) {
+        if (!Array.isArray(group.variables) || !group.variables.length) {
+          errors[key] = "请选择聚合变量";
+          continue;
+        }
+        if (
+          grouped &&
+          (!group.groupId ||
+            !/^[A-Za-z_][A-Za-z0-9_]{0,29}$/.test(group.group_name) ||
+            group.output_type === "any")
+        )
+          errors[key] = "请检查分组名称和变量类型";
+        const candidates = availableVariables(
+          definition,
+          node.id,
+          grouped ? group.groupId : undefined,
+        );
+        if (
+          new Set(
+            group.variables.map((selector: string[]) =>
+              JSON.stringify(selector),
+            ),
+          ).size !== group.variables.length
+        )
+          errors[key] = "聚合变量不能重复";
+        for (const selector of group.variables) {
+          const option = candidates.find(
+            (option) =>
+              JSON.stringify(option.selector) === JSON.stringify(selector),
+          );
+          if (
+            !option ||
+            (group.output_type !== "any" &&
+              option.type !== "any" &&
+              option.type !== group.output_type)
+          )
+            errors[key] = "请选择已连接且类型匹配的聚合变量";
+        }
+      }
+    }
     if (node.data.type === "end") {
       const outputs = node.data.outputs ?? [];
       if (!outputs.length) errors[key] = "请添加输出变量";

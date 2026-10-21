@@ -604,3 +604,45 @@ textarea:disabled {
     transition: none !important;
   }
 }
+.dify-aggregate-group {
+  position: relative;
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #e3e9f4;
+  border-radius: 8px;
+}
+.dify-aggregate-group > .flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dify-aggregate-group .react-flow__handle {
+  left: -10px;
+}
+.dify-aggregate-add {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.dify-aggregate-add .dify-variable-picker {
+  min-width: 180px;
+}
+.dify-output-summary {
+  padding: 12px 16px;
+  border-top: 1px solid #e8eaf0;
+}
+.space-y-2 > :not(:first-child) {
+  margin-top: 8px;
+}
+.dify-field .dify-variable-picker {
+  min-width: 0;
+}
+.dify-properties .dify-field > .space-y-2 > .flex {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.dify-properties .dify-field input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}

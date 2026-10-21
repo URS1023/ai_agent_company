@@ -28,6 +28,7 @@ from uuid import uuid4
 
 from cryptography.fernet import Fernet
 import psutil
+from wsl_identity import boot_identity_v2, read_start_ticks, record_start_ticks
 
 ROOT = Path('/opt/ai-agent-company')
 DISTRO = 'ai-agent-company'
@@ -200,10 +201,8 @@ def landlock_abi() -> int:
 
 
 def boot_identity() -> str:
-    """内核boot和本发行版PID1出生时间共同识别重启，避免接管旧PID/临时namespace。"""
-    value = {'kernel': Path('/proc/sys/kernel/random/boot_id').read_text().strip(),
-        'init_started_at': psutil.Process(1).create_time(), 'pid_namespace': Path('/proc/1/ns/pid').stat().st_ino}
-    return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
+    """内核UUID、PID1原始ticks与PID namespace识别启动，不受壁钟同步影响。"""
+    return boot_identity_v2()
 
 
 def dependency_checks() -> list[str]:
@@ -619,10 +618,11 @@ def specs(data: dict, secret: dict) -> dict:
 
 
 def owned_process(info: dict, data: dict):
-    """PID/创建时间/会话/UID/可执行文件/运行标签均一致才认领，绝不凭端口猜归属。"""
+    """raw ticks及其余归属均一致才认领；旧缺ticks必须迁移，不能冒称已退出。"""
+    expected_ticks = record_start_ticks(info)
     try:
         process = psutil.Process(info['pid'])
-        if abs(process.create_time() - info['created_at']) > 0.01 or process.uids().real not in info['allowed_uids']:
+        if read_start_ticks(process.pid) != expected_ticks or process.uids().real not in info['allowed_uids']:
             return None
         if process.exe() not in info['allowed_executables'] or os.getpgid(process.pid) != info['process_group']:
             return None
@@ -635,7 +635,7 @@ def owned_process(info: dict, data: dict):
             return None
         if info.get('namespace') and Path('/proc', str(process.pid), 'ns/net').stat().st_ino != info['namespace_inode']:
             return None
-        return process
+        return process if read_start_ticks(process.pid) == expected_ticks else None
     except (psutil.Error, ProcessLookupError, FileNotFoundError):
         return None
 
@@ -647,6 +647,8 @@ def stop_role(name: str, *, expected_launch=None, seconds=10) -> dict:
         return {'role': name, 'verified': True, 'stopped': True, 'not_started': True}
     if expected_launch and info.get('launch_id') != expected_launch:
         raise RuntimeError('stop_launch_compare_and_swap_failed')
+    # 不能因旧出生时间失配便清空cgroup；迁移前保留全部运行记录和业务进程。
+    record_start_ticks(info)
     import wsl_cgroups
     group = info['cgroup']
     if group['runtime_id'] != data['id'] or group['launch_id'] != info['launch_id'] or group['role'] != name:
@@ -693,7 +695,8 @@ def spawn(name: str, spec: dict, data: dict, launch: str) -> dict:
                 group=0, extra_groups=[], start_new_session=True,
                 stdin=subprocess.PIPE if spec.get('stdin') else subprocess.DEVNULL, stdout=logfile, stderr=logfile)
             observed = psutil.Process(process.pid)
-            info = {'pid': process.pid, 'created_at': observed.create_time(), 'executable': observed.exe(),
+            info = {'pid': process.pid, 'created_at': observed.create_time(), 'identity_version': 2,
+                'start_ticks': read_start_ticks(process.pid), 'executable': observed.exe(),
                 'uid': observed.uids().real, 'process_group': os.getpgid(process.pid), 'launch_id': launch,
                 'role': name, 'namespace': spec.get('namespace'), 'allowed_executables': sorted(allowed),
                 'allowed_uids': sorted({0, identity.pw_uid}), 'service_uid': identity.pw_uid, 'cgroup': group,
@@ -1371,18 +1374,32 @@ def status() -> dict:
     data = load()
     if data['boot_id'] != boot_identity():
         return {'runtime_id': data['id'], 'distro': DISTRO, 'root': str(ROOT),
-            'requires_boot_reconciliation': True, 'full_native_verified': False, 'process_state': 'previous_boot',
+            'requires_boot_reconciliation': True, 'full_native_verified': False, 'process_state': 'identity_unknown',
+            'requires_identity_migration': any(info.get('identity_version') != 2 or not info.get('start_ticks')
+                for info in data['processes'].values()),
+            'processes': [{'role': role, 'pid': info['pid'], 'owned': None, 'running': None,
+                'launch_id': info.get('launch_id'), 'identity_state': 'unknown'}
+                for role, info in data['processes'].items()],
             'databases_initialized': data['databases_initialized'],
             'plugin_database_initialized': data.get('plugin_database_initialized', False), 'ports': PORTS}
     processes = []
     import wsl_cgroups
     for role, info in data['processes'].items():
-        process = owned_process(info, data)
+        try:
+            process = owned_process(info, data)
+        except RuntimeError as error:
+            if str(error) != 'requires_identity_migration':
+                raise
+            processes.append({'role': role, 'pid': info['pid'], 'owned': None, 'running': None,
+                'launch_id': info.get('launch_id'), 'identity_state': 'requires_identity_migration'})
+            continue
         members = wsl_cgroups.live_members(info['cgroup'])
         processes.append({'role': role, 'pid': info['pid'], 'owned': process is not None,
             'running': bool(members), 'owned_tree_pids': members, 'launch_id': info['launch_id']})
     return {'runtime_id': data['id'], 'distro': DISTRO, 'root': str(ROOT), 'source_version': '1.17.1',
-        'ports': PORTS, 'processes': processes, 'databases_initialized': data['databases_initialized'],
+        'ports': PORTS, 'processes': processes,
+        'requires_identity_migration': any(item.get('identity_state') == 'requires_identity_migration' for item in processes),
+        'databases_initialized': data['databases_initialized'],
         'plugin_database_initialized': data.get('plugin_database_initialized', False),
         'public_url': f"http://127.0.0.1:{PORTS['web']}", 'full_native_verified': False}
 
@@ -1401,7 +1418,8 @@ def reconcile_boot() -> dict:
     for info in data['processes'].values():
         try:
             candidate = psutil.Process(info['pid'])
-            if abs(candidate.create_time() - info['created_at']) < 0.01:
+            expected_ticks = record_start_ticks(info)
+            if read_start_ticks(candidate.pid) == expected_ticks:
                 raise RuntimeError('old_process_still_exists_boot_reconcile_refused')
         except psutil.NoSuchProcess:
             pass

@@ -13,6 +13,7 @@ from agent_platform.core.models import Task, TaskEvent, User
 from ..data.service import DataService
 from ..data.sql_safety import SqlFieldValidationError, ValidationError
 from ..manufacturing import models as manufacturing
+from ..manufacturing.assessment import has_missing_evidence
 
 
 VIEWS = frozenset({"meta", "summary", "outcomes", "metrics", "reviews", "standard"})
@@ -149,6 +150,10 @@ class InspectionSource:
                 raise DomainError(409, "report_source_changed", "检验或复核已更新，请刷新报告后发布")
             if not reviews:
                 raise DomainError(422, "inspection_review_required", "该次检验尚未复核")
+            # 旧版本可能留下缺证据的合格复核；发布仍核原始运行，不能仅凭复核事件放行。
+            # 历史和草稿继续可读，原记录保留给人员核查，不自动改判或重跑数据源。
+            if reviews[-1]["outcome"] == "passed" and has_missing_evidence(run.result):
+                raise DomainError(422, "missing_evidence", "证据不完整，不能发布合格报告")
         return run
 
     def rows(self, snapshot, view, *, run=None):

@@ -24,6 +24,7 @@ const names: Record<string, string> = {
   start: "开始",
   end: "结束",
   "if-else": "条件分支",
+  "variable-aggregator": "变量聚合",
 };
 
 function Canvas(props: EditorProps) {
@@ -158,19 +159,27 @@ function Canvas(props: EditorProps) {
     const data =
       newType === "end"
         ? { type: newType, title: names[newType]!, outputs: [] }
-        : {
-            type: newType,
-            title: names[newType]!,
-            cases: [
-              { case_id: "true", logical_operator: "and", conditions: [] },
-            ],
-            _targetBranches: [
-              { id: "true", name: "IF" },
-              { id: "false", name: "ELSE" },
-            ],
-          };
+        : newType === "variable-aggregator"
+          ? {
+              type: newType,
+              title: names[newType]!,
+              output_type: "any",
+              variables: [],
+              advanced_settings: { group_enabled: false, groups: [] },
+            }
+          : {
+              type: newType,
+              title: names[newType]!,
+              cases: [
+                { case_id: "true", logical_operator: "and", conditions: [] },
+              ],
+              _targetBranches: [
+                { id: "true", name: "IF" },
+                { id: "false", name: "ELSE" },
+              ],
+            };
     const node = {
-      id: crypto.randomUUID(),
+      id: crypto.randomUUID().replaceAll("-", ""),
       type: "custom",
       position: { x: 160 + offset * 45, y: 100 + offset * 50 },
       data,
@@ -253,6 +262,7 @@ function Canvas(props: EditorProps) {
           >
             <option value="end">结束</option>
             <option value="if-else">条件分支</option>
+            <option value="variable-aggregator">变量聚合</option>
           </select>
           <button type="button" onClick={addNode} disabled={readOnly}>
             添加节点

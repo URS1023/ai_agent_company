@@ -47,3 +47,51 @@ export function messageError(error: unknown): string {
   }
   return "本次回答未完成";
 }
+/** 原chat:messages为事务提交后的增量；只合并公开展示字段并保留旧分支，附件始终走平台投影。 */
+export function mergeNativeMessages(
+  history: NativeHistory,
+  data: any,
+): NativeHistory {
+  const next = structuredClone(history);
+  const patch = data?.messages;
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) return next;
+  const fields = [
+    "id",
+    "role",
+    "parentId",
+    "childrenIds",
+    "content",
+    "done",
+    "model",
+    "output",
+    "error",
+    "timestamp",
+  ];
+  for (const [id, raw] of Object.entries(patch)) {
+    if (
+      ["__proto__", "constructor", "prototype"].includes(id) ||
+      !raw ||
+      typeof raw !== "object" ||
+      (raw as any).id !== id
+    )
+      continue;
+    const value = raw as Record<string, any>,
+      previous = next.messages[id];
+    const clean = Object.fromEntries(
+      fields
+        .filter((key) => value[key] !== undefined)
+        .map((key) => [key, value[key]]),
+    );
+    const merged = { ...previous, ...clean };
+    if (
+      !["user", "assistant"].includes(merged.role) ||
+      typeof merged.content !== "string" ||
+      (merged.parentId !== null && typeof merged.parentId !== "string")
+    )
+      continue;
+    next.messages[id] = merged as NativeMessage;
+  }
+  if (typeof data.currentId === "string" && next.messages[data.currentId])
+    next.currentId = data.currentId;
+  return next;
+}

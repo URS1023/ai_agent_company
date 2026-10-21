@@ -12,6 +12,7 @@ export default function Field({
   children?: ReactNode;
   className?: string;
   required?: boolean;
+  tooltip?: string;
 }) {
   return (
     <section className={`dify-field ${className}`}>

@@ -10,11 +10,13 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from agent_platform.core.datetimes import utc_storage_iso
 from agent_platform.core.errors import DomainError
-from agent_platform.core.models import Task, TaskEvent
+from agent_platform.core.models import Task, TaskEvent, ResourceReference
 from .native_models import NativeChatIdentity, NativeChatTurn, NativeTurnAction, NativeConversation, new_id, utcnow
 from .native_service import NativeChatService, fingerprint, intent_key
 from .native_sources import authorize_turn_sources
 from .native_tasks import project_turn
+from .native_branches import inspect_branch_source, plan_branch, verify_branch_source, verify_branch_user
+from .native_tool_policy import freeze_tool_policy, frozen_tool_policy, verify_alias_model
 
 MAX_SECONDS = 90
 TERMINAL = {'succeeded', 'failed', 'cancelled'}
@@ -22,10 +24,14 @@ REPLAY_KEYS = {'id', 'role', 'content', 'output', 'files', 'contextSummary', 'us
 
 
 def turn_dict(turn):
-    return {key: getattr(turn, key) for key in ('id', 'conversation_id', 'identity_id', 'model_id', 'status',
+    result = {key: getattr(turn, key) for key in ('id', 'conversation_id', 'identity_id', 'model_id', 'status',
         'user_message_id', 'assistant_message_id', 'parent_message_id', 'idempotency_key', 'task_id',
         'error_code', 'error', 'revision')} | {'created_at': utc_storage_iso(turn.created_at),
         'updated_at': utc_storage_iso(turn.updated_at), 'deadline_at': utc_storage_iso(turn.deadline_at)}
+    metadata = turn.request_metadata or {}
+    if metadata.get('intent_kind') in {'regenerate', 'edit_send'}:
+        result.update(intent_kind=metadata['intent_kind'], source_message_id=metadata.get('source_message_id'))
+    return result
 
 
 def branch_messages(history, parent_id):
@@ -66,6 +72,13 @@ def assistant_from_chat(result, turn):
             or message.get('model') != turn.model_id
             or turn.assistant_message_id not in (parent.get('childrenIds') or [])):
         raise DomainError(502, 'native_chat_message_binding_invalid', '原生助手消息与本次运行不一致')
+    try:
+        verify_branch_user(parent, turn.request_metadata or {})
+        verify_branch_source((result.get('chat') or {}).get('history'), turn.request_metadata or {},
+            native_user_id=result.get('user_id'))
+    except DomainError:
+        # 已派发后的原题/祖先变化不能确认为本次成功；核对入口沿既有unknown路径处理。
+        raise DomainError(502, 'native_chat_message_binding_invalid', '原生消息与本次分支快照不一致') from None
     return message
 
 
@@ -110,7 +123,7 @@ class NativeTurnService(NativeChatService):
             authorize_turn_sources(self.session, self.actor, row)
         return row
 
-    def models(self, identity_id):
+    def _model_items(self, identity_id):
         identity, integration = self.identity(identity_id)
         adapter = self.user_adapter(identity, integration)
         self.session.commit()
@@ -120,17 +133,63 @@ class NativeTurnService(NativeChatService):
             raise DomainError(502, 'native_chat_models_invalid', '原生模型列表格式不正确')
         from ..integrations.chat_model_config import chat_model_policy
         policy = chat_model_policy(integration)
-        return {'items': [{'id': item['id'], 'name': item.get('name', item['id'])}
-            for item in items if isinstance(item, dict) and isinstance(item.get('id'), str)
-            and (policy is None or item['id'] in policy['model_ids'])]}
+        return [item for item in items if isinstance(item, dict) and isinstance(item.get('id'), str)
+            and (policy is None or item['id'] in policy['model_ids'])]
 
-    def reserve(self, chat_id, body, key):
+    def models(self, identity_id):
+        return {'items': [{'id': item['id'], 'name': item.get('name', item['id'])}
+            for item in self._model_items(identity_id)]}
+
+    def _branch_inputs(self, chat, identity, history, body, *, intent_kind, source_message_id, user_id, assistant_id):
+        """复用原消息引用与附件授权，生成原生insert_chat_turn需要的单次追加输入。"""
+        source = inspect_branch_source(history, intent_kind, source_message_id, native_user_id=identity.native_user_id)
+        from .native_files import project_conversation_attachments, resolve_turn_attachments
+        attachment_ids = body.get('attachment_ids')
+        inherit = intent_kind == 'regenerate' or attachment_ids is None
+        if inherit:
+            projected = project_conversation_attachments(self.session, self.actor, chat,
+                message_ids=[source.source_user_message_id])
+            attachment_ids = [item['id'] for item in projected.get(source.source_user_message_id, [])]
+        attachments = resolve_turn_attachments(self.session, self.actor, chat, attachment_ids)
+        files = attachments['native_files']
+        if inherit:
+            by_native_id = {item['id']: (mapping_id, item) for mapping_id, item in zip(attachment_ids, files)}
+            if set(by_native_id) != set(source.native_file_ids):
+                raise DomainError(403, 'native_chat_branch_files_changed', '原附件引用无法核对，请重新读取原消息')
+            attachment_ids = [by_native_id[file_id][0] for file_id in source.native_file_ids]
+            files = [by_native_id[file_id][1] for file_id in source.native_file_ids]
+        plan = plan_branch(source, assistant_message_id=assistant_id, model_id=body['model_id'],
+            timestamp=int(time.time()), native_files=files, new_user_message_id=user_id if intent_kind == 'edit_send' else None,
+            content=body.get('content') if intent_kind == 'edit_send' else None,
+            attachment_mode='inherit' if inherit else 'replace')
+        # 整个会话的历史来源仍逐次复核，分叉继续保留全部收据；本轮只把当前user附件
+        # 放入sources，避免把祖先附件误投影成新user的附件。重放的业务来源则一并固定。
+        ancestor_ids = [item['id'] for item in source.ancestors if item['role'] == 'assistant']
+        inherited = [item for item in (chat.inherited_sources or []) if item.get('source_kind') != 'native_file']
+        if ancestor_ids:
+            for previous in self.session.scalars(select(NativeChatTurn).where(
+                    NativeChatTurn.user_id == self.actor.user_id, NativeChatTurn.workspace_id == self.actor.workspace_id,
+                    NativeChatTurn.identity_id == chat.identity_id, NativeChatTurn.integration_id == chat.integration_id,
+                    NativeChatTurn.assistant_message_id.in_(ancestor_ids))):
+                if previous.conversation_id == chat.id:
+                    inherited.extend(item for item in previous.sources or [] if item.get('source_kind') != 'native_file')
+        sources = {fingerprint(item): deepcopy(item) for item in [*inherited, *attachments['sources']]}
+        if len(sources) > 500 or len(json.dumps(list(sources.values()), ensure_ascii=False, allow_nan=False).encode()) > 65536:
+            raise DomainError(422, 'native_source_budget_exceeded', '当前分支引用来源过多，请选择较短分支')
+        return plan, attachment_ids, list(sources.values())
+
+    def reserve(self, chat_id, body, key, *, intent_kind='send', source_message_id=None):
+        """先保存准确Turn/Task再派发；三种意图共用同一CAS与幂等域，未知意图不重放。"""
         self.actor.require('m02.write')
+        if intent_kind not in {'send', 'regenerate', 'edit_send'}:
+            raise DomainError(422, 'native_chat_branch_intent_invalid', '请选择明确的消息操作')
         key = intent_key(key)
         if key is None:
             raise DomainError(422, 'native_chat_intent_required', '请为本次发送提供操作编号')
         chat, identity, integration = self.chat(chat_id)
-        digest = fingerprint({'chat_id': chat_id, **body})
+        # 普通发送保留旧请求hash；分支把操作和原消息ID纳入，不能同键跨动作复用。
+        intent = {} if intent_kind == 'send' else {'intent_kind': intent_kind, 'source_message_id': source_message_id}
+        digest = fingerprint({'chat_id': chat_id, **body, **intent})
         prior = self.session.scalar(select(NativeChatTurn).where(NativeChatTurn.conversation_id == chat_id,
             NativeChatTurn.idempotency_key == key))
         if prior:
@@ -140,32 +199,55 @@ class NativeTurnService(NativeChatService):
             return prior, None
         if chat.status != 'ready' or chat.active_turn_id:
             raise DomainError(409, 'native_chat_busy', '请先核对当前对话运行')
-        if body.get('model_id') not in {item['id'] for item in self.models(identity.id)['items']}:
+        models = {item['id']: item for item in self._model_items(identity.id)}
+        if body.get('model_id') not in models:
             raise DomainError(422, 'native_chat_model_denied', '该模型当前不可用', {'model_id': '请选择可用模型'})
+        tool_policy = freeze_tool_policy(integration, body['model_id'])
+        if tool_policy:
+            verify_alias_model(models[body['model_id']], tool_policy)
         _, native = self.read_native_chat(chat_id)
-        messages = branch_messages(native['chat'].get('history'), body.get('parent_message_id'))
-        if len(json.dumps({'messages': messages, 'content': body['content']}, ensure_ascii=False,
-                allow_nan=False).encode()) > 1024 * 1024:
-            raise DomainError(422, 'native_chat_context_budget_exceeded', '当前分支内容过多，请从较短分支继续')
-        attachment_ids = body.get('attachment_ids', [])
-        native_files, sources = [], []
-        if attachment_ids:
-            from .native_files import resolve_turn_attachments
-            attachments = resolve_turn_attachments(self.session, self.actor, chat, attachment_ids)
-            native_files, sources = attachments['native_files'], attachments['sources']
         user_id, assistant_id, turn_id, task_id = new_id(), new_id(), new_id(), new_id()
+        metadata = {'revision': body['revision'], 'max_tokens': body['max_tokens'], 'temperature': body['temperature']}
+        if intent_kind == 'send':
+            messages = branch_messages(native['chat'].get('history'), body.get('parent_message_id'))
+            if len(json.dumps({'messages': messages, 'content': body['content']}, ensure_ascii=False,
+                    allow_nan=False).encode()) > 1024 * 1024:
+                raise DomainError(422, 'native_chat_context_budget_exceeded', '当前分支内容过多，请从较短分支继续')
+            attachment_ids = body.get('attachment_ids', [])
+            native_files, sources = [], []
+            if attachment_ids:
+                from .native_files import resolve_turn_attachments
+                attachments = resolve_turn_attachments(self.session, self.actor, chat, attachment_ids)
+                native_files, sources = attachments['native_files'], attachments['sources']
+            parent_id = body.get('parent_message_id')
+            user_message = {'id': user_id, 'parentId': parent_id, 'childrenIds': [assistant_id],
+                'role': 'user', 'content': body['content'], 'models': [body['model_id']], 'timestamp': int(time.time()),
+                **({'files': native_files} if native_files else {})}
+            messages.append({'role': 'user', 'content': body['content']})
+            metadata.update(content_sha256=fingerprint(body['content']), content_chars=len(body['content']))
+        else:
+            plan, attachment_ids, sources = self._branch_inputs(chat, identity, native['chat'].get('history'), body,
+                intent_kind=intent_kind, source_message_id=source_message_id, user_id=user_id, assistant_id=assistant_id)
+            user_id, parent_id = plan.user_message_id, plan.parent_message_id
+            user_message, messages, native_files = plan.user_message, plan.messages, plan.files
+            metadata.update(plan.request_metadata)
+            metadata['content_chars'] = len(user_message['content'])
+        metadata['attachment_ids'] = attachment_ids
+        if tool_policy:
+            metadata.update(tool_policy=tool_policy, tool_budget={'version': 1, 'calls_used': 0})
         turn = NativeChatTurn(id=turn_id, workspace_id=self.actor.workspace_id, user_id=self.actor.user_id,
             integration_id=integration['id'], identity_id=identity.id, conversation_id=chat.id, native_chat_id=chat.native_chat_id,
-            user_message_id=user_id, assistant_message_id=assistant_id, parent_message_id=body.get('parent_message_id'),
+            user_message_id=user_id, assistant_message_id=assistant_id, parent_message_id=parent_id,
             model_id=body['model_id'], idempotency_key=key, request_hash=digest, task_id=task_id, sources=sources,
-            request_metadata={'revision': body['revision'], 'content_sha256': fingerprint(body['content']),
-                'content_chars': len(body['content']), 'max_tokens': body['max_tokens'], 'temperature': body['temperature'],
-                'attachment_ids': attachment_ids}, deadline_at=utcnow() + timedelta(seconds=MAX_SECONDS))
+            request_metadata=metadata, deadline_at=utcnow() + timedelta(seconds=tool_policy['max_seconds'] if tool_policy else MAX_SECONDS))
         task = Task(id=task_id, workspace_id=self.actor.workspace_id, user_id=self.actor.user_id,
             kind='platform_native_chat', title=chat.title, engine='openwebui', status='running', access_permission='m02.read',
             inputs={'turn_id': turn_id, 'chat_id': chat.id}, outputs={}, idempotency_key='native-chat:' + turn_id,
             input_hash=digest)
         self.session.add_all([turn, task, TaskEvent(task_id=task_id, type='created', data={'turn_id': turn_id, 'status': 'running'})])
+        if tool_policy:
+            self.session.add(ResourceReference(workspace_id=self.actor.workspace_id, source_type='native_chat_turn_budget',
+                source_id=turn_id, target_type='secret', target_id=tool_policy['budget_secret_ref']))
         try:
             changed = self.session.execute(update(NativeConversation).where(NativeConversation.id == chat.id,
                 NativeConversation.revision == body['revision'], NativeConversation.active_turn_id.is_(None),
@@ -188,19 +270,21 @@ class NativeTurnService(NativeChatService):
         except DomainError:
             self.session.rollback()
             raise
-        user_message = {'id': user_id, 'parentId': body.get('parent_message_id'), 'childrenIds': [assistant_id],
-            'role': 'user', 'content': body['content'], 'models': [body['model_id']], 'timestamp': int(time.time()),
-            **({'files': native_files} if native_files else {})}
         payload = {'model': body['model_id'], 'chat_id': chat.native_chat_id, 'id': assistant_id,
-            'user_message': user_message, 'messages': messages + [{'role': 'user', 'content': body['content']}],
+            'parent_id': parent_id, 'user_message': user_message, 'messages': messages,
             'stream': True, 'tools': [], 'tool_ids': [], 'skill_ids': [], 'files': native_files, 'filter_ids': [],
             'background_tasks': {}, 'features': {'memory': False, 'web_search': False, 'image_generation': False,
                 'code_interpreter': False}, 'params': {'max_tokens': body['max_tokens'], 'temperature': body['temperature'],
                     'function_calling': 'legacy'}}
+        if tool_policy:
+            # tools:[]会完全跳过原生服务器工具解析；只有后台专属别名允许省略该键。
+            payload.pop('tools')
+            payload['tool_ids'] = ['server:' + tool_policy['server_id']]
+            payload['params']['function_calling'] = 'native'
         return turn, payload
 
-    def start(self, chat_id, body, key):
-        turn, payload = self.reserve(chat_id, body, key)
+    def start(self, chat_id, body, key, *, intent_kind='send', source_message_id=None):
+        turn, payload = self.reserve(chat_id, body, key, intent_kind=intent_kind, source_message_id=source_message_id)
         if payload is not None:
             from .native_events import runtime_for
             try:
@@ -233,6 +317,8 @@ class NativeTurnService(NativeChatService):
         if key is None:
             raise DomainError(422, 'native_chat_intent_required', '请为本次操作提供操作编号')
         turn = self.turn(turn_id, sources=kind != 'stop')
+        tool_policy = frozen_tool_policy(turn) if kind == 'resolve' else None
+        preserve_deadline = tool_policy is not None or (kind == 'stop' and (turn.request_metadata or {}).get('tool_policy') is not None)
         digest = fingerprint({'kind': kind, **body})
         prior = self.session.scalar(select(NativeTurnAction).where(NativeTurnAction.turn_id == turn.id,
             NativeTurnAction.idempotency_key == key))
@@ -242,6 +328,13 @@ class NativeTurnService(NativeChatService):
             return prior, False
         if kind == 'resolve' and turn.status != 'waiting_approval':
             raise DomainError(409, 'native_chat_approval_not_pending', '该消息当前没有待处理确认')
+        if kind == 'resolve' and tool_policy:
+            deadline = turn.deadline_at
+            current = utcnow()
+            if deadline.tzinfo is None:
+                deadline = deadline.replace(tzinfo=current.tzinfo)
+            if deadline <= current:
+                raise DomainError(409, 'native_chat_deadline_exceeded', '原运行时限已结束，请核对原消息')
         if kind == 'stop' and turn.status in TERMINAL:
             raise DomainError(409, 'native_chat_already_finished', '该对话运行已结束')
         pending = select(NativeTurnAction).where(NativeTurnAction.turn_id == turn.id,
@@ -267,7 +360,7 @@ class NativeTurnService(NativeChatService):
             changed = self.session.execute(update(NativeChatTurn).where(NativeChatTurn.id == turn.id,
                 NativeChatTurn.revision == turn.revision, NativeChatTurn.status == turn.status).values(
                 status='cancel_requested' if kind == 'stop' else 'running', revision=turn.revision + 1,
-                deadline_at=utcnow() + timedelta(seconds=MAX_SECONDS)))
+                deadline_at=turn.deadline_at if preserve_deadline else utcnow() + timedelta(seconds=MAX_SECONDS)))
             if not changed.rowcount:
                 raise DomainError(409, 'native_chat_action_conflict', '对话状态已变化，请核对最新记录')
             self.session.refresh(turn)

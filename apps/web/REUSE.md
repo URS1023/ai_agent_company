@@ -39,7 +39,7 @@ React/ReactDOM19.3.1、ReactFlow11.11.4、Immer11.1.21及React类型19.3.0均按
 
 ## Open WebUI聊天编辑岛（持久对话第一批）
 
-`../../packages/openwebui-chat/`从锁定Open WebUI 0.12.3精提完整`structuredOutput`算法、结构化输出/连续详情/折叠组件和图标，适配原Messages、Message、UserMessage、ResponseMessage与MessageInput的消息树和展示分区。`SOURCE_MANIFEST.json`逐项登记完整组件与片段的原路径/SHA256，原许可保留于`licenses/OpenWebUI-LICENSE.txt`，界面显示Open WebUI归属。没有复制原整站、账号store或模型/工具循环；Markdown使用原marked和DOMPurify，首批未提取原复杂代码编辑、公式、语音、图片/外部嵌入、重生或编辑并发送。
+`../../packages/openwebui-chat/`从锁定Open WebUI 0.12.3精提完整`structuredOutput`算法、结构化输出/连续详情/折叠组件和图标，适配原Messages、Message、UserMessage、ResponseMessage与MessageInput的消息树和展示分区。`SOURCE_MANIFEST.json`逐项登记完整组件与片段的原路径/SHA256，原许可保留于`licenses/OpenWebUI-LICENSE.txt`，界面显示Open WebUI归属。没有复制原整站、账号store或模型/工具循环；Markdown使用原marked和DOMPurify，尚未提取原复杂代码编辑、公式、语音、图片/外部嵌入。
 
 Vue宿主负责平台HttpOnly Cookie、CSRF、普通原生身份、真实可用模型、服务端分页会话目录、原生消息树、多轮父消息、单意图幂等、停止/审批预约与显式核对。Svelte只消费共享`public.ts`和回调，通过Shadow DOM在同页挂载；不是聊天系统iframe。原`FullHeightIframe`调用仅保留结构化输出兼容props，平台适配器从不创建iframe或加载URL，`allowEmbeds`关闭。Markdown不加载远程媒体、脚本或样式。
 
@@ -48,3 +48,7 @@ Vue宿主负责平台HttpOnly Cookie、CSRF、普通原生身份、真实可用�
 消息不再写本机localStorage。`/history`为本人服务端目录，旧本机记录通过独立只读入口保留；用户、工作区、权限或路由切换会卸载实例、取消请求并清理正文/原件入口，不接管原生后台模型任务。个人记忆管理仍独立，不自动采集或注入。
 
 独立库按原版本使用Svelte5.56.0、Vite5.4.21、Svelte插件4.0.4、marked9.1.6、DOMPurify3.4.11、eventsource-parser1.1.2及Tailwind4.2.1。根`npm run setup`安装局部锁定依赖，`npm run check`独立检查Svelte和Vue，`npm run build`先生成库再构建宿主；构建不依赖原源码目录或已有dist。纯回归：`node packages/openwebui-chat/tests/messages.mjs`、`node apps/web/tests/native-chat.mjs`，覆盖树分支、分帧、幂等/未知、停止预约、附件与失权卸载；不表示已完成实际模型/浏览器验收。
+
+第二批分支交互复用原UserMessage的编辑区/取消发送样式、原EditPencil图标与ResponseMessage再生成按钮。重新生成提交准确的原助手ID，编辑并发送提交原用户ID和新正文；后端新增分支，不调用原位编辑接口。Vue持有编辑草稿，切换消息分支仍保留；只有准确新用户ID、正文、父节点和助手关联已保存才收起，202预约不算保存。附件默认继承该历史用户消息，替换必须显式选择已就绪平台映射，移除发空数组，与普通输入框的附件选择分开。
+
+原`chat:messages`增量合并保留旧分支，附件URL/原生ID不进入客户端树；当前附件投影通过单次详情读取更新，不用原消息file字段猜下载地址。未知仍保留原意图供显式核对，不自动再生成或重发。纯回归入口新增`tests/native-branches.mjs`；独立真实组件检查可用`E2E_COMPONENT_CASE=branches`运行`packages/openwebui-chat/tests/mount-browser.mjs`，新收据保留在`test-results/openwebui-branches/`，不调用平台或模型，不能代替实际原生分支验收。

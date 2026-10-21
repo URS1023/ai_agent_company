@@ -5,6 +5,7 @@ export type {
   MountWorkflowEditor,
 } from "../public";
 export const VarType = {
+  any: "any",
   string: "string",
   number: "number",
   integer: "integer",
@@ -74,9 +75,11 @@ export interface Var {
 export type ValueSelector = string[];
 export type MoreInfo = { type: string; payload?: any };
 export type GraphNode = GraphDefinition["graph"]["nodes"][number];
+export type Node = GraphNode;
 export type GraphEdge = GraphDefinition["graph"]["edges"][number];
 export type VariableOption = {
   selector: string[];
   label: string;
   type: VarType;
 };
+export type NodeOutPutVar = VariableOption;

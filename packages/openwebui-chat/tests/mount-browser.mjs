@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { verifyBranchControls } from "./branch-browser-checks.mjs";
 const require = createRequire(
   new URL("../../../apps/web/package.json", import.meta.url),
 );
@@ -11,8 +12,9 @@ const source = await readFile(
   new URL("../dist/index.js", import.meta.url),
   "utf8",
 );
+const branches = process.env.E2E_COMPONENT_CASE === "branches";
 const resultDirectory = new URL(
-  "../../../apps/web/test-results/openwebui-component/",
+  `../../../apps/web/test-results/${branches ? "openwebui-branches" : "openwebui-component"}/`,
   import.meta.url,
 );
 await mkdir(resultDirectory, { recursive: true });
@@ -73,98 +75,155 @@ try {
         '<html lang="zh-CN"><body style="margin:0"><main id="host" style="height:860px"></main></body></html>',
       );
       state.stage = "mount";
-      await page.evaluate(async (code) => {
-        // 模拟业务回调仅记录事件；任何传输调用都是测试失败。
-        globalThis.fetch = async () => {
-          throw new Error("fixture_network_forbidden");
-        };
-        globalThis.WebSocket = class {
-          constructor() {
-            throw new Error("fixture_socket_forbidden");
-          }
-        };
-        globalThis.EventSource = class {
-          constructor() {
-            throw new Error("fixture_events_forbidden");
-          }
-        };
-        const url = URL.createObjectURL(
-          new Blob([code], { type: "text/javascript" }),
-        );
-        const library = await import(url);
-        URL.revokeObjectURL(url);
-        const snapshot = {
-          conversationId: "pure-component",
-          displayName: "组件验收",
-          modelId: "fixture-model",
-          models: [{ id: "fixture-model", name: "本地组件模型" }],
-          canWrite: true,
-          busy: false,
-          status: "ready",
-          draft: "",
-          files: [],
-          attachmentIds: [],
-          messageAttachments: {},
-          error: "",
-          canStop: false,
-          uncertain: false,
-          history: {
-            currentId: "assistant",
-            messages: {
-              user: {
-                id: "user",
-                parentId: null,
-                role: "user",
-                content: "本地组件验收",
-                childrenIds: ["assistant"],
-              },
-              assistant: {
-                id: "assistant",
-                parentId: "user",
-                role: "assistant",
-                content: "组件初始内容",
-                done: true,
-                model: "fixture-model",
-                childrenIds: [],
+      await page.evaluate(
+        async ({ code, branches }) => {
+          // 模拟业务回调仅记录事件；任何传输调用都是测试失败。
+          globalThis.fetch = async () => {
+            throw new Error("fixture_network_forbidden");
+          };
+          globalThis.WebSocket = class {
+            constructor() {
+              throw new Error("fixture_socket_forbidden");
+            }
+          };
+          globalThis.EventSource = class {
+            constructor() {
+              throw new Error("fixture_events_forbidden");
+            }
+          };
+          const url = URL.createObjectURL(
+            new Blob([code], { type: "text/javascript" }),
+          );
+          const library = await import(url);
+          URL.revokeObjectURL(url);
+          const snapshot = {
+            conversationId: "pure-component",
+            displayName: "组件验收",
+            modelId: "fixture-model",
+            models: [{ id: "fixture-model", name: "本地组件模型" }],
+            canWrite: true,
+            busy: false,
+            status: "ready",
+            draft: "",
+            files: [],
+            attachmentIds: [],
+            messageAttachments: {},
+            error: "",
+            canStop: false,
+            uncertain: false,
+            history: {
+              currentId: "assistant",
+              messages: {
+                user: {
+                  id: "user",
+                  parentId: null,
+                  role: "user",
+                  content: "本地组件验收",
+                  childrenIds: ["assistant"],
+                },
+                assistant: {
+                  id: "assistant",
+                  parentId: "user",
+                  role: "assistant",
+                  content: "组件初始内容",
+                  done: true,
+                  model: "fixture-model",
+                  childrenIds: [],
+                },
               },
             },
-          },
-        };
-        const calls = [];
-        const actions = Object.fromEntries(
-          [
-            "draft",
-            "model",
-            "send",
-            "stop",
-            "verify",
-            "branch",
-            "upload",
-            "attach",
-            "refreshFile",
-            "reconcileFile",
-            "download",
-            "resolve",
-          ].map((name) => [
-            name,
-            (value) =>
-              calls.push({
-                name,
-                value: typeof value === "string" ? value : undefined,
-              }),
-          ]),
-        );
-        globalThis.__fixture = {
-          snapshot,
-          actions,
-          calls,
-          host: document.querySelector("#host"),
-          handle: library.mountNativeChat(document.querySelector("#host"), {
+          };
+          const calls = [];
+          const actions = Object.fromEntries(
+            [
+              "draft",
+              "model",
+              "send",
+              "stop",
+              "verify",
+              "branch",
+              "upload",
+              "attach",
+              "refreshFile",
+              "reconcileFile",
+              "download",
+              "resolve",
+              "beginEdit",
+              "updateEdit",
+              "cancelEdit",
+              "editAndSend",
+              "regenerate",
+            ].map((name) => [
+              name,
+              (value) =>
+                calls.push({
+                  name,
+                  value: typeof value === "string" ? value : undefined,
+                }),
+            ]),
+          );
+          globalThis.__fixture = {
             snapshot,
             actions,
-          }),
-        };
-      }, source);
+            calls,
+            host: document.querySelector("#host"),
+            handle: library.mountNativeChat(document.querySelector("#host"), {
+              snapshot,
+              actions,
+            }),
+          };
+          if (branches) {
+            const fixture = globalThis.__fixture;
+            fixture.render = (patch) => {
+              fixture.snapshot = { ...fixture.snapshot, ...patch };
+              fixture.handle.update({
+                snapshot: fixture.snapshot,
+                actions: fixture.actions,
+              });
+            };
+            const oldFile = {
+              id: "old-file",
+              name: "原附件.txt",
+              size: 6,
+              content_type: "text/plain",
+              status: "ready",
+              revision: 1,
+            };
+            fixture.render({
+              files: [
+                oldFile,
+                { ...oldFile, id: "replacement-file", name: "替换附件.txt" },
+              ],
+              messageAttachments: { user: [oldFile] },
+            });
+            actions.beginEdit = (sourceMessageId) =>
+              fixture.render({
+                editing: {
+                  sourceMessageId,
+                  content:
+                    fixture.snapshot.history.messages[sourceMessageId].content,
+                  attachmentMode: "inherit",
+                  attachmentIds: [],
+                  inheritedAttachments: [oldFile],
+                },
+              });
+            actions.updateEdit = (patch) =>
+              fixture.render({
+                editing: { ...fixture.snapshot.editing, ...patch },
+              });
+            actions.cancelEdit = () => fixture.render({ editing: undefined });
+            actions.editAndSend = () => {
+              calls.push({ name: "editAndSend" });
+              fixture.render({ uncertain: true });
+            };
+            actions.regenerate = (value) => {
+              calls.push({ name: "regenerate", value });
+              fixture.render({ busy: true, status: "running" });
+            };
+          }
+        },
+        { code: source, branches },
+      );
       await page
         .getByLabel("输入消息", { exact: true })
         .waitFor({ state: "visible" });
@@ -205,6 +264,7 @@ try {
         ),
         true,
       );
+      if (branches) await verifyBranchControls(page, resultDirectory, state);
       state.stage = "screenshot";
       await page.screenshot({
         path: fileURLToPath(new URL("component.png", resultDirectory)),

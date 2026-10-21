@@ -1114,3 +1114,186 @@
 
 - T-root69实际只读UI通过：修后50同源请求/0HTTP或JS错误/0新Turn模型业务SQL，准确两消息及刷新恢复通过。首张截图仍在附件读取时截取，因此另独立50只读/登录请求等待loading消失、输入启用及模型选择就绪后截图，均通过，root已目检。ui-native-chat-failure-fixed.json与ui-native-chat-ready-read.json；保留准确上游失败，不冒充有效回复。
 - T-root72提交前快照：本轮已交接原聊天普通身份/模型策略/消息组件与附件、Dify三节点画布、19只读工具代码、收据校验及文档；根check/build与相关纯回归和实际证据见各任务。I-root70上游429和MySQL续导授权未解；native43仍只在独立helper/tests实施，排除本次发布。禁止将阶段发布标全项目完成。
+
+- T-root72已完成阶段发布：176文件提交0257b32ff5fe5be5bb9739597b6e8f5e06cb832e正常推送origin/main，ls-remote与本地HEAD完全一致；敏感模式/20MiB大文件检查通过。数据包/依赖/密钥/本地收据未提交，无关Docker脚本保留未动。阶段发布不代表项目全验收，MySQL续导和上游429仍未解决。
+- T-native43公共入口现已释放：root阶段推送完成，native可接已认领的native_turns/router新分支动作；0真实HTTP/模型/在用库，前端合同与web38同步。
+- T-agent-1021-web-38（agent-1020-web认领，合同准备中）：原消息重新生成/编辑并发送的最小UI与DTO，先与native43冻结，保持旧分支、unknown不重派、附件继承/替换语义；正式文件范围在作者方案后追加。0平台API/模型业务库，允许纯Mock及独立组件检查。
+- T-agent-1021-domain-45（agent-1020-domain认领，只读进行中）：当前桥/证书配置和原OWUI官方工具server、禁builtin专属model alias及签名env的增量方案，核真实路径/重启影响；不打印或落盘凭据，0HTTP/SQL/模型/服务操作。生产接线尚未实施。
+
+- T-native43范围追加（root确认，native作者）：native_execution.py仅派发前GET准确原chat并核branch源快照；准确助手终态增校验parent用户正文SHA，原send兼容。复用原一次completion的insert_chat_turn事务，无新增表或原位改历史。
+- T-web38正式文件归属（root确认，web作者）：packages/openwebui-chat/public.ts、UserMessage/ResponseMessage、消息helper和独立附件编辑组件；Vue useNativeTurn/NativeChatWorkspace/nativeTypes必要接线、纯Mock/组件tests及REUSE缺口说明。助手已完成消息显式再生成、原用户内联编辑；附件保留/替换/移除严格对应source与ready平台ID。接口为messages/{assistant}/regenerations与messages/{user}/edit-and-send，均202 Turn；不扩大身份/全局样式/backend范围。
+
+- T-agent-1021-domain-46（agent-1020-domain认领，进行中）：生产工具A代码包，新owui_tool_forward_patch.py精确SHA/幂等适配；windows_services.py仅受管工具转发文件/密文JWT/固定server及NAT URL pin；wsl_tool_credentials.py仅扩m06/m08只读scope与独立tests。全局FORWARD保持False、全局256不改；仅marked受管工具调用原签名函数，条件不符拒绝。默认未配置完全保持旧行为。只实施代码/纯验证，不修改实际原生源码/凭据、不启动服务/HTTP/模型/SQL。
+- T-agent-1021-root-73（agent-1021-root认领，进行中）：新deploy/native/wsl_bridge_lifecycle.py及独立tests；desktop.py日常协调窄接，wsl_http_bridge.stop_bridge只加expected_launch_id竞态守卫。根因是平台成功更新后，旧桥快照仍绑定旧launch导致后续工具拒绝；已就绪所属桥仅在新归属明确时单次重建，不启动14个Dify角色、未配置不启动、失败/不明身份不接管、不重试。与domain46三文件无重叠，真实验收待纯回归后单独记录。
+- T-web38编辑成功口径澄清（root）：编辑草稿由Vue保留跨组件卸载；202只证明平台预约。确认准确原生新user（ID/正文/父节点匹配本Turn）后即可收编辑面板，无须等模型回答成功；unknown且保存未确认保留草稿/key。后续模型失败由已保存消息与显式再生成承接。
+
+- T-agent-1021-native-43作者正式交接5路径（agent-1020-native）：分支追加计划、两POST202、共用Turn预约与源快照、精确终态/附件继承；40新与89既有纯/tmpSQLite/Mock项均通过，compileall与本人diff通过，0真实HTTP模型业务库。root已只读初审并接管；无迁移，真实回复验收仍受429阻塞，不能标完整聊天交付。
+- T-agent-1021-native-44（agent-1020-native认领，只读进行中）：工具专属alias后台映射、原生每Turn循环上限钩子及平台19工具总量计数/CAS方案；禁止全局256修改或伪HTTP参数，先冻结最小合同再实施，0实际请求。
+- T-root73纯回归完成：新生命周期13项、日常入口10项及代理启动6项共29通过0.47秒；仅更新所属桥快照、带launch比较停止、未配置不启动、异常不重试。实际重建需待聊天分支部署及工具签名补丁最终就绪后统一验收，不先改正在运行的原生服务。
+
+- T-agent-1021-domain-46作者正式交接4路径（agent-1020-domain）：tools.py精确摘要补丁、启动环境pin及凭据只读scope扩展、27新测试；首轮51项与新增补充回归均过，语法/本人diff通过。实际OWUI副本仍原SHA，0实际配置/HTTP/模型/SQL/服务操作；root接管，生产启用待每Turn预算B完成。
+- T-agent-1021-domain-47（agent-1020-domain认领，只读进行中）：核两指定MySQL库完成登记后，设备质检/维护/产品质检→复核→正式报告用户操作的真正缺口，最多5项有源码证据；禁止真实连接或重复测试，不新增泛化范围。
+- T-root73补充：45既有桥协议/进程归属纯回归1.36秒通过；当前实际bridge未重建，平台/原生服务仍运行。
+
+- T-agent-1021-root-74（agent-1021-root认领，进行中）：部署已交接T-native43分支后端，先核所属平台SQLite无活跃Turn、独立备份head12及完整结构比较，单次更新8080，不改13000或14个WSL角色。0模型/业务MySQL；前端T38正式build交接后另做只读编辑/取消/按钮UI验收，不提交消息。
+- I-agent-1021-root-70只读补证：2026-10-21当前官方Go文档https://opencode.ai/v2/docs/console/go/列DS4.1为deepseek-v4.1-flash和inference/go/openai/v1/chat/completions，与当前配置一致。未改模型/地址、未做新的completion；429原收据仍保留，不能从HTTP状态推断账户余额不足。
+
+- T-native44作者只读交接：工具轮数与模型调用总数不同，原压缩也调用模型；冻结专属alias映射、签名预算和跨恢复账本方案。普通模型不改，全局256不改，原循环不重写。0请求/修改。
+- T-agent-1021-native-45（agent-1020-native认领，进行中）：新增chat/native_tool_policy.py/native_tool_budget.py及纯tests；native_turns冻结管理员工具策略，native_execution/transport仅后台预算头/原deadline，integrations schemas/service配置与secret引用窄接。先同domain冻结header/claims/nonce合同。预算默认4工具/2轮/3模型/90秒，后台可配置，浏览器不接tools/预算；不新增平台迁移，0真实请求或在用库。
+- T-agent-1021-domain-48（agent-1020-domain认领，待T47交接后进行）：新deploy/native/owui_chat_budget_patch.py、独立原生预算helper源及纯tests，精确SHA适配main.py/utils/chat.py；只修改本仓可审补丁与生成源，不应用到在用副本。原循环/全局普通模型不改，受管alias精确JWT绑定、独立SQLite账本累计总模型请求和恢复nonce，含压缩；保留原绝对deadline。与native45冻结合同，0真实服务/请求/模型/业务库。
+- T-agent-1021-root-75（agent-1021-root认领，进行中）：integrations/delegated_budget.py及delegated_router窄接、独立纯tests，用已认证当前Turn的冻结策略与JSON/revision CAS，在19工具执行业务读/embedding前消费额度，结束前沿已有fresh授权；不新增表/接口/实际请求，依赖native45 policy合同。不得把未配置的已发布旧工具路径直接当新预算Turn。
+- T-root74已部署：备份fusion-native-branches-20261021.sqlite3，核无active Turn、head12与完整结构一致，8080单次更新成功，0模型/业务MySQL。T-root73实际单次重绑定8.69秒通过：工具桥与代理ACL更新、平台/OWUI和14个WSL角色全部复用，0业务HTTP/模型/业务SQL；platform-workspace-bridge-rebind.json。
+
+- I-agent-1021-domain-47（作者agent-1020-domain，root串行落盘）：食品样本聚合failed优先于incomplete，当前review仅拦总incomplete，6不合格+5缺证据可能被人工直接改判合格；service.py:454、assessment.py:7、verify_business.py:104。另有前端不提交expected_samples默认1、外观证据仅路径无细节/预览两处演示缺口。三条后端主链已有，无真实测试。
+- T-agent-1021-domain-49（agent-1020-domain认领，进行中）：优先修services/platform/agent_platform/modules/manufacturing/service.py的review完整性检查及独立/相关纯tests；混合failed/incomplete或missing_samples不得人工合格，完整证据人工改判保留。0真实API/业务SQL/模型。T-domain48调整为待49交接后继续；未取消原生工具B。
+- T-agent-1021-web-39（agent-1020-web认领，待T38交接后开始）：先只读计划样本数、外观缺陷/证据展示两处最小前端修法，候选InspectionCreateForm/InspectionDetail；不得请求任意image_ref，受控File授权入口缺失需先报合同，正式实现范围待方案。
+
+- T-agent-1021-web-38作者正式交接21文件（agent-1020-web）：原消息再生成/编辑草稿与附件三态、unknown核对、准确新user落树收编辑框；164纯断言、根check、build2907模块20.30秒通过，独立原组件Chrome1824毫秒/0HTTP通过。root接管；实际回复动作未调用。
+- T-root74实际UI已验：首轮只读脚本在模型异步列表就绪前断言，33请求/0页面错误而未通过；保留ui-native-chat-branches-read.json。改为等待准确模型就绪的新独立只读验收50请求/0HTTP或JS错误/0Turn模型业务SQL通过：编辑草稿、取消还原、再生成按钮就绪、刷新原两消息，ui-native-chat-branches-ready.json和editing/reloaded截图已目检。原上游失败仍明确保留。
+- T-domain49作者正式交接：manufacturing/service.py仅review完整性拦截，新test_manufacturing_review_completeness.py，8新临时SQLite与2既有定向回归共10项6.70秒通过；拒绝后运行/版本/任务事件/复核数未变，完整证据允许人工改判。0实际请求，尚未更新在用服务。root接管。
+- T-web39正式范围（root记录）：CreateForm/Detail、新InspectionObservation及helper/tests，实施计划样本数与服务端样本计数、缺陷种类/严重度/置信度/reason；图片合同未冻，不自动请求任意image_ref，后续受控原图接口另接，不阻塞已明确的表单和明细。
+- T-domain48必要范围追加：middleware.py原工具轮次增量处加入精确SHA预算ledger消费，按同批call IDs避免审批恢复重复计轮，保证跨恢复总2轮；仍保留原loop、全局配置和普通模型，不在实际副本应用。
+
+- T-domain48必要范围追加（root确认）：routers/openai.py原provider入口与实际上游请求前增加精确摘要guard/计数，防直接原OpenAI路由绕utils/chat；模型总数在最终provider前消费含压缩，utils/chat仅保留通用deadline包装。普通DS保持原行为，不扩其他功能。
+
+- T-web39演示图片合同追加（root）：已核tools/demo_data/quality.py固定5公开SVG及CSV引用。仅精确匹配/demo/quality/{normal,seam-open,wrinkle,uncertain,uninspected}.svg时，点击加载对应同源静态常量并标演示图；其他image_ref仍文本，不自动请求URL、不猜File ID、不内嵌SVG。企业真实原件关联不被这个演示路径替代，后续统一source_file合同另记。
+- T-root75首轮新/旧委托80项中79通过，故障JSON测试True==1被ORM比较为未变导致1断言失败，生产int校验已存在；测试显式flag_modified确保实际写入布尔故障值，再单独验证19项新案例，不重复已通过61项旧回归。0实际外部HTTP模型MySQL。
+
+- T-root75代码已完成待B联合验收：19项新增预算/tmpSQLite/ASGI检查16.32秒通过；61项既有委托/知识源回归首轮均过。消费前核准确Turn/Task、活动会话/身份/原deadline，JSON/revision CAS提交计数与无正文事件；失败不退、取消后不执行、旧无策略Turn不补政策。首轮故障fixtureTrue==1导致ORM未写值已修，生产类型检查未放宽。未部署新预算、0实际模型/业务源。
+- T-domain48启动接入范围追加：windows_services.py只加预算环境钩子，openwebui-chat-budget.json非密文pin、独立openwebui_turn_budget_secret与平台Vault一致；未配置保持旧行为，新账本固定OWUI DATA_DIR内，四补丁摘要和server pin须一致。不得应用实际副本，待完整交接。
+
+- T-agent-1021-root-76（agent-1021-root认领，进行中）：T-domain49已释放后，将同一缺证据判断提到manufacturing/assessment.py供review和reports/inspection_source.authorize(current=True)共用；防旧漏洞已产生的合格复核绕过新review直接发布报告。只限制缺证据的合格正式发布，历史/草稿读取和不合格报告保留；新增独立纯回归与相关定向回归，0实际API/业务数据库模型。未涉及其他Agent当前文件。
+
+- T-web39作者正式交接5文件及dist：计划样本数、服务端数量/reason、缺陷明细和固定5演示SVG点击预览；72新+67既有纯回归、根check、2911模块20.05秒正式build与diff通过。0实际API/浏览器/业务库，root接管。
+- T-agent-1021-web-40（agent-1020-web认领，进行中）：.local实际质检页面只读/表单本地填16后取消验收，先核所属8080与新平台SQLite；1浏览器1页/100同源HTTP/100秒，仅GET和登录POST，不创建任务/运行/导入/复核、不触模型业务MySQL，其他写请求阻断。已有运行可看样本计数/外观细节，无保存的演示图则明确未验，不伪造API。只写独立.local脚本/收据截图。
+
+- T-root76代码完成待部署：共用has_missing_evidence判断已接人工复核与正式报告发布，5新报告边界/8缺证据复核/12原报告来源共25项纯回归25.36秒通过。防历史错误合格复核绕过新guard发布；不重写历史/草稿、不拒完整证据人工判定及不合格报告。0实际API/业务库/模型。
+- T-agent-1021-web-40作者正式交接：所属8080 PID24244及本项目SQLite核验后，1页37同源请求/3294ms，样本数默认1、填写16、0失焦限制1、取消不创建通过，0页面/HTTP错误/模型/业务SQL。实际列表0条，统计/外观明细/演示图未验，收据.local/ui-quality-controls-read.json及截图保留；未伪造或导入数据。
+
+- T-agent-1021-web-41（agent-1020-web认领，只读进行中）：核原Dify剩余节点与当前Graphon/编辑岛合同，选择无需模型或MySQL的下一批可复用节点及控件，最多6项具体拆分。0源码/API/构建，root串行记录。
+- T-native45作者正式交接8路径：冻结策略/独立签名/capability验证、精确首次及恢复nonce和原deadline、普通模型兼容已实现，无迁移。最终36新项及97联合通过，另129相关分批通过（有重叠不相加）；0实际HTTP模型库，待原生T48部署。代码范围释放。
+- T-agent-1021-root-77（agent-1021-root认领，进行中）：T45释放后统一备份更新本机8080；创建专属只读服务身份/公钥证书与两独立密文签名引用，最多10平台HTTP/90秒；原生补丁T46/T48完整交接后只停启所属13000一次180秒并重绑定桥，再最多25本机原生HTTP/120秒配置唯一工具server/模型alias及读回。0模型请求/企业MySQL，不替换原工具/模型授权，不重试不确定写入；仅.local准备及正式配置接口，现有14个WSL角色不重启。
+
+- T-domain48作者正式交接4路径：锁定OWUI四处原入口预算适配及独立账本/环境钩子，33新+5旧纯检查分批通过。末次py_compile缓存WinError5保留，改为内存compile语法核验通过，未删除缓存或改权限；0实际API模型库。T-root77已更新所属8080，head12结构一致、独立备份成功；6平台HTTP创建专属六只读范围身份/公钥证书、两独立密文签名引用，0业务SQL模型，正在单次更新13000。
+- T-agent-1021-native-46（agent-1020-native认领，只读进行中）：核下一批聚合/赋值/列表/Answer原节点及平台validate_graph合同、nested selector和容器字段，0修改/服务/API/模型业务源；与web41协调后确定实施范围。
+
+- T-root77实际配置通过：8080更新head12结构一致；13000独立原件/SQLite备份后单次补丁与启动成功，2前置原生HTTP。日常桥重绑定8.61秒，14个WSL角色身份/状态不变。6平台HTTP准备身份/证书/两独立密文key；随后4平台+10原生/桥HTTP，capability固定5字段ready、新server19只读操作、原配置保留、独立alias与原组授权/普通账号目录均读回正确。0LLM/业务MySQL；尚无实际模型工具调用成功证据。收据platform-native-business-tool-bootstrap.json、native-tool-budget-install.json、platform-workspace-budget-bridge.json、platform-native-business-tool-policy.json。
+- T-root77后置拒绝验收（进行中）：最多3原生HTTP/45秒，仅管理员登录及两条无预算头的专属alias请求，必须在模型派发前403；检查本项目新预算SQLite的application_id及计数前后一致，0模型业务SQL，不发送带签名的真实生成请求。
+
+- T-root77后置真实拒绝验收通过：3本机原生HTTP，两条无签名alias路径均403；预算新SQLite归属码正确，前后turn/model/tool计数全0。native-tool-budget-unsigned.json。
+- T-web41作者只读交接：剩余6项为聚合/赋值/列表/Answer/Iteration/Loop，F-M04-01/02/04仍部分实现。native46补证Graphon原生识别parentId/iteration_id/loop_id，无需新转换；勿写空container_id。nested selector支持dict属性；新带连字符nodeID不兼容Answer原模板，现有ID不可无映射改写。
+- T-agent-1021-web-42（agent-1020-web认领，进行中）：仅packages/dify-workflow/**与apps/web/tests/workflow-editor.mjs，精提原聚合node/panel/分组helpers，新增variable-aggregator兼容旧聚合别名，分组target句柄、连通上游类型变量及字典nested selector；必要40000输入限制和新节点无连字符ID，保留旧ID/未知字段/只读/CAS。不接Answer/真assigner/list/容器；纯检查与独立包check，root统一build，0实际HTTP/模型/业务库。root协调串行落盘，认领确认有效。
+
+- T-agent-1021-domain-50（agent-1020-domain认领，进行中）：仅项目文档README/01产品UX/02架构/03验收与contracts/实施验收.csv五路径，沿4核心说明更新本轮实际证据和缺口至v0.10；保留125项状态分布，不把19工具配置当实际模型成功。root另导出真实OpenAPI计数。0API/数据库/模型；认领确认有效，其他Agent不得覆盖此5文件，根共享由root串行落盘。
+
+- T-root77同页工具模型目录验收（进行中）：复用已验浏览器限制，≤100同源HTTP/100秒/1浏览器页，仅登录POST与GET，在现失败会话选择企业业务助手并刷新核目录仍存在，不发送消息/Turn/模型，不请求业务源；截图和收据独立保存。
+
+- T-root77目录UI首轮验收器在两个退场/入场loading遮罩共存时触严格单元素断言，34请求、0页面/HTTP错误、新Turn模型SQL均0；非产品失败。保留ui-native-tool-model-read.json，改为等待全部遮罩移除，下一次独立只读收据，不重复任何业务写入。
+- T-web42范围补充（root协调确认）：已有简单local-schema json_object可编辑所在图及选择字典子属性，但字段自身保持只读、完整属性保留；不支持schema仍原只读。结构化schema新建编辑留后续，不增加JSON输入框或常驻约束说明。
+
+- T-native46作者只读交接：Graphon允许字典nested selector且聚合保留零/假/空值；原容器归属兼容已证。平台3.14无法直接导入要求<3.14的Graphon，保存前原schema复用应走所属WSL worker validation-only模式，待后续实施；目前保存并未完整校原节点data。原变量候选hook不按group handle筛选，web42如增加须标平台适配。
+- T-agent-1021-native-47（agent-1020-native认领，进行中）：仅packages/dify-runtime/worker.py及定向workflow_runtime/workflow_graph测试，修顶层initial variables.selector必须恰两段，保留读变量nested能力，不迁移已存图，不进入launcher/service完整schema任务。0实际WSL/API/业务源模型；root串行认领确认有效。
+- T-root77同页目录验收实际通过：新独立脚本50同源HTTP，企业业务助手可选、刷新后目录仍在，原两消息失败历史正确保留；0JS/HTTP错误/新Turn/模型/业务源。ui-native-tool-model-ready.json与business-assistant.png已目检，质检16表单截图也已目检。首次脚本遮罩严格断言失败证据保留。
+
+- T-native47认领路径纠正（root）：实际worker为services/workflow_runtime/worker.py，前记录packages路径不存在且未修改。归属限定该实际worker与services/platform/tests/test_workflow_runtime.py、test_workflow_graph.py三文件；当前无重叠认领，作者已确认，现可实施。
+
+- T-native47作者正式交接3文件：初始variables.selector恰两段与Graphon写入一致、nested读取不变；9新增及1旧定向检查1.42秒通过。非法create/update无记录/Task/Run或版本变化，合法nested原样保存/Mock派发。首次测试命令缺导入路径已修，0真实WSL/API模型业务库，无迁移。
+- I-agent-1021-root-78（关联T-root65）：官方https://status.opencode.ai/当前报告Go deepseek-v4.1-flash错误率升高，开始2026-10-20 23:45UTC且ongoing，与本机08:05:56的429/Endpoint unavailable相符；这是外部降级证据，非断言所有聊天故障唯一原因。没有再发模型，不更改付费方式或模型。
+
+- R-agent-1021-root-79（用户明确，2026-10-21，本轮异步答复）：允许按受审恢复范围核验已提交1483000行，再单连接/每SQL5秒/总1800秒续导857740行，成功后食品样本及三业务验收；保留原数据不重复写入。该答复解除本次恢复等待，不授权越界源或异常后再次自动重试。
+- T-agent-1021-root-79（agent-1021-root认领，进行中）：先独立一次本机归属与原connection10停止核查（1短连接/2元数据SQL/15秒），形成新鲜绑定收据SHA和原计划SHA的恢复review；随后仅执行已固定recovery-plan 1连接/5秒SQL/1800秒的恢复器，不并行其他MySQL操作。root独占实际导入/注册/演示，其他Agent只做纯代码/文档。
+
+- I-agent-1021-root-79（关联T-root79）：受审续导在写前 source_verification 因 recovery_batches_invalid 停止，connection13/67SQL/1.609秒/0新增业务行；Parquet字典列真实284批而旧ceil估算260，非数据库超时或资源异常。原失败及恢复收据保留。root修复准确批数核对，预算不扩，先核连接13退出再继续现已授权范围。
+- T-agent-1021-native-49（agent-1020-native认领，进行中）：独立 services/platform/tests/test_demo_recovery_arrow_batches.py；一个小dictionary Parquet验证原3批边界、全提交不重写、部分续导、缺号/超批/坏hash拒绝。root独占recover_mysql.py修复及真实MySQL；原package/计划/收据不改；0真实DB/API/模型，root串行记录，认领有效。
+- T-root79修复范围：recover_mysql.py按原流准确计批、读回量执行计数、写前核剩余SQL/commit预算；保留原冻结计划与全部原数据，纯回归通过后继续已授权导入。I-root79另观察普通Importer._existing也存在ceil比较，本恢复覆写该方法不受其阻断，单独后续维护不暗扩范围。
+
+- T-root79停止核查补证：connection10与13、两类导入进程均已退出；1连接2条元数据SQL通过，import-stop-check-batch-fix-20261021.json。修后原15纯恢复回归1.07秒通过；新Arrow边界回归由native49执行中。
+- T-domain50作者交接快照（root据作者消息记录）：五份v0.10文档完成检查，125状态94/15/16未变，实际OpenAPI470/327；14行CSV证据更新，不扩大完成声明。0实际请求，等待作者正式释放后root补真实MySQL后续结果。
+
+- T-native49作者验证完成：新独立Arrow回归9项1.60秒通过，真实小dictionary Parquet保持500/500/500；完整不重写、断点只续第三批、坏账本/预算不足写前拒绝。0真实DB/API，原计划与账本边界不改。root接收后续真实验收。
+- T-root79准确批次修复现进入受审续导：连接10/13停止已核；新review绑定相同原计划/原失败SHA并追加预检失败SHA，收据recovery-20261021-batch-fix.json。仍1连接、每SQL5秒、总1800秒、17703SQL/2524commit/2357批回读硬限制，先核1483000旧行再续857740，不并发任何其它业务MySQL操作。
+- T-domain50作者正式释放五路径，root已接管；后续真实数据结果统一由root补录。
+
+- T-agent-1021-domain-51（agent-1020-domain认领，只读进行中）：读取源码，列三个演示已有结果的人工复核/生成/下载/发布最短UI与API闭环，明确维护入口。0实际请求/业务库/模型，不改文件，由root按已授权演示范围验收并保留待人工复核状态。
+- T-native49作者正式释放新独立测试，root接管；9项纯回归1.60秒，语法/尾空格通过，实际复核导入不由子Agent执行。
+
+- T-web42作者正式释放39文件（packages/dify-workflow下38及apps/web/tests/workflow-editor.mjs），root接管：原聚合节点/分组/连通类型变量/nested字典与21源SHA，190纯检查和独立tsc通过，0真实请求/根build。实际分组布局、保存重开仍待验；不把原SSR写成已验浏览器。
+- T-agent-1021-web-43（agent-1020-web认领，进行中）：apps/web/src/modules/manufacturing/MaintenanceWorkspace.vue、新maintenanceExport.ts、新apps/web/tests/maintenance-export.mjs三路径；复用POST exports已有CSV能力，结果页导出数据、加载/失败及权限变化/迟到响应安全处理。0真实API/DB/模型/根build；不更改数据算法、不冒充正式维护报告。root串行落盘认领确认。
+- I-agent-1021-domain-51（作者agent-1020-domain只读观察）：分析来源维修复核只看新分析创建时间，没有核采样时间；历史正常窗口重算有被误当修后恢复的风险。root安排独立窄修，不用旧演示窗口伪装维修效果；维护尚缺正式报告UI/API，仅bins CSV已存在。
+
+- T-native48作者只读设计完成：Graph.init会构造节点并调用post_init，不能拿来当无副作用校验。原schema/Graph normalize/prepare/scope及拓扑检查可通过所属WSL validation-only复用；显式校验与运行前共享、不阻止未完成草稿保存、预算/取消/重新授权/CAS需接线。0修改/真实请求，当前未实施，保留后续任务。
+- T-domain51作者只读完成：真实闭环需保持食品4合格6不合格1复核5缺证据；质检报告先草稿、人工复核后刷新再发布。维护正式报告仍缺，现可使用分析详情与CSV接口；不把数据导出当正式报告。
+
+- T-root79实际进展：03:06UTC第一来源259200行/284批回读SHA匹配，1连接635SQL，0新增写入；总1800秒硬预算保持。单来源耗时偏高，另作离线一批性能定位，不连接数据库、不改当前进程预算。
+- T-agent-1021-native-53（agent-1020-native认领，只读进行中）：对实际首Parquet只取首1000行一次，cProfile原batches/canonical_rows/digest纯本地CPU，无DB/API/模型；给热点证据，不改源码、不干预运行进程。
+- T-agent-1021-domain-52（agent-1020-domain认领，进行中）：仅maintenance_work.py、新test_maintenance_analysis_verification_freshness.py及test_manufacturing_lifecycle.py中原analysis维修fixture必要适配。沿已保存受控查询重授权，检查recent真实观测在维修后、未来容忍5min、缺来源或含糊分期拒绝，baseline仍可历史；不执行新业务SQL、不改分析算法/历史记录。纯tmpSQLite/Mock验证事务拒绝不变。root串行认领确认，其他范围不动。
+
+- T-native53作者只读性能定位完成：首1000行profile1.1607秒中importlib0.8634秒；两时间列导致2000次缺pytz查找，精确string_to_tzinfo一次确认尝试pytz后回退datetime。canonical0.126秒/digest0.027秒，原还原SHA相同；0DB/HTTP/第二批采样。
+- T-root79运行期修正：仅安装pytz2025.2（509kB官方wheel）到本venv现有搜索目录，当前导入进程/数据库连接保持、原1800秒截止不重置。单个+08:00时区转换与原datetime回退的isoformat一致；requirements.txt追加此精确依赖以避免后续重复查找。非SQL/源码热替换，无新增业务查询。
+- T-web43作者正式释放3路径：维护结果导出数据按钮/maintenanceExport.ts/maintenance-export.mjs，复用服务端CSV、迟到/权限失败/重复点击与ObjectURL回收处理；35纯行为检查和Vue类型通过，0实际请求或根build。root后续统一构建验收。
+
+- T-agent-1021-web-44（agent-1020-web认领，准备中）：仅.local/ui-manufacturing-demo.mjs与run_ui_manufacturing_demo.py，复用既有安全浏览器验收器准备三个已保存演示结果及维护CSV下载核验；准确ID来自本次成功演示收据，无收据不执行。≤120请求/120秒，1浏览器1页，GET/登录及准确维护exports白名单，其余业务写/源查询/模型禁止。当前只写脚本，root导入和build完成后串行运行。
+
+- I-agent-1021-root-80（关联T-root79）：受审恢复在610.505秒/857SQL/358200回读计数/0新增写入以import_failed退出；第一来源259200行已完整核验，第二来源未完成。收据in_flight=false，原记录未保留异常类型，不能断言数据库超时/断连。连接10/15及进程已确认停止（1连接2元数据SQL）。退出时间与pytz文件写入同秒，安装与import竞争为待证假设；root承认在运行时安装依赖时机不当，后续改为启动前完整预检，当前不自动重跑。
+- T-agent-1021-root-80（agent-1021-root认领，进行中）：仅tools/demo_data/import_mysql.py及新services/platform/tests/test_demo_import_diagnostics.py；连接前完整依赖预检、失败保存异常类型/数字errno/脱敏帧位置（无SQL/参数/locals），补纯回归。原计划、原收据不改，所有数据库续导仍停；root再给具体恢复范围。
+- T-agent-1021-native-54（agent-1020-native认领，只读进行中）：完整依赖环境只取同源首1000行一批，核原流/还原hash与时间转换/性能；静态核半安装包import风险，不再修改依赖，不触发真实数据库或网络。
+
+- T-root80修复完成：连接前完整PyArrow/pytz固定时区路径预检，失败保留exception_type/数字errno/文件名函数行号，无SQL参数locals。3新+15原恢复+9Arrow共27项2.80秒通过；T-native54单批0.3200秒（原1.1607），import查找5次（原2000），原/还原SHA及所有固定+08:00时间文本一致。原退出原因仍未证实，不回写猜测。
+- R-agent-1021-root-81（用户明确，本轮异步答复）：允许已修正导入器再核1483000行、续857740行，单连接5秒SQL/1800秒总预算，成功后食品16样本及三个演示。运行期间不安装或修改依赖。
+- T-agent-1021-root-81（agent-1021-root认领，进行中）：新的review绑定原plan/receipt及connection10/15停止核查、上次失败SHA；仅运行recovery-20261021-preflight-fixed.json，不重复旧批，不改旧表/工作流绑定。root独占MySQL，后续食品/登记/演示依赖成功，不并行其他源查询。
+- T-domain52作者正式释放三路径：维护复核来源及实际recent时效、不可含糊分期与成功观测快照；16新+3旧共19项21.13秒纯tmpSQLite通过，0真实MySQL/API/模型。root接管后续部署，不标已实际维修关闭。
+
+- T-agent-1021-domain-55（agent-1020-domain认领，进行中）：沿既有5文档更新v0.11，补T42聚合/T43维护CSV/T52真实观测复核的实现与纯证据，保留125状态94/15/16、实际API470/327；数据恢复仅记T81进行中，最后真实结果由root补录。0请求，其他代码不动。
+
+- T-agent-1021-native-56（agent-1020-native认领，准备中）：依据原Graphon聚合schema与测试，只准备.local/aggregation-demo-definition.json，最小非分组/分组两图、准确selector/handle和预期零/空值行为；不执行WSL/API/DB/模型，不改平台源码。root在统一构建后另行受控实际验收。
+
+- T-domain55作者正式释放v0.11五文档；125状态及470/327不变，T42/43/52真实验收与MySQL结果仍由root补录。T-web44两独立.local UI脚本准备/语法通过，尚未执行。
+- T-native56作者完成纯合同准备：.local/aggregation-demo-definition.json两最小原Graphon聚合图，0优先数值及group_name/groupId不同的两组输出，0实际运行；不把数字输入空白当null或强称已有至少一个输入约束。
+- T-agent-1021-root-82（agent-1021-root认领，进行中）：统一已交接前后端/文档，不修改运行中导入器与依赖；根check已0错误（保留原25兼容警告），导入共用纯回归追加55项1.60秒通过。准备根build、平台所属SQLite独立备份保持head12更新T52/T47、日常桥重绑定及实际演示UI；不额外查询MySQL，不启动Docker或重启14个WSL角色。
+
+- T-root82构建/部署通过：根build成功（最终web30.74秒，保留既有chunk提示）；平台SQLite独立备份fusion-demo-evidence-20261021.sqlite3、head12/schema一致后更新成功，0MySQL/模型。新T52/T47已在运行服务。
+- I-agent-1021-root-83：原生桥验收在WSL状态前置检查报wsl_lifetime_sides_do_not_match，未重启WSL/派发业务HTTP，独立失败收据保留。与当前正常MySQL导入独立，不通过跳过归属或重启整发行版掩盖。
+- T-agent-1021-root-83（agent-1021-root认领，进行中）：仅核项目专属WSL保活器Windows/Linux两侧keeper_id/PID/boot/runtime身份，明确后用现stop/ensure精确修复本项目keeper再重绑定工具桥；不停止14业务角色、不改全局WSL配置/DB、最多一次修复。真实归属不匹配则停止并保留原因。
+
+- T-root83核验事实：Windows旧keeper仍在，Linux同keeper已不存在且boot标识改变，runtime_id仍准确；独立status当前业务角色processes=[]。据此只回收本项目旧Windows keeper并走原reconcile-boot核旧PID/cgroup/netns确已消失，再建立新keeper；不是停止或重启14个业务角色。工作流只需该纯图环境，完整Dify业务服务现未运行，后续状态如实记录。
+- T-agent-1021-native-57（agent-1020-native认领，准备中）：仅.local/verify_aggregation_graphon.py，准确两合同/已知Graphon实例、18HTTP/180秒、各case唯一创建/运行、无重派，收据先写attempt；只准备并做语法检查。必须先过keeper/boot等归属，当前T83未修前不得运行，0实际API/WSL业务/DB/模型。
+
+- T-root83前述状态解读纠正：runtime.status在boot哈希不符时省略processes，不能据默认[]断言14角色退出。只读/proc及清单已证14角色存活、cgroup inode一致，当前create_time相对原created_at全部+3008秒；用当前kernel/PIDnamespace和init_created-3008重建旧boot SHA精确一致，确定壁钟调整误判。仅旧keeper已停止，未停14业务角色；reconcile-boot因旧cgroup存在拒绝为正确防护，不能删cgroup绕过。
+- T-agent-1021-native-58（agent-1020-native认领，只读进行中）：基于T83证据设计稳定raw start ticks启动/进程身份及现旧清单安全迁移；必须覆盖lifetime/worker proof，不改或停业务数据库/14角色。先冻结范围后root认领实施，不擅自改记录。
+
+- T-agent-1021-native-58（agent-1020-native认领，由只读转进行中）：明确8路径deploy/native/wsl_identity.py、wsl_runtime.py、wsl_lifetime.py、services/workflow_runtime/worker.py；services/platform/tests/test_wsl_identity.py、test_wsl_runtime.py、test_wsl_lifetime.py、test_workflow_runtime.py。统一内核UUID+PID1原始start ticks+PID namespace稳定摘要；新进程存raw ticks，created_at仅审计；旧缺ticks拒绝自动认领并明确迁移状态，不能假称已退出。0实际WSL/API/DB/模型，由root核旧哈希精确重建、14角色完整归属后另做备份CAS迁移，不停业务角色。
+- T-native57准备验收器已完成并释放，语法/空白通过，实际需T83/58稳定身份修复后才执行。root当前没有派发任何新增Graphon任务。
+
+- T-root81实际续导已完成：2026-10-21T03:35:41Z成功，1172.311秒/1连接35/6506SQL；原1483000行1625批全部哈希核验，续导857740行，总2340740行。收据recovery-20261021-preflight-fixed.json，进程退出0且in_flight=false，不需停止核查；原数据/批次/计划未重写。当前继续已授权食品16样本与三业务验收。
+- T-agent-1021-root-84（agent-1021-root认领，进行中）：单独食品16样本导入（原QualityImporter固定预算、仅本机szh_new_food独立aic_demo表），成功再注册2源/9设备及设备、维护、产品三流程；root独占真实MySQL与平台写入，界面验收单页读取并仅一次维护CSV导出。不自动复核/发布。
+
+- T-root84阶段证据：食品16行1连接20SQL成功；平台26HTTP登记2源/9设备/9测点。设备验收7HTTP/3源读取/2秒SQL限制：6样本合格，维护1860条normal；产品9HTTP/2源读取：16样本4合格6不合格1待复核5不完整，符合预期。2检验草稿报告保留未人工复核；0LLM。实际浏览器wrapper1.4秒exit1无详细错误，待定位验收器。
+- T-agent-1021-web-45（agent-1020-web认领，进行中）：仅.local/ui-manufacturing-demo.mjs和run_ui_manufacturing_demo.py修验收器启动，保留失败，不实际API/浏览器/业务库模型，不重派业务。root接管执行。
+- T-agent-1021-domain-59（agent-1020-domain认领，由只读转准备）：仅.local/migrate_wsl_identity_v2.py准备精确原boot重建与14角色完整归属验证、备份CAS和v2迁移；不修改native58的8生产文件、不实际WSL/API/数据库/进程操作。root另核执行；旧已退出keeper须归档不可伪造ticks，业务14角色不重启。
+
+- T-agent-1021-native-60（agent-1020-native认领，进行中）：仅.local/verify_aggregation_graphon.py核验编号支持平台32位hex与标准36位UUID；web45已发现同类验收器误判。纯fixture/语法检查，不真实POST，T58生产文件归属不变。
+- T-agent-1021-root-85（agent-1021-root认领，进行中）：T-domain55释放后接管根README和项目文档原5路径，按本轮实际导入/API/UI/原生修复证据更新唯一交付说明，保留125项分项口径和未验缺口，不新建重复文档；实际界面结果尚待T-web45。
+
+- T-web45作者正式交接：两local文件只修制造模型32hex/核心36UUID兼容、增加读取现成功收据的--check-fixtures及脱敏启动失败收据。node语法/6设备16产品4bins纯合同、Python AST通过，0浏览器/API/数据库。首次1.4秒无收据失败事实保留。root现接管实际UI验收。
+
+- T-root84真实UI通过：1浏览器1页41同源请求/19API/10.525秒，0JS/HTTP错误；6设备与16产品样本、精确run、4/6/1/5结论、指定缺陷严重度/置信度及演示图显示通过；维护4分组CSV415字节一次真实下载，SHA424af85afd183562274b7cbc30cae716844cba0ee3b34c3d4436e92142719c00。0新源SQL模型/任务复核。5截图root已目检，发现长小数、表格true/false及柱图截取需改进，关联web46，不掩盖展示缺口。
+- T-agent-1021-web-46（agent-1020-web认领，进行中）：仅InspectionDetail.vue、InspectionObservation.vue、inspectionPresentation.ts、MaintenanceWorkspace.vue，必要独立manufacturing显示helper/纯tests；保留证据原精度，概览合理数值显示、布尔中文，核柱图真实数据/动画。TrendChart若需改必须先扩归属。0真实API/库/模型，末尾一次check/build，root接管实页；用qknow及Vue技能，原真验收证据保留。
+
+- T-native58作者正式交接8路径：191纯检查通过/11真实WSL显式跳过，1.92秒；rawticks双读、legacy清单明确需迁移，停止前不误清cgroup；v2真正重启保留既有严格reconcile。0实际WSL/API/数据库。T60本地聚合验收器14编号fixture通过并释放。root接管真实备份迁移，验证原3008偏移和14角色，不停角色。
+- T-web46范围追加：TrendChart.vue仅真实finished/aria-busy状态转发，原默认动画导致早拍柱图贴基线；保留动画和数据，订阅/更新/卸载清理兼容。另新增.local/ui-manufacturing-presentation.mjs与wrapper只准备，root一页80HTTP/60秒读取复查数值和柱图，0导出/源SQL/模型/任务，不覆盖原成功收据。
+
+- T-root83稳定身份修复实测成功：T59备份CAS迁移/opt/ai-agent-company/identity-migrations/a7c23df3a6364e5fbd702fa3dd7d2616，14角色完整归属与rawticks通过，0角色重启/数据库请求；旧keeper归档。随后新keeper及原桥重绑定11.94秒成功，8080/13000复用、14角色身份/PID/状态不变，upstream准确。新收据wsl-identity-v2-migration.json与platform-workspace-identity-v2-bridge.json。此前failed与时间误判过程保留。
+- T-root86（agent-1021-root认领，进行中）：T57/T60已交接，现运行两条固定原Graphon聚合演示；18HTTP/180秒、2图2次运行，各自精确幂等键/无重派，0模型/业务SQL。仅本机已核WSL纯图环境，结果节点事件回查并保留。
+
+- T-root86实际Graphon通过：两条聚合图原0.8.0执行成功，18HTTP/2派发/0模型业务SQL；0优先值与双分组输出正确，三节点及任务/事件/幂等GET回查通过，保存分组name/handle未改变。platform-aggregation-graphon.json。新增聚合UI操作仍未验。
+- T-root85归属交接：agent-1021-root释放项目文档README/01产品UX/02架构/03验收/contracts实施验收.csv五路径给T-domain61，根README仍root；不得修改root尚在维护的共享进度与索引。
+- T-agent-1021-domain-61（agent-1020-domain认领，进行中）：上五路径v0.12更新本轮2340740+16导入、三业务API/UI/CSV、T52部署、稳定WSL身份真迁移与两Graphon聚合API实证；维持125项分布与未验缺口。web46展示修复进行中不预写通过，0实际HTTP/数据库/模型。
+
+- T-domain61作者正式交接5文档：v0.12记录2340740+16成功导入、三业务API/UI/CSV、2草稿、稳定身份真实迁移及两Graphon聚合API证据；T52已部署、修后复核未验，聚合新增UI未验，web46显示仍在进行中。4正文版本/UTF8、125唯一ID/94部分15原生待联调16本机已验分布、证据存在与diff检查通过，0真实服务请求，root接管末尾显示实证更新。
+
+- T-web46作者正式交接8web及2local路径：概览3位/维护均值2位、可比较中文，原详情与证据精度保留、CSV与图仍用原bins；TrendChart真实finished且已应用数据一致才清aria-busy。168定向纯断言/check/build通过，2932模块web29.10秒；25既有Svelte警告及原构建提示保留，0实际API/库模型。root接管新独立只读视觉验收。
+
+- T-root84/T-web46改后实页通过：1页34同源请求/6.132秒，0错误/SQL/模型/导出/新任务；概览缩短而详情和证据原精度不变，维护中文可比较与均值正确，finished后两系列实体像素44691/33750。三截图root已目检。收据.local/ui-manufacturing-presentation/acceptance.json；I-root87长小数/英文布尔/柱图早拍显示问题已解决。
+- T-root85文档阶段完成：根README给出已保存演示的准确菜单和记录名；原4核心说明v0.12与125验收表同步已验/未验，未新增重复文档，94/15/16状态分布不变。当前准备精确提交清单与敏感检查，下一步推送GitHub main；完整原生节点/Agent、实际模型成功工具回复、正式维护报告及企业试点等仍未达全范围验收。
+
+- T-agent-1021-root-88（agent-1021-root认领，进行中）：精确128文件候选含全部已交接源码/测试/4核心文档与索引，不含无关deploy/docker_desktop.ps1、上游整库、数据包、运行库或密钥。敏感扫描无命中、无>5MiB文件，125功能ID/状态分布正确；CRLF按Windows合法行尾核后diff无空白问题。根check/build和定向/实页已通过，准备提交并推送既有GitHub main，远程基线0257b32f与本地一致。当前运行入口8080及13000可复用；剩余全范围缺口见v0.12验收表，未宣告全部功能完成。

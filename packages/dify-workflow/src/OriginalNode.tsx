@@ -1,16 +1,26 @@
-import { memo } from "react";
-import { Handle, Position } from "reactflow";
+import { memo, useEffect } from "react";
+import { Handle, Position, useUpdateNodeInternals } from "reactflow";
 import type { NodeProps } from "reactflow";
 import { useEditor } from "./EditorContext";
 import StartNode from "./vendor/workflow/nodes/start/node";
 import EndNode from "./vendor/workflow/nodes/end/node";
 import IfElseNode from "./vendor/workflow/nodes/if-else/node";
+import AggregationNode from "./vendor/workflow/nodes/variable-assigner/node";
 import type { CommonNodeType } from "./types";
+import { readableAggregation } from "./draft";
 const icons: Record<string, string> = { start: "▷", end: "□", "if-else": "⑂" };
 /** 原节点内部直接复用；外层保留Dify头部/句柄分区，去除协作头像、插件安装与后台检查器。 */
 function OriginalNode(props: NodeProps<CommonNodeType>) {
   const { readOnly } = useEditor(),
     { data, selected } = props;
+  const updateInternals = useUpdateNodeInternals();
+  const handles = JSON.stringify([
+    !!data.advanced_settings?.group_enabled,
+    data.advanced_settings?.groups?.map?.((group: any) => group.groupId) ?? [],
+  ]);
+  useEffect(() => {
+    updateInternals(props.id);
+  }, [props.id, handles, updateInternals]);
   return (
     <article
       className={`dify-original-node ${selected ? "is-selected" : ""}`}
@@ -22,14 +32,15 @@ function OriginalNode(props: NodeProps<CommonNodeType>) {
         </span>
         <strong>{data.title || data.type}</strong>
       </header>
-      {data.type !== "start" && (
-        <Handle
-          type="target"
-          position={Position.Left}
-          id="target"
-          isConnectable={!readOnly}
-        />
-      )}
+      {data.type !== "start" &&
+        !["variable-aggregator", "variable-assigner"].includes(data.type) && (
+          <Handle
+            type="target"
+            position={Position.Left}
+            id="target"
+            isConnectable={!readOnly}
+          />
+        )}
       {data.type === "start" ? (
         <StartNode
           {...props}
@@ -45,6 +56,20 @@ function OriginalNode(props: NodeProps<CommonNodeType>) {
             cases: data.cases ?? [],
             isInIteration: false,
             isInLoop: false,
+          }}
+        />
+      ) : ["variable-aggregator", "variable-assigner"].includes(data.type) &&
+        readableAggregation(data) ? (
+        <AggregationNode
+          id={props.id}
+          data={{
+            ...data,
+            output_type: data.output_type ?? "any",
+            variables: data.variables ?? [],
+            advanced_settings: data.advanced_settings ?? {
+              group_enabled: false,
+              groups: [],
+            },
           }}
         />
       ) : (

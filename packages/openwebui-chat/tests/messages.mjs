@@ -65,6 +65,37 @@ const history = {
     },
   },
 };
+const merged = reduceNativeFrame(history, "fresh-assistant", {
+  sequence: 1,
+  event_type: "chat:messages",
+  data: {
+    currentId: "fresh-assistant",
+    messages: {
+      fresh: {
+        id: "fresh",
+        role: "user",
+        parentId: null,
+        childrenIds: ["fresh-assistant"],
+        content: "新根分支",
+        files: [{ id: "private-native", url: "http://private.invalid" }],
+        meta: { secret: true },
+      },
+      "fresh-assistant": {
+        id: "fresh-assistant",
+        role: "assistant",
+        parentId: "fresh",
+        childrenIds: [],
+        content: "",
+      },
+    },
+  },
+});
+check(() => assert.equal(merged.messages.u.content, "温度"));
+check(() => assert.equal(merged.messages.fresh.content, "新根分支"));
+check(() => assert.equal(merged.currentId, "fresh-assistant"));
+check(() => assert.equal(merged.messages.fresh.files, undefined));
+check(() => assert.equal(merged.messages.fresh.meta, undefined));
+check(() => assert.equal(history.messages.fresh, undefined));
 check(() =>
   assert.equal(
     messageError({ detail: "Endpoint is unavailable" }),

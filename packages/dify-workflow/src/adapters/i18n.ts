@@ -10,6 +10,14 @@ const messages: Record<string, string> = {
   "nodes.ifElse.conditionNotSetup": "请选择条件",
   "nodes.ifElse.and": "且",
   "nodes.ifElse.or": "或",
+  "nodes.variableAssigner.title": "聚合变量",
+  "nodes.variableAssigner.aggregationGroup": "分组聚合",
+  "nodes.variableAssigner.addGroup": "添加分组",
+  "nodes.variableAssigner.varNotSet": "未选择变量",
+  "nodes.variableAssigner.noVarTip": "未选择变量",
+  "nodes.variableAssigner.setAssignVariable": "添加聚合变量",
+  "varKeyError.invalidGroupName":
+    "分组名请使用字母或下划线开头的字母、数字和下划线",
 };
 export function useTranslation(_namespaces?: string[]) {
   return {

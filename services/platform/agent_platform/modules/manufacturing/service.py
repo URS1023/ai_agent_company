@@ -14,7 +14,7 @@ from agent_platform.core.records import RecordStore
 from agent_platform.core.tasks import TaskService
 
 from . import models as m
-from .assessment import assess, overall
+from .assessment import assess, overall, has_missing_evidence
 from .maintenance import analyze
 from .schemas import AlertEvaluation, AnalysisInput, Metric, Observation
 
@@ -452,10 +452,11 @@ class ManufacturingService:
         return response
 
     def review(self, inspection_id, data, *, kind="review"):
+        """追加复核与任务事件；合格复核须有完整样本、指标证据，拒绝时不写入。"""
         inspection = self.get(m.Inspection, inspection_id)
         if not inspection.result:
             raise DomainError(409, "inspection_not_run", "请先完成检验计算")
-        if data["outcome"] == "passed" and inspection.result.get("outcome") == "incomplete":
+        if data["outcome"] == "passed" and has_missing_evidence(inspection.result):
             raise DomainError(422, "missing_evidence", "证据不完整，不能复核为合格")
         result = self.change(m.Inspection, inspection.id, {"outcome": data["outcome"], "status": "reviewed"}, data["revision"])
         review = m.InspectionReview(inspection_id=inspection.id, outcome=data["outcome"], note=data["note"], kind=kind, created_by=self.actor.user_id)

@@ -72,6 +72,9 @@ export function useNativeChat(
     canWrite,
     fail,
     refresh: refreshDetail,
+    refreshSources: () => refreshDetail(true),
+    files: () => files.files.value.map(fileView),
+    attachments: () => messageAttachments.value,
   });
   async function loadDirectory() {
     const ticket = ++directoryGeneration;
@@ -105,7 +108,7 @@ export function useNativeChat(
       fail(failure);
     }
   }
-  async function refreshDetail() {
+  async function refreshDetail(preserveHistory = false) {
     const id = detail.value?.id,
       ticket = generation;
     if (!id) return;
@@ -114,7 +117,7 @@ export function useNativeChat(
     );
     if (ticket === generation && detail.value?.id === id) {
       detail.value = value;
-      history.value = value.history ?? emptyHistory();
+      if (!preserveHistory) history.value = value.history ?? emptyHistory();
     }
   }
   async function open(id: string) {

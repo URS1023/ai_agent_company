@@ -469,11 +469,14 @@ def start_bridge(root: Path | None = None) -> dict:
             raise
 
 
-def stop_bridge(root: Path | None = None) -> dict:
+def stop_bridge(root: Path | None = None, *, expected_launch_id: str | None = None) -> dict:
     """无网络探测即可停止旧绑定；IP变化不阻止对本次所属进程的正常回收。"""
     root = root or windows.DEFAULT_ROOT
     with windows_services.exclusive_operation(root, 'openwebui-start'):
-        if not owned_bridge(root, windows.load(root)):
+        data = windows.load(root)
+        if expected_launch_id is not None and data.get('processes', {}).get(COMPONENT, {}).get('launch_id') != expected_launch_id:
+            raise RuntimeError('bridge_launch_changed_before_stop')
+        if not owned_bridge(root, data):
             return {'component': COMPONENT, 'stopped': True, 'already_stopped': True}
         return windows.stop(root, COMPONENT)
 

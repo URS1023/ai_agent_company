@@ -17,6 +17,7 @@ const files = [
   "src/lib/components/icons/Sparkles.svelte",
   "src/lib/components/icons/CheckCircle.svelte",
   "src/lib/components/icons/XMark.svelte",
+  "src/lib/components/layout/Sidebar/icons/EditPencil.svelte",
 ];
 const manifest = [];
 for (const source of files) {

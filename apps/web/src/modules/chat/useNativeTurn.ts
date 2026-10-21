@@ -7,6 +7,12 @@ import type {
 } from "./nativeTypes";
 import { emptyHistory, nativePrefix, activeTurnStates } from "./nativeTypes";
 import type { useNativeTransport } from "./useNativeTransport";
+import type {
+  FileView,
+  MessageEditDraft,
+  MessageEditPatch,
+} from "@openwebui-chat";
+import { editPayload, editedUserSaved } from "./nativeBranchDraft";
 interface Context {
   detail: ShallowRef<NativeConversation | undefined>;
   history: ShallowRef<NativeHistory>;
@@ -16,6 +22,9 @@ interface Context {
   canWrite: () => boolean;
   fail: (error: unknown) => void;
   refresh: () => Promise<void>;
+  refreshSources?: () => Promise<void>;
+  files?: () => FileView[];
+  attachments?: () => Record<string, FileView[]>;
 }
 /** 每次发送只POST一次；断流/未知保留原key，恢复只核对原Turn，切换视图不暗中停止原任务。 */
 export function useNativeTurn(
@@ -24,7 +33,9 @@ export function useNativeTurn(
 ) {
   const current = shallowRef<NativeTurn>(),
     posting = shallowRef(false),
-    uncertain = shallowRef(false);
+    uncertain = shallowRef(false),
+    editing = shallowRef<MessageEditDraft>();
+  let submittedEdit: { sourceId: string; content: string } | undefined;
   let key = "",
     generation = 0,
     streamGeneration = 0,
@@ -55,6 +66,8 @@ export function useNativeTurn(
     posting.value = false;
     uncertain.value = false;
     key = "";
+    editing.value = undefined;
+    submittedEdit = undefined;
   }
   function placeholder(turn: NativeTurn, text: string) {
     const history = structuredClone(context.history.value),
@@ -96,6 +109,23 @@ export function useNativeTurn(
         ),
       );
   }
+  function observeSavedEdit() {
+    const turn = current.value;
+    if (
+      submittedEdit &&
+      turn &&
+      turn.idempotency_key === key &&
+      editedUserSaved(
+        context.history.value,
+        turn,
+        submittedEdit.sourceId,
+        submittedEdit.content,
+      )
+    ) {
+      editing.value = undefined;
+      submittedEdit = undefined;
+    }
+  }
   async function authoritative(ticket: number, streamTicket?: number) {
     if (!current.value) return;
     const value = await transport.send<NativeTurn>(
@@ -109,6 +139,7 @@ export function useNativeTurn(
     current.value = value;
     uncertain.value = value.status === "unknown";
     await context.refresh();
+    observeSavedEdit();
     if (
       ticket === generation &&
       (streamTicket === undefined || streamTicket === streamGeneration)
@@ -127,6 +158,8 @@ export function useNativeTurn(
     }
     const fromCursor = eventCursor;
     let rebuilt = fromCursor > 0;
+    let missingTreeChecked = false;
+    let sourcesRead = false;
     const valid = () =>
       ticket === generation &&
       streamTicket === streamGeneration &&
@@ -176,6 +209,22 @@ export function useNativeTurn(
         } else if (frame.event_type === "attachments_updated")
           await context.refresh();
         else {
+          // 202只预约；分支节点按原chat:messages或一次准确读取恢复，不能改写原消息冒充保存。
+          if (
+            frame.event_type !== "chat:messages" &&
+            !context.history.value.messages[turn.assistant_message_id]
+          ) {
+            if (!missingTreeChecked) {
+              missingTreeChecked = true;
+              await context.refresh();
+              if (!valid()) return;
+            }
+            if (!context.history.value.messages[turn.assistant_message_id]) {
+              uncertain.value = true;
+              context.fail(new Error("分支消息尚未确认，请核对原结果"));
+              return;
+            }
+          }
           // 从零回放缓存时先清理该助手的已保存片段，避免重开进行中的会话重复拼接正文。
           if (!rebuilt) {
             const history = structuredClone(context.history.value);
@@ -192,6 +241,12 @@ export function useNativeTurn(
             turn.assistant_message_id,
             frame,
           );
+          observeSavedEdit();
+          if (frame.event_type === "chat:messages" && !sourcesRead) {
+            sourcesRead = true;
+            await context.refreshSources?.();
+            if (!valid()) return;
+          }
         }
       }
       if (valid()) await authoritative(ticket, streamTicket);
@@ -222,56 +277,78 @@ export function useNativeTurn(
     if (["reserved", "running", "cancel_requested"].includes(value.status))
       void subscribe(value);
   }
-  async function send() {
-    const chat = context.detail.value,
-      text = context.draft.value.trim();
-    if (
-      !context.canWrite() ||
-      !chat ||
-      chat.status !== "ready" ||
-      chat.active_turn_id ||
-      !text ||
-      !context.modelId.value ||
-      busy.value ||
-      uncertain.value
-    )
-      return;
-    const selected = context.history.value.currentId,
-      parent = selected ? context.history.value.messages[selected] : undefined;
-    if (selected && (parent?.role !== "assistant" || parent.done !== true)) {
-      context.fail(new Error("请选择已完成的助手消息继续对话"));
-      return;
-    }
+  function idle() {
+    const chat = context.detail.value;
+    return (
+      context.canWrite() &&
+      !!chat &&
+      chat.status === "ready" &&
+      !chat.active_turn_id &&
+      !busy.value &&
+      !uncertain.value
+    );
+  }
+  function beginEdit(sourceId: string) {
+    const source = context.history.value.messages[sourceId];
+    if (!idle() || editing.value || source?.role !== "user") return;
+    editing.value = {
+      sourceMessageId: sourceId,
+      content: source.content,
+      attachmentMode: "inherit",
+      attachmentIds: [],
+      inheritedAttachments: structuredClone(
+        context.attachments?.()[sourceId] ?? [],
+      ),
+    };
+  }
+  function updateEdit(patch: MessageEditPatch) {
+    if (!editing.value || busy.value || uncertain.value) return;
+    editing.value = { ...editing.value, ...patch, errors: {} };
+  }
+  function cancelEdit() {
+    if (busy.value || uncertain.value) return;
+    editing.value = undefined;
+    submittedEdit = undefined;
+  }
+  async function reserveIntent(
+    path: string,
+    body: Record<string, unknown>,
+    text?: string,
+  ) {
+    const chat = context.detail.value;
+    if (!chat) return;
     key = crypto.randomUUID();
+    current.value = undefined;
+    streamGeneration++;
+    controller?.abort();
+    controller = undefined;
     posting.value = true;
     const ticket = generation;
     try {
-      const value = await transport.send<NativeTurn>(
-        `${nativePrefix}/conversations/${encodeURIComponent(chat.id)}/turns`,
-        {
-          method: "POST",
-          headers: { "Idempotency-Key": key },
-          body: JSON.stringify({
-            revision: chat.revision,
-            model_id: context.modelId.value,
-            content: text,
-            parent_message_id: selected ?? null,
-            attachment_ids: context.attachmentIds.value,
-          }),
-        },
-      );
+      const value = await transport.send<NativeTurn>(path, {
+        method: "POST",
+        headers: { "Idempotency-Key": key },
+        body: JSON.stringify(body),
+      });
       if (ticket !== generation) return;
       current.value = value;
-      context.draft.value = "";
-      context.attachmentIds.value = [];
       context.detail.value = { ...chat, active_turn_id: value.id };
-      placeholder(value, text);
+      if (text !== undefined) {
+        context.draft.value = "";
+        context.attachmentIds.value = [];
+        placeholder(value, text);
+      } else {
+        await context.refresh();
+        if (ticket !== generation) return;
+        observeSavedEdit();
+      }
       if (["unknown", "failed"].includes(value.status)) {
         uncertain.value = value.status === "unknown";
-        context.fail(new Error(value.error ?? "本次回答未完成"));
-        if (value.status === "failed") await context.refresh();
+        noteFailure(value);
+        if (value.status === "failed" && text !== undefined)
+          await context.refresh();
       } else if (["succeeded", "cancelled"].includes(value.status)) {
-        await context.refresh();
+        if (text !== undefined) await context.refresh();
       } else void subscribe(value);
     } catch (error) {
       if (ticket !== generation) return;
@@ -288,10 +365,96 @@ export function useNativeTurn(
             idempotency_key: key,
           } as NativeTurn;
       }
+      if (error instanceof ApiError && editing.value) {
+        const errors: Record<string, string> = {};
+        for (const name of ["content", "attachment_ids"]) {
+          const field = Object.entries(error.fields).find(
+            ([path]) => path === name || path.startsWith(`${name}.`),
+          );
+          if (field) errors[name] = field[1];
+        }
+        editing.value = { ...editing.value, errors };
+        if (
+          ["native_chat_edit_conflict", "revision_conflict"].includes(
+            error.code,
+          )
+        ) {
+          try {
+            await context.refresh();
+          } catch (refreshError) {
+            context.fail(refreshError);
+            return;
+          }
+          if (ticket !== generation) return;
+        }
+      }
       context.fail(error);
     } finally {
       if (ticket === generation) posting.value = false;
     }
+  }
+  async function send() {
+    const chat = context.detail.value,
+      text = context.draft.value.trim();
+    if (!idle() || !chat || editing.value || !text || !context.modelId.value)
+      return;
+    const selected = context.history.value.currentId,
+      parent = selected ? context.history.value.messages[selected] : undefined;
+    if (selected && (parent?.role !== "assistant" || parent.done !== true)) {
+      context.fail(new Error("请选择已完成的助手消息继续对话"));
+      return;
+    }
+    await reserveIntent(
+      `${nativePrefix}/conversations/${encodeURIComponent(chat.id)}/turns`,
+      {
+        revision: chat.revision,
+        model_id: context.modelId.value,
+        content: text,
+        parent_message_id: selected ?? null,
+        attachment_ids: context.attachmentIds.value,
+      },
+      text,
+    );
+  }
+  async function regenerate(sourceId: string) {
+    const chat = context.detail.value,
+      source = context.history.value.messages[sourceId];
+    if (
+      !idle() ||
+      !chat ||
+      editing.value ||
+      !context.modelId.value ||
+      source?.role !== "assistant" ||
+      source.done !== true
+    )
+      return;
+    await reserveIntent(
+      `${nativePrefix}/conversations/${encodeURIComponent(chat.id)}/messages/${encodeURIComponent(sourceId)}/regenerations`,
+      {
+        revision: chat.revision,
+        model_id: context.modelId.value,
+      },
+    );
+  }
+  async function editAndSend() {
+    const chat = context.detail.value,
+      draft = editing.value;
+    if (!idle() || !chat || !draft || !context.modelId.value) return;
+    const { payload, errors } = editPayload(draft, context.files?.() ?? []);
+    editing.value = { ...draft, errors };
+    if (Object.keys(errors).length) return;
+    submittedEdit = {
+      sourceId: draft.sourceMessageId,
+      content: payload.content,
+    };
+    await reserveIntent(
+      `${nativePrefix}/conversations/${encodeURIComponent(chat.id)}/messages/${encodeURIComponent(draft.sourceMessageId)}/edit-and-send`,
+      {
+        revision: chat.revision,
+        model_id: context.modelId.value,
+        ...payload,
+      },
+    );
   }
   async function verify() {
     const chat = context.detail.value;
@@ -323,6 +486,7 @@ export function useNativeTurn(
       uncertain.value = value.status === "unknown";
       await context.refresh();
       if (ticket !== generation) return;
+      observeSavedEdit();
       noteFailure(value);
       if (["running", "reserved", "cancel_requested"].includes(value.status))
         void subscribe(value);
@@ -361,6 +525,7 @@ export function useNativeTurn(
       uncertain.value = result.turn.status === "unknown";
       await context.refresh();
       if (ticket !== generation) return;
+      observeSavedEdit();
       noteFailure(result.turn);
       if (
         ["reserved", "running", "cancel_requested"].includes(result.turn.status)
@@ -379,11 +544,17 @@ export function useNativeTurn(
     current,
     posting,
     uncertain,
+    editing,
     busy,
     canStop,
     clear,
     restore,
     send,
+    beginEdit,
+    updateEdit,
+    cancelEdit,
+    regenerate,
+    editAndSend,
     verify,
     stop: () => action("stop"),
     resolve: (call_id: string, approved: boolean) =>

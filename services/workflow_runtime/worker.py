@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 import importlib.metadata
 import importlib
+import importlib.util
 import hashlib
 import json
 import logging
@@ -131,8 +132,9 @@ def validate_request(value):
         if not isinstance(retry, dict) or not isinstance(retry.get('max_retries', 0), int) or not 0 <= retry.get('max_retries', 0) <= 3:
             raise WorkerError('retry_budget_invalid', '步骤重试次数超过本次执行预算')
     for item in variables:
+        # 初始变量经VariablePool.add写入“作用域/名称”；节点读取仍可使用更深的字典路径。
         if (not isinstance(item, dict) or set(item) != {'selector', 'value'} or not isinstance(item['selector'], list)
-                or not 2 <= len(item['selector']) <= 10 or not all(isinstance(part, str) and part for part in item['selector'])):
+                or len(item['selector']) != 2 or not all(isinstance(part, str) and part for part in item['selector'])):
             raise WorkerError('variable_invalid', '初始变量选择器格式不正确')
     limits = value.get('limits', {})
     if not isinstance(limits, dict) or set(limits) - {'max_steps', 'max_seconds'}:
@@ -288,14 +290,30 @@ def execute(request, emitter):
     return terminal
 
 
+def linux_identity_helper():
+    """从固定项目路径加载标准库身份helper；不依赖-I下的sys.path或root私有清单。"""
+    path = PROJECT_ROOT / 'deploy/native/wsl_identity.py'
+    name = 'owned_workflow_wsl_identity'
+    module = sys.modules.get(name)
+    if module is None:
+        specification = importlib.util.spec_from_file_location(name, path)
+        module = importlib.util.module_from_spec(specification)
+        sys.modules[name] = module
+        try:
+            specification.loader.exec_module(module)
+        except BaseException:
+            sys.modules.pop(name, None)
+            raise
+    if Path(module.__file__).resolve() != path.resolve():
+        raise WorkerError('wsl_identity_helper_changed', '启动身份校验代码来源不匹配')
+    return module
+
+
 def verify_linux_context(runtime_id, boot_id):
     """父进程已核私有manifest和keeper；子进程只核实际用户、解释器与启动标识。"""
     import pwd
-    import psutil
-    # 与既有boot_identity保持同一摘要口径；读取自己的namespace避免跨用户ptrace读取。
-    boot = {'kernel': Path('/proc/sys/kernel/random/boot_id').read_text().strip(),
-        'init_started_at': psutil.Process(1).create_time(), 'pid_namespace': Path('/proc/self/ns/pid').stat().st_ino}
-    actual_boot = hashlib.sha256(json.dumps(boot, sort_keys=True).encode()).hexdigest()
+    # 与runtime统一raw ticks摘要；读取自己的namespace避免跨用户ptrace读取。
+    actual_boot = linux_identity_helper().boot_identity_v2(namespace_pid='self')
     if (sys.platform != 'linux' or os.environ.get('WSL_DISTRO_NAME') != 'ai-agent-company'
             or os.getuid() != pwd.getpwnam('agentapp').pw_uid
             or Path(sys.prefix) != Path('/opt/ai-agent-company/venvs/api')

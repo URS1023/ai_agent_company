@@ -46,13 +46,22 @@ class ForkInput(RevisionInput):
     message_id: str = Field(min_length=1, max_length=100)
 
 
-class TurnInput(RevisionInput):
+class GenerationInput(RevisionInput):
     model_id: str = Field(min_length=1, max_length=200)
-    content: str = Field(min_length=1, max_length=40000)
-    parent_message_id: str | None = Field(default=None, min_length=1, max_length=100)
     max_tokens: int = Field(default=512, ge=1, le=4096)
     temperature: float = Field(default=0.7, ge=0, le=1, allow_inf_nan=False)
+
+
+class TurnInput(GenerationInput):
+    content: str = Field(min_length=1, max_length=40000)
+    parent_message_id: str | None = Field(default=None, min_length=1, max_length=100)
     attachment_ids: list[str] = Field(default_factory=list, max_length=10)
+
+
+class EditAndSendInput(GenerationInput):
+    content: str = Field(min_length=1, max_length=40000)
+    # null和省略继承原user附件，[]才明确移除；客户端永远不传原生文件ID。
+    attachment_ids: list[str] | None = Field(default=None, max_length=10)
 
 
 class ResolutionInput(Input):
@@ -72,6 +81,22 @@ def start_turn(chat_id: str, body: TurnInput, request: Request, actor: Actor = D
                session: Session = Depends(get_session),
                key: str | None = Header(default=None, alias='Idempotency-Key', max_length=160)):
     return NativeTurnService(session, actor, request).start(chat_id, body.model_dump(), key)
+
+
+@router.post('/conversations/{chat_id}/messages/{assistant_message_id}/regenerations', status_code=202)
+def regenerate(chat_id: str, assistant_message_id: str, body: GenerationInput, request: Request,
+               actor: Actor = Depends(require_permission('m02.write')), session: Session = Depends(get_session),
+               key: str | None = Header(default=None, alias='Idempotency-Key', max_length=160)):
+    return NativeTurnService(session, actor, request).start(chat_id, body.model_dump(), key,
+        intent_kind='regenerate', source_message_id=assistant_message_id)
+
+
+@router.post('/conversations/{chat_id}/messages/{user_message_id}/edit-and-send', status_code=202)
+def edit_and_send(chat_id: str, user_message_id: str, body: EditAndSendInput, request: Request,
+                  actor: Actor = Depends(require_permission('m02.write')), session: Session = Depends(get_session),
+                  key: str | None = Header(default=None, alias='Idempotency-Key', max_length=160)):
+    return NativeTurnService(session, actor, request).start(chat_id, body.model_dump(), key,
+        intent_kind='edit_send', source_message_id=user_message_id)
 
 
 @router.get('/conversations/{chat_id}/turns')

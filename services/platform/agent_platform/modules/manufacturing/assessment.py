@@ -4,6 +4,19 @@ from decimal import Decimal
 from .schemas import Metric, Observation
 
 
+def has_missing_evidence(result: dict) -> bool:
+    """逐层核缺测；聚合不合格优先显示，不能掩盖同批或同样本的缺证据。"""
+    return (
+        result.get("outcome") == "incomplete"
+        or result.get("missing_samples", 0) > 0
+        or any(
+            sample.get("outcome") == "incomplete"
+            or any(metric.get("outcome") == "incomplete" for metric in sample.get("metrics", []))
+            for sample in result.get("samples", [])
+        )
+    )
+
+
 def overall(outcomes: list[str]) -> str:
     """失败、缺证据、待复核依次优先；没有结果不能判为合格。"""
     for value in ("failed", "incomplete", "review"):

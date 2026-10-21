@@ -88,6 +88,8 @@ def start_workspace() -> dict:
         raise RuntimeError('workspace_graph_runtime_mismatch')
     result['graph_runtime'] = {'configured': True, 'environment_ready': True,
         'runtime_id': proof['runtime_id'], 'reused': bool(lifetime.get('reused'))}
+    import wsl_bridge_lifecycle
+    result['bridge'] = wsl_bridge_lifecycle.reconcile(ROOT)
     return result
 
 

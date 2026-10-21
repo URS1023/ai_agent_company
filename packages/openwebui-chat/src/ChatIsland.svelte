@@ -4,6 +4,8 @@
   import { createChatScope } from "./scope";
   import Messages from "./components/Messages.svelte";
   import MessageInput from "./components/MessageInput.svelte";
+  import MessageEditor from "./components/MessageEditor.svelte";
+  import { currentMessages } from "./messages";
   export let data: ChatProps;
   export function update(next: ChatProps) {
     data = next;
@@ -30,6 +32,11 @@
     if (element) element.scrollTop = element.scrollHeight;
   }
   $: followContent(data.snapshot.history, autoScroll);
+  $: editorInBranch =
+    !!data.snapshot.editing &&
+    currentMessages(data.snapshot.history).some(
+      (message) => message.id === data.snapshot.editing?.sourceMessageId,
+    );
   onDestroy(() => {
     disposed = true;
     scrollTicket++;
@@ -63,5 +70,9 @@
   >
     <Messages {data} />
   </div>
-  <MessageInput {data} />
+  {#if data.snapshot.editing}
+    {#if !editorInBranch}<div class="w-full max-w-[58rem] mx-auto px-3.5 pb-3">
+        <MessageEditor {data} />
+      </div>{/if}
+  {:else}<MessageInput {data} />{/if}
 </div>

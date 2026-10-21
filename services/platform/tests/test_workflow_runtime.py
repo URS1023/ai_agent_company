@@ -231,6 +231,28 @@ def test_protocol_rejects_duplicate_json_keys_nonfinite_values_and_unknown_versi
     assert rejected.value.code == 'node_not_supported'
 
 
+@pytest.mark.parametrize('selector', [[], ['conversation'], ['conversation', 'state', 'reading'], ['part'] * 10])
+def test_initial_variable_write_selector_is_rejected_before_wsl_proof_or_spawn(selector, monkeypatch):
+    monkeypatch.setattr(worker, '_wsl_proof', lambda *args: pytest.fail('非法写入不能检查或启动WSL'))
+    monkeypatch.setattr(worker.subprocess, 'Popen', lambda *args, **kwargs: pytest.fail('非法写入不能派发子进程'))
+    value = request(variables=[{'selector': selector, 'value': {'reading': 42}}])
+    with pytest.raises(worker.WorkerError) as denied:
+        worker.run_wsl(value)
+    assert denied.value.code == 'variable_invalid'
+
+
+def test_two_part_initial_variable_keeps_nested_node_read_selectors_unchanged():
+    selector = ['conversation', 'state', 'measurements']
+    value = request([node('start', 'start'),
+        node('aggregate', 'variable-aggregator', output_type='array[number]', variables=[selector]),
+        end(selector=['aggregate', 'output'])],
+        [edge('start', 'aggregate'), edge('aggregate', 'end')],
+        variables=[{'selector': ['conversation', 'state'], 'value': {'measurements': [0, 42]}}])
+    assert worker.validate_request(value) is value
+    assert value['variables'][0]['selector'] == ['conversation', 'state']
+    assert value['graph']['nodes'][1]['data']['variables'] == [selector]
+
+
 @pytest.mark.parametrize('reference', ['https://unapproved.invalid/schema', 'file:///etc/passwd', 'relative.json'])
 @pytest.mark.parametrize('as_text', [False, True])
 def test_json_schema_external_reference_is_rejected_before_child_or_io(reference, as_text, monkeypatch):
@@ -314,3 +336,31 @@ def test_wsl_client_timeout_does_not_claim_linux_process_was_stopped():
     with pytest.raises(worker.WorkerError) as failure:
         worker._collect(Process(), b'{}', 1, 'fixture', wsl=True)
     assert failure.value.code == 'wsl_process_stop_unconfirmed' and failure.value.fields['stopped'] is False
+
+
+@pytest.mark.parametrize('matches', [True, False])
+def test_worker_uses_shared_raw_tick_boot_identity_without_root_manifest_or_wall_clock(monkeypatch, matches):
+    from types import SimpleNamespace
+    calls = []
+    monkeypatch.setitem(sys.modules, 'pwd', SimpleNamespace(getpwnam=lambda _: SimpleNamespace(pw_uid=1001)))
+    monkeypatch.setattr(worker.sys, 'platform', 'linux')
+    monkeypatch.setattr(worker.sys, 'prefix', '/opt/ai-agent-company/venvs/api')
+    monkeypatch.setattr(worker.os, 'getuid', lambda: 1001, raising=False)
+    monkeypatch.setenv('WSL_DISTRO_NAME', 'ai-agent-company')
+    def identity(**kwargs):
+        calls.append(kwargs)
+        return 'a' * 64
+    monkeypatch.setattr(worker, 'linux_identity_helper', lambda: SimpleNamespace(boot_identity_v2=identity))
+    if matches:
+        worker.verify_linux_context('b' * 32, 'a' * 64)
+    else:
+        with pytest.raises(worker.WorkerError) as denied:
+            worker.verify_linux_context('b' * 32, 'c' * 64)
+        assert denied.value.code == 'wsl_runtime_identity_changed'
+    assert calls == [{'namespace_pid': 'self'}]
+
+
+def test_worker_identity_helper_is_fixed_project_source():
+    helper = worker.linux_identity_helper()
+    assert Path(helper.__file__).resolve() == ROOT / 'deploy/native/wsl_identity.py'
+    assert helper.IDENTITY_VERSION == 2

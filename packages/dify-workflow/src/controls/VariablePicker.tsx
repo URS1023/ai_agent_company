@@ -8,16 +8,18 @@ export default function VariablePicker({
   onChange,
   disabled,
   label = "选择变量",
+  options: suppliedOptions,
 }: {
   nodeId: string;
   value: string[];
   onChange: (selector: string[], option: VariableOption) => void;
   disabled?: boolean;
   label?: string;
+  options?: VariableOption[];
 }) {
   const { definition } = useEditor(),
     [search, setSearch] = useState("");
-  const options = availableVariables(definition, nodeId);
+  const options = suppliedOptions ?? availableVariables(definition, nodeId);
   return (
     <div className="dify-variable-picker">
       <input
@@ -39,6 +41,15 @@ export default function VariablePicker({
         }}
       >
         <option value={JSON.stringify([])}>选择变量</option>
+        {value.length > 0 &&
+          !options.some(
+            (option) =>
+              JSON.stringify(option.selector) === JSON.stringify(value),
+          ) && (
+            <option value={JSON.stringify(value)} disabled>
+              引用不可用：{value.slice(1).join(".")}
+            </option>
+          )}
         {options
           .filter(
             (option) =>

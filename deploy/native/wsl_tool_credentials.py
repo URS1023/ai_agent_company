@@ -31,7 +31,7 @@ KIND = 'ai-agent-company-native-tool-credentials-v1'
 PREFIX = 'aic_tool_'
 TOKEN_ENDPOINT = 'http://127.0.0.1:8080/api/v1/client-auth/token'
 ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
-READ_SCOPES = frozenset({'m02.read', 'm07.read', 'm10.read', 'm11.read'})
+READ_SCOPES = frozenset({'m02.read', 'm06.read', 'm07.read', 'm08.read', 'm10.read', 'm11.read'})
 
 
 class CredentialError(Exception):

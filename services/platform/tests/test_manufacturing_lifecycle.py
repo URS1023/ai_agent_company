@@ -238,9 +238,15 @@ def test_analysis_work_order_needs_new_normal_analysis_same_criteria(context):
     service = ManufacturingService(session, actor)
     device = service.create(m.Device, {'name': '同工况设备'})
     origin = datetime.now(timezone.utc) - timedelta(hours=1)
-    def analyze_rows(recent, **options):
-        rows = [{'timestamp': (origin+timedelta(minutes=i)).isoformat(), 'period': 'baseline' if i<5 else 'recent', 'load': 50, 'value': 10 if i<5 else recent} for i in range(10)]
-        return service.create_analysis(AnalysisInput(device_id=device['id'], rows=rows, **options), settings)
+    def analyze_rows(recent, *, recent_start=None, **options):
+        # 复测沿真实受控查询保存来源；基线仍用历史窗口，近期观测单独给维修后时间。
+        rows = [{'timestamp': ((origin+timedelta(minutes=i)) if i<5 or recent_start is None else recent_start+timedelta(seconds=i-5)).isoformat(), 'period': 'baseline' if i<5 else 'recent', 'load': 50, 'value': 10 if i<5 else recent} for i in range(10)]
+        content = StringIO()
+        writer = csv.DictWriter(content, fieldnames=['timestamp', 'period', 'load', 'value'])
+        writer.writeheader()
+        writer.writerows(rows)
+        dataset = DataService(session, actor, settings).import_csv({'name': '本次同工况复测', 'csv_text': content.getvalue()})
+        return service.create_analysis(AnalysisInput(device_id=device['id'], datasource_id=dataset['datasource_id'], sql=f'SELECT * FROM "{dataset["table_name"]}"', **options), settings)
     bad = analyze_rows(20)
     work = MaintenanceWorkService(session, actor)
     order = work.create_order('analysis', bad['id'], {'revision': bad['revision'], 'name': '工况异常维修', 'note': '检查同工况温升异常原因'})
@@ -256,7 +262,7 @@ def test_analysis_work_order_needs_new_normal_analysis_same_criteria(context):
     with pytest.raises(DomainError) as error:
         maintenance_action(review, order, 'verify', verification_analysis_id=changed['id'])
     assert error.value.code == 'verification_criteria_changed'
-    good = analyze_rows(10)
+    good = analyze_rows(10, recent_start=datetime.now(timezone.utc))
     closed = maintenance_action(review, order, 'verify', verification_analysis_id=good['id'])
     assert closed['status'] == 'resolved' and closed['verification_snapshot']['result']['status'] == 'normal'
 

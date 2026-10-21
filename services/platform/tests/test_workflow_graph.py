@@ -223,6 +223,53 @@ def test_initial_variables_cannot_override_validated_start_inputs(context):
     assert denied.value.code == 'workflow_variable_invalid'
 
 
+@pytest.mark.parametrize('selector', [['conversation'], ['conversation', 'state', 'measurements']])
+def test_saving_initial_variable_with_invalid_write_scope_creates_no_workflow_or_task(context, selector):
+    value = definition()
+    value['variables'] = [{'selector': selector, 'value': [0, 42]}]
+    session, actor, _ = context
+    with pytest.raises(DomainError) as denied:
+        WorkflowService(session, actor).create('非法初始变量', '', value)
+    assert denied.value.status == 422 and denied.value.code == 'workflow_variable_invalid'
+    assert session.scalar(select(Workflow)) is None
+    assert session.scalar(select(WorkflowRun)) is None and session.scalar(select(Task)) is None
+
+
+def test_invalid_initial_variable_update_preserves_saved_definition_and_revision(context):
+    value = definition()
+    value['variables'] = [{'selector': ['conversation', 'state'], 'value': {'measurements': [0, 42]}}]
+    workflow_id = create(context, value)
+    session, actor, engine = context
+    changed = deepcopy(value)
+    changed['variables'][0]['selector'].append('measurements')
+    with pytest.raises(DomainError) as denied:
+        WorkflowService(session, actor).update(workflow_id, '不可保存', '', changed, expected_revision=1)
+    assert denied.value.code == 'workflow_variable_invalid'
+    session.commit()
+    with Session(engine) as observer:
+        row = observer.get(Workflow, workflow_id)
+        assert row.definition == value and row.revision == 1 and row.name == '图流程'
+        assert observer.scalar(select(WorkflowRun)) is None and observer.scalar(select(Task)) is None
+
+
+def test_nested_read_selectors_survive_save_and_mock_dispatch_without_rewriting(context, monkeypatch):
+    value = definition([form_field('payload', 'json_object', json_schema={'type': 'object',
+        'properties': {'measurements': {'type': 'array', 'items': {'type': 'number'}}}})])
+    value['variables'] = [{'selector': ['conversation', 'state'], 'value': {'enabled': False}}]
+    value['graph']['nodes'][1]['data']['outputs'] = [
+        {'variable': 'result', 'value_selector': ['start', 'payload', 'measurements']},
+        {'variable': 'enabled', 'value_selector': ['conversation', 'state', 'enabled']}]
+    workflow_id = create(context, value)
+    calls = fake_worker(monkeypatch, outputs={'result': [0, 42], 'enabled': False})
+    session, actor, _ = context
+    service = WorkflowService(session, actor)
+    assert service.detail(workflow_id)['definition'] == value
+    result = service.run(workflow_id, inputs={'payload': {'measurements': [0, 42]}})
+    assert len(calls) == 1 and calls[0]['graph'] == value['graph'] and calls[0]['variables'] == value['variables']
+    assert result['status'] == 'succeeded' and result['outputs'] == {'result': [0, 42], 'enabled': False}
+    assert service.detail(workflow_id)['definition'] == value
+
+
 @pytest.mark.parametrize('bad', ['format', 'field-type', 'schema-bool'])
 def test_malformed_definition_metadata_returns_validation_error_instead_of_server_failure(context, bad):
     value = definition([form_field()])

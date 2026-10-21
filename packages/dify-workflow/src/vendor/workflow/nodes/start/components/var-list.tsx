@@ -24,7 +24,7 @@ export default function VarList({
           <span className="dify-field-label">{item.label}</span>
           {item.required && <small>必填</small>}
           <InputVarTypeIcon type={item.type} />
-          {!readonly && (
+          {!readonly && item.type !== "json_object" && (
             <>
               <button
                 type="button"

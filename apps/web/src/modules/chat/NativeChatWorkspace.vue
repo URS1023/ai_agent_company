@@ -79,6 +79,7 @@ const snapshot = computed<ChatSnapshot>(() => ({
   error: chat.error.value,
   canStop: props.canWrite && chat.turn.canStop.value,
   uncertain: chat.turn.uncertain.value,
+  editing: chat.turn.editing.value,
 }));
 const actions: ChatActions = {
   draft: (value) => {
@@ -120,6 +121,17 @@ const actions: ChatActions = {
     void chat.files.download(id, source?.source_file.name);
   },
   resolve: (id, approved) => chat.turn.resolve(id, approved),
+  beginEdit: chat.turn.beginEdit,
+  updateEdit: chat.turn.updateEdit,
+  cancelEdit: chat.turn.cancelEdit,
+  editAndSend: () => {
+    chat.error.value = "";
+    void chat.turn.editAndSend();
+  },
+  regenerate: (id) => {
+    chat.error.value = "";
+    void chat.turn.regenerate(id);
+  },
 };
 onMounted(async () => {
   await chat.initialize(!props.historyMode && !route.query.conversation);
@@ -232,7 +244,12 @@ watch(
           >核对身份</el-button
         ><el-button
           v-if="chat.detail.value"
-          :disabled="chat.turn.posting.value || chat.loading.value"
+          :disabled="
+            chat.turn.posting.value ||
+            chat.loading.value ||
+            chat.turn.uncertain.value ||
+            !!chat.turn.editing.value
+          "
           text
           @click="chat.open(chat.detail.value!.id)"
           >刷新</el-button

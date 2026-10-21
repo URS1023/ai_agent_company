@@ -1,0 +1,98 @@
+/** 来源Dify1.17.1 nodes/variable-assigner/components/var-list/index.tsx；原聚合语义与宿主适配见SOURCE_MANIFEST。 */
+"use client";
+import type { FC } from "react";
+import type { ValueSelector, Var } from "../../../../../../types";
+const noop = () => undefined;
+import { produce } from "immer";
+import * as React from "react";
+import { useCallback } from "react";
+import { useTranslation } from "../../../../../../adapters/i18n";
+import VarReferencePicker from "../../../../../../controls/VarReferencePicker";
+import { VarKindType } from "../../../../../../adapters/variable-kind";
+import ListNoDataPlaceholder from "../../../_base/components/list-no-data-placeholder";
+import RemoveButton from "../../../_base/components/remove-button";
+
+type Props = Readonly<{
+  availableVars?: import("../../../../../../types").VariableOption[];
+  readonly: boolean;
+  nodeId: string;
+  list: ValueSelector[];
+  onChange: (list: ValueSelector[], value?: ValueSelector) => void;
+  onOpen?: (index: number) => void;
+  filterVar?: (payload: Var, valueSelector: ValueSelector) => boolean;
+}>;
+
+const VarList: FC<Props> = ({
+  readonly,
+  nodeId,
+  list,
+  onChange,
+  onOpen = noop,
+  filterVar,
+  availableVars,
+}) => {
+  const { t } = useTranslation(["workflowLogic"]);
+  const handleVarReferenceChange = useCallback(
+    (index: number) => {
+      return (value: ValueSelector | string) => {
+        const newList = produce(list, (draft) => {
+          draft[index] = value as ValueSelector;
+        });
+        onChange(newList, value as ValueSelector);
+      };
+    },
+    [list, onChange],
+  );
+
+  const handleVarRemove = useCallback(
+    (index: number) => {
+      return () => {
+        const newList = produce(list, (draft) => {
+          draft.splice(index, 1);
+        });
+        onChange(newList);
+      };
+    },
+    [list, onChange],
+  );
+
+  const handleOpen = useCallback(
+    (index: number) => {
+      return () => onOpen(index);
+    },
+    [onOpen],
+  );
+
+  if (list.length === 0) {
+    return (
+      <ListNoDataPlaceholder>
+        {t(($) => $["nodes.variableAssigner.noVarTip"], {
+          ns: "workflowLogic",
+        })}
+      </ListNoDataPlaceholder>
+    );
+  }
+
+  return (
+    <div className="space-y-2">
+      {list.map((item, index) => (
+        <div className="flex items-center space-x-1" key={index}>
+          <VarReferencePicker
+            readonly={readonly}
+            nodeId={nodeId}
+            isShowNodeName
+            className="grow"
+            value={item}
+            onChange={handleVarReferenceChange(index)}
+            onOpen={handleOpen(index)}
+            filterVar={filterVar}
+            availableVars={availableVars}
+            defaultVarKindType={VarKindType.variable}
+          />
+          {!readonly && <RemoveButton onClick={handleVarRemove(index)} />}
+        </div>
+      ))}
+    </div>
+  );
+};
+export default React.memo(VarList);

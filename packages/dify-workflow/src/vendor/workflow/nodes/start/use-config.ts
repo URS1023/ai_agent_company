@@ -23,6 +23,19 @@ export default function useConfig(id: string, inputs: StartNodeType) {
     }
     let next = cloneDefinition(editor.definition);
     const before = inputs.variables ?? [];
+    if (
+      before.some(
+        (field) =>
+          field.type === "json_object" &&
+          JSON.stringify(field) !==
+            JSON.stringify(
+              variables.find((item) => item.variable === field.variable),
+            ),
+      )
+    ) {
+      editor.reportError("该结构化输入字段当前只读");
+      return;
+    }
     for (const variable of before)
       if (!variables.some((item) => item.variable === variable.variable)) {
         const replacement = variables.find(

@@ -69,7 +69,74 @@
       "target": "src/vendor/workflow/nodes/if-else/use-config.helpers.ts",
       "sha256": "e44aedab8f30116daff1739515a18f99944e2242c11d108f907c59cd64518fb3",
       "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/node.tsx",
+      "target": "src/vendor/workflow/nodes/variable-assigner/node.tsx",
+      "sha256": "f0665d22b2b0cf4de11dee31e988754e8291192945324a4031282c7a4b4c7f05",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/panel.tsx",
+      "target": "src/vendor/workflow/nodes/variable-assigner/panel.tsx",
+      "sha256": "847012a4a9d74b6047830eb4d6b7dd878529bbd0a987b282368edac0bb70058c",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/types.ts",
+      "target": "src/vendor/workflow/nodes/variable-assigner/types.ts",
+      "sha256": "3da6fa968f947a5b57a343747b1d36bd32db2e6d4a76a30172b2b898cf54f529",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/use-config.helpers.ts",
+      "target": "src/vendor/workflow/nodes/variable-assigner/use-config.helpers.ts",
+      "sha256": "e8a127a687322b28650b824aa9badedc8dbc57139edf428985aaa03b448be8f5",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/components/node-group-item.tsx",
+      "target": "src/vendor/workflow/nodes/variable-assigner/components/node-group-item.tsx",
+      "sha256": "324c331e2bc1450ce49f374e10f958e9ae02bb24518903962a5ae5478051659c",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/components/var-group-item.tsx",
+      "target": "src/vendor/workflow/nodes/variable-assigner/components/var-group-item.tsx",
+      "sha256": "3ad54649d0c6c5775c30e51ab851ca96d35c5d24406e9797feeba854a33abb8c",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/variable-assigner/components/var-list/index.tsx",
+      "target": "src/vendor/workflow/nodes/variable-assigner/components/var-list/index.tsx",
+      "sha256": "88aad370ec2a2ad0adfa16ac3c027029055343d93148becfe7d683950d298e9a",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/_base/components/add-button.tsx",
+      "target": "src/vendor/workflow/nodes/_base/components/add-button.tsx",
+      "sha256": "01345caf2957dae24452d8bc5934e73673fe922808f24a7ee841cea96ad72047",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/_base/components/remove-button.tsx",
+      "target": "src/vendor/workflow/nodes/_base/components/remove-button.tsx",
+      "sha256": "67c845c67de1d86232c83fd0f65db3f4a75f96a3a7a45885ecbb2b6a0a34e43e",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/_base/components/list-no-data-placeholder.tsx",
+      "target": "src/vendor/workflow/nodes/_base/components/list-no-data-placeholder.tsx",
+      "sha256": "64075a2cdcdd3a417b6dfc3f9b4166cd5f952b8b66f738751aa59737a4c20ad0",
+      "changes": "保留原聚合节点/面板/分组与列表JSX、纯修改函数；上下文/图变量/控件用平台无请求适配，分组句柄候选限制为平台新增边界；原console/inspect-vars/协作store未接入。"
     }
   ],
-  "scope": "Start/End/IfElse节点与属性外层、原条件修改纯函数；平台控件和显式保存适配；尚非全部原生编辑器。"
+  "scope": "Start/End/IfElse与原变量聚合节点、分组面板/纯helpers；已有简单json_object字段只读保留，可选择字典子属性。不包含赋值/列表/Answer/容器编辑。",
+  "platform_adaptations": [
+    "分组targetHandle候选过滤为平台新增边界；原Dify useGetAvailableVars未使用handleId。",
+    "Graphon0.8分组output_type不接受any；空草稿需选择实际类型变量后才能保存。聚合取首个存在值，不求和。",
+    "已有简单json_object字段自身只读，字典子属性可选，数组下标不生成选择器；未知字段完整保留。",
+    "新node ID去连字符兼容后续原模板；已有node ID不改写。40000文本长度与当前平台一致。",
+    "原协作store和inspect-vars后台未接；当前岛无HTTP、自动保存或重试。"
+  ]
 }

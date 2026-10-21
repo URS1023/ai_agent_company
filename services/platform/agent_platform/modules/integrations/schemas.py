@@ -3,6 +3,7 @@
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
+from ..chat.native_tool_policy import ToolPolicy
 
 
 class StrictModel(BaseModel):
@@ -21,6 +22,8 @@ class IntegrationCreate(StrictModel):
     delegation_jwt_secret_ref: str | None = Field(default=None, min_length=1, max_length=80)
     chat_model_group_id: str | None = Field(default=None, min_length=1, max_length=80)
     chat_model_ids: list[str] | None = Field(default=None, max_length=32)
+    chat_tool_policy: ToolPolicy | None = None
+    chat_budget_secret_ref: str | None = Field(default=None, min_length=1, max_length=80)
     enabled: bool = True
     timeout_seconds: float = Field(default=30, ge=1, le=120)
 
@@ -37,6 +40,8 @@ class IntegrationPatch(StrictModel):
     delegation_jwt_secret_ref: str | None = Field(default=None, min_length=1, max_length=80)
     chat_model_group_id: str | None = Field(default=None, min_length=1, max_length=80)
     chat_model_ids: list[str] | None = Field(default=None, max_length=32)
+    chat_tool_policy: ToolPolicy | None = None
+    chat_budget_secret_ref: str | None = Field(default=None, min_length=1, max_length=80)
     enabled: bool | None = None
     timeout_seconds: float | None = Field(default=None, ge=1, le=120)
 

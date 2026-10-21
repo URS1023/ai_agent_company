@@ -2,6 +2,8 @@ import { useEditor } from "./EditorContext";
 import StartPanel from "./vendor/workflow/nodes/start/panel";
 import EndPanel from "./vendor/workflow/nodes/end/panel";
 import IfElsePanel from "./vendor/workflow/nodes/if-else/panel";
+import AggregationPanel from "./vendor/workflow/nodes/variable-assigner/panel";
+import { readableAggregation } from "./draft";
 export default function PropertyPanel() {
   const editor = useEditor(),
     node = editor.definition.graph.nodes.find(
@@ -48,6 +50,20 @@ export default function PropertyPanel() {
               cases: data.cases ?? [],
               isInIteration: false,
               isInLoop: false,
+            }}
+          />
+        ) : ["variable-aggregator", "variable-assigner"].includes(data.type) &&
+          readableAggregation(data) ? (
+          <AggregationPanel
+            id={node.id}
+            data={{
+              ...data,
+              output_type: data.output_type ?? "any",
+              variables: data.variables ?? [],
+              advanced_settings: data.advanced_settings ?? {
+                group_enabled: false,
+                groups: [],
+              },
             }}
           />
         ) : (

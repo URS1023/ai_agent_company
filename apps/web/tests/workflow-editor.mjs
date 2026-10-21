@@ -176,6 +176,28 @@ check(() =>
 );
 const changed = structuredClone(fixture.definition);
 changed.graph.viewport.x = 30;
+changed.graph.nodes.push({
+  id: "aggregator",
+  position: { x: 100, y: 100 },
+  data: {
+    type: "variable-aggregator",
+    title: "变量聚合",
+    output_type: "number",
+    variables: [["start", "value"]],
+    advanced_settings: {
+      group_enabled: true,
+      groups: [
+        {
+          groupId: "group-one",
+          group_name: "Reading",
+          output_type: "number",
+          variables: [["start", "value"]],
+        },
+      ],
+    },
+    retained: { false_value: false, zero: 0 },
+  },
+});
 answer = async () => ({
   ...structuredClone(fixture),
   revision: 8,
@@ -189,6 +211,24 @@ check(() => assert.equal(payload.revision, 7));
 check(() => assert.equal(payload.name, fixture.name));
 check(() => assert.equal(payload.description, fixture.description));
 check(() => assert.deepEqual(payload.definition, changed));
+check(() =>
+  assert.equal(
+    payload.definition.graph.nodes[0].data.type,
+    "variable-aggregator",
+  ),
+);
+check(() =>
+  assert.equal(
+    payload.definition.graph.nodes[0].data.advanced_settings.groups[0].groupId,
+    "group-one",
+  ),
+);
+check(() =>
+  assert.deepEqual(payload.definition.graph.nodes[0].data.retained, {
+    false_value: false,
+    zero: 0,
+  }),
+);
 check(() => assert.equal(view.state.detail.value.revision, 8));
 check(() =>
   assert.equal(view.events.filter((event) => event[0] === "saved").length, 1),

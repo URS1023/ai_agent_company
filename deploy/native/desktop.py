@@ -67,13 +67,16 @@ def start_platform() -> dict:
 
 
 def start_workspace() -> dict:
-    """日常入口启动平台与已配置的纯图运行环境，不启动Dify整套业务服务。
+    """日常入口协调平台、原生聊天和已配置纯图环境，不启动Dify整套业务服务。
 
     Linux只保留专属keeper；运行时仍逐次校验进程归属。新电脑尚未配置
     WSL时可先使用平台已有业务，不暗中安装系统或回退其他发行版。
     """
     result = {'platform': start_platform()}
-    if not windows.load(ROOT).get('dify_wsl', {}).get('enabled'):
+    configured = windows.load(ROOT)
+    result['chat'] = start_chat() if configured.get('sources', {}).get('openwebui') else {
+        'configured': False, 'ready': False}
+    if not configured.get('dify_wsl', {}).get('enabled'):
         result['graph_runtime'] = {'configured': False, 'ready': False}
         return result
     import wsl_lifetime
@@ -88,15 +91,22 @@ def start_workspace() -> dict:
     return result
 
 
-def start() -> dict:
-    """复用完整服务；遵照用户要求取消内存门槛，保留180秒超时与进程归属核验。"""
+def start_chat() -> dict:
+    """复用原生完整聊天服务，缺少进程时单次启动；不下发原生站点给浏览器。"""
     data = windows.load(ROOT)
     info = data.get('processes', {}).get('openwebui', {})
-    if windows.owned_process(ROOT, 'openwebui', data):
+    reused = windows.owned_process(ROOT, 'openwebui', data) is not None
+    if reused:
         if not info.get('ready') or info.get('mode') != 'full':
             raise RuntimeError('已有Open WebUI进程不是已就绪完整模式，请先核查')
     else:
         windows.start(ROOT, 'openwebui', ack_resource_incident=True, startup_seconds=180, limit_memory=False)
+    return {'configured': True, 'ready': True, 'url': CHAT_URL, 'reused': reused}
+
+
+def start() -> dict:
+    """显式启动全部原生能力；保留用户已授权的180秒单次预算与归属核验。"""
+    start_chat()
     platform = start_platform()
     result = {'platform': platform, 'chat': CHAT_URL}
     if windows.load(ROOT).get('dify_wsl', {}).get('enabled'):

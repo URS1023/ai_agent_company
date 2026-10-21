@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, timezone
 import json
 import os
 from pathlib import Path
+import sys
 import time
 
 from cryptography.fernet import Fernet
@@ -17,6 +18,11 @@ import httpx
 import psutil
 
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.demo_data.package import digest_json
+
 ORIGIN = 'http://127.0.0.1:8080'
 DATA = ROOT / '.local/mysql-demo'
 
@@ -130,6 +136,9 @@ def analysis_query(table, device_code):
 
 def register(api, plan, password, quality_plan=None):
     """登记两个源、九设备及映射；检验标准仅为演示配置，可在系统内修改。"""
+    imports = {'devices': import_contract(plan)}
+    if quality_plan is not None:
+        imports['quality'] = import_contract(quality_plan)
     sources = {}
     catalog = {'assets': [*plan['assets'], *(quality_plan or {}).get('assets', [])]}
     for database in ('szh_new', 'szh_new_food'):
@@ -163,21 +172,66 @@ def register(api, plan, password, quality_plan=None):
         'code': 'AIC-DEMO-DEVICE', 'target_type': 'device', 'description': '演示阈值，正式使用时按设备手册与企业标准配置。',
         'metrics': [{'id': 'bearing_temperature', 'name': '轴承温度', 'category': 'numeric', 'unit': '℃', 'standard_max': '75'},
                     {'id': 'vibration', 'name': '驱动端振动速度', 'category': 'numeric', 'unit': 'mm/s', 'standard_max': '4.5'}]}, label='device-template')
-    return {'sources': {k: v['id'] for k, v in sources.items()}, 'devices': len(assets), 'device_template': template['id']}
+    return {'sources': {k: v['id'] for k, v in sources.items()}, 'devices': len(assets),
+            'device_template': template['id'], 'imports': imports}
+
+
+def import_contract(plan: dict) -> dict:
+    """冻结已核计划的最小资产合同，不复制列定义、密钥或业务行。"""
+    if (not isinstance(plan, dict) or not isinstance(plan.get('plan_sha256'), str)
+            or not plan['plan_sha256'] or not isinstance(plan.get('assets'), list) or not plan['assets']):
+        raise RuntimeError('data_import_plan_invalid')
+    fields = ('import_id', 'source', 'source_sha256', 'database', 'table')
+    assets, seen = [], set()
+    for asset in plan['assets']:
+        if (not isinstance(asset, dict)
+                or any(not isinstance(asset.get(key), str) or not asset[key] for key in fields)
+                or type(asset.get('row_count')) is not int or asset['row_count'] < 0):
+            raise RuntimeError('data_import_plan_invalid')
+        if asset['import_id'] in seen:
+            raise RuntimeError('data_import_plan_duplicate_asset')
+        seen.add(asset['import_id'])
+        assets.append({**{key: asset[key] for key in fields}, 'row_count': asset['row_count']})
+    return {'plan_sha256': plan['plan_sha256'], 'assets': assets}
+
+
+def validate_completed_import(plan: dict, receipt: dict) -> dict:
+    """按来源编号一一核收据；恢复收据仍以原计划摘要和最终总行数为准。"""
+    contract = import_contract(plan)
+    if not isinstance(receipt, dict) or receipt.get('status') not in ('succeeded', 'passed', 'completed'):
+        raise RuntimeError('data_import_not_completed')
+    if (receipt.get('plan_sha256') != contract['plan_sha256']
+            or not isinstance(receipt.get('assets'), list)):
+        raise RuntimeError('data_import_receipt_mismatch')
+    if len(receipt['assets']) != len(contract['assets']):
+        raise RuntimeError('data_import_incomplete')
+    expected = {asset['import_id']: asset for asset in contract['assets']}
+    seen = set()
+    for asset in receipt['assets']:
+        if not isinstance(asset, dict) or not isinstance(asset.get('import_id'), str):
+            raise RuntimeError('data_import_receipt_mismatch')
+        identifier = asset['import_id']
+        target = expected.get(identifier)
+        if (identifier in seen or target is None
+                or asset.get('status') not in ('succeeded', 'already_succeeded')
+                or any(asset.get(key) != target[key] for key in ('source', 'source_sha256', 'database', 'table'))
+                or type(asset.get('expected_rows')) is not int
+                or type(asset.get('committed_rows')) is not int
+                or asset['expected_rows'] != target['row_count']
+                or asset['committed_rows'] != target['row_count']):
+            raise RuntimeError('data_import_receipt_mismatch')
+        seen.add(identifier)
+    return contract
 
 
 def completed_plan(plan_file, receipt_file):
     """只有逐来源完成并与计划绑定的导入收据才能转为演示数据源。"""
     plan = json.loads(plan_file.read_text(encoding='utf-8'))
     receipt = json.loads(receipt_file.read_text(encoding='utf-8'))
-    if receipt.get('status') not in ('succeeded', 'passed', 'completed'):
-        raise RuntimeError('data_import_not_completed')
-    if receipt.get('plan_sha256') != plan['plan_sha256'] or any(
-        item.get('status') not in ('succeeded', 'already_succeeded')
-        or item.get('committed_rows') != item.get('expected_rows') for item in receipt.get('assets', [])):
+    if not isinstance(plan, dict) or plan.get('plan_sha256') != digest_json(
+            {key: value for key, value in plan.items() if key != 'plan_sha256'}):
         raise RuntimeError('data_import_receipt_mismatch')
-    if len(receipt.get('assets', [])) != len(plan['assets']):
-        raise RuntimeError('data_import_incomplete')
+    validate_completed_import(plan, receipt)
     return plan
 
 

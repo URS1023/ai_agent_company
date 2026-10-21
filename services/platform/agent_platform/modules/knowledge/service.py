@@ -173,8 +173,11 @@ class KnowledgeService:
         return {'deleted': True, 'id': document_id}
 
     # ---- 检索 ----
-    def search(self, space_ids: list[str], query: str, top_k: int = 5) -> dict:
+    def search(self, space_ids: list[str], query: str, top_k: int = 5, *, candidate_limit: int | None = None) -> dict:
+        """检索当前可见片段；受限调用可先限制候选规模，超量时不请求向量。"""
         self.actor.require('m08.read')
+        if candidate_limit is not None and (type(candidate_limit) is not int or not 1 <= candidate_limit <= 2000):
+            raise DomainError(422, 'knowledge_candidate_limit_invalid', '知识检索候选上限不正确')
         query = query.strip()
         if not query:
             raise DomainError(422, 'query_required', '请输入检索内容', {'query': '必填'})
@@ -184,9 +187,14 @@ class KnowledgeService:
             KnowledgeDocument.workspace_id == self.actor.workspace_id,
             KnowledgeDocument.space_id.in_(space_ids), KnowledgeDocument.status == 'ready',
             visible_document_condition(self.session, self.actor, settings=self.settings))
-        rows = self.session.scalars(select(KnowledgeChunk).where(
+        statement = select(KnowledgeChunk).where(
             KnowledgeChunk.workspace_id == self.actor.workspace_id,
-            KnowledgeChunk.space_id.in_(space_ids), KnowledgeChunk.document_id.in_(visible_documents))).all()
+            KnowledgeChunk.space_id.in_(space_ids), KnowledgeChunk.document_id.in_(visible_documents))
+        if candidate_limit is not None:
+            statement = statement.limit(candidate_limit + 1)
+        rows = self.session.scalars(statement).all()
+        if candidate_limit is not None and len(rows) > candidate_limit:
+            raise DomainError(422, 'knowledge_candidate_budget_exceeded', '当前资料较多，请选择较小的知识空间')
         if not rows:
             return {'items': [], 'total': 0, 'knowledge_sources': evidence}
         vector = self.embeddings.embed([query])[0]

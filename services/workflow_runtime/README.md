@@ -12,7 +12,7 @@ Windows独立环境就绪后，父进程可调用 `worker.run_isolated(python_ex
 
 平台`modules/flows/graph_runtime.py`已接入上述实时回调。定义明确保存`format: graph`、`engine: graphon`、`engine_version: 0.8.0`，开始节点字段生成结构化输入，原步骤格式继续兼容。执行前预约Run和Task，回调在主线程逐条提交TaskEvent；SQL错误回滚后停止派发，不做补偿查询。事件接口按cursor分页，输出保留JSON类型，同一幂等键不会重复运行。平台实际温度分支验收通过，完整前端画布仍在实施。
 
-日常`启动系统.cmd`调用`desktop.py start-workspace`，先启动平台，再对已配置的专属WSL调用`ensure_windows_lifetime()`并核对运行环境。纯图不需要PostgreSQL、Redis或Dify的14个业务角色；未配置的新电脑不会自动安装WSL。当前已有环境复用已实测，整机重启后的启动链尚未验收。
+日常`启动系统.cmd`调用`desktop.py start-workspace`，先启动平台及已配置的本机Open WebUI，再对已配置的专属WSL调用`ensure_windows_lifetime()`并核对运行环境。纯图不需要PostgreSQL、Redis或Dify的14个业务角色；未配置的新电脑不会自动安装WSL。当前已有环境复用已实测，整机重启后的启动链尚未验收。
 
 请求只通过 stdin 输入一份 UTF-8 JSON，随后关闭 stdin。stdout 每行一条 JSON；`kind=event` 为真实 Graphon 事件，最后一条 `kind=result` 才是运行终态。协议版本为 1，事件 sequence 从 1 连续递增，每条记录携带原 run_id。
 

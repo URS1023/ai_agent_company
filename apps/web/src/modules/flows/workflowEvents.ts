@@ -54,7 +54,16 @@ export function eventRows(
         (nodeId ? "节点" : "流程"),
       facts: Object.fromEntries(
         ["inputs", "outputs", "error", "error_message", "process_data"]
-          .filter((key) => data[key] !== undefined)
+          .filter(
+            (key) =>
+              data[key] !== undefined &&
+              !(
+                data[key] &&
+                typeof data[key] === "object" &&
+                !Array.isArray(data[key]) &&
+                Object.keys(data[key]).length === 0
+              ),
+          )
           .map((key) => [key, data[key]]),
       ),
     };

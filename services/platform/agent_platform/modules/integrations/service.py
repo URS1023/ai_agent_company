@@ -21,6 +21,7 @@ from agent_platform.adapters.native import (
 )
 from agent_platform.core.context import Actor
 from agent_platform.core.errors import DomainError
+from agent_platform.core.models import ResourceReference
 from agent_platform.core.records import RecordStore
 from agent_platform.core.settings import get_settings
 from agent_platform.core.tasks import TaskService
@@ -83,7 +84,7 @@ class IntegrationService:
             if not batch["items"] or offset >= batch["total"]:
                 return result
 
-    def validate_config(self, data: dict[str, Any]) -> None:
+    def validate_config(self, data: dict[str, Any], *, existing: dict[str, Any] | None = None) -> None:
         for key in ("base_url", "console_url", "endpoint"):
             if data.get(key):
                 validate_base_url(data[key], allow_remote=self.settings.allow_remote_connections)
@@ -99,6 +100,12 @@ class IntegrationService:
                 Draft202012Validator.check_schema(data["input_schema"])
             except SchemaError as exc:
                 raise DomainError(422, "input_schema_invalid", "流程输入字段定义无效") from exc
+        from .delegation_config import validate_delegation_config
+        # PATCH可只替换一项凭据，成对绑定校验仍需合并旧配置，普通字段沿原增量校验。
+        validate_delegation_config(self.session, self.actor, {**(existing or {}), **data},
+            vault=getattr(self.request.app.state, 'secret_vault', None))
+        from .chat_model_config import validate_chat_model_config
+        validate_chat_model_config(self.actor, {**(existing or {}), **data}, existing=existing)
 
     def secret(self, ref: str | None) -> str:
         if not ref:
@@ -157,7 +164,7 @@ class IntegrationService:
         invalid = {key: "不能为空" for key, value in data.items() if key in required and value is None}
         if invalid:
             raise DomainError(422, "required_field_empty", "请补全必填字段", invalid)
-        self.validate_config({**data, "app_mode": old.get("app_mode")})
+        self.validate_config({**data, "app_mode": old.get("app_mode")}, existing=old)
         merged = {**old, **data}
         if kind in {BINDING, AUTOMATION} and merged.get("app_mode") == "workflow" and not merged.get("release_id"):
             raise DomainError(422, "release_required", "请选择已发布的固定工作流版本")
@@ -179,7 +186,7 @@ class IntegrationService:
     def credential_references(self, ref: str) -> list[dict[str, Any]]:
         """供凭据删除前检查；运行快照保留未终态调用的真实资源和凭据关联。"""
         references = []
-        keys = {"credential_ref", "dataset_credential_ref", "callback_secret_ref"}
+        keys = {"credential_ref", "dataset_credential_ref", "callback_secret_ref", "delegation_jwt_secret_ref"}
         for kind in (INTEGRATION, BINDING, AUTOMATION, SPACE, IDENTITY, PROFILE, TOOL):
             for item in self.list_all(kind):
                 if any(item.get(key) == ref for key in keys):
@@ -188,6 +195,15 @@ class IntegrationService:
         for run in runs:
             if any(value.get(key) == ref for value in run.snapshot.values() if isinstance(value, dict) for key in keys):
                 references.append({"kind": "native_run", "id": run.id, "name": run.status})
+        # 独立账号等领域实体以显式引用登记凭据，不能只扫描目录JSON后允许删除。
+        linked = self.session.scalars(select(ResourceReference).where(
+            ResourceReference.workspace_id == self.actor.workspace_id,
+            ResourceReference.target_type == 'secret', ResourceReference.target_id == ref))
+        known = {(item['kind'], item['id']) for item in references}
+        for link in linked:
+            if (link.source_type, link.source_id) not in known:
+                references.append({'kind': link.source_type, 'id': link.source_id, 'name': ''})
+                known.add((link.source_type, link.source_id))
         return references
 
     def external_user(self, integration_id: str, *, require_token: bool = False) -> tuple[str, str | None]:

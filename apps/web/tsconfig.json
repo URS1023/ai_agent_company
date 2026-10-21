@@ -18,7 +18,11 @@
     "jsx": "preserve",
     "types": ["vite/client"],
     "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
+    "paths": {
+      "@/*": ["src/*"],
+      "@dify-workflow": ["../../packages/dify-workflow/index.d.ts"],
+      "@openwebui-chat": ["../../packages/openwebui-chat/index.d.ts"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "src/**/*.js", "vite.config.ts"]
 }

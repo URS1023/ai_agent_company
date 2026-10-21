@@ -1,0 +1,26 @@
+{
+  "name": "@agent-platform/openwebui-chat",
+  "version": "0.12.3-adapter.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "svelte": "5.56.0",
+    "marked": "9.1.6",
+    "dompurify": "3.4.11",
+    "html-entities": "2.6.0",
+    "eventsource-parser": "1.1.2"
+  },
+  "devDependencies": {
+    "vite": "5.4.21",
+    "@sveltejs/vite-plugin-svelte": "4.0.4",
+    "svelte-check": "4.4.5",
+    "typescript": "5.9.3",
+    "tailwindcss": "4.2.1",
+    "@tailwindcss/postcss": "4.2.1",
+    "postcss": "8.5.14"
+  }
+}

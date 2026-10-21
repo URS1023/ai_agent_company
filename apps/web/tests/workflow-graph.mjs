@@ -380,6 +380,23 @@ check(() => assert.equal(intent.permissionError.value, "权限已撤销"));
 runScope.stop();
 
 const { eventRows } = await import(await moduleUrl("workflowEvents.ts"));
+check(() =>
+  assert.deepEqual(
+    eventRows([{ data: { inputs: {}, outputs: {}, process_data: {} } }], [])[0]
+      .facts,
+    {},
+  ),
+);
+check(() =>
+  assert.deepEqual(eventRows([{ data: { outputs: false } }], [])[0].facts, {
+    outputs: false,
+  }),
+);
+check(() =>
+  assert.deepEqual(eventRows([{ data: { outputs: 0 } }], [])[0].facts, {
+    outputs: 0,
+  }),
+);
 function event(
   cursor,
   execution = "execution-a",

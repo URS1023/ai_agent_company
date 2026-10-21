@@ -1007,3 +1007,110 @@
 
 - T-root52真实页面验收：正式build2663模块13.56秒通过；首轮31请求/一次纯图72→正常成功，无页面/HTTP错误，但脚本精确文本定位未包含JSON字符串引号而超时。保留ui-graph-runtime.json，不重发图；修定位后仅30GET/登录读取原run，11事件/历史/详情及截图通过（ui-graph-runtime-read.json），0新运行/模型/业务库。截图已目检。
 - T-agent-1021-root-54（agent-1021-root认领，进行中）：提交并推送已交接融合阶段，186文件snapshot；排除其他Agent当前native聊天/委托/React包和无关docker脚本，工作区变更保留。required npm run check通过；构建和分模块纯回归/实际知识及图证据见前。仅修已交接flows/router末尾空行；共享历史CRLF保留，以cr-at-eol方式检查，不重排他人记录。MySQL仍暂停未获恢复答复，不能在发布中标完成。
+
+- T-root54已完成：186文件阶段提交db846441388aa9cfecae5d7a77de8a040d938102正常快进推送origin/main，远程ls-remote与本地HEAD一致；已扫描本次staged敏感模式/20MiB阈值，无密钥或大包。当前未交接native聊天/委托/React与无关Docker脚本继续留工作区，未一并提交。
+- T-agent-1021-root-55（agent-1021-root认领，进行中）：core/task_evidence.py新增唯一platform_native_chat守卫转发；integrations/service.py仅credential_references补通用secret引用和delegation_jwt_secret_ref，独立纯tests。依赖native38提供严格双向/本人/当前来源guard；不改旧Task授权宽度、不触native38新文件或domain37新委托文件。
+
+- T-root55初验12项新临时SQLite回归7.60秒通过：公共Task详情/事件/列表/通知拒绝跨人及撤权来源，双向绑定损坏拒绝；显式身份凭据/签名key删除被引用拦截且不跨workspace。首轮收集忘设平台PYTHONPATH已改正确入口，未连接在用库。
+- T-domain37范围追加（作者agent-1020-domain/root协调）：Integration schemas两可选后台委托字段与独立delegation_config验证；service.validate_config入口由root55窄接，避免并改。正式API须可配置且只接受有效同工作区ServiceIdentity.user_id及Vault ref，不能仅有运行代码无配置入口。
+- T-agent-1021-root-56（agent-1021-root认领，进行中）：按native38交接依赖清单仅安装平台独立venv的固定Socket客户端wheel，单次180秒/no-deps/only-binary/0重试；不装原OWUI整包、不改旧原生环境。之后纯导入与依赖一致性检查，实际原生身份/模型请求等T38正式交接后独立预算验收。
+
+- T-agent-1021-domain-37作者正式交接12路径：可信15工具/来源回查/16固定GET桥与正式配置DTO/helper；41委托来源新检查及16配置新检查分批通过，45旧桥回归通过。没有实际配置/授权/部署/模型业务库；root55已接service合并配置钩子，40既有integration/task回归13.04秒通过。
+- T-agent-1021-domain-38（agent-1020-domain认领，进行中）：chat/native_files、file_models、file_router及纯tests/迁移12，先与native38冻结原件来源/turn接口；仅复用FileService和原OWUI文件API，不另建parser，先明确TXT/PDF等范围。来源SHA/revision及副本owner撤权须守卫历史和继续，无实际请求/企业源/模型。12未完成前不挂不完整公共路由。
+- T-root56依赖已单次安装成功8.42秒，固定SocketIO5.16.2/engineio4.14.0/aiohttp3.14.3导入与pip check通过，0模型业务库。前端独立类型检查触自设768MiB heap；已确认进程退出、系统可用物理2.78GiB，无在用库异常。按用户“不用限制”及R32撤销该人为flag，web先独立包类型/纯测，不盲目重跑全局。
+- T-agent-1021-root-57（agent-1021-root认领，准备中）：统一聊天实际验收前先核13000所属进程/原件目录/新本机SQLite及8080绑定，只读3个以内平台HTTP查看现integration凭据是否已配置；0模型/业务MySQL。不启动、停止或修改原生账号，此步只决定后续A/B验收前置。
+
+- T-root57前置核验完成：2本机平台HTTP；13000完整服务所属进程、实际SQLite/data环境均核一致，无远程存储；唯一OpenWebUI integration尚未配置credential_ref，0模型/业务MySQL。收据platform-fusion-native-prerequisites.json。
+- T-agent-1021-root-58（agent-1021-root认领，进行中）：使用本机加密交付管理员一次原生signin，将JWT经平台Vault加密保存并CAS关联已核13000实例，为普通用户建号准备；最多4平台HTTP+1原生HTTP/60秒/0模型业务源，不在浏览器/日志/文档存JWT，不更改原生管理员权限或MFA。
+- T-domain38合同追加（作者agent-1020-domain）：迁移12单native_chat_files表，11四表冻结；上传预约/处理状态/显式回查/先隔离后删除，最多10附件/轮，仅TXT/MD/CSV/JSON/LOG/PDF20MiB，60秒单上传无轮询重传。额外独立native_file_transport.py，原生副本私有ID不由浏览器指定；resolve_turn_attachments与来源守卫由native38接线。
+
+- T-root58实际完成：4平台HTTP+1本机OWUI signin，管理员JWT已加密保存在Vault并CAS绑定原本机instance；没有模型/业务查询、浏览器凭据或MFA更改。收据platform-fusion-native-bootstrap.json。
+- T-agent-1021-root-60（agent-1021-root认领，进行中）：desktop.py将现原Open WebUI启动逻辑提为共享helper，start-workspace在已配置本机OWUI时一并复用/启动，仍单8080页面，WSL只keeper。否则重启后融合chat会因13000未启失效。调整独立纯tests；不恢复14角色自动启动、不加已取消的内存阈值，真实只验证当前已运行进程复用。
+
+- T-root60实际完成：10项纯检查通过0.15秒；单次真实start_workspace复用平台、完整Open WebUI与keeper，前后14角色身份/状态及两个Windows launch_id一致，0模型/业务SQL。收据platform-workspace-chat-start.json；验收器首轮漏导入根路径、在调用前退出，修正后通过。README和worker说明已更新，整机冷启动未验。
+- T-agent-1021-web-34作者正式交接：原3节点React编辑岛、Vue同页创建/保存CAS/只读保护及来源许可共51包文件；71组件/来源断言、47宿主断言、120运行回归及独立/全局类型检查通过，正式build2895模块14.33秒。此前人为768MiB heap失败保留，撤除用户已取消的上限后通过。0实际HTTP/DB/模型，root接真实画布验收；完整变量控件/容器/全部节点/复制仍未完成。
+- T-agent-1021-web-35（agent-1020-web认领，只读进行中）：与native38核持久消息树/Socket/附件DTO，审原OWUI组件最短同页复用路径及文件来源；先不修改聊天代码。root继续串行落盘，不以只读结论替代已实现。
+- T-agent-1021-root-61（agent-1021-root认领，进行中）：本机8080真实画布新建/编辑/重开验收，≤90同源请求/150秒，1次POST新建+1次PUT节点修改，0图运行/模型/业务SQL；保留命名演示流程和截图。仅.local验收器，不修改T34源码除发现实际问题后另记录。
+
+- T-root61实际完成：真实浏览器37同源请求，1次POST新建演示输入整理+1次PUT改节点名称，关闭重开后2节点与revision2正确；0JS/HTTP错误、0图运行/模型/业务SQL。ui-workflow-canvas.json及reopened截图已目检，保留可操作流程。
+- T-agent-1021-domain-39（agent-1020-domain认领，待T38附件交接后进行）：native38委托新tests/test_native_chat_sources_edges.py，仅补C稳定来源守卫边界；不改native38实现或其执行/Socket测试。实际作者自报完成后root记录，禁止标当前已完成。
+- T-agent-1021-root-62（agent-1021-root认领，进行中）：T61真实画布生成的输入整理图，经当前页面单次纯图运行字符串输入，核原Graphon输出与UI；≤60同源请求/120秒、1图/0模型与业务SQL。仅.local验收器，不改业务代码。
+
+- T-root62真实图运行成功：由画布新建的流程输入演示通过，经原Graphon返回相同字符串和7节点事件。首轮验收器匹配到折叠输入中同值，等待可见超时；保留31请求/1图收据ui-canvas-run.json，未重发。新只读收据ui-canvas-run-read.json用30请求验证原run/输出/事件，0新图/模型业务库。
+- T-agent-1021-root-63（agent-1021-root认领，准备中）：.local原生聊天统一部署与身份验收器；仅所属平台SQLite10→11/12独立备份和schema比对，服务更新后9平台HTTP/120秒验证普通身份、同键创建、原消息树空态、改名与历史；0模型/业务MySQL。待native38/domain38正式释放后才执行，不部署未完模块。
+
+- T-agent-1021-domain-38作者正式交接6路径：native_file模型/HTTP传输/业务/API、12迁移与21纯tmpSQLite/Mock/ASGI回归20.28秒通过；0实际HTTP/模型/业务库。首轮收集括号错误已修，12单表结构/unique/index/down校验通过。仍需root统一router/registry/完整迁移，普通文档20MiB处理并非图片音视频/OCR。
+- T-agent-1021-domain-40（agent-1020-domain认领，进行中）：native_files.py及test_native_chat_files.py补历史附件授权投影，严格原messageIDs/Turn来源/同identity，分叉匹配继承receipt；native38接detail并去原生下载URL。先解真实UI附件阻塞再做T39独立来源边界；不改其余文件/实际请求。
+- T-agent-1021-web-35作者只读交接：OWUI0.12.3/Svelte5.56原Messages/结构化输出/Markdown/输入可独立提取，原vite插件4仅适配Vite5，不混入现Vue/Vite7；Chat大外壳含账户/实时服务不能直接复制。原编辑并发送/重生/全文会话搜索尚无后端合同；历史附件投影由domain40补。0修改/请求。
+- T-agent-1021-web-36（agent-1020-web认领，进行中）：packages/openwebui-chat Svelte原组件岛、现chat最小集成、独立tests/REUSE及必要构建锁；先框架无关接口/来源，再独立原Vite5构建消费。允许局部有界依赖安装，无实际HTTP/业务库/模型；首批普通身份/模型/原消息树/保存多轮流/停止/历史，附件消费domain40。不改flows/全局样式/backend，不提供原接口未支持的伪动作。
+
+- T-root63迁移准备检查通过：root接管chat/router同级附件路由与完整迁移head12断言，保留native已有11注册；router显式导入附件模型，5项完整tmpSQLite迁移4.45秒通过。当前真实平台仍head10，尚未升级。
+- T-agent-1021-root-64（agent-1021-root认领，进行中）：核已登记完整OWUI本机存储后，1次管理员signin+1次原生embedding配置GET，核实际bge-m3/硅基地址与加密密钥配置相符，不打印凭据；0向量/LLM/业务源。不改全局配置或启动模型。
+
+- T-root64已完成：核所属完整OWUI后2本机HTTP读取实际向量配置，engine=openai、BAAI/bge-m3及硅基地址/密钥一致，batch1；0模型/业务SQL/配置更改。收据native-embedding-settings.json不含密钥。
+- T-agent-1021-domain-40作者正式交接：历史附件平台投影已补，最终附件23项纯检查16.57秒通过；T-domain39作者交接11项来源边界10.44秒通过，0实际请求/业务库/模型。精确消息/继承收据/同identity匹配，不返回原生文件ID或URL，native38接详情；所有作者文件范围释放。
+- T-agent-1021-domain-41（agent-1020-domain认领，只读进行中）：核待续导后的platform.py/verify_business.py、两导入计划与当前API DTO/表字段，防止2库/9设备/三个业务演示合同漂移。禁止任何MySQL连接/真实API/模型/导入，不重复既有纯测试；只报有证据的差异和最小修复。
+
+- T-root63联合fixture修正（root接管已释放tests/test_native_chat_files.py一行）：native新增原JWT id claim与映射一致校验，附件替身仅有sub导致联合2项失败；按原OWUI token协议补id=native-human，不放宽生产guard。由native继续该轮联合检查，非实际DB/服务异常。
+
+- T-root49本轮追加维护：沿用3份总纲/架构/验收说明和125行实施表，更新已实际交付的图画布/图执行/知识摄取/功能搜索证据，保留完整原范围和剩余缺口；CSV仅更新8行证据/入口，未改变状态数量。11/12尚未部署，正文明确未计可用；未新增重复文档。
+
+- T-agent-1021-root-65（agent-1021-root认领，准备中）：原生身份成功后运行.local/verify_native_turn.py，≤10平台HTTP/145秒，仅1次原OpenWebUI completion派发、DS4.1最多64输出token；同键第二POST必须复用同Turn，订阅原Socket投影SSE，读取准确助手done/非空正文/Task成功及唯一历史。0业务MySQL，不自动重发或改模型。前置T38正式交接及root63实际部署，尚未执行。
+
+- T-agent-1021-native-38作者正式交接：10个native聊天模块、11迁移/身份和执行测试/Socket依赖已释放；最终37项身份/执行/公共guard16.32秒、34项附件/来源23.95秒通过，合计71，compileall/diff通过。0真实原生HTTP/模型/在用库。首阶段tools为空、记忆与后台任务关闭；原编辑并发送/重生尚未实现。root63开始已准备的10→12备份升级与实际身份核验。
+
+- T-agent-1021-domain-41作者只读交接：两导入计划与当前API/字段相符，21资产2340740行、9设备和16食品样本SHA一致；注册须同时给quality计划与成功收据，计算后保留待复核/draft供用户操作。发现completed_plan只比顶层hash/数量，未逐资产匹配计划且未拒重复import_id，需T42修复；0修改/测试/真实请求。
+- T-agent-1021-domain-42（agent-1020-domain认领，进行中）：tools/demo_data/platform.py严格计划-收据逐资产验证与注册imports合同，verify_business.py仅消费对应质量绑定，独立纯tests。拒重复或错配import_id/source_sha/database/table/rows，兼容原完整恢复/质量收据；不改导入器、恢复器、实际旧收据，不接MySQL/API/模型。
+- T-root63实际完成：独立备份fusion-native-chat-20261021.sqlite3，平台10→12迁移与完整结构比较通过，8080重启成功；随后9HTTP普通身份/同键建会话/原生保存空树/改名/历史通过，0模型业务库。platform-update-native-chat.json和platform-native-chat-identity.json。
+- I-agent-1021-root-65：T65首轮只有2HTTP，在普通用户模型列表为空处中止，未创建Turn/派发模型；另2HTTP只读核验确实items=[]。原收据platform-native-chat-turn.json保留。原OWUI只有管理员可看未登记权限的base模型，不能通过提升身份或关ACL解决。
+- T-agent-1021-native-39（agent-1020-native认领，只读进行中）：核原OWUI模型/组/授权API，为已获平台对话权限的普通身份按管理员指定模型映射授权，兼顾新增用户/并发保留已有授权。先给准确最短方案，不改刚部署模块/真实服务/DB/模型，不关闭原ACL或升管理员。
+
+- T-agent-1021-root-66（agent-1021-root认领，进行中）：已核普通身份及实际bge配置后，1个短TXT原生附件上传、授权原件SHA下载、最多1次显式状态refresh；≤5平台HTTP/100秒、1次上传，预计1小块向量、0LLM与业务MySQL。没有完成时不自动轮询/重传，保留真实状态；与普通用户模型列表空问题独立。
+
+- T-root66实际通过：4平台HTTP、1次短TXT上传，返回processing后仅一次显式refresh得到ready，授权原件SHA一致；0LLM/业务MySQL。实际文档已进入原OWUI处理流程，向量HTTP次数未直接观测，未将预计1块写成计量事实；platform-native-chat-attachment.json。
+- T-native39作者只读交接：原模型未登记时仅admin可见；官方专属group+指定原model read grant可保留普通角色。首次模型access/update无CAS，须当前串行合并/读回保留原授权；后续users/add是原生加锁增量成员，不再改模型ACL，避免重写并发授权。0实际操作。
+- T-agent-1021-native-40（agent-1020-native认领，进行中）：新chat/native_access.py、native_service.py身份成功/显式核对窄接、integrations/schemas.py及service.py仅配置钩子/new纯验证helper与tests；增加chat_model_group_id/chat_model_ids管理员策略，原生组归属marker核工作区+实例，准确普通账号增量入组/核模型，失败留access_pending/unknown而不重复建号。不得改OpenWebUI内核/关ACL/升权限，GET模型不改授权，原Task/凭据删除守卫保留。root只做独立初始组/模型授权配置，双方不并改服务文件。
+- T-agent-1021-root-67（agent-1021-root认领，准备中）：核所属原生服务后一次管理员专属组/模型read授权配置，先读取原grant，串行追加新组后读回核原授权保留，只加入本平台已映射普通用户；≤8原生HTTP/90秒/0模型业务源。首次模型ACL官方无CAS，当前仅此协调者配置，未知写入不重发。独立收据，不改原Token权限/MFA。
+
+- T-root67实际完成：7原生HTTP创建专属chat-model-access组并串行追加DS4.1 read授权，原1条grant保留、最终2条，当前已映射普通用户入组；group marker/parentnull/permissions{}读回正确，0模型业务库。native-chat-model-access.json；原ACL没有关闭，普通账号角色未改。
+- T-native40范围追加（root协调、作者native）：native_turns.models仅按已配置chat_model_ids过滤原生可用列表，不在GET改授权；不改变运行内核。
+- T-root65配置修复后继续独立验收：先显式身份reconcile刷新入组后会话，再按原single64-token意图运行，≤11平台HTTP/145秒；首轮在模型列表前止，未派发任何模型，原失败收据保留，新收据platform-native-chat-turn-access.json。没有业务库异常或自动恢复MySQL。
+
+- T-agent-1021-domain-42作者正式交接：platform.py严格计划正文及逐资产成功收据、verify_business.py调用前登记质量绑定与独立tests；34纯回归0.45秒通过，0实际MySQL/API/模型。拒重复/错配/伪行数，兼容恢复收据原计划SHA与独立预算。三文件释放给root，实际续导仍暂停。
+- T-agent-1021-root-68（agent-1021-root认领，进行中）：native_transport.py仅修空token时不发送非法Bearer尾空格，独立test_native_chat_transport.py增加真实h11头编码回归；native40已确认不并改transport。前次身份reconcile503发生在HTTP头校验、尚未创建Turn/派发模型，新失败收据保留。待native40交接后统一更新8080，0MySQL。
+- T-agent-1021-domain-43（agent-1020-domain认领，只读进行中）：核原生聊天Turn与已交付15委托工具的生产接线及原OWUI合同，给最短范围和来源/权限/取消/保存边界；不改文件，不实际HTTP/模型/MySQL，不侵入native40/web36范围，root串行记录结论。
+
+- T-root68纯回归通过：2项h11实际HTTP头编码/认证保留检查0.21秒，0网络/数据库。空token登录不再发送非法Authorization；真实部署待native40完整交接。
+- T-native40范围追加（root协调，native作者）：身份授予CAS同时拒active conversation；Turn预约Conversation CAS须同identity仍ready，覆盖授权刷新与新消息并发冲突，防入组刷新切断新Socket。仅本轮必要窄扩展与纯回归，不改派发内核。
+- T-agent-1021-root-69（agent-1021-root认领，准备中）：.local/native-chat-ui-read.mjs及wrapper只读核原回复同页渲染/模型/刷新恢复；≤100同源请求/90秒、0新Turn/模型/业务MySQL。必须先通过root65真实回复和web36构建交接，尚未执行。
+
+- T-agent-1021-native-40作者正式交接7文件：原生专属模型组授权/状态、管理员策略校验与配置钩子、只读目录筛选和互斥CAS。28新项5.09秒通过；此前54联合10.15秒含27新/25旧/2transport通过；0真实HTTP/模型/在用库。60秒预约只增量加入准确普通用户，未知显式核对不重建账号，活动Turn与授予互斥，代码范围释放。
+- T-domain43作者只读交接：原tools空数组会阻止tool_ids加载，当前15工具只读已保存制造/报表结果，缺KB/数据查询。生产需专属OpenAPI server、原签名转发、证书短令牌、关闭专用模型builtin及有界调用，不能只改为native参数。原server后缀op筛选未生效，结果需平台来源链接投影；0实际请求。
+- T-agent-1021-domain-44（agent-1020-domain认领，进行中）：独立delegated_data/knowledge及tests；窄接4个只读操作、sources、router与桥固定路径，KnowledgeService.search可选candidate_limit=2000超量先拒，默认兼容。仅已保存查询/显式单知识空间、每检索1次向量/至多15秒且受Turn余量约束；不执行新SQL/业务写。root重启完成前只写独立helper/tests，随后释放共享入口。0实际请求。
+- T-root68/65准备统一部署native40+transport：已核head12，独立备份后更新8080；随后正式CAS配置已核专属组和DS模型，再一次原64-token短回复验收。尚未执行MySQL续导。
+
+- T-root68实际更新完成：head12独立备份及结构比较通过，8080重启；platform-update-native-access.json。随后4HTTP正式配置专属模型组/DS模型，revision3，原凭据保留；platform-native-model-policy.json。
+- I-agent-1021-root-70：T65新实际请求11预算内发8HTTP/1唯一Turn并同键复用，普通模型目录/身份就绪，原Socket收到active/error/state，但原助手返回Endpoint is unavailable，done=true、Turn failed、active已清，未得有效回答。保留platform-native-chat-turn-fixed.json；另3只读/登录请求确认准确原错误与终态（platform-native-turn-failure-read.json），0追加派发/业务SQL。不得将此验为聊天成功。
+- T-agent-1021-native-41（agent-1020-native认领，只读进行中）：定位原Endpoint不可用的本地源码/配置/已有日志原因，仅输出无凭据元数据；0真实HTTP/模型/SQL，禁止自动重发。root暂只验UI真实失败历史显示，不将其冒充原短回复通过。
+
+- I-root70补充证据（作者native41）：原生日志2026-10-21 08:05:56.262记录OpenCode Go实际HTTP429/rate_limited，地址与模型均是既定Go openai/v1和DS4.1；上游message为Endpoint is unavailable。不是本机404/ACL拒绝，不能据此推断余额耗尽。停止新模型请求，保留失败Turn及准确助手done。UI与纯实现继续，成功回复验收保持未通过。
+
+- T-agent-1021-web-36作者正式交接：packages/openwebui-chat原Svelte消息/结构化输出岛与Vue聊天宿主、旧记录只读和构建接线已释放。最终根build 2906模块16.45秒，独立库142模块1.17秒/304.89kB；根check通过，103纯断言（56消息/来源、47宿主）。首轮预处理编译失败已修并最终构建通过；保留25兼容props警告和原chunk提示。0实际浏览器/HTTP/模型/业务库。首版未接编辑并发送/重生/完整复杂媒体，root开始只读真实失败会话验收。
+- T-root69当前验收变更：因I-root70上游429，本轮ui-native-chat-failure-read只证明真实失败消息、模型和刷新后历史，不能替代原计划成功回复；仍≤100同源请求/90秒/0新Turn/模型/业务MySQL，独立收据保留原成功验收准备脚本。
+
+- I-agent-1021-root-71：T-root69首轮33同源请求/0HTTP及pageerror，输入框15秒不可见；只读诊断截图挂起，被外层120秒终止，所属node及Chrome已核退出，收据保留并注明诊断计数不完整。native41确定上游429，与此独立。
+- T-agent-1021-web-37（agent-1020-web认领，进行中）：原Svelte afterUpdate编译为DOM对象mutate→重复更新，确定导致微任务死循环。采用原组件局部DOM别名和内容变化触发、卸载ticket；NativeChatIsland加失败锁及按需显式重试，避免错误触发重新mount循环。补≤45秒独立真实浏览器组件回归/0API模型DB，完整build由web串行，root不并编译。已授权修当前UI缺陷，不扩大实际MySQL/模型范围。
+- T-agent-1021-native-42（agent-1020-native认领，只读进行中）：核原重新生成/编辑并发送消息树及来源继承最短合同，保持历史分支及幂等/unknown，不以原位编辑冒充分支。0代码修改/真实HTTP/模型/在用库，后续实现待明确范围。
+
+- T-agent-1021-domain-44作者正式交接11文件：4个已保存查询/知识只读工具、完整旧/新来源、候选上限与Turn剩余预算、等待后fresh双边授权、桥路径；首轮60与补充38纯检查通过（最终新增25），0真实HTTP/模型/企业SQL。未配置生产工具server或聊天派发，未改chat/core/迁移，范围释放。
+- T-root49本轮维护：现有代码OpenAPI正式重新导出468操作/325路径（不含泛型工具动态操作展开），原227设计合同和125功能不缩减；总纲/验收更新v0.9，6项聊天证据更新但状态未提升。上游429及完整原生功能缺口明确保留。
+
+- T-agent-1021-native-43（agent-1020-native认领，准备中）：依T42已核原合同新增branch plan/tests，原重新生成复用准确user而新建assistant；编辑并发送新user/assistant且保留父/旧分支。首条root分支例外仅验证来源后允许，增加源正文SHA和附件精确继承；复用现预约/Task/CAS/unknown。root发布当前阶段前只写独立helper/tests，不接native_turns/router，0真实请求。
+- T-agent-1021-root-72（agent-1021-root认领，进行中）：独立备份并保持head12更新已交接T44服务，随后发布当前已交接融合阶段；排除无关Docker和native43新增未交接文件。最终check/build由web37串行完成，root验UI/源码凭据和Git推送，不恢复MySQL或模型请求。
+
+- T-agent-1021-web-37作者正式交接5文件：ChatIsland局部DOM滚动、Vue挂载失败锁/显式重试及纯浏览器回归。根check通过，失败锁10纯检查通过，最终根build2906模块20.47秒/库142模块1.36秒；唯一真实独立Chrome组件验收1664ms、1页、0HTTP模型DB、0error，4次props更新的frame/timer/输入/消息/卸载通过。原UI失败收据保留，范围释放。
+- T-root72已独立备份更新T44平台且保持head12/schema一致，0模型业务查询；平台19工具代码已部署，生产server/签名及Turn工具预算仍未接、桥新白名单进程未验，不能标业务Agent已可用。
+- T-root69将在相同90秒预算内运行已修UI只读验收，0新模型/Turn/业务MySQL；新独立收据ui-native-chat-failure-fixed.json，逐步落盘与截图8秒限制用于保证验收器能退出，不替代产品循环修复。
+
+- T-root69实际只读UI通过：修后50同源请求/0HTTP或JS错误/0新Turn模型业务SQL，准确两消息及刷新恢复通过。首张截图仍在附件读取时截取，因此另独立50只读/登录请求等待loading消失、输入启用及模型选择就绪后截图，均通过，root已目检。ui-native-chat-failure-fixed.json与ui-native-chat-ready-read.json；保留准确上游失败，不冒充有效回复。
+- T-root72提交前快照：本轮已交接原聊天普通身份/模型策略/消息组件与附件、Dify三节点画布、19只读工具代码、收据校验及文档；根check/build与相关纯回归和实际证据见各任务。I-root70上游429和MySQL续导授权未解；native43仍只在独立helper/tests实施，排除本次发布。禁止将阶段发布标全项目完成。

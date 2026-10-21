@@ -1,0 +1,75 @@
+{
+  "project": "Dify",
+  "version": "1.17.1",
+  "workflow_entry_sha256": "1ffaf2754f9b965a41d03bda480dcc58bc86c99ac1d9ac38906d43b45850a11a",
+  "license": "licenses/Dify-LICENSE.txt",
+  "files": [
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/start/node.tsx",
+      "target": "src/vendor/workflow/nodes/start/node.tsx",
+      "sha256": "a7f6cf29fe01b82a7972440056112a8714ccb9d69326255af8a9b23ee01fa605",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/start/panel.tsx",
+      "target": "src/vendor/workflow/nodes/start/panel.tsx",
+      "sha256": "5678e4a06072e951fc1c18f07d2c4cd2a0d36b581b1dc343f58f07b3911685bb",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/start/types.ts",
+      "target": "src/vendor/workflow/nodes/start/types.ts",
+      "sha256": "ac70e80671ed3ef2dacf8323e81bea08ba3a712d29d1908c6beb894228918a59",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/end/node.tsx",
+      "target": "src/vendor/workflow/nodes/end/node.tsx",
+      "sha256": "0e3618b7787c920f1ad3a9f77390e45ef105f45890814d71eaf6146fdd07af7d",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/end/panel.tsx",
+      "target": "src/vendor/workflow/nodes/end/panel.tsx",
+      "sha256": "bc98e558f49eb9e318935e1bfb7f452c01a03c539f6e94f16fb1537ff8a76459",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/end/types.ts",
+      "target": "src/vendor/workflow/nodes/end/types.ts",
+      "sha256": "e45c8375151c1cf62af0cdf384a3de109b642ea7bcebfb7a5ee41385f6bb512d",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/if-else/node.tsx",
+      "target": "src/vendor/workflow/nodes/if-else/node.tsx",
+      "sha256": "2335706ce55265422e2501fcdecf6847f0b6aecdedc0338925f0b9e64907fa52",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/if-else/panel.tsx",
+      "target": "src/vendor/workflow/nodes/if-else/panel.tsx",
+      "sha256": "6949c311c73f9501675ce0b5785b0804dc941b27c3245bfd1694ec73a668cb81",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/if-else/types.ts",
+      "target": "src/vendor/workflow/nodes/if-else/types.ts",
+      "sha256": "b51caa1ed369c6276fa692873b060682237491dfb5ce0bb67a4f0a2e1eee02e9",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/if-else/utils.ts",
+      "target": "src/vendor/workflow/nodes/if-else/utils.ts",
+      "sha256": "2b9eb0515fe5b4c1766752037bc00f7a2361c9d2134f48c64cc14b12cc42bdcb",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    },
+    {
+      "source": "dify-main/web/app/components/workflow/nodes/if-else/use-config.helpers.ts",
+      "target": "src/vendor/workflow/nodes/if-else/use-config.helpers.ts",
+      "sha256": "e44aedab8f30116daff1739515a18f99944e2242c11d108f907c59cd64518fb3",
+      "changes": "保留节点/面板JSX及条件纯函数；替换平台上下文/本地控件引用，移除未支持文件/Chatflow固定项及冗余常驻文案；条件保留0/false。"
+    }
+  ],
+  "scope": "Start/End/IfElse节点与属性外层、原条件修改纯函数；平台控件和显式保存适配；尚非全部原生编辑器。"
+}

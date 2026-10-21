@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "baseUrl": ".",
+    "paths": {
+      "react": ["../../apps/web/node_modules/@types/react"],
+      "react/*": ["../../apps/web/node_modules/@types/react/*"],
+      "react-dom/*": ["../../apps/web/node_modules/@types/react-dom/*"],
+      "reactflow": ["../../apps/web/node_modules/reactflow"],
+      "immer": ["../../apps/web/node_modules/immer"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "index.d.ts"]
+}

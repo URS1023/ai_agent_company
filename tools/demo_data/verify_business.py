@@ -10,7 +10,7 @@ from collections import Counter
 import json
 from pathlib import Path
 
-from tools.demo_data.platform import DATA, PlatformAPI, analysis_query
+from tools.demo_data.platform import DATA, PlatformAPI, analysis_query, import_contract, validate_completed_import
 from tools.demo_data.quality import fixture_rows, inspection_import, query_input, template_input
 
 
@@ -58,13 +58,35 @@ def device_demo(api, registered):
         'business_source_reads': 3, 'max_source_read_seconds': 2}
 
 
+def registered_imports(registered):
+    """仅消费成功登记时冻结的来源合同，旧收据不猜测补全或重放登记。"""
+    if not isinstance(registered, dict) or registered.get('status') != 'passed':
+        raise RuntimeError('platform_registration_incomplete')
+    summary = registered.get('summary')
+    imports = summary.get('imports') if isinstance(summary, dict) else None
+    if not isinstance(imports, dict) or 'devices' not in imports:
+        raise RuntimeError('platform_import_contract_missing')
+    return {key: import_contract(value) for key, value in imports.items() if key in ('devices', 'quality')}
+
+
+def verified_quality_asset(registered, quality_receipt):
+    """产品收据须对应登记时授权的食品资产，在任何平台写入前验证。"""
+    contract = registered_imports(registered).get('quality')
+    if contract is None:
+        raise RuntimeError('platform_quality_contract_missing')
+    validate_completed_import(contract, quality_receipt)
+    if len(contract['assets']) != 1:
+        raise RuntimeError('quality_import_not_completed')
+    asset = contract['assets'][0]
+    if (asset['database'] != 'szh_new_food' or asset['table'] != 'aic_demo_product_quality'
+            or asset['row_count'] != 16):
+        raise RuntimeError('quality_sample_rows_mismatch')
+    return asset
+
+
 def product_demo(api, registered, quality_receipt):
     """两个数据库读取均经过平台，只比较实际检测结果与固定样本预期。"""
-    if quality_receipt.get('status') != 'succeeded' or len(quality_receipt.get('assets', [])) != 1:
-        raise RuntimeError('quality_import_not_completed')
-    asset = quality_receipt['assets'][0]
-    if asset.get('committed_rows') != 16 or asset.get('status') not in ('succeeded', 'already_succeeded'):
-        raise RuntimeError('quality_sample_rows_mismatch')
+    asset = verified_quality_asset(registered, quality_receipt)
     source = registered['operations']['source:szh_new_food']
     first = fixture_rows()[0]
     product = api.call('POST', '/products', {'name': first['product_name'], 'code': first['product_code'],
@@ -91,17 +113,20 @@ def main():
     parser.add_argument('--quality-receipt', type=Path)
     args = parser.parse_args()
     registered = json.loads((DATA / 'platform-register.json').read_text(encoding='utf-8'))
-    if registered.get('status') != 'passed':
-        raise RuntimeError('platform_registration_incomplete')
+    registered_imports(registered)
+    quality_receipt = None
+    if args.stage == 'products':
+        if not args.quality_receipt:
+            parser.error('产品演示须提供已完成的导入收据')
+        quality_receipt = json.loads(args.quality_receipt.read_text(encoding='utf-8'))
+        verified_quality_asset(registered, quality_receipt)
     api = PlatformAPI('verify-' + args.stage, max_requests=20, seconds=90)
     try:
         api.login()
         if args.stage == 'devices':
             device_demo(api, registered)
         else:
-            if not args.quality_receipt:
-                raise ValueError('产品演示须提供已完成的导入收据')
-            product_demo(api, registered, json.loads(args.quality_receipt.read_text(encoding='utf-8')))
+            product_demo(api, registered, quality_receipt)
     except BaseException as error:
         api.finish(error)
         raise

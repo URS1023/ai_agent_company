@@ -34,11 +34,19 @@ function time(value: string) {
     /><el-table
       v-loading="events.loading.value"
       :data="rows"
+      :row-class-name="
+        ({ row }: { row: { facts: Record<string, unknown> } }) =>
+          Object.keys(row.facts).length ? '' : 'no-event-facts'
+      "
       row-key="cursor"
       empty-text="暂无执行事件"
-      ><el-table-column type="expand"
+      ><el-table-column
+        v-if="rows.some((row) => Object.keys(row.facts).length)"
+        type="expand"
         ><template #default="{ row }"
-          ><WorkflowJsonValue :value="row.facts" /></template></el-table-column
+          ><WorkflowJsonValue
+            v-if="Object.keys(row.facts).length"
+            :value="row.facts" /></template></el-table-column
       ><el-table-column
         prop="nodeName"
         label="节点"
@@ -64,5 +72,8 @@ function time(value: string) {
 }
 .run-events :deep(.el-table__expanded-cell) {
   padding: var(--sp-4);
+}
+.run-events :deep(.no-event-facts .el-table__expand-icon) {
+  display: none;
 }
 </style>

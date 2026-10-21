@@ -27,6 +27,9 @@ from .service import (
 
 router = APIRouter(prefix="/api/v1", tags=["原生应用集成"])
 
+from .delegated_router import router as delegated_router
+router.include_router(delegated_router, prefix="")
+
 
 def _crud(path: str, kind: str, module: str, create_type: type[BaseModel], patch_type: type[BaseModel]) -> None:
     """配置资源共享生命周期与版本协议，业务执行仍有独立路由和服务。"""

@@ -7,6 +7,7 @@ import { ElMessageBox } from "element-plus";
 import { useWorkflowRunIntent } from "./useWorkflowRunIntent";
 import { useWorkflowRequests } from "./useWorkflowRequests";
 import GraphWorkflowRunner from "./GraphWorkflowRunner.vue";
+import GraphWorkflowEditor from "./GraphWorkflowEditor.vue";
 const props = defineProps<{
   canWrite: boolean;
   canDelete: boolean;
@@ -66,6 +67,17 @@ const spaces = ref<{ id: string; name: string }[]>([]);
 const loading = ref(false);
 
 const editorOpen = ref(false);
+const graphEditorOpen = ref(false);
+const graphEditingId = ref("");
+function openGraphEditor(id = "") {
+  graphEditingId.value = id;
+  graphEditorOpen.value = true;
+}
+async function graphSaved(id: string) {
+  activeId.value = id;
+  graphEditingId.value = id;
+  await op.run(loadWorkflows);
+}
 const editingId = ref("");
 const editingFormat = shallowRef("legacy_steps");
 const form = ref<{ name: string; description: string; steps: Step[] }>({
@@ -124,6 +136,7 @@ async function loadHistory() {
 }
 
 function selectWorkflow(id: string) {
+  graphEditorOpen.value = false;
   activeId.value = id;
   // 切换流程时清空上一次的运行结果，避免和新流程混在一起。
   void op.run(loadHistory);
@@ -167,7 +180,7 @@ function openCreate() {
 async function openEdit() {
   if (!active.value || !props.canWrite) return;
   if (active.value.format === "graph") {
-    op.error.value = "图定义编辑尚未接入";
+    openGraphEditor(active.value.id);
     return;
   }
   await op.run(async () => {
@@ -297,8 +310,22 @@ watch(
     <aside class="panel panel-flush flow-list">
       <div class="flow-panel-head">
         <span class="section-title">工作流</span>
-        <el-button v-if="canWrite" :icon="Plus" text @click="openCreate"
-          >新建</el-button
+        <el-dropdown
+          v-if="canWrite"
+          trigger="click"
+          @command="
+            (command: string) =>
+              command === 'graph' ? openGraphEditor() : openCreate()
+          "
+          ><el-button :icon="Plus" text>新建</el-button
+          ><template #dropdown
+            ><el-dropdown-menu
+              ><el-dropdown-item command="graph">可视化流程</el-dropdown-item
+              ><el-dropdown-item command="steps"
+                >分步流程</el-dropdown-item
+              ></el-dropdown-menu
+            ></template
+          ></el-dropdown
         >
       </div>
       <div class="flow-items">
@@ -337,10 +364,10 @@ watch(
           <p v-if="active?.description" class="sub">{{ active.description }}</p>
         </div>
         <div class="row-actions">
-          <el-tooltip
-            v-if="active?.format === 'graph' && canWrite"
-            content="图定义编辑尚未接入"
-            ><span><el-button disabled>编辑</el-button></span></el-tooltip
+          <el-button
+            v-if="active?.format === 'graph'"
+            @click="openGraphEditor(active.id)"
+            >画布</el-button
           >
           <el-button v-else-if="canWrite" :disabled="!active" @click="openEdit"
             >编辑</el-button
@@ -493,6 +520,20 @@ watch(
       </template>
     </section>
 
+    <GraphWorkflowEditor
+      v-if="graphEditorOpen"
+      :key="graphEditingId || 'new'"
+      :workflow-id="graphEditingId"
+      :can-write="canWrite"
+      @close="graphEditorOpen = false"
+      @saved="graphSaved"
+      @denied="
+        (message) => {
+          graphEditorOpen = false;
+          op.error.value = message;
+        }
+      "
+    />
     <el-dialog
       v-model="editorOpen"
       :title="editingId ? '编辑工作流' : '新建工作流'"

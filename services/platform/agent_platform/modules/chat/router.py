@@ -10,9 +10,13 @@ from agent_platform.core.context import Actor, require_permission
 from . import schemas as dto
 from .service import ChatService
 from .memory_router import router as memory_router
+from .native_router import router as native_router
+from .native_file_router import router as native_file_router
 
 router = APIRouter(prefix='/api/v1/chat', tags=['原生对话'])
 router.include_router(memory_router)
+router.include_router(native_router)
+router.include_router(native_file_router)
 
 
 @router.get('/profile')

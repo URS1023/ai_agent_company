@@ -17,6 +17,10 @@ class IntegrationCreate(StrictModel):
     credential_ref: str | None = None
     dataset_credential_ref: str | None = None
     callback_secret_ref: str | None = None
+    delegation_service_identity_id: str | None = Field(default=None, min_length=1, max_length=80)
+    delegation_jwt_secret_ref: str | None = Field(default=None, min_length=1, max_length=80)
+    chat_model_group_id: str | None = Field(default=None, min_length=1, max_length=80)
+    chat_model_ids: list[str] | None = Field(default=None, max_length=32)
     enabled: bool = True
     timeout_seconds: float = Field(default=30, ge=1, le=120)
 
@@ -29,6 +33,10 @@ class IntegrationPatch(StrictModel):
     credential_ref: str | None = None
     dataset_credential_ref: str | None = None
     callback_secret_ref: str | None = None
+    delegation_service_identity_id: str | None = Field(default=None, min_length=1, max_length=80)
+    delegation_jwt_secret_ref: str | None = Field(default=None, min_length=1, max_length=80)
+    chat_model_group_id: str | None = Field(default=None, min_length=1, max_length=80)
+    chat_model_ids: list[str] | None = Field(default=None, max_length=32)
     enabled: bool | None = None
     timeout_seconds: float | None = Field(default=None, ge=1, le=120)
 

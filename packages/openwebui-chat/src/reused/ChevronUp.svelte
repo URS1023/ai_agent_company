@@ -1,0 +1,21 @@
+<!-- 来源OWUI0.12.3；本地上下文与平台回调适配，详见SOURCE_MANIFEST。 -->
+<script lang="ts">
+  export let className = "w-4 h-4";
+  export let strokeWidth = "1.5";
+</script>
+
+<svg
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke-width={strokeWidth}
+  stroke="currentColor"
+  class={className}
+>
+  <path
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="m4.5 15.75 7.5-7.5 7.5 7.5"
+  />
+</svg>

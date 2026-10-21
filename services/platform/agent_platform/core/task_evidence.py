@@ -24,6 +24,11 @@ def query_references(value):
 
 def authorize_task_evidence(session, actor, task):
     """读取任务对应的不可变运行/来源，不调用会反查TaskService的领域入口。"""
+    if task.kind == 'platform_native_chat':
+        # 对话属于具体用户；同工作区的m02.read不能旁路会话及历史来源授权。
+        from ..modules.chat.native_sources import authorize_native_chat_task
+        authorize_native_chat_task(session, actor, task)
+        return
     if task.kind == 'platform_workflow':
         from ..modules.flows.models import WorkflowRun
         from ..modules.knowledge.evidence import authorize_evidence

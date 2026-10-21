@@ -346,3 +346,32 @@
 | apps/web/src/modules/flows/GraphWorkflowRunner.vue、GraphInputForm.vue、SchemaInput.vue、WorkflowJsonValue.vue、WorkflowRunEvents.vue及同目录graphInputs/workflowEvents/useWorkflowEvents/useWorkflowRequests | 结构化图运行/原JSON结果/真实事件分页；依赖native37 DTO | agent-1020-web | 在用 | 不可删除 | 117新断言/类型检查通过，实际UI待T-root52；不等于完整编辑器 | 2026-10-21/T-web33 |
 
 | .local/mysql-demo/ui-graph-runtime.json、ui-graph-runtime-read.json、ui-graph-runtime-read/ | 真实图UI首轮定位失败及只读核验/截图，保留原已成功run | agent-1021-root | 在用 | 不可删除 | 未重复派发，30只读/登录请求通过，0模型业务库 | 2026-10-21/T-root52 |
+
+| services/platform/agent_platform/modules/integrations/delegated_contract.py、delegation_auth.py、delegated_sources.py、delegated_tools.py、delegated_router.py、delegation_config.py及schemas.py | 原生签名用户委托15固定工具/当前人员权限/不可变来源/正式配置 | agent-1020-domain | 在用 | 不可删除 | 57新增纯回归分批通过，未真实授权或部署 | 2026-10-21/T-domain37 |
+| services/platform/agent_platform/core/task_evidence.py、modules/integrations/service.py、tests/test_native_chat_public_guards.py | 聊天公共任务私有来源守卫与凭据删除引用；依赖native38接口 | agent-1021-root | 在用 | 不可删除 | 12新+40旧纯回归通过，尚未部署11 | 2026-10-21/T-root55 |
+
+| deploy/native/desktop.py、services/platform/tests/test_desktop_workspace.py、.local/mysql-demo/platform-workspace-chat-start.json | 日常入口复用平台/本机聊天/keeper及归属证据，Windows服务原启动预算不变 | agent-1021-root | 在用 | 不可删除 | 10纯检查与实际现有进程复用通过，冷启动未验；收据Git忽略 | 2026-10-21/T-root60 |
+| packages/dify-workflow/、apps/web/src/modules/flows/GraphWorkflowEditor.vue、apps/web/tests/workflow-editor.mjs | 原Dify3节点及条件函数的React编辑岛、Vue显式创建/CAS保存、隔离样式和来源清单 | agent-1020-web，root接管 | 在用 | 不可删除 | 71+47纯断言和2895模块正式build通过；实际画布待T-root61，完整节点未覆盖 | 2026-10-21/T-web34 |
+
+| .local/mysql-demo/ui-workflow-canvas.json、ui-workflow-canvas/ | 原3节点编辑器首轮实际创建/更新/重开证据与截图，Git忽略 | agent-1021-root | 在用 | 不可删除 | 37请求通过，恢复/验收追溯依赖，原全节点仍有缺口 | 2026-10-21/T-root61 |
+
+| services/platform/agent_platform/modules/chat/native_file_models.py、native_file_transport.py、native_files.py、native_file_router.py、tests/test_native_chat_files.py | 原生聊天附件预约/唯一上传/显式刷新、来源授权与副本隔离；复用FileService及原OWUI文件API | agent-1020-domain | 在用 | 不可删除 | 21纯检查通过，实际未部署；历史投影T-domain40继续窄改 | 2026-10-21/T-domain38/40 |
+| services/platform/migrations/versions/20261021_12_原生聊天附件.py | native_chat_files独立表，依赖11；版本与意图/generation约束 | agent-1020-domain，root接管 | 在用 | 不可删除 | 单表upgrade/metadata/down通过，完整迁移及在用平台部署待root63 | 2026-10-21/T-domain38 |
+
+| services/platform/agent_platform/modules/chat/native_models.py、native_sources.py、native_service.py、native_transport.py、native_router.py、native_turns.py、native_tasks.py、native_socket.py、native_execution.py、native_events.py | 原生普通身份/会话树/Turn预约/HTTP与Socket/准确终态和停止、Task来源，正文存原OWUI | agent-1020-native，root接管 | 在用 | 不可删除 | 71联合纯检查分批通过，实际部署验收T-root63/65待执行；工具及编辑分支仍缺 | 2026-10-21/T-native38 |
+| services/platform/migrations/versions/20261021_11_原生聊天身份与运行.py、tests/test_native_chat_identity.py、test_native_chat_turns.py、requirements.txt、requirements.lock.txt | 4个映射/运行表与真实协议模拟、Socket依赖固定版本 | agent-1020-native，root接管 | 在用 | 不可删除 | 完整迁移5项、Socket安装/pip check通过；独立部署环境必需 | 2026-10-21/T-native38/root56/63 |
+
+| tools/demo_data/platform.py、verify_business.py、services/platform/tests/test_demo_import_receipts.py | 计划与成功收据逐资产绑定、平台登记及三场景验收前置 | agent-1020-domain，root接管 | 在用 | 不可删除 | 34纯回归通过，真实续导待用户确认 | 2026-10-21/T-domain42 |
+| services/platform/tests/test_native_chat_transport.py | h11真实头编码验证，防空Bearer登录失败 | agent-1021-root | 在用 | 不可删除 | 2纯回归0.21秒通过，0网络/数据库 | 2026-10-21/T-root68 |
+| .local/mysql-demo/platform-update-native-chat.json、platform-native-chat-identity.json、platform-native-chat-attachment.json、native-chat-model-access.json | 12升级、原普通身份、附件下载和专属模型组实际证据，Git忽略 | agent-1021-root | 在用 | 不可删除 | 归属/授权/来源追溯依赖，未证明原生新对话回复成功 | 2026-10-21/T-root63/66/67 |
+
+| packages/openwebui-chat/、apps/web/src/modules/chat/NativeChatWorkspace.vue、NativeChatIsland.vue及useNativeChat/Turn/Files/Transport | 原消息树及结构化输出Svelte同页复用，Vue持平台会话/来源/事件 | agent-1020-web | 在用 | 不可删除 | T36根check/build与112纯断言通过；真实UI发现滚动循环，T37修复中，尚未验可用 | 2026-10-21/T-web36/37 |
+| packages/openwebui-chat/SOURCE_MANIFEST.json、licenses/、apps/web/REUSE.md | 固定原源码SHA/许可、完整组件与片段复用边界 | agent-1020-web | 在用 | 不可删除 | 构建不依赖原整仓；许可与来源追溯必需 | 2026-10-21/T-web36 |
+| services/platform/agent_platform/modules/chat/native_access.py、modules/integrations/chat_model_config.py、tests/test_native_chat_model_access.py | 普通身份增量入专属组、管理员策略与并发CAS | agent-1020-native，root接管 | 在用 | 不可删除 | 28新纯检查通过，实际策略CAS/身份刷新/模型目录成功；上游回复429另记 | 2026-10-21/T-native40/root68 |
+
+| services/platform/agent_platform/modules/integrations/delegated_data.py、delegated_knowledge.py及相关contract/tools/sources/router | 已保存查询及单空间知识工具，冻结行列范围/知识证据并受Turn时限 | agent-1020-domain，root接管 | 在用 | 不可删除 | 最终25新增及原委托/检索回归通过，生产工具调用未启用 | 2026-10-21/T-domain44 |
+| services/platform/tests/test_delegated_data_knowledge.py | 查询分页/拒新SQL、知识原件撤权、等待中降权/取消/迟到与候选上限验证 | agent-1020-domain，root接管 | 在用 | 不可删除 | tmpSQLite/Mock通过，0实际业务源/模型 | 2026-10-21/T-domain44 |
+| 项目文档/contracts/platform.openapi.json | 当前代码注册的468操作/325路径快照，与227操作设计契约分开 | agent-1021-root | 在用 | 不可删除 | tools/export_api.py导出并检查operationId唯一，通过 | 2026-10-21/T-root49 |
+
+| packages/openwebui-chat/tests/mount-browser.mjs、apps/web/tests/native-island.mjs | 原组件真实微任务/挂载/卸载回归与宿主失败锁 | agent-1020-web，root接管 | 在用 | 不可删除 | 10纯断言及1次独立Chrome/0HTTP模型DB通过；对应根因已修 | 2026-10-21/T-web37 |
+| .local/mysql-demo/ui-native-chat-ready-read.json、ui-native-chat-ready-read/ | 实际当前聊天两消息/模型/输入启用与刷新恢复截图，Git忽略 | agent-1021-root | 在用 | 不可删除 | 50只读/登录请求、0错误与新Turn，原回复是429失败，不能作为模型成功证据 | 2026-10-21/T-root69 |

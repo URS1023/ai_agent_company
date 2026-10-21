@@ -33,6 +33,9 @@ if str(PROJECT / 'services/platform') not in sys.path:
     sys.path.insert(0, str(PROJECT / 'services/platform'))
 from agent_platform.core.provider_settings import CHAT_MODEL
 from agent_platform.modules.integrations.business_tools import READ_TOOLS
+from agent_platform.modules.integrations.delegated_contract import (
+    HEADERS as DELEGATION_HEADERS, SCHEMA_PATH as DELEGATED_SCHEMA_PATH, TOOL_PATHS as DELEGATED_TOOL_PATHS,
+)
 from wsl_tool_credentials import CredentialError, PREFIX as TOOL_KEY_PREFIX, ToolCredentialStore
 
 KIND = 'ai-agent-company-wsl-http-bridge-v1'
@@ -174,7 +177,7 @@ def load_config() -> dict:
 
 
 def route_target(method: str, path: str) -> tuple[str, str, bool]:
-    """只接受两个标准模型接口及现有15项只读工具；工具清单直接复用业务模块。"""
+    """只接受两个标准模型接口和固定工具路径；旧15项与新增委托目录分别核白名单。"""
     if (method, path) == ('GET', '/owui/api/v1/models'):
         return 'openwebui', '/api/v1/models', False
     if (method, path) == ('POST', '/owui/api/v1/chat/completions'):
@@ -183,6 +186,10 @@ def route_target(method: str, path: str) -> tuple[str, str, bool]:
         native = path.removeprefix('/platform')
         if native == SCHEMA_PATH:
             return 'platform', native, True
+        if native == DELEGATED_SCHEMA_PATH:
+            return 'platform', native, True
+        if native in DELEGATED_TOOL_PATHS:
+            return 'platform', native, False
         for template in READ_TOOLS:
             pattern = re.escape(template).replace(r'\{id\}', '[A-Za-z0-9_-]{1,80}')
             if re.fullmatch(pattern, native):
@@ -325,6 +332,15 @@ def create_app(config: dict | None = None, *, transport=None, ownership_check=No
         url = httpx.URL(f'http://127.0.0.1:{port}{native}', query=request.url.query.encode())
         headers = {'Authorization': authorization, 'Accept': request.headers.get('accept', '*/*'),
             'Content-Type': 'application/json', 'User-Agent': 'manufacturing-agent-platform/0.1 WSLBridge'}
+        if component == 'platform' and native in DELEGATED_TOOL_PATHS:
+            # 仅透传上游固定签名及当前消息标识；业务端仍须验证签名、实例绑定和有效Turn。
+            for name in DELEGATION_HEADERS:
+                values = request.headers.getlist(name)
+                if len(values) > 1 or any(len(value) > (8192 if name == DELEGATION_HEADERS[0] else 160)
+                        or any(character in value for character in '\r\n\x00') for value in values):
+                    raise HTTPException(422, 'bridge_delegation_header_invalid')
+                if values:
+                    headers[name] = values[0]
         upstream = None
         stream_returned = False
         deadline = time.monotonic() + TOTAL_SECONDS
@@ -361,7 +377,8 @@ def create_app(config: dict | None = None, *, transport=None, ownership_check=No
                 document = json.loads(content)
                 if not isinstance(document, dict) or not isinstance(document.get('paths'), dict):
                     raise HTTPException(502, 'bridge_tool_schema_invalid')
-                if any(path not in READ_TOOLS or not isinstance(operations, dict) or set(operations) != {'get'}
+                allowed_paths = DELEGATED_TOOL_PATHS if native == DELEGATED_SCHEMA_PATH else READ_TOOLS
+                if any(path not in allowed_paths or not isinstance(operations, dict) or set(operations) != {'get'}
                         for path, operations in document['paths'].items()):
                     raise HTTPException(502, 'bridge_tool_schema_outside_read_contract')
                 # 只改此Schema的入口；路径/参数/权限投影由平台现有实现决定。

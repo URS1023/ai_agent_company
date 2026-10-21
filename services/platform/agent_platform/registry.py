@@ -23,7 +23,7 @@ MODULES = (
     Module('manufacturing', '设备维护与质量', ('M10', 'M11'), 'manufacturing.router', 'manufacturing.models'),
     Module('data', '数据源与分析', ('M05', 'M06'), 'data.router', 'data.models'),
     Module('reports', '报表与大屏', ('M07',), 'reports.router', 'reports.models'),
-    Module('chat', '原生对话', ('M02',), 'chat.router'),
+    Module('chat', '原生对话', ('M02',), 'chat.router', 'chat.native_models'),
     Module('knowledge', '平台知识库', ('M08',), 'knowledge.router', 'knowledge.models'),
     Module('flows', '平台工作流', ('M04',), 'flows.router', 'flows.models'),
     Module('agents', '平台智能体应用', ('M03',), 'agents.router', 'agents.models'),

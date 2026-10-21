@@ -1,0 +1,122 @@
+{
+  "project": "Open WebUI",
+  "version": "0.12.3",
+  "source": ".local/native_windows/sources/openwebui",
+  "files": [
+    {
+      "source": "src/lib/components/chat/Messages/structuredOutput.ts",
+      "target": "src/reused/structuredOutput.ts",
+      "sha256": "1de60f84fbe74e9febbe2394eb7c55c3a293361dcae31853b9280382ef823004",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/chat/Messages/StructuredOutputRenderer.svelte",
+      "target": "src/reused/StructuredOutputRenderer.svelte",
+      "sha256": "3a347d3b19b0d07a91c95a1a71ceb993d4d7def5d74b3219d4327a696f916947",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/chat/Messages/Markdown/ConsecutiveDetailsGroup.svelte",
+      "target": "src/reused/ConsecutiveDetailsGroup.svelte",
+      "sha256": "7cfb0648c9cd487e9972df2ef772af89108401c83ce7dbbc5e03f9913087cabd",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/common/Collapsible.svelte",
+      "target": "src/reused/Collapsible.svelte",
+      "sha256": "a980590c17b01512bf170d225d77cce30be261e9895b373ab46222a027c2bb15",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/icons/ChevronUp.svelte",
+      "target": "src/reused/ChevronUp.svelte",
+      "sha256": "72ee394dea8327e4ac8eacfdf22d16c5d437f85e33465f8a6749438c5a679d1c",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/icons/ChevronDown.svelte",
+      "target": "src/reused/ChevronDown.svelte",
+      "sha256": "afe25a611e36ce79caf3659c02f5fe85319f46a31fe4ae2522f5f19e9f790ab4",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/icons/Sparkles.svelte",
+      "target": "src/reused/Sparkles.svelte",
+      "sha256": "1072c7921cc29cbcd6367eabde98b24bb508c66a4dc516ba9b1890abecd8cf6c",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/icons/CheckCircle.svelte",
+      "target": "src/reused/CheckCircle.svelte",
+      "sha256": "aa86c944dcc45e9da8116cc7ef7784b5062cfade1765c3d1ca986a9ee9e1a4d8",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/icons/XMark.svelte",
+      "target": "src/reused/XMark.svelte",
+      "sha256": "61763e8824d4a999be1cb9a0bb2624d6dc8164e24da3dfedd55165fc1853f0ed",
+      "kind": "source_with_platform_adapters"
+    },
+    {
+      "source": "src/lib/components/chat/Messages.svelte",
+      "sha256": "1efc19dff6dab2db8f6fe33bc0f73e463e84d4a24e27f2e0b4ad871457659e8a",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/chat/Messages/Message.svelte",
+      "sha256": "5881f4c55e2306052991212cf9fabcd9f76a1c318e5a2e610c16beed128a7740",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/chat/Messages/UserMessage.svelte",
+      "sha256": "ccb52834b528e8c2709f13ff7f77f8248d9f82cb4429f174f2773c7ef3d65d14",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/chat/Messages/ResponseMessage.svelte",
+      "sha256": "a2e960da14fadd532669e6bd751911ac91e04b22595b14a04a986d77ac69efcf",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/chat/Messages/Markdown.svelte",
+      "sha256": "e49a850bfcb3929724af3b31c4b5e090023ebd1d56900b6b089afcf5a6072367",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/chat/MessageInput.svelte",
+      "sha256": "633e40171422af8e76a1b64ce6f800132a7f1aa34e8f51772152fd6cde6b27dd",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/common/ToolCallDisplay.svelte",
+      "sha256": "2afe57e3fb06829e7f8ab9a034c70084632a2eee10af7235b38ca427a2009db5",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/tailwind.css",
+      "sha256": "970bcb7eeeb16db595cca8387e80eafb858b8cb99d87a27e52b210bcf03e4edf",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原消息树/结构化展示及输入标记样式，平台替代不受支持的原账号、工具、语音与网络依赖；不宣称完整原组件。"
+    },
+    {
+      "source": "src/lib/components/chat/Chat.svelte",
+      "sha256": "9264ec835a1048cf7b8f7b022e08276ef8ad9f23ab64fe46e5728f1ff289bbee",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原completion分支与原SSE parser使用方式，不复制原网络、模型或全局账号状态。"
+    },
+    {
+      "source": "src/lib/apis/streaming/index.ts",
+      "sha256": "4add0813d62459dbfcf263b092395ed2acbc315a53eb5c2eac26e765d8eee07d",
+      "kind": "adapted_presentation_fragment",
+      "changes": "提取原completion分支与原SSE parser使用方式，不复制原网络、模型或全局账号状态。"
+    }
+  ],
+  "license": "licenses/OpenWebUI-LICENSE.txt"
+}
